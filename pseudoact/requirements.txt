@@ -1,0 +1,9 @@
+# PseudoAct - Pseudocode Planning for LLM Agents
+# Protogenesis W10
+
+# AWS Bedrock
+boto3>=1.28.0
+
+# Testing (optional)
+pytest>=7.4.0
+pytest-cov>=4.1.0
