@@ -1,0 +1,15 @@
+# AEGIS Permissive Policy
+# Allow most operations, only block obvious attacks
+
+default_action: allow
+
+rules:
+  # Only deny critical threats with dangerous patterns
+  - name: block_critical_only
+    min_severity: critical
+    threat_types:
+      - shell_injection
+      - sql_injection
+    action: deny
+
+  # Allow everything else (including medium/high severity)

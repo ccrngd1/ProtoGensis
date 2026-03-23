@@ -1,6 +1,8 @@
 # Memex — Indexed Experience Memory for Agents
 
 > **Protogenesis W10** | "Teaching My AI Agent to Remember Its Mistakes"
+>
+> **Based on:** [arXiv:2603.04257](https://arxiv.org/abs/2603.04257) — *"Scaling Long-Horizon LLM Agents via Indexed Experience Memory"* (Wang et al., Accenture, Mar 2026)
 
 Memex gives LLM agents an indexed external memory: compress verbose tool responses into compact indexed summaries, then dereference them later to recover the exact original content. Working context stays small; full history is always recoverable.
 

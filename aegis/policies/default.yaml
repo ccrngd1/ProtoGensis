@@ -1,0 +1,22 @@
+# AEGIS Default Policy
+# Balanced security: deny critical threats, allow normal operations
+
+default_action: allow
+
+rules:
+  # Deny all critical severity threats
+  - name: block_critical_threats
+    min_severity: critical
+    action: deny
+
+  # Deny high severity threats
+  - name: block_high_threats
+    min_severity: high
+    action: deny
+
+  # Escalate medium severity for review
+  - name: escalate_medium_threats
+    min_severity: medium
+    action: escalate
+
+  # Allow everything else (low severity, no threats)

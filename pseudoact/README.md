@@ -1,6 +1,8 @@
 # PseudoAct - Pseudocode Planning for LLM Agents
 
-**Protogenesis W10** - A two-phase agent execution framework that separates planning from execution.
+> **Protogenesis W10** | **Based on:** [arXiv:2602.23668](https://arxiv.org/abs/2602.23668) — *"Leveraging Pseudocode Synthesis for Flexible Planning and Action Control in Large Language Model Agents"* (Wen & Chen, Texas A&M, Feb 2026)
+
+A two-phase agent execution framework that separates planning from execution.
 
 ## Overview
 

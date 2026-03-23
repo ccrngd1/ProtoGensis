@@ -1,5 +1,7 @@
 # Memory Agent Bedrock
 
+> **Based on:** [GoogleCloudPlatform/always-on-memory-agent](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/gemini/agents/always-on-memory-agent) (originally by [Shubhamsaboo](https://github.com/Shubhamsaboo/always-on-memory-agent), MIT License)
+
 A persistent memory agent powered by **Claude Haiku 4.5** on AWS Bedrock — with **no vector database**.
 
 Three specialist sub-agents share a SQLite store. The consolidation agent runs periodically like a "sleeping brain," finding connections across memories and generating insights.

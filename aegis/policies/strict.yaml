@@ -1,0 +1,38 @@
+# AEGIS Strict Policy
+# Deny-by-default: only allow explicitly safe operations
+
+default_action: deny
+
+rules:
+  # Deny any detected threats regardless of severity
+  - name: deny_all_threats
+    threat_types:
+      - shell_injection
+      - path_traversal
+      - pii_detected
+      - secret_detected
+      - sql_injection
+    action: deny
+
+  # Deny tools that interact with file system
+  - name: deny_filesystem
+    tool_pattern: '(file|read|write|delete|execute)'
+    action: deny
+
+  # Deny tools that execute commands
+  - name: deny_execution
+    tool_pattern: '(exec|run|command|shell|bash)'
+    action: deny
+
+  # Deny network operations
+  - name: deny_network
+    tool_pattern: '(http|fetch|request|curl|wget|download)'
+    action: deny
+
+  # Allow only safe read-only information tools
+  - name: allow_safe_tools
+    tools:
+      - get_time
+      - get_weather
+      - search_docs
+    action: allow
