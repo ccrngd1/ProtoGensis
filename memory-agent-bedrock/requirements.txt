@@ -4,3 +4,5 @@ pydantic>=2.0.0
 boto3>=1.34.0
 httpx>=0.27.0  # Required by FastAPI TestClient
 pytest>=8.0.0
+PyPDF2>=3.0.0  # PDF text extraction
+python-multipart>=0.0.6  # For FastAPI file uploads

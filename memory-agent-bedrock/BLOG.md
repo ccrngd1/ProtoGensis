@@ -4,6 +4,12 @@
 
 ---
 
+**What this project is:** A persistent memory system for AI assistants that stores and retrieves memories using SQLite and direct LLM reasoning — no vector databases required.
+**The problem it solves:** Every time a conversation ends, the agent forgets everything — and the standard fix (vector databases + embeddings) is overkill for a personal tool.
+**The key insight:** Vector search exists to work around small context windows — but with 200K token windows, you can just load your memories directly and let the model reason over them.
+
+---
+
 ## The Setup
 
 Every time I start building a personal AI assistant, I hit the same wall: memory.
@@ -71,7 +77,7 @@ The stack is Python, FastAPI, boto3, and SQLite. Zero infrastructure beyond an A
 Start the server:
 
 ```bash
-./run.sh
+./scripts/run.sh
 # Sets up venv, installs deps, launches on :8000
 ```
 
@@ -225,7 +231,7 @@ export AWS_ACCESS_KEY_ID=...
 export AWS_SECRET_ACCESS_KEY=...
 export AWS_REGION=us-east-1
 export BEDROCK_MODEL_ID=us.anthropic.claude-haiku-4-5-20251001-v1:0  # don't use the default
-./run.sh
+./scripts/run.sh
 ```
 
 20 tests pass. Three agents cooperate. No vector database anywhere.

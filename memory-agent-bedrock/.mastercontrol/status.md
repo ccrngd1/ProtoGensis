@@ -27,7 +27,7 @@
 
 ### Documentation + Infrastructure
 - `README.md` — Accurate context window math, venv instructions, corrected model ID
-- `run.sh` (NEW) — Executable venv setup + server launch script
+- `scripts/run.sh` (NEW) — Executable venv setup + server launch script
 
 ## Test Results
 - **20/20 passing, zero warnings** (unchanged count, warnings eliminated)

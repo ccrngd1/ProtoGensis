@@ -4,10 +4,12 @@ from __future__ import annotations
 import logging
 import os
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 
 from agents.orchestrator import Orchestrator
+from agents.watcher import FileWatcher
 from api.routes import router
 
 # Configure logging
@@ -35,7 +37,21 @@ async def lifespan(app: FastAPI):
     orc = get_orchestrator()
     orc.start_background_consolidation()
     app.state.orchestrator = orc
+
+    # Start file watcher if enabled
+    watcher = None
+    if os.getenv("ENABLE_FILE_WATCHER", "false").lower() in ("true", "1", "yes"):
+        watch_dir = Path(os.getenv("WATCH_DIR", "./inbox"))
+        poll_interval = int(os.getenv("WATCH_POLL_INTERVAL", "5"))
+        watcher = FileWatcher(orc, watch_dir, poll_interval)
+        watcher.start()
+        app.state.watcher = watcher
+
     yield
+
+    # Cleanup
+    if watcher:
+        watcher.stop()
     orc.stop_background_consolidation()
     orc.store.close()
 

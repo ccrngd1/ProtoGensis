@@ -1,10 +1,12 @@
-"""Shared boto3 Bedrock client helper."""
+"""Shared boto3 Bedrock client helper with multimodal support."""
 from __future__ import annotations
 
+import base64
 import json
 import os
 import threading
-from typing import Any, Dict, Optional
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 import boto3
 
@@ -51,3 +53,63 @@ def invoke(prompt: str, system: str = "", max_tokens: int = 2048) -> str:
     )
     result = json.loads(response["body"].read())
     return result["content"][0]["text"]
+
+
+def invoke_multimodal(
+    content: List[Dict[str, Any]],
+    system: str = "",
+    max_tokens: int = 2048
+) -> str:
+    """Call Haiku 4.5 with multimodal content (text + images).
+
+    Args:
+        content: List of content blocks, e.g.:
+            [
+                {"type": "text", "text": "What's in this image?"},
+                {"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": "..."}}
+            ]
+        system: System prompt
+        max_tokens: Max tokens to generate
+
+    Returns:
+        Text response from Claude
+    """
+    client = get_client()
+
+    messages = [{"role": "user", "content": content}]
+    body: Dict[str, Any] = {
+        "anthropic_version": "bedrock-2023-05-31",
+        "max_tokens": max_tokens,
+        "messages": messages,
+    }
+    if system:
+        body["system"] = system
+
+    response = client.invoke_model(
+        modelId=_RAW_MODEL_ID,
+        contentType="application/json",
+        accept="application/json",
+        body=json.dumps(body),
+    )
+    result = json.loads(response["body"].read())
+    return result["content"][0]["text"]
+
+
+def load_image_as_base64(file_path: Path) -> tuple[str, str]:
+    """Load image file and return (base64_data, media_type)."""
+    # Detect media type
+    suffix = file_path.suffix.lower()
+    media_type_map = {
+        ".png": "image/png",
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".gif": "image/gif",
+        ".webp": "image/webp",
+    }
+    media_type = media_type_map.get(suffix, "image/png")
+
+    # Read and encode
+    with open(file_path, "rb") as f:
+        image_data = base64.b64encode(f.read()).decode("utf-8")
+
+    return image_data, media_type
