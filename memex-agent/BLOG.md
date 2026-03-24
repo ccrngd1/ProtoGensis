@@ -4,6 +4,12 @@
 
 ---
 
+**What this project is:** A memory system that lets AI agents archive full details externally and keep compact indexed summaries in their active context.
+**The problem it solves:** Long-horizon agents forget earlier findings as tool results scroll off the context window, forcing them to rediscover information they already found.
+**The key insight:** A summary isn't just a compressed version of the content — it's also a pointer that lets the agent retrieve the full original on demand, so nothing is ever truly lost.
+
+---
+
 ## The Agent That Forgot Everything
 
 I was running a long-horizon coding agent. Its job: research OAuth2 libraries, pick one, write the integration, debug it.

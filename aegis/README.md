@@ -1,5 +1,21 @@
 # AEGIS - MCP Pre-Execution Firewall
 
+> **TL;DR:** AEGIS is a security firewall for AI agent tool calls — it sits between the model and any MCP server and blocks dangerous commands before they execute, with zero changes to your existing setup.
+
+## Why This Exists
+
+MCP gives AI agents real power: they can run shell commands, read and write files, call APIs. But there's nothing standing between the model and those tools. A single prompt injection — someone slipping a malicious instruction into content the agent reads — can result in commands like `rm -rf /` actually running on your machine.
+
+## What It Does
+
+AEGIS acts as a transparent proxy between your AI model and your MCP server. Every tool call passes through a three-stage pipeline: first it extracts all the text from the call's arguments, then it scans for threats (shell injection, path traversal, leaked secrets, SQL injection, PII), then it checks the result against your YAML policy rules. Dangerous calls get blocked and logged; safe ones pass through untouched.
+
+## Why It Matters
+
+A drop-in firewall for AI agent tool calls — no code changes required, just wrap your existing MCP server with `aegis run --`.
+
+---
+
 **A transparent stdio proxy firewall for Model Context Protocol (MCP) tool calls**
 
 AEGIS intercepts and evaluates MCP tool calls before they reach the server, blocking malicious or risky operations through a three-stage security pipeline.

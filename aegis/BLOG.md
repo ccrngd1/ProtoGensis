@@ -4,6 +4,12 @@
 
 ---
 
+**What this project is:** A transparent security proxy that intercepts every MCP tool call and scans it for threats before it reaches your MCP server.
+**The problem it solves:** AI agents with MCP tool access have no security layer — a prompt injection or a confused model can execute dangerous commands, and nothing stops it.
+**The key insight:** The model is currently the only thing standing between an AI agent and your system — and a model that can be tricked is not a security layer.
+
+---
+
 ## The Problem Nobody's Talking About
 
 MCP changed the game. Suddenly, AI agents can execute shell commands, read files, query databases, and call APIs — all through a clean, standardized protocol. Every major AI lab is building MCP integrations. Tool use is exploding.

@@ -4,6 +4,12 @@
 
 ---
 
+**What this project is:** A two-phase AI agent that uses an expensive model to plan once, then a cheap model to execute that plan many times.
+**The problem it solves:** Standard ReAct agents run every reasoning step through your most expensive model — even simple "I just got a result, now what?" decisions that don't need it.
+**The key insight:** Most of what an agent does during execution is just following a plan — and following a plan doesn't require Sonnet.
+
+---
+
 ## The Token Problem Nobody Wants to Do Math On
 
 Here's how a standard ReAct agent works. You give it a task. It thinks. It calls a tool. It thinks again. It calls another tool. It thinks again.

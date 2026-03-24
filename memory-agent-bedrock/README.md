@@ -110,7 +110,7 @@ uvicorn api.main:app --reload --port 8000
 
 In another terminal:
 ```bash
-./scripts/demo.sh
+./scripts/demo-inbox.sh
 ```
 
 This will test text ingestion, image upload, and querying.

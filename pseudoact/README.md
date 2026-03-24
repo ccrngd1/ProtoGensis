@@ -1,5 +1,21 @@
 # PseudoAct - Pseudocode Planning for LLM Agents
 
+> **TL;DR:** PseudoAct cuts AI agent costs by having an expensive model write a plan once and a cheap model carry it out — instead of running the expensive model at every single step.
+
+## Why This Exists
+
+AI agents that use powerful models are expensive because those models think through every action at full cost, even for simple mechanical steps like "call this tool with this result." Most of that spending is waste — you don't need a genius to follow instructions, only to write them.
+
+## What It Does
+
+PseudoAct splits agent work into two phases: a capable model (Sonnet) writes a structured pseudocode plan with conditionals and loops, and then a smaller, cheaper model (Haiku) executes that plan step by step. The plan is real Python-like code parsed with Python's built-in AST module, so execution is deterministic and safe.
+
+## Why It Matters
+
+Same quality output as running a powerful model end-to-end — at a fraction of the cost. Plan once with the expensive model, execute many times with the cheap one.
+
+---
+
 > **Protogenesis W10** | **Based on:** [arXiv:2602.23668](https://arxiv.org/abs/2602.23668) — *"Leveraging Pseudocode Synthesis for Flexible Planning and Action Control in Large Language Model Agents"* (Wen & Chen, Texas A&M, Feb 2026)
 
 A two-phase agent execution framework that separates planning from execution.

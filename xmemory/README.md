@@ -1,6 +1,20 @@
 # xMemory — Beyond RAG for Agent Memory
 
-A hierarchical memory retrieval system for AI agents that organizes conversation history into four semantic levels and retrieves context through structured top-down traversal instead of flat vector similarity search.
+> **TL;DR:** xMemory fixes the "five versions of the same message" problem in AI agent memory retrieval by organizing conversation history into a semantic hierarchy and querying it top-down instead of with flat similarity search.
+
+## Why This Exists
+
+Standard memory retrieval for AI agents suffers from redundancy collapse: because conversation turns are closely related to each other, a similarity search returns near-duplicate results that eat up the context window without adding new information. You ask about a decision and get five messages that all say the same thing slightly differently.
+
+## What It Does
+
+xMemory organizes conversation history into four levels — raw messages, episode summaries, distilled facts, and topic clusters — built bottom-up by a lightweight model. When you query, it starts at the top (broad topic clusters) and drills down only as far as needed, explicitly selecting for *diversity* at each level. Simple queries get a concise answer; complex ones get enough detail without redundant padding.
+
+## Why It Matters
+
+Agent memory retrieval that actually returns diverse, useful context — instead of burning your token budget on variations of the same message.
+
+---
 
 **Reference:** [arXiv:2602.02007](https://arxiv.org/abs/2602.02007) — *"Beyond RAG for Agent Memory: Retrieval by Decoupling and Aggregation"* (ICML 2026)
 

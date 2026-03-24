@@ -1,5 +1,21 @@
 # Memex — Indexed Experience Memory for Agents
 
+> **TL;DR:** Memex gives AI agents a lossless external memory — agents archive bulky findings to a database and keep only tiny summaries in their working context, then fetch the full details back on demand.
+
+## Why This Exists
+
+AI agents forget things as conversations grow longer. When a context window fills up, old research, debug traces, and findings get pushed out — and they're gone for good. Truncation and rolling summaries are lossy: once the detail is gone, the agent can't get it back.
+
+## What It Does
+
+Memex gives agents two simple tools: one to compress a large piece of content into a short summary and archive the full version to SQLite, and one to fetch the full version back by name — losslessly. The agent's working context stays small because it only holds compact summaries, not thousands of tokens of raw data.
+
+## Why It Matters
+
+Your agent never truly forgets, and its context window stays lean — no matter how long the task runs.
+
+---
+
 > **Protogenesis W10** | "Teaching My AI Agent to Remember Its Mistakes"
 >
 > **Based on:** [arXiv:2603.04257](https://arxiv.org/abs/2603.04257) — *"Scaling Long-Horizon LLM Agents via Indexed Experience Memory"* (Wang et al., Accenture, Mar 2026)

@@ -4,6 +4,12 @@
 
 ---
 
+**What this project is:** A hierarchical memory retrieval system for AI agents that avoids the redundancy collapse that breaks standard RAG on conversation history.
+**The problem it solves:** Standard RAG over an agent's conversation history returns near-duplicate results — five variations of the same answer instead of covering the different topics you actually asked about.
+**The key insight:** Agent memory is a coherent, correlated stream — not a diverse document corpus — so it needs fundamentally different retrieval strategies than document search.
+
+---
+
 ## The Memory Problem Nobody Talks About
 
 Every production AI agent has the same memory problem. Conversation history grows. Token windows fill up. You implement RAG to retrieve only what's relevant. Done, right?
