@@ -1,0 +1,54 @@
+{
+  "agent": "Main",
+  "task": "Publish research to WikiJS",
+  "timestamp": "2026-03-29T13:00:00Z",
+  "scenario": "wikijs_publish",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Publish the agent evaluation research to WikiJS"
+    },
+    {
+      "role": "assistant",
+      "content": "I'll read the research file and publish it to WikiJS.",
+      "tool_calls": [
+        {
+          "id": "call_009",
+          "type": "function",
+          "function": {
+            "name": "file_read",
+            "arguments": "{\"path\": \"/root/.openclaw/research/agent-evals-2026-03-29.md\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_009",
+      "content": "# Research Brief: Agent Evaluation\\n\\n## Overview\\n\\nThis research examines agent evaluation frameworks..."
+    },
+    {
+      "role": "assistant",
+      "content": "Now publishing to WikiJS with GraphQL mutation.",
+      "tool_calls": [
+        {
+          "id": "call_010",
+          "type": "function",
+          "function": {
+            "name": "wikijs_graphql",
+            "arguments": "{\"query\": \"mutation { pages { create(content: \\\"# Research Brief: Agent Evaluation...\\\", path: \\\"research/agent-evals-2026-03-29\\\", title: \\\"Agent Evaluation Frameworks Research\\\", locale: \\\"en\\\", tags: [\\\"research\\\", \\\"ai\\\", \\\"evaluation\\\"]) { responseResult { succeeded message } } } }\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_010",
+      "content": "{\"data\": {\"pages\": {\"create\": {\"responseResult\": {\"succeeded\": true, \"message\": \"Page created successfully\"}}}}}"
+    },
+    {
+      "role": "assistant",
+      "content": "Research successfully published to WikiJS at /research/agent-evals-2026-03-29"
+    }
+  ]
+}

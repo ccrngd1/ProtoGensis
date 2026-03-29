@@ -1,0 +1,144 @@
+{
+  "prompts": [
+    {
+      "id": "reasoning-1",
+      "category": "reasoning",
+      "difficulty": "medium",
+      "prompt": "A farmer has 17 sheep. All but 9 die. How many sheep are left? Explain your reasoning step by step.",
+      "expected_answer": "9 sheep are left (all but 9 means 9 survived)"
+    },
+    {
+      "id": "reasoning-2",
+      "category": "reasoning",
+      "difficulty": "hard",
+      "prompt": "If you're running a race and you pass the person in second place, what place are you in? If you then pass the person in first place, what place are you in? Explain the logic.",
+      "expected_answer": "Second place after passing second; first place after passing first"
+    },
+    {
+      "id": "reasoning-3",
+      "category": "reasoning",
+      "difficulty": "hard",
+      "prompt": "Three switches control three light bulbs in another room. You can flip the switches any way you want, but can only enter the room once. How do you determine which switch controls which bulb?",
+      "expected_answer": "Turn on switch 1 for a few minutes, turn it off, turn on switch 2, enter room. Hot bulb = switch 1, on bulb = switch 2, off bulb = switch 3"
+    },
+    {
+      "id": "code-1",
+      "category": "code",
+      "difficulty": "medium",
+      "prompt": "Write a Python function to check if a string is a palindrome. Include error handling for non-string inputs and explain the time complexity.",
+      "expected_answer": "Function with O(n) time complexity, handles edge cases"
+    },
+    {
+      "id": "code-2",
+      "category": "code",
+      "difficulty": "hard",
+      "prompt": "Implement a LRU (Least Recently Used) cache in Python with O(1) get and put operations. Explain the data structures used and why they achieve O(1).",
+      "expected_answer": "Uses OrderedDict or combination of dict + doubly linked list"
+    },
+    {
+      "id": "code-3",
+      "category": "code",
+      "difficulty": "medium",
+      "prompt": "Write a function that finds the longest common subsequence between two strings. Optimize for space complexity and explain your approach.",
+      "expected_answer": "Dynamic programming solution, space-optimized to O(min(m,n))"
+    },
+    {
+      "id": "code-4",
+      "category": "code",
+      "difficulty": "easy",
+      "prompt": "Write a SQL query to find the top 3 highest-paid employees in each department. Explain how the query works.",
+      "expected_answer": "Uses window functions (ROW_NUMBER or RANK) with PARTITION BY department"
+    },
+    {
+      "id": "creative-1",
+      "category": "creative",
+      "difficulty": "medium",
+      "prompt": "Write a haiku about artificial intelligence that captures both its promise and its limitations.",
+      "expected_answer": "5-7-5 syllable structure, balanced perspective"
+    },
+    {
+      "id": "creative-2",
+      "category": "creative",
+      "difficulty": "medium",
+      "prompt": "Create a short pitch (3 sentences) for a mobile app that helps people reduce food waste. Make it compelling and specific.",
+      "expected_answer": "Clear value proposition, specific features, target audience"
+    },
+    {
+      "id": "creative-3",
+      "category": "creative",
+      "difficulty": "hard",
+      "prompt": "Write the opening paragraph of a science fiction story where humans discover that dreams are actually glimpses into parallel universes. Make it gripping and original.",
+      "expected_answer": "Engaging hook, world-building, interesting premise setup"
+    },
+    {
+      "id": "creative-4",
+      "category": "creative",
+      "difficulty": "medium",
+      "prompt": "Come up with 5 creative product names for a new line of sustainable office supplies made from recycled ocean plastic. Include a tagline for each.",
+      "expected_answer": "Creative names with environmental/ocean theme, compelling taglines"
+    },
+    {
+      "id": "factual-1",
+      "category": "factual",
+      "difficulty": "easy",
+      "prompt": "Explain the difference between HTTP and HTTPS. Why does it matter for website security?",
+      "expected_answer": "HTTPS uses TLS/SSL encryption, protects data in transit"
+    },
+    {
+      "id": "factual-2",
+      "category": "factual",
+      "difficulty": "medium",
+      "prompt": "What is the CAP theorem in distributed systems? Provide a real-world example of each combination of two properties.",
+      "expected_answer": "Consistency, Availability, Partition tolerance - can only have 2 of 3. Examples like MongoDB (CP), Cassandra (AP), traditional RDBMS (CA)"
+    },
+    {
+      "id": "factual-3",
+      "category": "factual",
+      "difficulty": "hard",
+      "prompt": "Explain the difference between mRNA vaccines and traditional vaccines. What are the advantages and challenges of mRNA technology?",
+      "expected_answer": "mRNA provides instructions vs delivering antigen directly. Advantages: faster development, flexibility. Challenges: storage, cost"
+    },
+    {
+      "id": "analysis-1",
+      "category": "analysis",
+      "difficulty": "hard",
+      "prompt": "A SaaS company has 10,000 users paying $10/month. Churn rate is 5% monthly. Customer acquisition cost is $50. Calculate the lifetime value (LTV) and LTV:CAC ratio. Is this business sustainable?",
+      "expected_answer": "LTV calculation using churn, comparison to CAC, assessment of sustainability"
+    },
+    {
+      "id": "analysis-2",
+      "category": "analysis",
+      "difficulty": "medium",
+      "prompt": "Compare the trade-offs between microservices and monolithic architecture. In what situations would you choose each?",
+      "expected_answer": "Balanced analysis of complexity vs scalability, team size, deployment needs"
+    },
+    {
+      "id": "analysis-3",
+      "category": "analysis",
+      "difficulty": "hard",
+      "prompt": "A company wants to reduce their AWS costs by 30% without sacrificing performance. What would be your systematic approach to achieving this goal?",
+      "expected_answer": "Right-sizing, reserved instances, S3 lifecycle, caching, monitoring, spot instances"
+    },
+    {
+      "id": "multistep-1",
+      "category": "multistep",
+      "difficulty": "hard",
+      "prompt": "Design a system to detect credit card fraud in real-time for a payment processor handling 10,000 transactions per second. Address data ingestion, feature engineering, model serving, and alerting. What are the key technical challenges?",
+      "expected_answer": "Streaming architecture, feature store, low-latency ML serving, false positive handling"
+    },
+    {
+      "id": "multistep-2",
+      "category": "multistep",
+      "difficulty": "hard",
+      "prompt": "You're tasked with migrating a 10-year-old monolithic e-commerce application to the cloud. It has 500K daily active users and handles $1M in transactions daily. Create a phased migration plan that minimizes risk.",
+      "expected_answer": "Strangler pattern, incremental migration, rollback strategy, data migration approach"
+    },
+    {
+      "id": "edge-case-1",
+      "category": "edge-cases",
+      "difficulty": "medium",
+      "prompt": "A user reports that your date-handling code fails only on February 29th in leap years. They also mention issues at midnight UTC. What are you checking for and why?",
+      "expected_answer": "Leap year handling, timezone conversion issues, date boundary conditions"
+    }
+  ]
+}

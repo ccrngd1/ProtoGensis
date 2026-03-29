@@ -1,0 +1,13 @@
+# The Practitioner's Guide to MoA on Bedrock
+# Dependencies
+
+# AWS SDK for Bedrock API (required for real API calls)
+boto3>=1.34.0
+
+# Note: No other dependencies required!
+# The framework uses only Python standard library + boto3
+#
+# For development/testing:
+# - pytest (if adding unit tests)
+# - black (for code formatting)
+# - mypy (for type checking)

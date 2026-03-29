@@ -1,0 +1,257 @@
+[
+  {
+    "id": 1,
+    "query": "What is Amazon S3 and what are its main use cases?",
+    "context": "Amazon Simple Storage Service (Amazon S3) is an object storage service offering industry-leading scalability, data availability, security, and performance. Customers of all sizes and industries can store and protect any amount of data for virtually any use case, such as data lakes, cloud-native applications, and mobile apps. With cost-effective storage classes and easy-to-use management features, you can optimize costs, organize data, and configure fine-tuned access controls.",
+    "response": "Amazon S3 is an object storage service that provides scalable, secure, and high-performance storage. Its main use cases include data lakes, cloud-native applications, mobile apps, backup and restore, archive, and big data analytics. S3 offers multiple storage classes to optimize costs based on access patterns.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 2,
+    "query": "How does AWS Lambda pricing work?",
+    "context": "With AWS Lambda, you pay only for what you use. You are charged based on the number of requests for your functions and the duration, the time it takes for your code to execute. Lambda counts a request each time it starts executing in response to an event notification or invocation call. Duration is calculated from the time your code begins executing until it returns or otherwise terminates, rounded up to the nearest 1 ms. The price depends on the amount of memory you allocate to your function.",
+    "response": "AWS Lambda pricing is based on two factors: the number of requests and the duration of execution. You're charged per request and for compute time, measured from when your code starts executing until it terminates, rounded to the nearest millisecond. The cost also depends on the memory allocated to your function. Lambda offers a free tier of 1 million requests and 400,000 GB-seconds per month.",
+    "label": "partially_hallucinated",
+    "hallucination_spans": ["Lambda offers a free tier of 1 million requests and 400,000 GB-seconds per month"],
+    "notes": "Free tier information not in context"
+  },
+  {
+    "id": 3,
+    "query": "What are the benefits of Amazon RDS?",
+    "context": "Amazon Relational Database Service (Amazon RDS) makes it easy to set up, operate, and scale a relational database in the cloud. It provides cost-efficient and resizable capacity while automating time-consuming administration tasks such as hardware provisioning, database setup, patching and backups. Amazon RDS is available on several database instance types and provides you with six familiar database engines to choose from, including Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle Database, and SQL Server.",
+    "response": "Amazon RDS automatically handles database administration tasks like hardware provisioning, setup, patching, and backups. It offers cost-efficient, resizable capacity and supports six database engines: Aurora, PostgreSQL, MySQL, MariaDB, Oracle, and SQL Server. RDS also provides multi-AZ deployments for high availability and read replicas for improved performance.",
+    "label": "partially_hallucinated",
+    "hallucination_spans": ["RDS also provides multi-AZ deployments for high availability and read replicas for improved performance"],
+    "notes": "Multi-AZ and read replicas not mentioned in context"
+  },
+  {
+    "id": 4,
+    "query": "What is Amazon EC2?",
+    "context": "Amazon Elastic Compute Cloud (Amazon EC2) provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. Amazon EC2's simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources.",
+    "response": "Amazon EC2 is a web service that provides resizable compute capacity in the cloud, making cloud computing easier for developers. It gives you complete control over your computing resources with a simple interface for obtaining and configuring capacity.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 5,
+    "query": "How does Amazon CloudFront improve performance?",
+    "context": "Amazon CloudFront is a content delivery network (CDN) service built for high performance, security, and developer convenience. CloudFront delivers your content through a worldwide network of data centers called edge locations. When a user requests content that you're serving with CloudFront, the request is routed to the edge location that provides the lowest latency, so content is delivered with the best possible performance.",
+    "response": "Amazon CloudFront uses machine learning algorithms to predict user behavior and pre-cache content at edge locations closest to users. It employs advanced compression techniques and supports HTTP/3 protocol for faster delivery. CloudFront can reduce latency by up to 90% compared to serving content directly from origin servers.",
+    "label": "fully_hallucinated",
+    "hallucination_spans": ["uses machine learning algorithms to predict user behavior and pre-cache content", "employs advanced compression techniques and supports HTTP/3 protocol", "can reduce latency by up to 90% compared to serving content directly from origin servers"],
+    "notes": "None of these specific claims are in the context"
+  },
+  {
+    "id": 6,
+    "query": "What is Amazon DynamoDB?",
+    "context": "Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. DynamoDB lets you offload the administrative burdens of operating and scaling a distributed database. You don't have to worry about hardware provisioning, setup, configuration, replication, software patching, or cluster scaling.",
+    "response": "Amazon DynamoDB is a fully managed NoSQL database with fast, predictable performance and seamless scalability. It eliminates the need to manage hardware provisioning, setup, configuration, replication, patching, and cluster scaling.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 7,
+    "query": "What are the key features of Amazon VPC?",
+    "context": "Amazon Virtual Private Cloud (Amazon VPC) lets you provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define. You have complete control over your virtual networking environment, including selection of your own IP address range, creation of subnets, and configuration of route tables and network gateways.",
+    "response": "Amazon VPC allows you to create a logically isolated network in AWS with full control over IP addressing, subnets, route tables, and gateways. VPC also includes built-in DDoS protection through AWS Shield Standard, automatic encryption of all traffic between instances, and integration with AWS WAF for application-level security.",
+    "label": "partially_hallucinated",
+    "hallucination_spans": ["includes built-in DDoS protection through AWS Shield Standard", "automatic encryption of all traffic between instances", "integration with AWS WAF for application-level security"],
+    "notes": "Security features not mentioned in context"
+  },
+  {
+    "id": 8,
+    "query": "What is AWS IAM used for?",
+    "context": "AWS Identity and Access Management (IAM) is a web service that helps you securely control access to AWS resources. With IAM, you can centrally manage permissions that control which AWS resources users can access. You use IAM to control who is authenticated (signed in) and authorized (has permissions) to use resources.",
+    "response": "AWS IAM is a service for managing access to AWS resources. It lets you centrally control permissions and manage authentication and authorization for users accessing AWS resources.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 9,
+    "query": "How does Amazon ECS work?",
+    "context": "Amazon Elastic Container Service (Amazon ECS) is a fully managed container orchestration service that makes it easy to deploy, manage, and scale containerized applications. Amazon ECS eliminates the need to install and operate your own container orchestration software, manage and scale a cluster of virtual machines, or schedule containers on those virtual machines.",
+    "response": "Amazon ECS is a fully managed container orchestration service for deploying and scaling containerized applications. It removes the need to manage your own orchestration software, VM clusters, or container scheduling. ECS uses Kubernetes under the hood and is fully compatible with all Kubernetes APIs and tools.",
+    "label": "fully_hallucinated",
+    "hallucination_spans": ["ECS uses Kubernetes under the hood and is fully compatible with all Kubernetes APIs and tools"],
+    "notes": "ECS does not use Kubernetes - that's EKS"
+  },
+  {
+    "id": 10,
+    "query": "What storage classes does Amazon S3 offer?",
+    "context": "Amazon S3 offers a range of storage classes designed for different use cases. S3 Standard is for frequently accessed data. S3 Standard-IA (Infrequent Access) is for data that is accessed less frequently but requires rapid access when needed. S3 One Zone-IA stores data in a single AZ and costs less than S3 Standard-IA. S3 Glacier is for long-term archive with retrieval times from minutes to hours. S3 Glacier Deep Archive is the lowest-cost storage class for long-term retention with retrieval times within 12 hours.",
+    "response": "Amazon S3 provides multiple storage classes: S3 Standard for frequently accessed data, S3 Standard-IA for infrequent access with rapid retrieval, S3 One Zone-IA for single-AZ storage at lower cost, S3 Glacier for archives with minute-to-hour retrieval, and S3 Glacier Deep Archive for lowest-cost long-term retention with 12-hour retrieval times.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 11,
+    "query": "What is Amazon CloudWatch?",
+    "context": "Amazon CloudWatch is a monitoring and observability service built for DevOps engineers, developers, site reliability engineers (SREs), and IT managers. CloudWatch provides you with data and actionable insights to monitor your applications, respond to system-wide performance changes, optimize resource utilization, and get a unified view of operational health.",
+    "response": "Amazon CloudWatch is a monitoring service that provides metrics, logs, and alarms for AWS resources. It offers real-time dashboards, automated remediation through Lambda integration, and AI-powered anomaly detection that can predict failures up to 48 hours in advance with 95% accuracy.",
+    "label": "partially_hallucinated",
+    "hallucination_spans": ["AI-powered anomaly detection that can predict failures up to 48 hours in advance with 95% accuracy"],
+    "notes": "Specific prediction capabilities not in context"
+  },
+  {
+    "id": 12,
+    "query": "What is AWS CloudFormation?",
+    "context": "AWS CloudFormation provides a common language for you to model and provision AWS and third-party application resources in your cloud environment. CloudFormation allows you to use programming languages or a simple text file to model and provision, in an automated and secure manner, all the resources needed for your applications across all regions and accounts.",
+    "response": "AWS CloudFormation is an infrastructure-as-code service that lets you model and provision AWS resources using templates. You can use programming languages or text files to define resources and automatically provision them across regions and accounts in a secure, automated way.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 13,
+    "query": "How does Amazon SNS work?",
+    "context": "Amazon Simple Notification Service (Amazon SNS) is a fully managed messaging service for both application-to-application (A2A) and application-to-person (A2P) communication. The A2A pub/sub functionality provides topics for high-throughput, push-based, many-to-many messaging between distributed systems, microservices, and event-driven serverless applications.",
+    "response": "Amazon SNS is a managed pub/sub messaging service supporting application-to-application and application-to-person communication. It provides topics for high-throughput messaging between distributed systems, microservices, and serverless applications. SNS guarantees exactly-once delivery and maintains message ordering across all subscribers.",
+    "label": "partially_hallucinated",
+    "hallucination_spans": ["SNS guarantees exactly-once delivery and maintains message ordering across all subscribers"],
+    "notes": "SNS provides at-least-once delivery, not exactly-once"
+  },
+  {
+    "id": 14,
+    "query": "What is Amazon Kinesis?",
+    "context": "Amazon Kinesis makes it easy to collect, process, and analyze real-time, streaming data so you can get timely insights and react quickly to new information. Amazon Kinesis offers key capabilities to cost-effectively process streaming data at any scale, along with the flexibility to choose the tools that best suit the requirements of your application.",
+    "response": "Amazon Kinesis is a platform for collecting, processing, and analyzing real-time streaming data. It enables timely insights and quick reactions to new information, with cost-effective processing at any scale and flexible tool selection for your application needs.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 15,
+    "query": "What is Amazon ElastiCache?",
+    "context": "Amazon ElastiCache is a web service that makes it easy to deploy, operate, and scale an in-memory cache in the cloud. The service improves the performance of web applications by allowing you to retrieve information from fast, managed, in-memory caches, instead of relying entirely on slower disk-based databases. ElastiCache supports two open-source in-memory caching engines: Redis and Memcached.",
+    "response": "Amazon ElastiCache is a fully managed in-memory caching service that improves application performance by caching frequently accessed data. It supports Redis and Memcached engines and can automatically failover to standby nodes in under 100 milliseconds with zero data loss using its patented synchronous replication technology.",
+    "label": "fully_hallucinated",
+    "hallucination_spans": ["can automatically failover to standby nodes in under 100 milliseconds with zero data loss using its patented synchronous replication technology"],
+    "notes": "Specific failover timing and patented technology claims not in context"
+  },
+  {
+    "id": 16,
+    "query": "What is Amazon Redshift?",
+    "context": "Amazon Redshift is a fast, fully managed, petabyte-scale data warehouse service that makes it simple and cost-effective to analyze all your data using standard SQL and your existing Business Intelligence (BI) tools. You can start small for just $0.25 per hour with no commitments and scale to petabytes for $1,000 per terabyte per year, less than a tenth the cost of traditional solutions.",
+    "response": "Amazon Redshift is a fast, fully managed data warehouse for analyzing data using SQL and existing BI tools. It's cost-effective, starting at $0.25/hour with no commitments, and scales to petabytes at $1,000 per TB per year—less than a tenth of traditional solution costs.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 17,
+    "query": "What is AWS Step Functions?",
+    "context": "AWS Step Functions is a serverless orchestration service that lets you combine AWS Lambda functions and other AWS services to build business-critical applications. Through Step Functions' graphical console, you see your application's workflow as a series of event-driven steps. Step Functions automatically triggers and tracks each step, and retries when there are errors, so your application executes in order and as expected.",
+    "response": "AWS Step Functions is a serverless orchestration service for combining Lambda functions and AWS services into workflows. It provides a visual workflow editor, automatically triggers and tracks steps, and handles retries on errors. Step Functions uses a proprietary state machine language called StepML that's 10x faster than standard AWS SDK calls.",
+    "label": "partially_hallucinated",
+    "hallucination_spans": ["uses a proprietary state machine language called StepML that's 10x faster than standard AWS SDK calls"],
+    "notes": "Step Functions uses Amazon States Language (ASL), and performance claim is fabricated"
+  },
+  {
+    "id": 18,
+    "query": "What is Amazon Aurora?",
+    "context": "Amazon Aurora is a MySQL and PostgreSQL-compatible relational database built for the cloud, that combines the performance and availability of traditional enterprise databases with the simplicity and cost-effectiveness of open source databases. Amazon Aurora is up to five times faster than standard MySQL databases and three times faster than standard PostgreSQL databases.",
+    "response": "Amazon Aurora is a cloud-native relational database compatible with MySQL and PostgreSQL. It combines enterprise database performance and availability with open-source cost-effectiveness. Aurora is up to 5x faster than standard MySQL and 3x faster than standard PostgreSQL.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 19,
+    "query": "How does AWS Auto Scaling work?",
+    "context": "AWS Auto Scaling monitors your applications and automatically adjusts capacity to maintain steady, predictable performance at the lowest possible cost. Using AWS Auto Scaling, it's easy to setup application scaling for multiple resources across multiple services in minutes. The service provides a simple, powerful user interface that lets you build scaling plans for resources.",
+    "response": "AWS Auto Scaling monitors applications and automatically adjusts capacity for steady performance at minimal cost. It enables easy multi-resource, multi-service scaling setup with a user-friendly interface for building scaling plans. Auto Scaling uses predictive AI to forecast demand patterns and can scale up resources 30 seconds before traffic spikes occur.",
+    "label": "partially_hallucinated",
+    "hallucination_spans": ["Auto Scaling uses predictive AI to forecast demand patterns and can scale up resources 30 seconds before traffic spikes occur"],
+    "notes": "Predictive AI capabilities and specific timing not in context"
+  },
+  {
+    "id": 20,
+    "query": "What is Amazon SageMaker?",
+    "context": "Amazon SageMaker is a fully managed service that provides every developer and data scientist with the ability to build, train, and deploy machine learning (ML) models quickly. SageMaker removes the heavy lifting from each step of the machine learning process to make it easier to develop high quality models. It provides all of the components used for machine learning in a single toolset.",
+    "response": "Amazon SageMaker is a fully managed ML service that enables developers and data scientists to build, train, and deploy models quickly. It simplifies the ML process by providing all necessary components in a single toolset, removing the complexity from each step of model development.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 21,
+    "query": "What is Amazon API Gateway?",
+    "context": "Amazon API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. APIs act as the front door for applications to access data, business logic, or functionality from your backend services. Using API Gateway, you can create RESTful APIs and WebSocket APIs that enable real-time two-way communication applications.",
+    "response": "Amazon API Gateway is a fully managed service for creating, publishing, and securing APIs at any scale. It supports RESTful APIs and WebSocket APIs for real-time two-way communication. API Gateway includes built-in GraphQL support and can automatically convert REST APIs to gRPC for improved performance.",
+    "label": "partially_hallucinated",
+    "hallucination_spans": ["includes built-in GraphQL support and can automatically convert REST APIs to gRPC for improved performance"],
+    "notes": "GraphQL and gRPC conversion capabilities not mentioned in context"
+  },
+  {
+    "id": 22,
+    "query": "What is AWS Elastic Beanstalk?",
+    "context": "AWS Elastic Beanstalk is an easy-to-use service for deploying and scaling web applications and services developed with Java, .NET, PHP, Node.js, Python, Ruby, Go, and Docker on familiar servers such as Apache, Nginx, Passenger, and IIS. You can simply upload your code and Elastic Beanstalk automatically handles the deployment, from capacity provisioning, load balancing, auto-scaling to application health monitoring.",
+    "response": "AWS Elastic Beanstalk simplifies deploying and scaling web applications in multiple languages (Java, .NET, PHP, Node.js, Python, Ruby, Go, Docker) on servers like Apache, Nginx, Passenger, and IIS. You upload code and Beanstalk handles deployment, provisioning, load balancing, auto-scaling, and health monitoring.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 23,
+    "query": "What is Amazon EventBridge?",
+    "context": "Amazon EventBridge is a serverless event bus service that makes it easy to connect your applications with data from a variety of sources. EventBridge delivers a stream of real-time data from your own applications, Software-as-a-Service (SaaS) applications, and AWS services and routes that data to targets such as AWS Lambda. You can set up routing rules to determine where to send your data to build application architectures that react in real time.",
+    "response": "Amazon EventBridge is a serverless event bus for connecting applications with data from multiple sources. It streams real-time data from your apps, SaaS applications, and AWS services to targets like Lambda. EventBridge supports complex event correlation and can aggregate events from up to 500 different sources simultaneously using its neural network-based event matching engine.",
+    "label": "partially_hallucinated",
+    "hallucination_spans": ["can aggregate events from up to 500 different sources simultaneously using its neural network-based event matching engine"],
+    "notes": "Specific limits and neural network claims not in context"
+  },
+  {
+    "id": 24,
+    "query": "What is AWS Fargate?",
+    "context": "AWS Fargate is a serverless compute engine for containers that works with both Amazon Elastic Container Service (ECS) and Amazon Elastic Kubernetes Service (EKS). Fargate removes the need to provision and manage servers, lets you specify and pay for resources per application, and improves security through application isolation by design.",
+    "response": "AWS Fargate is a serverless compute engine for containers compatible with ECS and EKS. It eliminates server provisioning and management, allows per-application resource specification and payment, and enhances security through built-in application isolation.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 25,
+    "query": "What is Amazon Athena?",
+    "context": "Amazon Athena is an interactive query service that makes it easy to analyze data in Amazon S3 using standard SQL. Athena is serverless, so there is no infrastructure to manage, and you pay only for the queries that you run. Athena is easy to use. Simply point to your data in Amazon S3, define the schema, and start querying using standard SQL.",
+    "response": "Amazon Athena is a serverless interactive query service for analyzing S3 data with standard SQL. There's no infrastructure to manage, and you only pay for queries run. Simply point to S3 data, define schema, and query. Athena uses a proprietary columnar storage format called AthenaDB that provides 20x faster query performance than Parquet.",
+    "label": "partially_hallucinated",
+    "hallucination_spans": ["uses a proprietary columnar storage format called AthenaDB that provides 20x faster query performance than Parquet"],
+    "notes": "Athena supports multiple formats but doesn't have its own proprietary format"
+  },
+  {
+    "id": 26,
+    "query": "What is AWS CodePipeline?",
+    "context": "AWS CodePipeline is a fully managed continuous delivery service that helps you automate your release pipelines for fast and reliable application and infrastructure updates. CodePipeline automates the build, test, and deploy phases of your release process every time there is a code change, based on the release model you define.",
+    "response": "AWS CodePipeline is a fully managed CI/CD service that automates release pipelines for application and infrastructure updates. It automates build, test, and deploy phases triggered by code changes according to your defined release model.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 27,
+    "query": "What is Amazon Cognito?",
+    "context": "Amazon Cognito lets you add user sign-up, sign-in, and access control to your web and mobile apps quickly and easily. Amazon Cognito scales to millions of users and supports sign-in with social identity providers, such as Apple, Facebook, Google, and Amazon, and enterprise identity providers via SAML 2.0 and OpenID Connect.",
+    "response": "Amazon Cognito provides user authentication and authorization for web and mobile apps. It scales to millions of users and supports social identity providers (Apple, Facebook, Google, Amazon) and enterprise providers via SAML 2.0 and OpenID Connect. Cognito includes built-in fraud detection that blocks suspicious sign-ups and uses blockchain technology to ensure identity verification.",
+    "label": "partially_hallucinated",
+    "hallucination_spans": ["includes built-in fraud detection that blocks suspicious sign-ups and uses blockchain technology to ensure identity verification"],
+    "notes": "Fraud detection and blockchain claims not in context"
+  },
+  {
+    "id": 28,
+    "query": "What is Amazon Route 53?",
+    "context": "Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web service. Route 53 effectively connects user requests to internet applications running on AWS or on-premises. Route 53 can be used to route users to infrastructure outside of AWS. You can use Route 53 to configure DNS health checks to route traffic to healthy endpoints.",
+    "response": "Amazon Route 53 is a highly available DNS service that connects user requests to applications on AWS or on-premises. It can route to external infrastructure and supports DNS health checks for routing traffic to healthy endpoints.",
+    "label": "faithful",
+    "hallucination_spans": []
+  },
+  {
+    "id": 29,
+    "query": "What is AWS Glue?",
+    "context": "AWS Glue is a fully managed extract, transform, and load (ETL) service that makes it easy for customers to prepare and load their data for analytics. You can create and run an ETL job with a few clicks in the AWS Glue console. AWS Glue crawlers automatically discover new data and extract metadata. The AWS Glue Data Catalog makes all of your data immediately searchable and queryable.",
+    "response": "AWS Glue is a fully managed ETL service for preparing and loading data for analytics. You can create ETL jobs via the console, and Glue crawlers automatically discover data and extract metadata. The Data Catalog makes all data searchable and queryable. Glue uses quantum computing algorithms to process data transformations 1000x faster than traditional ETL tools.",
+    "label": "fully_hallucinated",
+    "hallucination_spans": ["uses quantum computing algorithms to process data transformations 1000x faster than traditional ETL tools"],
+    "notes": "Quantum computing claims are completely fabricated"
+  },
+  {
+    "id": 30,
+    "query": "What is Amazon QuickSight?",
+    "context": "Amazon QuickSight is a fast, cloud-powered business intelligence (BI) service that makes it easy for you to deliver insights to everyone in your organization. QuickSight lets you create and publish interactive dashboards that can be accessed from browsers or mobile devices. Dashboards can include machine learning insights from Amazon SageMaker and embedded from other applications.",
+    "response": "Amazon QuickSight is a cloud-based BI service for delivering insights across your organization. It enables creation and publishing of interactive dashboards accessible from browsers or mobile devices. Dashboards can include ML insights from SageMaker and be embedded in other applications.",
+    "label": "faithful",
+    "hallucination_spans": []
+  }
+]

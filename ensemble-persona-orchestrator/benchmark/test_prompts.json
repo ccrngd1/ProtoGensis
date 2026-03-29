@@ -1,0 +1,116 @@
+{
+  "prompts": [
+    {
+      "id": "strategy_001",
+      "category": "business_strategy",
+      "difficulty": "medium",
+      "prompt": "Our SaaS startup has 10,000 free users but only 50 paying customers (0.5% conversion). Should we focus on converting existing free users or acquiring more users at the top of funnel?",
+      "expected_diversity": "high",
+      "reasoning": "Personas should disagree—empiricist wants data on why conversion is low, devil's advocate questions the product-market fit, first principles examines the business model assumptions, creative solver proposes alternative monetization."
+    },
+    {
+      "id": "strategy_002",
+      "category": "business_strategy",
+      "difficulty": "hard",
+      "prompt": "We're a B2B company. A competitor just open-sourced their core product. Should we: (A) also open-source to compete, (B) double down on proprietary features, or (C) pivot to services/support model?",
+      "expected_diversity": "high",
+      "reasoning": "Forces trade-off analysis, systems thinking about market dynamics, and domain expertise about open source business models."
+    },
+    {
+      "id": "technical_001",
+      "category": "technical_architecture",
+      "difficulty": "medium",
+      "prompt": "We're hitting database query performance issues at 100k users. Should we add caching (Redis), optimize queries, shard the database, or migrate to a NoSQL solution?",
+      "expected_diversity": "medium",
+      "reasoning": "Domain expert knows patterns, first principles wants root cause, empiricist wants to measure before optimizing, systems thinker sees cascading effects."
+    },
+    {
+      "id": "technical_002",
+      "category": "technical_architecture",
+      "difficulty": "hard",
+      "prompt": "Our microservices architecture has grown to 47 services. Debugging cross-service issues takes days. Should we consolidate back to a monolith, improve observability tooling, or implement a service mesh?",
+      "expected_diversity": "high",
+      "reasoning": "First principles questions if the problem is architectural or organizational. Devil's advocate challenges the sunk cost of microservices. Domain expert knows the patterns."
+    },
+    {
+      "id": "analysis_001",
+      "category": "analytical_problem",
+      "difficulty": "medium",
+      "prompt": "Our mobile app's 30-day retention dropped from 40% to 28% over the last quarter. Same period, daily active users increased 50%. What's happening and what should we do?",
+      "expected_diversity": "high",
+      "reasoning": "Empiricist wants cohort analysis, skeptical analyst questions metrics definitions, systems thinker sees feedback loops (growth may be changing user composition)."
+    },
+    {
+      "id": "analysis_002",
+      "category": "analytical_problem",
+      "difficulty": "medium",
+      "prompt": "A/B test results: Variant A has 10% higher conversion (p=0.04) but 15% higher bounce rate. Variant B has lower conversion but users spend 2x time on site. Which variant should we ship?",
+      "expected_diversity": "high",
+      "reasoning": "Forces multi-objective optimization. Empiricist wants to understand confounds. First principles asks what we're actually optimizing for. Systems thinker considers long-term effects."
+    },
+    {
+      "id": "creative_001",
+      "category": "creative_problem_solving",
+      "difficulty": "medium",
+      "prompt": "We're a fitness app. Every other fitness app has the same features (workout tracking, social sharing, gamification). How do we differentiate in a saturated market?",
+      "expected_diversity": "very_high",
+      "reasoning": "Creative solver should shine. First principles reexamines what 'fitness app' means. Devil's advocate questions if differentiation is the right strategy. Domain expert knows what's been tried."
+    },
+    {
+      "id": "creative_002",
+      "category": "creative_problem_solving",
+      "difficulty": "hard",
+      "prompt": "Our product team is burned out from constant feature requests. We've tried prioritization frameworks, stakeholder alignment meetings, and roadmap planning—nothing reduces the overwhelm. What's a non-obvious solution?",
+      "expected_diversity": "high",
+      "reasoning": "Creative solver finds analogies from other fields. Systems thinker identifies root cause in organizational structure. First principles questions if the problem is 'too many requests' or 'wrong workflow'."
+    },
+    {
+      "id": "ethics_001",
+      "category": "ethical_dilemma",
+      "difficulty": "hard",
+      "prompt": "Our ML model for loan approvals is 15% more accurate than the old system, but audit shows it's less likely to approve loans for certain demographics (not explicitly trained on demographics, but correlated features). Do we deploy it?",
+      "expected_diversity": "very_high",
+      "reasoning": "Domain expert knows fairness-accuracy tradeoffs in ML. Devil's advocate questions legality and PR risk. First principles examines what 'fairness' means. Empiricist wants to quantify disparate impact."
+    },
+    {
+      "id": "ethics_002",
+      "category": "ethical_dilemma",
+      "difficulty": "hard",
+      "prompt": "We discovered a competitor is violating user privacy (storing plaintext passwords). Reporting them helps us competitively but may harm their users in the short term (breach disclosure, forced migration). What should we do?",
+      "expected_diversity": "high",
+      "reasoning": "Multiple values in tension: competitive advantage, user welfare, industry standards. Devil's advocate and systems thinker will see this differently."
+    },
+    {
+      "id": "tradeoff_001",
+      "category": "tradeoff_analysis",
+      "difficulty": "medium",
+      "prompt": "We can hire 3 senior engineers ($200k each) or 6 junior engineers ($100k each) with the same budget. Our product is technically complex but the senior engineers won't write 2x the code. What's the right choice?",
+      "expected_diversity": "medium",
+      "reasoning": "First principles calculates productivity per dollar. Systems thinker sees mentorship dynamics and team formation. Domain expert knows hiring patterns and ramp time. Empiricist wants to measure rather than assume."
+    },
+    {
+      "id": "tradeoff_002",
+      "category": "tradeoff_analysis",
+      "difficulty": "hard",
+      "prompt": "We can launch now with 80% feature completeness and iterate based on user feedback, or wait 3 more months to reach 95% completeness but risk a competitor beating us to market. What should we do?",
+      "expected_diversity": "medium",
+      "reasoning": "Classic speed vs quality tradeoff. Empiricist wants to know what the missing 15% is. Devil's advocate questions if competitor threat is real. Systems thinker considers user trust and first impressions."
+    }
+  ],
+  "metadata": {
+    "total_prompts": 12,
+    "categories": {
+      "business_strategy": 2,
+      "technical_architecture": 2,
+      "analytical_problem": 2,
+      "creative_problem_solving": 2,
+      "ethical_dilemma": 2,
+      "tradeoff_analysis": 2
+    },
+    "difficulty_distribution": {
+      "medium": 7,
+      "hard": 5
+    },
+    "notes": "Prompts designed to elicit genuine analytical diversity across persona reasoning frameworks. Expected diversity levels based on how much personas' core approaches should naturally diverge."
+  }
+}

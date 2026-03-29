@@ -1,0 +1,86 @@
+{
+  "agent": "Main",
+  "task": "Process incoming handoff",
+  "timestamp": "2026-03-29T11:00:00Z",
+  "scenario": "handoff_processing",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Check for new handoffs and triage"
+    },
+    {
+      "role": "assistant",
+      "content": "I'll check the handoff directory for new requests.",
+      "tool_calls": [
+        {
+          "id": "call_002",
+          "type": "function",
+          "function": {
+            "name": "file_read",
+            "arguments": "{\"path\": \"/root/.openclaw/handoffs/incoming\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_002",
+      "content": "[\"request-2026-03-29-001.json\"]"
+    },
+    {
+      "role": "assistant",
+      "content": "Found a new handoff request. Reading the request file.",
+      "tool_calls": [
+        {
+          "id": "call_003",
+          "type": "function",
+          "function": {
+            "name": "file_read",
+            "arguments": "{\"path\": \"/root/.openclaw/handoffs/incoming/request-2026-03-29-001.json\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_003",
+      "content": "{\"from\": \"PreCog\", \"type\": \"request\", \"task\": \"Research agent evaluation frameworks\", \"priority\": \"high\", \"timestamp\": \"2026-03-29T10:30:00Z\"}"
+    },
+    {
+      "role": "assistant",
+      "content": "Processing high-priority research request from PreCog. Moving to done directory and creating response handoff.",
+      "tool_calls": [
+        {
+          "id": "call_004",
+          "type": "function",
+          "function": {
+            "name": "exec",
+            "arguments": "{\"command\": \"mv /root/.openclaw/handoffs/incoming/request-2026-03-29-001.json /root/.openclaw/handoffs/done/\"}"
+          }
+        },
+        {
+          "id": "call_005",
+          "type": "function",
+          "function": {
+            "name": "handoff_create",
+            "arguments": "{\"from\": \"Main\", \"type\": \"status\", \"task\": \"Acknowledged research request, delegating to PreCog\", \"priority\": \"high\", \"timestamp\": \"2026-03-29T11:05:00Z\", \"target\": \"PreCog\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_004",
+      "content": "File moved successfully"
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_005",
+      "content": "Handoff created: /root/.openclaw/handoffs/status-2026-03-29-002.json"
+    },
+    {
+      "role": "assistant",
+      "content": "Handoff processed successfully. PreCog has been notified."
+    }
+  ]
+}

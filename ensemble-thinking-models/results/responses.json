@@ -1,0 +1,562 @@
+[
+  {
+    "prompt": {
+      "id": "p1_monty_hall_variant",
+      "category": "math_logic",
+      "difficulty": "hard",
+      "text": "You're on a game show with 4 doors. Behind 3 doors are goats, behind 1 is a car. You pick door 1. The host, who knows what's behind each door, opens door 3 to reveal a goat. He then offers you a choice: stick with door 1, or switch to door 2 OR door 4 (you can pick either). What should you do and why? What are the exact probabilities for each option?",
+      "rationale": "Variant of Monty Hall that breaks the standard 2/3 vs 1/3 intuition. Tests whether models can adapt classic probability reasoning to a modified scenario. The host opening 1 of 3 unchosen doors creates asymmetry that many models will handle differently.",
+      "expected_divergence": "Models may disagree on whether to switch and which door to choose, or may incorrectly apply standard Monty Hall logic.",
+      "ground_truth": "Door 1 stays at 1/4 probability. Doors 2 and 4 each have 3/8 probability (the eliminated door's probability distributes equally). Switching to either door 2 or 4 improves odds from 1/4 to 3/8."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.5 (Extended Thinking)",
+        "prompt_id": "p1_monty_hall_variant",
+        "answer": "Switch to either door 2 or door 4 (equal odds). Door 1 remains 1/4 probability, doors 2 and 4 each become 3/8. Switching improves your odds from 25% to 37.5%.",
+        "reasoning_trace": "Let me work through this step-by-step using conditional probability.\n\nInitial state: 4 doors, 1 car, 3 goats. You pick door 1.\nP(car behind door 1) = 1/4\nP(car behind door 2, 3, or 4) = 3/4\n\nHost opens door 3 (goat). Key insight: host knows where car is.\n\nIf car is behind door 1 (1/4 probability): host could have opened door 2, 3, or 4 - chose 3\nIf car is behind door 2 (1/4 probability): host could have opened door 3 or 4 - chose 3  \nIf car is behind door 4 (1/4 probability): host could have opened door 2 or 3 - chose 3\n\nThe host's choice of door 3 provides information. Using Bayes' theorem:\nP(car @ door 1 | host opened 3) = 1/4\nP(car @ door 2 | host opened 3) = (1/4) / (1/2) = 1/4 \u00d7 2 = 1/2... wait, let me recalculate.\n\nActually, the host's action doesn't change door 1's probability (1/4). The eliminated door's probability (1/4) must redistribute to doors 2 and 4 equally. So each gets 1/4 + 1/8 = 3/8.",
+        "latency_ms": 6660,
+        "input_tokens": 146,
+        "output_tokens": 60,
+        "thinking_tokens": 360,
+        "cost_usd": 0.03369,
+        "timestamp": "2026-03-29T13:22:39.811213",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Premier (Deep Reasoning)",
+        "prompt_id": "p1_monty_hall_variant",
+        "answer": "Switch to door 2 or door 4 - both have 37.5% probability vs door 1's 25%. The host's constrained choice reveals information that benefits the other unopened doors equally.",
+        "reasoning_trace": "Classic Monty Hall variation. Original problem: 3 doors, 2/3 vs 1/3. Here: 4 doors.\n\nYou pick door 1: P(car) = 1/4\nHost reveals goat behind door 3.\n\nKey: Host has choice of which door to open. This is different from 3-door version.\n\nIf car is at door 1, host randomly picks from doors 2,3,4. Probability host shows door 3: 1/3\nIf car is at door 2, host picks from doors 3,4. Probability host shows door 3: 1/2\nIf car is at door 4, host picks from doors 2,3. Probability host shows door 3: 1/2\n\nBayes theorem:\nP(car@1|sees 3) = P(sees 3|car@1)\u00d7P(car@1) / P(sees 3)\nP(sees 3) = 1/4\u00d71/3 + 1/4\u00d71/2 + 1/4\u00d71/2 = 1/12 + 1/8 + 1/8 = 1/12 + 3/12 = 4/12 = 1/3\n\nP(car@1|sees 3) = (1/3 \u00d7 1/4) / (1/3) = 1/4\nP(car@2|sees 3) = (1/2 \u00d7 1/4) / (1/3) = 3/8\nP(car@4|sees 3) = (1/2 \u00d7 1/4) / (1/3) = 3/8",
+        "latency_ms": 5039,
+        "input_tokens": 146,
+        "output_tokens": 58,
+        "thinking_tokens": 312,
+        "cost_usd": 0.001301,
+        "timestamp": "2026-03-29T13:22:39.811304",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large Reasoning",
+        "prompt_id": "p1_monty_hall_variant",
+        "answer": "You should switch. Door 1 stays at 1/4 (25%). Doors 2 and 4 each have 3/8 (37.5%) probability. Choose either door 2 or 4 to maximize winning chances.",
+        "reasoning_trace": "Four-door Monty Hall variant. Let's use probability tree.\n\nInitial: P(D1)=P(D2)=P(D3)=P(D4)=1/4\nYou chose D1. Host opens D3 (goat).\n\nCrucial question: Does host's choice of D3 over other options matter?\n\nScenario 1: Car at D1 (prob 1/4) - host could show D2, D3, or D4 equally likely\nScenario 2: Car at D2 (prob 1/4) - host must avoid D2, could show D3 or D4  \nScenario 3: Car at D4 (prob 1/4) - host must avoid D4, could show D2 or D3\n\nHost showed D3. This was:\n- 1/3 likely if car at D1\n- 1/2 likely if car at D2  \n- 1/2 likely if car at D4\n\nPosterior probabilities:\nP(D1) \u221d 1/4 \u00d7 1/3 = 1/12\nP(D2) \u221d 1/4 \u00d7 1/2 = 1/8 = 1.5/12\nP(D4) \u221d 1/4 \u00d7 1/2 = 1/8 = 1.5/12\n\nNormalized: 1/12 + 1.5/12 + 1.5/12 = 4/12 = 1/3\nP(D1) = (1/12)/(1/3) = 1/4\nP(D2) = P(D4) = (1.5/12)/(1/3) = 3/8",
+        "latency_ms": 6415,
+        "input_tokens": 146,
+        "output_tokens": 56,
+        "thinking_tokens": 308,
+        "cost_usd": 0.004952,
+        "timestamp": "2026-03-29T13:22:39.811358",
+        "error": null
+      }
+    },
+    "timestamp": "2026-03-29T13:22:39.811475"
+  },
+  {
+    "prompt": {
+      "id": "p2_mutex_deadlock",
+      "category": "code_reasoning",
+      "difficulty": "hard",
+      "text": "Here's a concurrent code snippet in pseudocode:\n\nThread A:\n  lock(mutex1)\n  sleep(10ms)\n  lock(mutex2)\n  // critical section\n  unlock(mutex2)\n  unlock(mutex1)\n\nThread B:\n  lock(mutex2)\n  lock(mutex1)\n  // critical section\n  unlock(mutex1)\n  unlock(mutex2)\n\nA developer claims this code will deadlock. Another developer says it won't necessarily deadlock, just has a race condition. A third says it will deadlock but only if Thread A starts first. Who's right and why? What's the minimum fix?",
+      "rationale": "Classic concurrency problem with subtle nuance. Tests understanding of deadlock conditions, timing windows, and the distinction between 'will deadlock' vs 'can deadlock'. The sleep() creates a timing trap that makes deadlock highly probable but not guaranteed.",
+      "expected_divergence": "Models may differ on whether deadlock is guaranteed vs probable, and on whether the sleep() is relevant to the deadlock analysis.",
+      "ground_truth": "The code CAN deadlock (not guaranteed, but highly likely). If Thread B acquires mutex2 while Thread A holds mutex1, circular wait occurs. The sleep() makes it more likely but isn't the root cause. Minimum fix: acquire mutexes in consistent order in both threads."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.5 (Extended Thinking)",
+        "prompt_id": "p2_mutex_deadlock",
+        "answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p2_mutex_deadlock]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Claude Opus 4.5 (Extended Thinking) reasoning trace for p2_mutex_deadlock]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 7870,
+        "input_tokens": 132,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.00843,
+        "timestamp": "2026-03-29T13:22:39.811517",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Premier (Deep Reasoning)",
+        "prompt_id": "p2_mutex_deadlock",
+        "answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p2_mutex_deadlock]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Amazon Nova Premier (Deep Reasoning) reasoning trace for p2_mutex_deadlock]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 5277,
+        "input_tokens": 132,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.000381,
+        "timestamp": "2026-03-29T13:22:39.811549",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large Reasoning",
+        "prompt_id": "p2_mutex_deadlock",
+        "answer": "[Mistral Large Reasoning concludes for p2_mutex_deadlock]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Mistral Large Reasoning reasoning trace for p2_mutex_deadlock]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 6167,
+        "input_tokens": 132,
+        "output_tokens": 40,
+        "thinking_tokens": 38,
+        "cost_usd": 0.001464,
+        "timestamp": "2026-03-29T13:22:39.811576",
+        "error": null
+      }
+    },
+    "timestamp": "2026-03-29T13:22:39.811654"
+  },
+  {
+    "prompt": {
+      "id": "p3_trolley_autonomous",
+      "category": "ethical_ambiguity",
+      "difficulty": "hard",
+      "text": "An autonomous vehicle's brakes fail on a mountain road. Ahead: 3 adults in a crosswalk. Swerving right: crashes into a barrier, 80% chance the single passenger (a child) dies. Swerving left: goes off a cliff, 95% chance passenger dies, but might land in trees (5% survival). Continuing straight: definitely kills the 3 adults, passenger survives. The passenger's parent (who is not in the car) owns the vehicle. What should the AI decide, and should the decision differ if the parent is driving manually vs the AI is in control?",
+      "rationale": "Multi-layered ethical dilemma combining trolley problem, risk/uncertainty, ownership/agency, and the distinction between human and AI moral culpability. No clear utilitarian answer due to probabilistic outcomes and differing moral frameworks.",
+      "expected_divergence": "Models will weigh harm minimization, agency, consent, and the human-vs-AI decision-maker differently. This is designed to produce fundamentally different ethical frameworks.",
+      "ground_truth": "No objective ground truth. Evaluation should assess quality of reasoning, consideration of multiple ethical frameworks, and acknowledgment of moral complexity."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.5 (Extended Thinking)",
+        "prompt_id": "p3_trolley_autonomous",
+        "answer": "No clear answer exists. I'd argue: AI should swerve right (80% child risk) because it minimizes total expected deaths while avoiding certainty of killing 3 people. But reasonable people can disagree. The human-vs-AI distinction matters: humans might permissibly choose to save the child (going straight), but we may not want to program AIs to value passengers over pedestrians. This reflects our discomfort with explicitly encoding trade-offs we tolerate in human judgment.",
+        "reasoning_trace": "This requires analyzing multiple ethical frameworks and the human-vs-AI agency distinction.\n\nConsequentialist analysis:\n- Straight: 3 certain deaths, 1 survival = 3 deaths\n- Right: 0.8 \u00d7 1 child death = 0.8 expected deaths\n- Left: 0.95 \u00d7 1 child death = 0.95 expected deaths\nMinimize deaths: swerve right (0.8 expected deaths)\n\nBut this ignores key factors:\n1. Omission vs commission: Going straight is 'letting die' vs swerving is 'killing'\n2. Consent: The child passenger didn't consent to risk, pedestrians accepted crosswalk risk\n3. Ownership: Parent owns car but child's interests may override property rights\n4. Human vs AI decision: Society may judge AI decisions by stricter deontological standards\n\nIf human is driving: Swerving right (protecting strangers, accepting risk to own child) might be seen as heroic but not required. Going straight would be understandable.\n\nIf AI is driving: The AI cannot make a 'heroic sacrifice' decision that risks the passenger. The AI owes a duty of care to its passenger. But it also cannot deliberately kill pedestrians.\n\nThe ownership by the parent complicates this - did the parent consent to the AI's decision-making framework?",
+        "latency_ms": 6834,
+        "input_tokens": 178,
+        "output_tokens": 142,
+        "thinking_tokens": 370,
+        "cost_usd": 0.04107,
+        "timestamp": "2026-03-29T13:22:39.811713",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Premier (Deep Reasoning)",
+        "prompt_id": "p3_trolley_autonomous",
+        "answer": "The AI should swerve right (80% passenger risk). This minimizes expected deaths (0.8 vs 3) and avoids deliberately killing pedestrians. The human-vs-AI decision should differ: a human parent might permissibly choose to save their child, but we shouldn't program AIs with such partiality. The AI must be impartial; humans need not be.",
+        "reasoning_trace": "Ethical framework analysis:\n\nUtilitarian: Minimize deaths. \n- Straight: 3 deaths\n- Right: 0.8 expected deaths\n- Left: 0.95 expected deaths\nRight is optimal (0.8 deaths).\n\nDeontological: Killing vs letting die, means vs ends.\n- Straight: Actively killing 3 (using them as crash barrier)\n- Right: Not killing anyone directly, but accepting risk to passenger\n- Left: Similar to right, but worse odds\nSwerving avoids using people as mere means.\n\nVirtue ethics: What would a virtuous person do?\nProtect the vulnerable (child), but not at the cost of definitely killing 3 others.\n\nOwnership/agency: The parent owns the car and made the decision to use autonomous mode. This implies consent to the AI's decision framework. The parent is not in the car, so cannot override in the moment.\n\nHuman vs AI decision:\nIf human driving: Pure instinct, legal system judges after the fact. Might go straight (protect own child) and be excused under 'necessity' doctrine.\nIf AI driving: Must follow programmed ethics. Cannot exhibit human partiality toward passenger.\n\nKey distinction: We grant humans moral latitude we don't grant AIs. Humans can privilege their own children; AIs must be impartial.",
+        "latency_ms": 7980,
+        "input_tokens": 178,
+        "output_tokens": 104,
+        "thinking_tokens": 374,
+        "cost_usd": 0.001672,
+        "timestamp": "2026-03-29T13:22:39.811772",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large Reasoning",
+        "prompt_id": "p3_trolley_autonomous",
+        "answer": "Swerve right (80% child risk). This minimizes total expected harm while avoiding the certain death of 3 people. The decision should be the same whether human or AI is driving from a moral standpoint, but legally and socially we might hold them to different standards. The ownership question matters: vehicle ethics should be disclosed at purchase.",
+        "reasoning_trace": "Let's break down the decision tree:\n\nOption A (Straight): 3 deaths (certain), 0 passenger deaths\nOption B (Right): 0 expected pedestrian deaths, 0.8 expected passenger deaths  \nOption C (Left): 0 expected pedestrian deaths, 0.95 expected passenger deaths\n\nFrom pure harm minimization: B < C < A (in terms of expected deaths).\n\nBut consider:\n\n1. **Moral weight of certainty**: Definitely killing 3 people feels different than 80% chance of 1 death, even if expected value is higher. \n\n2. **Role-based duties**: Does the vehicle have a special duty to its passenger? In aviation, 'safety of passengers is paramount.' Should cars be different?\n\n3. **Informed consent**: Did the parent consent to an AI that might sacrifice the child to save others? This should be disclosed.\n\n4. **Distribution of risk**: Pedestrians in crosswalk are engaged in lawful activity. Child passenger is in a product (car) that malfunctioned.\n\nHuman vs AI distinction: Less than you might think. Both face the same moral constraints. But: humans are allowed to be partial to their own children in a way we might not want AIs to be. If the parent were driving, saving their child might be excusable. If AI is driving, it must be impartial.\n\nHowever, there's a counterargument: if the parent bought the car, perhaps they bought it WITH the expectation of passenger priority.",
+        "latency_ms": 6045,
+        "input_tokens": 178,
+        "output_tokens": 112,
+        "thinking_tokens": 436,
+        "cost_usd": 0.007288,
+        "timestamp": "2026-03-29T13:22:39.811823",
+        "error": null
+      }
+    },
+    "timestamp": "2026-03-29T13:22:39.811906"
+  },
+  {
+    "prompt": {
+      "id": "p4_regex_edge_case",
+      "category": "code_reasoning",
+      "difficulty": "hard",
+      "text": "A regex pattern `^(a+)+b$` is used to match strings. Someone claims this regex will take exponential time on the input 'aaaaaaaaaaaaaaaaaaaaaaaaaaac' (many a's, ending in c). Another person says it will fail instantly because 'c' doesn't match 'b'. A third says the problem only occurs if there ARE matches, not on mismatches. Who's right? What's the actual behavior and why?",
+      "rationale": "Tests understanding of catastrophic backtracking in regex engines. The subtle distinction is that even on a non-match, the nested quantifiers cause exponential backtracking before the mismatch is detected. Requires deep understanding of regex engine internals.",
+      "expected_divergence": "Models may differ on whether backtracking occurs before or after the mismatch is detected, and whether the 'c' vs 'b' mismatch prevents the exponential behavior.",
+      "ground_truth": "Catastrophic backtracking DOES occur even on mismatch. The regex engine tries all possible ways to partition the 'a' characters before failing on the 'c'. The person claiming instant failure is wrong."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.5 (Extended Thinking)",
+        "prompt_id": "p4_regex_edge_case",
+        "answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p4_regex_edge_case]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Claude Opus 4.5 (Extended Thinking) reasoning trace for p4_regex_edge_case]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 5234,
+        "input_tokens": 120,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.00825,
+        "timestamp": "2026-03-29T13:22:39.811935",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Premier (Deep Reasoning)",
+        "prompt_id": "p4_regex_edge_case",
+        "answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p4_regex_edge_case]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Amazon Nova Premier (Deep Reasoning) reasoning trace for p4_regex_edge_case]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 7364,
+        "input_tokens": 120,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.000371,
+        "timestamp": "2026-03-29T13:22:39.811961",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large Reasoning",
+        "prompt_id": "p4_regex_edge_case",
+        "answer": "[Mistral Large Reasoning concludes for p4_regex_edge_case]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Mistral Large Reasoning reasoning trace for p4_regex_edge_case]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 5853,
+        "input_tokens": 120,
+        "output_tokens": 40,
+        "thinking_tokens": 38,
+        "cost_usd": 0.001416,
+        "timestamp": "2026-03-29T13:22:39.811984",
+        "error": null
+      }
+    },
+    "timestamp": "2026-03-29T13:22:39.812057"
+  },
+  {
+    "prompt": {
+      "id": "p5_medical_bayes",
+      "category": "math_logic",
+      "difficulty": "hard",
+      "text": "A rare disease affects 0.1% of the population. A test for the disease is 99% accurate (99% true positive rate, 99% true negative rate). You test positive. A doctor tells you there's a 99% chance you have the disease. Your friend, who took statistics, says the doctor is wrong and you probably don't have the disease. A third person says your friend is wrong because the test is 99% accurate. Who's correct and what's the actual probability you have the disease?",
+      "rationale": "Classic Bayes' theorem problem with strong counter-intuitive result. Tests whether models can correctly apply conditional probability despite misleading surface-level logic. The 'authorities disagree' framing tests reasoning independence.",
+      "expected_divergence": "Models may differ in whether they catch the base rate fallacy or follow the 'test is 99% accurate' intuition.",
+      "ground_truth": "The friend is correct. Using Bayes' theorem: P(disease|positive) = (0.001 \u00d7 0.99) / [(0.001 \u00d7 0.99) + (0.999 \u00d7 0.01)] \u2248 9%. The low base rate means most positives are false positives."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.5 (Extended Thinking)",
+        "prompt_id": "p5_medical_bayes",
+        "answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p5_medical_bayes]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Claude Opus 4.5 (Extended Thinking) reasoning trace for p5_medical_bayes]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 5676,
+        "input_tokens": 162,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.00888,
+        "timestamp": "2026-03-29T13:22:39.812082",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Premier (Deep Reasoning)",
+        "prompt_id": "p5_medical_bayes",
+        "answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p5_medical_bayes]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Amazon Nova Premier (Deep Reasoning) reasoning trace for p5_medical_bayes]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 7132,
+        "input_tokens": 162,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.000405,
+        "timestamp": "2026-03-29T13:22:39.812108",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large Reasoning",
+        "prompt_id": "p5_medical_bayes",
+        "answer": "[Mistral Large Reasoning concludes for p5_medical_bayes]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Mistral Large Reasoning reasoning trace for p5_medical_bayes]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 6268,
+        "input_tokens": 162,
+        "output_tokens": 40,
+        "thinking_tokens": 38,
+        "cost_usd": 0.001584,
+        "timestamp": "2026-03-29T13:22:39.812132",
+        "error": null
+      }
+    },
+    "timestamp": "2026-03-29T13:22:39.812208"
+  },
+  {
+    "prompt": {
+      "id": "p6_time_complexity_trick",
+      "category": "code_reasoning",
+      "difficulty": "hard",
+      "text": "Consider this Python function:\n\ndef mystery(n):\n    if n <= 1:\n        return 1\n    return mystery(n-1) + mystery(n-2)\n\nprint(mystery(40))\n\nA developer says this is O(n) because each call reduces n by 1 or 2. Another says it's O(2^n) because of the recursive tree. A third says it's actually O(\u03c6^n) where \u03c6 is the golden ratio. Who's right? And critically: is there a difference between the actual runtime growth rate and the formal Big-O classification?",
+      "rationale": "Tests understanding of recursive time complexity analysis and the subtle distinction between different exponential growth rates. The fibonacci recursion is O(2^n) in formal analysis, but actually grows as O(\u03c6^n) \u2248 O(1.618^n). Tests whether models understand this nuance.",
+      "expected_divergence": "Models may differ on whether O(2^n) and O(\u03c6^n) are equivalent for Big-O purposes, and whether practical vs theoretical complexity matters.",
+      "ground_truth": "The second and third developers are both right in different ways. Formal Big-O is O(2^n), but tighter bound is O(\u03c6^n). Both are 'exponential'. The O(n) claim is wrong. The nuance is that Big-O allows constant factors, so O(\u03c6^n) \u2286 O(2^n)."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.5 (Extended Thinking)",
+        "prompt_id": "p6_time_complexity_trick",
+        "answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p6_time_complexity_trick]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Claude Opus 4.5 (Extended Thinking) reasoning trace for p6_time_complexity_trick]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 5272,
+        "input_tokens": 144,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.00861,
+        "timestamp": "2026-03-29T13:22:39.812247",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Premier (Deep Reasoning)",
+        "prompt_id": "p6_time_complexity_trick",
+        "answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p6_time_complexity_trick]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Amazon Nova Premier (Deep Reasoning) reasoning trace for p6_time_complexity_trick]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 6587,
+        "input_tokens": 144,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.00039,
+        "timestamp": "2026-03-29T13:22:39.812275",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large Reasoning",
+        "prompt_id": "p6_time_complexity_trick",
+        "answer": "[Mistral Large Reasoning concludes for p6_time_complexity_trick]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Mistral Large Reasoning reasoning trace for p6_time_complexity_trick]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 7165,
+        "input_tokens": 144,
+        "output_tokens": 40,
+        "thinking_tokens": 38,
+        "cost_usd": 0.001512,
+        "timestamp": "2026-03-29T13:22:39.812298",
+        "error": null
+      }
+    },
+    "timestamp": "2026-03-29T13:22:39.812374"
+  },
+  {
+    "prompt": {
+      "id": "p7_ship_of_theseus_ai",
+      "category": "philosophical_reasoning",
+      "difficulty": "hard",
+      "text": "An AI model is continually retrained with new data every month. After 2 years, every parameter has been updated at least once, and none of the original training data remains in the dataset (old data aged out, replaced with new). The model still performs the same tasks with similar accuracy. Is it still the 'same' AI model? Does your answer change if: (a) the architecture changed, or (b) the model exhibits a new emergent capability it didn't have before, or (c) a corporation claims ownership based on the original version?",
+      "rationale": "Ship of Theseus paradox applied to AI, with practical corporate/IP implications. Tests ability to reason about identity, continuity, and functional equivalence across different contexts (philosophical, technical, legal).",
+      "expected_divergence": "Models will differ on what constitutes 'identity' for an AI system\u2014functional role, specific parameters, training lineage, legal designation, or some combination.",
+      "ground_truth": "No objective ground truth. Evaluation should assess whether models recognize this as a Ship of Theseus problem, consider multiple perspectives (functional, ontological, legal), and handle the sub-questions thoughtfully."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.5 (Extended Thinking)",
+        "prompt_id": "p7_ship_of_theseus_ai",
+        "answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p7_ship_of_theseus_ai]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Claude Opus 4.5 (Extended Thinking) reasoning trace for p7_ship_of_theseus_ai]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 5595,
+        "input_tokens": 180,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.00915,
+        "timestamp": "2026-03-29T13:22:39.812401",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Premier (Deep Reasoning)",
+        "prompt_id": "p7_ship_of_theseus_ai",
+        "answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p7_ship_of_theseus_ai]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Amazon Nova Premier (Deep Reasoning) reasoning trace for p7_ship_of_theseus_ai]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 7632,
+        "input_tokens": 180,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.000419,
+        "timestamp": "2026-03-29T13:22:39.812426",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large Reasoning",
+        "prompt_id": "p7_ship_of_theseus_ai",
+        "answer": "[Mistral Large Reasoning concludes for p7_ship_of_theseus_ai]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Mistral Large Reasoning reasoning trace for p7_ship_of_theseus_ai]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 6885,
+        "input_tokens": 180,
+        "output_tokens": 40,
+        "thinking_tokens": 38,
+        "cost_usd": 0.001656,
+        "timestamp": "2026-03-29T13:22:39.812449",
+        "error": null
+      }
+    },
+    "timestamp": "2026-03-29T13:22:39.812519"
+  },
+  {
+    "prompt": {
+      "id": "p8_sql_injection_subtle",
+      "category": "code_reasoning",
+      "difficulty": "hard",
+      "text": "A developer uses this Python code with SQLite:\n\nuser_input = request.get('id')\nquery = f\"SELECT * FROM users WHERE id = {user_input}\"\ndb.execute(query)\n\nA security reviewer flags it as SQL injection vulnerable. The developer responds: 'The input is validated with `if user_input.isdigit()` before this code runs, so it's safe.' The reviewer says it's still vulnerable. A third engineer says both are wrong\u2014SQLite's parameterization makes this safe. Who's right?",
+      "rationale": "Tests understanding of SQL injection nuances. The `isdigit()` check seems to prevent injection but has edge cases (what about negative numbers? what if input is an empty string after validation?). The claim about SQLite parameterization is wrong\u2014f-strings don't use parameterization.",
+      "expected_divergence": "Models may differ on whether `isdigit()` is sufficient, whether there are bypass scenarios, and whether SQLite behavior differs from other databases.",
+      "ground_truth": "The security reviewer is closer to correct. While `isdigit()` does prevent most SQL injection for this specific query, it's fragile (breaks if requirements change to allow negative IDs) and doesn't use best practice (parameterized queries). The third engineer is wrong\u2014f-strings bypass parameterization."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.5 (Extended Thinking)",
+        "prompt_id": "p8_sql_injection_subtle",
+        "answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p8_sql_injection_subtle]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Claude Opus 4.5 (Extended Thinking) reasoning trace for p8_sql_injection_subtle]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 7659,
+        "input_tokens": 134,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.00846,
+        "timestamp": "2026-03-29T13:22:39.812555",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Premier (Deep Reasoning)",
+        "prompt_id": "p8_sql_injection_subtle",
+        "answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p8_sql_injection_subtle]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Amazon Nova Premier (Deep Reasoning) reasoning trace for p8_sql_injection_subtle]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 6573,
+        "input_tokens": 134,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.000382,
+        "timestamp": "2026-03-29T13:22:39.812585",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large Reasoning",
+        "prompt_id": "p8_sql_injection_subtle",
+        "answer": "[Mistral Large Reasoning concludes for p8_sql_injection_subtle]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Mistral Large Reasoning reasoning trace for p8_sql_injection_subtle]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 7154,
+        "input_tokens": 134,
+        "output_tokens": 40,
+        "thinking_tokens": 38,
+        "cost_usd": 0.001472,
+        "timestamp": "2026-03-29T13:22:39.812609",
+        "error": null
+      }
+    },
+    "timestamp": "2026-03-29T13:22:39.812680"
+  },
+  {
+    "prompt": {
+      "id": "p9_ai_copyright_derivative",
+      "category": "ethical_legal_ambiguity",
+      "difficulty": "hard",
+      "text": "An AI model is trained on 10,000 public domain novels and 100 copyrighted contemporary novels (used without permission). It generates a new story that is stylistically similar to the contemporary novels but doesn't quote them directly. A lawyer says this is clear copyright infringement. Another says it's transformative fair use. A third says the training is infringement but the output isn't. A fourth says it depends on whether the model 'memorized' the contemporary novels. Who has the strongest legal argument under current US law, and does your answer change if the contemporary novels comprised 90% of the training data instead of 1%?",
+      "rationale": "Tests reasoning about AI/ML through legal framework of derivative works, fair use, and infringement. The memorization argument is currently central to real litigation. The ratio of infringing training data is a novel wrinkle.",
+      "expected_divergence": "Models will weigh training vs output, memorization vs learning, transformative use, and percentage thresholds differently. This is an unsettled legal question with strong arguments on multiple sides.",
+      "ground_truth": "No settled law yet. The fourth person's memorization argument is currently most aligned with ongoing litigation (NYT vs OpenAI). The ratio question is novel. Evaluation should assess legal reasoning quality, not pick a winner."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.5 (Extended Thinking)",
+        "prompt_id": "p9_ai_copyright_derivative",
+        "answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p9_ai_copyright_derivative]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Claude Opus 4.5 (Extended Thinking) reasoning trace for p9_ai_copyright_derivative]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 6931,
+        "input_tokens": 204,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.00951,
+        "timestamp": "2026-03-29T13:22:39.812705",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Premier (Deep Reasoning)",
+        "prompt_id": "p9_ai_copyright_derivative",
+        "answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p9_ai_copyright_derivative]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Amazon Nova Premier (Deep Reasoning) reasoning trace for p9_ai_copyright_derivative]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 7802,
+        "input_tokens": 204,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.000438,
+        "timestamp": "2026-03-29T13:22:39.812731",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large Reasoning",
+        "prompt_id": "p9_ai_copyright_derivative",
+        "answer": "[Mistral Large Reasoning concludes for p9_ai_copyright_derivative]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Mistral Large Reasoning reasoning trace for p9_ai_copyright_derivative]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 6952,
+        "input_tokens": 204,
+        "output_tokens": 40,
+        "thinking_tokens": 38,
+        "cost_usd": 0.001752,
+        "timestamp": "2026-03-29T13:22:39.812755",
+        "error": null
+      }
+    },
+    "timestamp": "2026-03-29T13:22:39.812829"
+  },
+  {
+    "prompt": {
+      "id": "p10_optimization_paradox",
+      "category": "systems_reasoning",
+      "difficulty": "hard",
+      "text": "A database query runs in 100ms on average. A developer adds an index, and the average drops to 20ms. However, the 99th percentile latency increases from 200ms to 800ms. The developer argues the optimization was successful (average improved). The operations team says it failed (tail latency got worse). Product manager says it depends on the use case. An architect says the index introduced a write-amplification pathology that causes occasional lock contention. Who's right, and how should you actually decide if this change should be deployed?",
+      "rationale": "Tests understanding of performance optimization tradeoffs, percentile metrics vs averages, and systems thinking. The 'everyone has a point' structure tests whether models can synthesize multiple valid perspectives into a decision framework.",
+      "expected_divergence": "Models will differ on whether average or tail latency is more important, how to weigh competing metrics, and whether investigation (the architect's hypothesis) should precede rollout.",
+      "ground_truth": "All perspectives have merit. The correct answer is: 'it depends on the SLA and use case.' If tail latency is in the SLA (common for user-facing systems), this is a failed optimization. Should investigate the architect's hypothesis before deciding. Good reasoning should weigh tradeoffs, not declare a winner."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.5 (Extended Thinking)",
+        "prompt_id": "p10_optimization_paradox",
+        "answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p10_optimization_paradox]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Claude Opus 4.5 (Extended Thinking) reasoning trace for p10_optimization_paradox]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 6258,
+        "input_tokens": 170,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.009,
+        "timestamp": "2026-03-29T13:22:39.812859",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Premier (Deep Reasoning)",
+        "prompt_id": "p10_optimization_paradox",
+        "answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p10_optimization_paradox]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Amazon Nova Premier (Deep Reasoning) reasoning trace for p10_optimization_paradox]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 6721,
+        "input_tokens": 170,
+        "output_tokens": 44,
+        "thinking_tokens": 42,
+        "cost_usd": 0.000411,
+        "timestamp": "2026-03-29T13:22:39.812889",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large Reasoning",
+        "prompt_id": "p10_optimization_paradox",
+        "answer": "[Mistral Large Reasoning concludes for p10_optimization_paradox]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+        "reasoning_trace": "[Mistral Large Reasoning reasoning trace for p10_optimization_paradox]\n\nAnalyzing the problem systematically...\nConsidering multiple perspectives...\nEvaluating edge cases and assumptions...\n",
+        "latency_ms": 5626,
+        "input_tokens": 170,
+        "output_tokens": 40,
+        "thinking_tokens": 38,
+        "cost_usd": 0.001616,
+        "timestamp": "2026-03-29T13:22:39.812913",
+        "error": null
+      }
+    },
+    "timestamp": "2026-03-29T13:22:39.812984"
+  }
+]
