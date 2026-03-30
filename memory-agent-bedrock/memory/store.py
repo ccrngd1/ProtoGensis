@@ -119,6 +119,145 @@ class MemoryStore:
         cur.execute("SELECT COUNT(*) FROM consolidations")
         return cur.fetchone()[0]
 
+    def delete_consolidations_referencing(self, memory_ids: List[str]) -> int:
+        """Delete consolidations that reference any of the given memory IDs.
+
+        Returns the number of consolidations deleted.
+        """
+        if not memory_ids:
+            return 0
+
+        cur = self.conn.cursor()
+        # Get all consolidations
+        cur.execute("SELECT id, memory_ids FROM consolidations")
+        to_delete = []
+
+        for row in cur.fetchall():
+            consolidation_memory_ids = json.loads(row["memory_ids"])
+            # Check if any of the memory_ids to delete are in this consolidation
+            if any(mid in consolidation_memory_ids for mid in memory_ids):
+                to_delete.append(row["id"])
+
+        # Delete the consolidations
+        if to_delete:
+            placeholders = ",".join("?" * len(to_delete))
+            cur.execute(f"DELETE FROM consolidations WHERE id IN ({placeholders})", to_delete)
+            self.conn.commit()
+
+        return len(to_delete)
+
+    # ------------------------------------------------------------------
+    # File Tracking
+    # ------------------------------------------------------------------
+
+    def get_processed_file(self, path: str) -> Optional[dict]:
+        """Get processed file record by path."""
+        cur = self.conn.cursor()
+        cur.execute("SELECT * FROM processed_files WHERE path = ?", (path,))
+        row = cur.fetchone()
+        if row:
+            return {
+                "path": row["path"],
+                "last_modified": row["last_modified"],
+                "last_processed": row["last_processed"],
+                "content_hash": row["content_hash"],
+                "memory_ids": json.loads(row["memory_ids"]),
+            }
+        return None
+
+    def add_processed_file(
+        self, path: str, content_hash: str, memory_ids: List[str]
+    ) -> None:
+        """Track a newly processed file."""
+        cur = self.conn.cursor()
+        now = datetime.utcnow().isoformat()
+        cur.execute(
+            """
+            INSERT INTO processed_files (path, last_modified, last_processed, content_hash, memory_ids)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (path, now, now, content_hash, json.dumps(memory_ids)),
+        )
+        self.conn.commit()
+
+    def update_processed_file(
+        self, path: str, content_hash: str, memory_ids: List[str]
+    ) -> None:
+        """Update processed file record after re-ingestion."""
+        cur = self.conn.cursor()
+        now = datetime.utcnow().isoformat()
+        cur.execute(
+            """
+            UPDATE processed_files
+            SET last_modified = ?, last_processed = ?, content_hash = ?, memory_ids = ?
+            WHERE path = ?
+            """,
+            (now, now, content_hash, json.dumps(memory_ids), path),
+        )
+        self.conn.commit()
+
+    def list_processed_files(self) -> List[dict]:
+        """Get all processed files with their metadata."""
+        from pathlib import Path
+        cur = self.conn.cursor()
+        cur.execute(
+            "SELECT * FROM processed_files ORDER BY last_processed DESC"
+        )
+        files = []
+        for row in cur.fetchall():
+            file_path = Path(row["path"])
+            memory_ids = json.loads(row["memory_ids"])
+            files.append({
+                "filename": file_path.name,
+                "path": row["path"],
+                "last_modified": row["last_modified"],
+                "last_processed": row["last_processed"],
+                "content_hash": row["content_hash"][:16] + "...",  # Truncate hash for readability
+                "memory_ids": memory_ids,
+                "memory_count": len(memory_ids),
+            })
+        return files
+
+    def count_processed_files(self) -> int:
+        """Get total count of processed files."""
+        cur = self.conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM processed_files")
+        return cur.fetchone()[0]
+
+    def delete_memories(self, memory_ids: List[str]) -> int:
+        """Delete memories by ID. Returns the number deleted."""
+        if not memory_ids:
+            return 0
+
+        cur = self.conn.cursor()
+        placeholders = ",".join("?" * len(memory_ids))
+        cur.execute(f"DELETE FROM memories WHERE id IN ({placeholders})", memory_ids)
+        self.conn.commit()
+        return len(memory_ids)
+
+    # ------------------------------------------------------------------
+    # Metadata
+    # ------------------------------------------------------------------
+
+    def get_metadata(self, key: str) -> Optional[str]:
+        """Get metadata value by key."""
+        cur = self.conn.cursor()
+        cur.execute("SELECT value FROM metadata WHERE key = ?", (key,))
+        row = cur.fetchone()
+        return row["value"] if row else None
+
+    def set_metadata(self, key: str, value: str) -> None:
+        """Set or update metadata key-value pair."""
+        cur = self.conn.cursor()
+        cur.execute(
+            """
+            INSERT INTO metadata (key, value) VALUES (?, ?)
+            ON CONFLICT(key) DO UPDATE SET value = excluded.value
+            """,
+            (key, value),
+        )
+        self.conn.commit()
+
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------

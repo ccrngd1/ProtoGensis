@@ -30,12 +30,17 @@ echo "  - Text: .txt, .md, .json, .csv, .log, .yaml, .yml"
 echo "  - Images: .png, .jpg, .jpeg, .gif, .webp"
 echo "  - PDFs: .pdf"
 echo ""
+echo "Configuration loaded from .env file"
 echo "============================================"
 echo ""
 
-# Enable file watcher
-export ENABLE_FILE_WATCHER=true
-export WATCH_DIR="$WATCH_DIR"
+# Create inbox directory if it doesn't exist
+mkdir -p "$WATCH_DIR"
+
+# Note: All configuration is loaded from .env file via python-dotenv
+# Override specific settings if needed:
+# export ENABLE_FILE_WATCHER=true
+# export WATCH_DIR="$WATCH_DIR"
 
 # Start server
 python -m uvicorn api.main:app --host 0.0.0.0 --port 8000

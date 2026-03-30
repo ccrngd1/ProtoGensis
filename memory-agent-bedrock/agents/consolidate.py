@@ -38,19 +38,29 @@ class ConsolidateAgent:
         self.min_memories = min_memories
         self.max_batch_size = max_batch_size
 
-    def run(self) -> Consolidation | None:
+    def run(self, force: bool = False) -> Consolidation | None:
         """Run one consolidation cycle.
+
+        Args:
+            force: If True, bypass min_memories check and consolidate if any memories exist
 
         Returns the Consolidation record created, or None if not enough memories.
         Processes at most max_batch_size memories per cycle to avoid context overflow.
         """
         all_unconsolidated = self.store.get_unconsolidated()
-        if len(all_unconsolidated) < self.min_memories:
+
+        # Check if we have enough memories to consolidate
+        if not force and len(all_unconsolidated) < self.min_memories:
             logger.info(
                 "Consolidation skipped: only %d unconsolidated memories (need %d).",
                 len(all_unconsolidated),
                 self.min_memories,
             )
+            return None
+
+        # If forced, require at least 1 memory
+        if force and len(all_unconsolidated) == 0:
+            logger.info("Consolidation skipped: no unconsolidated memories.")
             return None
 
         # Batch to avoid exceeding context window
@@ -69,9 +79,11 @@ class ConsolidateAgent:
             connections=data.get("connections", ""),
             insights=data.get("insights", ""),
         )
-        # Wrap both operations in a single transaction for atomicity
+        # Wrap all operations in a single transaction for atomicity
         with self.store.conn:
             self.store.add_consolidation(consolidation)
             self.store.mark_consolidated([m.id for m in memories])
+            # Update last consolidation timestamp
+            self.store.set_metadata("last_consolidation", consolidation.timestamp.isoformat())
         logger.info("Consolidation complete: %s", consolidation.id)
         return consolidation

@@ -64,7 +64,7 @@ Three specialist sub-agents share a single SQLite database. That's the whole thi
 
 **IngestAgent** takes raw text and calls Haiku to extract structured metadata: a summary, entities (names, places, things), topics, and an importance score from 0 to 1. That package goes into the `memories` table.
 
-**ConsolidateAgent** runs on a background timer (every 5 minutes by default). When 5 or more unconsolidated memories accumulate, it batches them and asks Haiku to find cross-cutting connections and generate insights. Think of it as the sleeping brain — processing during idle time, forming associations. Results land in a `consolidations` table.
+**ConsolidateAgent** runs with intelligent scheduling — at startup if any memories exist, on a threshold (5+ memories by default), and daily as a forced pass. When triggered, it batches unconsolidated memories and asks Haiku to find cross-cutting connections and generate insights. Think of it as the sleeping brain — processing during idle time, forming associations. Results land in a `consolidations` table. The system tracks the last consolidation timestamp to ensure regular processing even with low memory accumulation.
 
 **QueryAgent** reads recent memories plus consolidation insights into a single prompt and returns a synthesized answer with citation IDs.
 
@@ -72,13 +72,61 @@ The stack is Python, FastAPI, boto3, and SQLite. Zero infrastructure beyond an A
 
 ---
 
+## What Actually Gets Stored
+
+When you ingest text like "Met with Alice today. Q3 budget is approved — $2.4M," the system doesn't just dump that raw string into a database row.
+
+Instead, the IngestAgent sends it to Haiku and asks: what's important here? The LLM extracts structured metadata:
+
+```json
+{
+  "id": "a3f1c9d2-...",
+  "summary": "Alice confirmed Q3 budget approval of $2.4M",
+  "entities": ["Alice", "Q3 budget"],
+  "topics": ["finance", "meetings"],
+  "importance": 0.82,
+  "source": "notes",
+  "timestamp": "2026-03-27T14:23:15.123456+00:00",
+  "consolidated": 0
+}
+```
+
+That's it. No embeddings. No vectors. Just a UUID, a timestamp, LLM-extracted semantics, and a flag for whether it's been consolidated yet.
+
+The **`memories`** table holds these individual records. At ~300 tokens per memory when formatted into a prompt (including the metadata), you can fit roughly 650 memories in Haiku's 200K context window before hitting the ceiling. The system defaults to loading 50 at query time for speed and cost efficiency.
+
+The **`consolidations`** table is where things get interesting. When the ConsolidateAgent runs, it doesn't just summarize memories — it reasons over them. It finds patterns, draws connections, and generates insights about what the memories mean together. Those insights get stored as separate records:
+
+```json
+{
+  "id": "3c765a26-...",
+  "memory_ids": ["a3f1c9d2-...", "b7e4f8a1-...", "c9d2e5b3-..."],
+  "connections": "All three meetings with Alice mentioned budget concerns...",
+  "insights": "Budget oversight appears to be a recurring priority...",
+  "timestamp": "2026-03-27T14:28:00.000000+00:00"
+}
+```
+
+When you query, the system loads both the raw memories *and* the consolidation insights into the same prompt. The LLM reasons over both layers at once — recent facts plus synthesized patterns. That's how you get answers like "Alice has raised budget concerns in three separate meetings [memory:a3f1c9d2, memory:b7e4f8a1] and the pattern suggests this is a high priority [consolidation:3c765a26]."
+
+This two-table design is the entire persistence layer. A single SQLite file. No Redis. No Pinecone. No embedding pipeline. Just structured records that an LLM can reason over directly.
+
+---
+
 ## Seeing It in Action
+
+Configuration is handled via a `.env` file with sensible defaults. Copy the example and customize:
+
+```bash
+cp .env.example .env
+# Edit AWS credentials and other settings
+```
 
 Start the server:
 
 ```bash
-./scripts/run.sh
-# Sets up venv, installs deps, launches on :8000
+./scripts/run-with-watcher.sh
+# Sets up venv, installs deps, launches with file watcher enabled
 ```
 
 Ingest some text:
@@ -136,6 +184,85 @@ Those insights get written as a separate `consolidations` record. When you query
 The sleeping brain analogy from the original Google implementation is apt. During idle time, the system is processing rather than just waiting.
 
 For a personal tool, this matters. "You've had three meetings with Alice this month and all of them mentioned budget concerns" is more useful than three individual recall hits.
+
+---
+
+## Enhanced Consolidation: Beyond the Timer
+
+The original design ran consolidation on a simple threshold: wait for 5 memories, then consolidate. That works, but it left gaps.
+
+If you're ingesting sporadically — a note here, an image there — you might wait days before hitting the threshold. Meanwhile, those memories sit unconsolidated, meaning queries don't benefit from the pattern recognition the consolidation agent provides.
+
+The enhanced version uses three trigger modes:
+
+**Startup consolidation** runs immediately when the server starts. If there are any unconsolidated memories from the previous session, they get processed right away. No waiting for the threshold.
+
+**Threshold-based consolidation** is the original behavior: accumulate 5 memories (configurable), then consolidate. Still the primary mode for active use.
+
+**Daily forced consolidation** runs every 24 hours (configurable) if any unconsolidated memories exist, regardless of count. This ensures that even low-volume usage — a single note every few days — still gets consolidated within a day. The system tracks the last consolidation timestamp in a metadata table to enforce the schedule.
+
+The result: consolidation happens when it makes sense, not just when an arbitrary counter hits 5.
+
+All three modes are configurable via environment variables. Want aggressive consolidation? Set `DAILY_CONSOLIDATION_INTERVAL=3600` (1 hour). Want startup-only? Disable the daily mode. The system adapts to usage patterns rather than enforcing a rigid schedule.
+
+---
+
+## File Watching and Change Detection
+
+The API works great for programmatic ingestion. But for personal use, you want to point the system at a notes directory and let it watch.
+
+The file watcher runs two scan modes:
+
+**Quick scan** (every 60 seconds by default) checks for new files. Fast, no hash calculation, just: is this path in the `processed_files` table? If not, ingest it.
+
+**Full scan with change detection** (every 30 minutes by default) calculates SHA256 hashes of all tracked files and compares them to the stored values. If a file changed, the system deletes the old memories, deletes consolidations referencing them, re-ingests the file, and updates the tracking record.
+
+This means your memory system stays synced with your actual files. Edit a note in Obsidian, and within 30 minutes the agent's memory reflects the change. No duplicates. No stale data.
+
+The file watcher supports:
+- Text files (.txt, .md, .json, .csv, .log, .yaml, .yml)
+- Images (.png, .jpg, .jpeg, .gif, .webp) — analyzed via Claude Haiku's vision capabilities
+- PDFs (.pdf) — text extracted via PyPDF2
+
+Recursive scanning and directory exclusions are configurable. Point it at an Obsidian vault with `.obsidian` in the ignore list, and it ingests your notes while skipping metadata.
+
+The status endpoint now includes file tracking:
+
+```json
+{
+  "processed_files": {
+    "total_count": 3,
+    "files": [
+      {
+        "filename": "meeting-notes.md",
+        "last_modified": "2026-03-30T17:00:46",
+        "last_processed": "2026-03-30T17:00:46",
+        "content_hash": "ead7083de97650a2...",
+        "memory_ids": ["29c70909-..."],
+        "memory_count": 1
+      }
+    ]
+  }
+}
+```
+
+You can see at a glance what files have been ingested, when, and which memories they generated.
+
+---
+
+## Configuration: .env by Default
+
+Rather than exporting a dozen environment variables or passing flags, the system now loads a `.env` file at startup.
+
+```bash
+cp .env.example .env
+# Edit AWS credentials, consolidation intervals, file watcher settings
+./scripts/run-with-watcher.sh
+```
+
+All settings have sensible defaults. You can run it with zero configuration (beyond AWS credentials) and it works. Or tweak every interval and threshold if you want. The `.env.example` file documents every option with comments explaining what it does.
+
+This matters more than it sounds like it should. The difference between "export 12 variables and hope you got them all right" and "copy a file and edit the 2 lines you care about" is the difference between a project you use once and a project you actually run.
 
 ---
 
@@ -208,15 +335,22 @@ For personal use, this wins on every axis except scale. And for the scale questi
 
 ## What's Next
 
-The system works as a standalone API. A few natural extensions:
+The system works as a standalone API with intelligent consolidation, file watching, and change detection already built in. Natural extensions from here:
 
 **Importance-weighted query filtering.** Right now the query agent reads the N most recent memories. Filtering by importance score before building the context window would let higher-signal memories stay in play longer.
 
 **Delete and update endpoints.** The store is currently append-only. Personal data stores need a way to correct or remove memories. `DELETE /memory/{id}` is an obvious gap.
 
-**HTTP/SSE transport for consolidation.** The background thread works but isn't observable. Streaming consolidation events would make the "sleeping brain" behavior visible and debuggable.
+**HTTP/SSE transport for consolidation.** The background thread works but isn't observable via API. Streaming consolidation events would make the "sleeping brain" behavior visible and debuggable in real-time.
 
 **MCP integration.** Wrapping this as an MCP server would let any Claude-compatible client use it as persistent memory. That's the natural endpoint for a tool like this.
+
+**Already implemented:**
+- ✅ File watcher for automatic ingestion (text, images, PDFs)
+- ✅ Change detection via content hashing
+- ✅ Startup and daily consolidation
+- ✅ Status endpoint with file tracking
+- ✅ .env configuration system
 
 ---
 
@@ -227,11 +361,17 @@ The project is up on GitHub as part of the [Protogenesis series](https://github.
 ```bash
 git clone <repo>
 cd memory-agent-bedrock
+
+# Configure via .env file
+cp .env.example .env
+# Edit .env with your AWS credentials
+
+# Or export directly
 export AWS_ACCESS_KEY_ID=...
 export AWS_SECRET_ACCESS_KEY=...
 export AWS_REGION=us-east-1
-export BEDROCK_MODEL_ID=us.anthropic.claude-haiku-4-5-20251001-v1:0  # don't use the default
-./scripts/run.sh
+
+./scripts/run-with-watcher.sh
 ```
 
 20 tests pass. Three agents cooperate. No vector database anywhere.

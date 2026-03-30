@@ -34,11 +34,28 @@ class QueryResponse(BaseModel):
     answer: str
 
 
+class ProcessedFileInfo(BaseModel):
+    filename: str
+    path: str
+    last_modified: str
+    last_processed: str
+    content_hash: str
+    memory_ids: list[str]
+    memory_count: int
+
+
+class ProcessedFilesInfo(BaseModel):
+    total_count: int
+    files: list[ProcessedFileInfo]
+
+
 class StatusResponse(BaseModel):
     memory_count: int
     consolidation_count: int
     unconsolidated_count: int
     background_consolidation_running: bool
+    last_consolidation: str | None = None
+    processed_files: ProcessedFilesInfo
 
 
 # ------------------------------------------------------------------
@@ -84,9 +101,19 @@ async def status(request: Request) -> StatusResponse:
 
 
 @router.post("/consolidate", summary="Trigger manual consolidation")
-async def consolidate(request: Request):
+async def consolidate(request: Request, force: bool = False):
+    """Trigger manual consolidation.
+
+    Args:
+        force: If True, bypass min_memories threshold and consolidate any unconsolidated memories
+    """
     orc = _get_orc(request)
-    result = await asyncio.to_thread(orc.consolidate)
+
+    # Check if daily consolidation should run (unless force is explicitly True)
+    if not force and orc._should_run_daily_consolidation():
+        force = True
+
+    result = await asyncio.to_thread(orc.consolidate, force=force)
     if result is None:
         return {"message": "Not enough unconsolidated memories to consolidate", "consolidated": False}
     return {
