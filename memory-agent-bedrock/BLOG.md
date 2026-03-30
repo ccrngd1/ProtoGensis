@@ -1,26 +1,24 @@
-# I Replaced Vector DBs with Google's Memory Agent Pattern — Here's What Happened
+# I Replaced Vector DBs with Google's Memory Agent Pattern. Here's What Happened
 
 *Persistent AI memory without embeddings, Pinecone, or a PhD in similarity search.*
 
 ---
 
-**What this project is:** A persistent memory system for AI assistants that stores and retrieves memories using SQLite and direct LLM reasoning — no vector databases required.
-**The problem it solves:** Every time a conversation ends, the agent forgets everything — and the standard fix (vector databases + embeddings) is overkill for a personal tool.
-**The key insight:** Vector search exists to work around small context windows — but with 200K token windows, you can just load your memories directly and let the model reason over them.
+**What this project is:** A persistent memory system for AI assistants that stores and retrieves memories using SQLite and direct LLM reasoning. No vector databases required.
+**The problem it solves:** Every time a conversation ends, the agent forgets everything, and the standard fix (vector databases + embeddings) is overkill for a personal tool.
+**The key insight:** Vector search exists to work around small context windows. With 200K token windows, you can just load your memories directly and let the model reason over them.
 
 ---
 
 ## The Setup
 
-Every time I start building a personal AI assistant, I hit the same wall: memory.
+I take detailed notes, both in my personal life and at work. I used to scrawl into notebooks that would get misplaced, or stuck on a shelf and never referenced again. A few years ago, I moved to Obsidian for everything, and it has been fantastic. In the last year, I've started hooking up genAI to my notes. Today I run both Claude Code (for my personal notes) and Kiro-CLI (for my work notes). I can ask questions, get them to do roll ups for leadership, track my goals, write my reports. But it's always had one big Achilles' heel: memory. When I ask about a meeting, it uses an Obsidian MCP to search my vault. It's time consuming, error prone, and I need it to be better.
 
-Conversations end. Context resets. The agent forgets everything. You ask it about a meeting from last week and it shrugs.
-
-The obvious fix is a vector database. Embed the memories. Store the vectors. Do similarity search at query time. It works. But it also means a Redis stack, or a Pinecone account, or a locally-running Chroma instance, plus an embedding API, plus pipeline code to stitch it all together. For a personal tool, that's a lot.
+The obvious fix is a vector database. Embed the memories. Store the vectors. Do similarity search at query time. It works. But it also means a Redis stack, or a Pinecone account, or a locally-running Chroma instance, plus an embedding API, plus pipeline code to stitch it all together. For a personal tool, that's a lot, and there is a real risk that it won't work exactly like I need it to. I need to ask, what happened on 'Feb 1 2026' or 'recap the last meeting I had with this person', things that embeddings and RAG aren't great with.
 
 Then I found Google's [always-on-memory-agent](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/gemini/agents/always-on-memory-agent). The idea is deceptively simple: don't do similarity search at all. Just give the LLM your recent memories directly and let it reason over them.
 
-I wanted to know if that held up on AWS Bedrock with Claude Haiku 4.5. So I built it.
+I wanted to know if that held up on AWS Bedrock with Claude Haiku 4.5. So I built it (along with Claude Code of course).
 
 ---
 
@@ -32,7 +30,7 @@ Older models topped out at 4K or 8K tokens. You couldn't fit more than a few doc
 
 Haiku 4.5 has a 200K context window.
 
-A structured memory — summary, entities, topics, importance score — runs about 300 tokens. Do the math: 200,000 / 300 = roughly 666 memories before you hit the limit. For a personal assistant that tracks meetings, notes, and conversations, that's months of context.
+A structured memory (summary, entities, topics, importance score) runs about 300 tokens. Do the math: 200,000 / 300 = roughly 666 memories before you hit the limit. For a personal assistant that tracks meetings, notes, and conversations, that's months of context.
 
 No embeddings. No vector index. No cosine similarity. Just: here are your memories, what do you know about this?
 
@@ -64,7 +62,7 @@ Three specialist sub-agents share a single SQLite database. That's the whole thi
 
 **IngestAgent** takes raw text and calls Haiku to extract structured metadata: a summary, entities (names, places, things), topics, and an importance score from 0 to 1. That package goes into the `memories` table.
 
-**ConsolidateAgent** runs with intelligent scheduling — at startup if any memories exist, on a threshold (5+ memories by default), and daily as a forced pass. When triggered, it batches unconsolidated memories and asks Haiku to find cross-cutting connections and generate insights. Think of it as the sleeping brain — processing during idle time, forming associations. Results land in a `consolidations` table. The system tracks the last consolidation timestamp to ensure regular processing even with low memory accumulation.
+**ConsolidateAgent** runs with intelligent scheduling: at startup if any memories exist, on a threshold (5+ memories by default), and daily as a forced pass. When triggered, it batches unconsolidated memories and asks Haiku to find cross-cutting connections and generate insights. Think of it as the sleeping brain, processing during idle time, forming associations. Results land in a `consolidations` table. The system tracks the last consolidation timestamp to ensure regular processing even with low memory accumulation.
 
 **QueryAgent** reads recent memories plus consolidation insights into a single prompt and returns a synthesized answer with citation IDs.
 
@@ -74,7 +72,7 @@ The stack is Python, FastAPI, boto3, and SQLite. Zero infrastructure beyond an A
 
 ## What Actually Gets Stored
 
-When you ingest text like "Met with Alice today. Q3 budget is approved — $2.4M," the system doesn't just dump that raw string into a database row.
+When you ingest text like "Met with Alice today. Q3 budget is approved, $2.4M," the system doesn't just dump that raw string into a database row.
 
 Instead, the IngestAgent sends it to Haiku and asks: what's important here? The LLM extracts structured metadata:
 
@@ -95,7 +93,7 @@ That's it. No embeddings. No vectors. Just a UUID, a timestamp, LLM-extracted se
 
 The **`memories`** table holds these individual records. At ~300 tokens per memory when formatted into a prompt (including the metadata), you can fit roughly 650 memories in Haiku's 200K context window before hitting the ceiling. The system defaults to loading 50 at query time for speed and cost efficiency.
 
-The **`consolidations`** table is where things get interesting. When the ConsolidateAgent runs, it doesn't just summarize memories — it reasons over them. It finds patterns, draws connections, and generates insights about what the memories mean together. Those insights get stored as separate records:
+The **`consolidations`** table is where things get interesting. When the ConsolidateAgent runs, it doesn't just summarize memories. It reasons over them. It finds patterns, draws connections, and generates insights about what the memories mean together. Those insights get stored as separate records:
 
 ```json
 {
@@ -107,7 +105,7 @@ The **`consolidations`** table is where things get interesting. When the Consoli
 }
 ```
 
-When you query, the system loads both the raw memories *and* the consolidation insights into the same prompt. The LLM reasons over both layers at once — recent facts plus synthesized patterns. That's how you get answers like "Alice has raised budget concerns in three separate meetings [memory:a3f1c9d2, memory:b7e4f8a1] and the pattern suggests this is a high priority [consolidation:3c765a26]."
+When you query, the system loads both the raw memories *and* the consolidation insights into the same prompt. The LLM reasons over both layers at once: recent facts plus synthesized patterns. That's how you get answers like "Alice has raised budget concerns in three separate meetings [memory:a3f1c9d2, memory:b7e4f8a1] and the pattern suggests this is a high priority [consolidation:3c765a26]."
 
 This two-table design is the entire persistence layer. A single SQLite file. No Redis. No Pinecone. No embedding pipeline. Just structured records that an LLM can reason over directly.
 
@@ -134,7 +132,7 @@ Ingest some text:
 ```bash
 curl -X POST http://localhost:8000/ingest \
   -H "Content-Type: application/json" \
-  -d '{"text": "Met with Alice today. Q3 budget is approved — $2.4M.", "source": "notes"}'
+  -d '{"text": "Met with Alice today. Q3 budget is approved, $2.4M.", "source": "notes"}'
 ```
 
 Response:
@@ -175,11 +173,9 @@ python cli.py status       # see memory count, consolidation state
 
 ## What the Consolidation Agent Actually Does
 
-This is the part I find most interesting.
-
 Most memory systems are purely retrieval: store, search, return. The consolidation agent does something different. It reads a batch of unconsolidated memories and asks: what connects these? What patterns emerge? What insights follow from them together?
 
-Those insights get written as a separate `consolidations` record. When you query, you get both the raw memories *and* the synthesized insights. The agent isn't just recalling — it's reasoning.
+Those insights get written as a separate `consolidations` record. When you query, you get both the raw memories *and* the synthesized insights. The agent isn't just recalling. It's reasoning.
 
 The sleeping brain analogy from the original Google implementation is apt. During idle time, the system is processing rather than just waiting.
 
@@ -191,19 +187,13 @@ For a personal tool, this matters. "You've had three meetings with Alice this mo
 
 The original design ran consolidation on a simple threshold: wait for 5 memories, then consolidate. That works, but it left gaps.
 
-If you're ingesting sporadically — a note here, an image there — you might wait days before hitting the threshold. Meanwhile, those memories sit unconsolidated, meaning queries don't benefit from the pattern recognition the consolidation agent provides.
+If you're only ingesting sporadically, a note here, an image there, you might wait days before hitting the threshold. Meanwhile, those memories sit unconsolidated, meaning queries don't benefit from the pattern recognition the consolidation agent provides.
 
-The enhanced version uses three trigger modes:
+The fix was to add two more triggers. When the server starts, it checks for unconsolidated memories from the previous session and processes them immediately. No waiting. And on a daily timer (configurable), it forces a consolidation pass regardless of count, so even a single note per week still gets consolidated within 24 hours.
 
-**Startup consolidation** runs immediately when the server starts. If there are any unconsolidated memories from the previous session, they get processed right away. No waiting for the threshold.
+The original threshold-based mode still runs for active use. But now there's a safety net underneath it. If you're actively ingesting, the threshold catches it. If you're not, the daily pass does. And on restart, nothing falls through the cracks.
 
-**Threshold-based consolidation** is the original behavior: accumulate 5 memories (configurable), then consolidate. Still the primary mode for active use.
-
-**Daily forced consolidation** runs every 24 hours (configurable) if any unconsolidated memories exist, regardless of count. This ensures that even low-volume usage — a single note every few days — still gets consolidated within a day. The system tracks the last consolidation timestamp in a metadata table to enforce the schedule.
-
-The result: consolidation happens when it makes sense, not just when an arbitrary counter hits 5.
-
-All three modes are configurable via environment variables. Want aggressive consolidation? Set `DAILY_CONSOLIDATION_INTERVAL=3600` (1 hour). Want startup-only? Disable the daily mode. The system adapts to usage patterns rather than enforcing a rigid schedule.
+All three modes are configurable. Want aggressive consolidation? Set `DAILY_CONSOLIDATION_INTERVAL=3600`. Want startup-only? Disable the daily mode. The system adapts to how you actually use it.
 
 ---
 
@@ -211,42 +201,16 @@ All three modes are configurable via environment variables. Want aggressive cons
 
 The API works great for programmatic ingestion. But for personal use, you want to point the system at a notes directory and let it watch.
 
-The file watcher runs two scan modes:
+I have an Obsidian vault with hundreds of notes. I don't want to manually ingest each one. I want to point the watcher at the vault, add `.obsidian` to the ignore list, and let it handle the rest. That's what this does.
 
-**Quick scan** (every 60 seconds by default) checks for new files. Fast, no hash calculation, just: is this path in the `processed_files` table? If not, ingest it.
-
-**Full scan with change detection** (every 30 minutes by default) calculates SHA256 hashes of all tracked files and compares them to the stored values. If a file changed, the system deletes the old memories, deletes consolidations referencing them, re-ingests the file, and updates the tracking record.
-
-This means your memory system stays synced with your actual files. Edit a note in Obsidian, and within 30 minutes the agent's memory reflects the change. No duplicates. No stale data.
+On startup, the watcher scans the directory and ingests everything it hasn't seen before. After that, it runs two modes in the background. A quick scan every 60 seconds checks for new files (fast, no hash calculation, just "is this path in the database?"). A full scan every 30 minutes calculates SHA256 hashes and compares them to stored values. If a file changed, the system deletes the old memories, cleans up any consolidations that referenced them, re-ingests the new version, and updates the tracking record. No duplicates. No stale data.
 
 The file watcher supports:
 - Text files (.txt, .md, .json, .csv, .log, .yaml, .yml)
-- Images (.png, .jpg, .jpeg, .gif, .webp) — analyzed via Claude Haiku's vision capabilities
-- PDFs (.pdf) — text extracted via PyPDF2
+- Images (.png, .jpg, .jpeg, .gif, .webp), analyzed via Claude Haiku's vision capabilities
+- PDFs (.pdf), text extracted via PyPDF2
 
-Recursive scanning and directory exclusions are configurable. Point it at an Obsidian vault with `.obsidian` in the ignore list, and it ingests your notes while skipping metadata.
-
-The status endpoint now includes file tracking:
-
-```json
-{
-  "processed_files": {
-    "total_count": 3,
-    "files": [
-      {
-        "filename": "meeting-notes.md",
-        "last_modified": "2026-03-30T17:00:46",
-        "last_processed": "2026-03-30T17:00:46",
-        "content_hash": "ead7083de97650a2...",
-        "memory_ids": ["29c70909-..."],
-        "memory_count": 1
-      }
-    ]
-  }
-}
-```
-
-You can see at a glance what files have been ingested, when, and which memories they generated.
+Recursive scanning and directory exclusions are configurable. Edit a note in Obsidian, and within 30 minutes the agent's memory reflects the change.
 
 ---
 
@@ -272,26 +236,25 @@ The code review caught two issues that would bite you immediately on a real AWS 
 
 **Bug 1: Invalid default model ID**
 
-The default Bedrock model ID in `bedrock_client.py` uses a `global.` prefix:
+The original default Bedrock model ID in `bedrock_client.py` used a `global.` prefix:
 
 ```python
+# Original (broken):
 MODEL_ID = os.getenv(
     "BEDROCK_MODEL_ID",
     "amazon-bedrock/global.anthropic.claude-haiku-4-5-20251001-v1:0",
 )
-_RAW_MODEL_ID = MODEL_ID.removeprefix("amazon-bedrock/")
-# Sends: "global.anthropic.claude-haiku-4-5-20251001-v1:0" to Bedrock
 ```
 
-Bedrock doesn't recognize `global.` as a valid prefix. Your first real API call fails. The tests all mock boto3, so this never surfaced in the test suite.
+Bedrock doesn't recognize `global.` as a valid prefix. The first real API call would fail. The tests all mock boto3, so this never surfaced in the test suite.
 
-The fix is straightforward: use `us.anthropic.claude-haiku-4-5-20251001-v1:0` (a valid cross-region inference profile) or the direct model ID. Set `BEDROCK_MODEL_ID` in your environment and don't rely on the default.
+The fix: swap to `us.anthropic.claude-haiku-4-5-20251001-v1:0` (a valid cross-region inference profile). The default is now correct in the codebase, but the lesson stands. Mocked tests won't catch invalid model IDs.
 
 **Bug 2: The context window math was wrong**
 
 The README originally claimed the system could handle "~5,000 memories × 100 tokens each." Neither number held up under scrutiny.
 
-A real memory entry — with UUID, summary, entities, topics, and importance score — runs closer to 300 tokens. At 300 tokens per memory, Haiku's 200K context holds about 666 memories max before you hit the limit. The `QueryAgent` was using a `limit=2000` by default, which would blow past the context window by 3x once any serious memory accumulation happened.
+A real memory entry, with UUID, summary, entities, topics, and importance score, runs closer to 300 tokens. At 300 tokens per memory, Haiku's 200K context holds about 666 memories max before you hit the limit. The `QueryAgent` was using a `limit=2000` by default, which would blow past the context window by 3x once any serious memory accumulation happened.
 
 The fix: cap the query limit at around 50 memories for normal use (fast, cheap, reliable) with a hard ceiling around 600 for power users. The README now reflects the corrected math. The architecture still works. The original claim just needed honest numbers.
 
@@ -305,7 +268,7 @@ Here's the honest version of the scalability picture:
 
 For a personal assistant, 600 memories covers a lot of ground. That's months of notes, conversations, and context at normal usage rates.
 
-For something heavier, the consolidation agent provides a path forward. Insights are a compressed representation of batches of memories. The query context can lean on consolidations for older material while using raw memories for recent ones. You're not throwing away history — you're summarizing it.
+For something heavier, the consolidation agent provides a path forward. Insights are a compressed representation of batches of memories. The query context can lean on consolidations for older material while using raw memories for recent ones. You're not throwing away history. You're summarizing it.
 
 The ceiling isn't as high as the original README implied. But for the use case (personal, persistent, conversational memory), it's high enough.
 
@@ -317,7 +280,7 @@ There's a simpler answer to the question of whether you need embeddings for pers
 
 Vector search is genuinely necessary when you have millions of documents and can't fit the relevant ones in context. It's a retrieval optimization for large-scale problems.
 
-At personal scale — hundreds of memories, not millions — it's overhead. You're running an embedding pipeline, paying for the API calls, managing the index, and implementing similarity search to solve a problem that a 200K context window already solves.
+At personal scale, hundreds of memories, not millions, it's overhead. You're running an embedding pipeline, paying for the API calls, managing the index, and implementing similarity search to solve a problem that a 200K context window already solves.
 
 The tradeoffs:
 
@@ -333,9 +296,29 @@ For personal use, this wins on every axis except scale. And for the scale questi
 
 ---
 
+## Integrations: Making It Useful Beyond curl
+
+curl works. But you're not going to curl your memory system at 2am when you have an idea. The project ships with two integration paths.
+
+**Claude Code skill.** A native skill that auto-activates when relevant. Say "remember that Alice approved the Q3 budget" and it stores it without you needing to invoke anything. Ask "what did Alice say about the budget?" next week and it checks memory before answering. Installation is one script (`integrations/claude-code-skill/install.sh`). It handles ingestion, queries, file uploads, and status checks through natural conversation.
+
+**CLI.** For terminal users or scripting:
+
+```bash
+python cli.py ingest "Paris is the capital of France." --source wikipedia
+python cli.py query "What do you know about France?"
+python cli.py consolidate
+python cli.py status
+python cli.py list --limit 10
+```
+
+The CLI talks to the same SQLite database, so you can mix API, CLI, and skill usage interchangeably. Ingest from a script, query from Claude Code, check status from the terminal. It all hits the same store.
+
+---
+
 ## What's Next
 
-The system works as a standalone API with intelligent consolidation, file watching, and change detection already built in. Natural extensions from here:
+The system works as a standalone API with intelligent consolidation, file watching, change detection, and tool integrations already built in. Natural extensions from here:
 
 **Importance-weighted query filtering.** Right now the query agent reads the N most recent memories. Filtering by importance score before building the context window would let higher-signal memories stay in play longer.
 
@@ -351,12 +334,14 @@ The system works as a standalone API with intelligent consolidation, file watchi
 - ✅ Startup and daily consolidation
 - ✅ Status endpoint with file tracking
 - ✅ .env configuration system
+- ✅ Claude Code skill for seamless cross-session memory (auto-activates when relevant)
+- ✅ CLI interface (`cli.py`) for terminal-based ingestion, queries, and management
 
 ---
 
 ## Try It
 
-The project is up on GitHub as part of the [Protogenesis series](https://github.com). It's Python with no exotic dependencies — just boto3, FastAPI, and SQLite.
+The project is up on GitHub as part of the [Protogenesis series](https://github.com). It's Python with no exotic dependencies: boto3, FastAPI, and SQLite.
 
 ```bash
 git clone <repo>
