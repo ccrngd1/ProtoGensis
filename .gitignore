@@ -316,3 +316,4 @@ pyrightconfig.json
 .claude/
 .openclaw/
 .mastercontrol/
+cabal-evals/

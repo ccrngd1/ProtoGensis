@@ -34,14 +34,14 @@ def _build_prompt(question: str, memories: List[Memory], consolidations: List[Co
 
 
 class QueryAgent:
-    def __init__(self, store: MemoryStore, max_memories: int = 50) -> None:
+    def __init__(self, store: MemoryStore, max_memories: int = 400) -> None:
         self.store = store
         self.max_memories = max_memories
 
     def query(self, question: str) -> str:
         """Answer *question* using stored memories and consolidations.
 
-        Limits to max_memories (default 50) to avoid exceeding context window.
+        Limits to max_memories (default 400) to avoid exceeding context window.
         At ~300 tokens/memory, 200K context holds ~650 memories max, but we keep
         a safe margin for the prompt structure and consolidations.
         """

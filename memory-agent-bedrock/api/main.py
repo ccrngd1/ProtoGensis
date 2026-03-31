@@ -35,6 +35,7 @@ def get_orchestrator() -> Orchestrator:
             daily_consolidation_interval=int(os.getenv("DAILY_CONSOLIDATION_INTERVAL", "86400")),
             enable_startup_consolidation=os.getenv("ENABLE_STARTUP_CONSOLIDATION", "true").lower() in ("true", "1", "yes"),
             enable_daily_consolidation=os.getenv("ENABLE_DAILY_CONSOLIDATION", "true").lower() in ("true", "1", "yes"),
+            max_memories_query=int(os.getenv("MAX_MEMORIES_QUERY", "400")),
         )
     return _orchestrator
 

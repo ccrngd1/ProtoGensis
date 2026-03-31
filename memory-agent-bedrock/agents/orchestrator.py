@@ -26,6 +26,7 @@ class Orchestrator:
         daily_consolidation_interval: int = 86400,  # 24 hours in seconds
         enable_startup_consolidation: bool = True,
         enable_daily_consolidation: bool = True,
+        max_memories_query: int = 400,
     ) -> None:
         self.store = MemoryStore(db_path=db_path)
         self.ingest_agent = IngestAgent(store=self.store)
@@ -33,7 +34,7 @@ class Orchestrator:
             store=self.store,
             min_memories=min_memories_for_consolidation,
         )
-        self.query_agent = QueryAgent(store=self.store)
+        self.query_agent = QueryAgent(store=self.store, max_memories=max_memories_query)
 
         self._consolidation_interval = consolidation_interval
         self._daily_consolidation_interval = daily_consolidation_interval
