@@ -6,9 +6,9 @@ from pathlib import Path
 from datetime import datetime
 
 # Load results from all three experiments
-thinking_models_path = Path("ensemble-thinking-models/results/responses.json")
-moa_path = Path("ensemble-moa-bedrock-guide/results/benchmark_results.json")
-persona_path = Path("ensemble-persona-orchestrator/results/persona_responses.json")
+thinking_models_path = Path("../ensemble-thinking-models/results/responses.json")
+moa_path = Path("../ensemble-moa-bedrock-guide/results/benchmark_results.json")
+persona_path = Path("../ensemble-persona-orchestrator/results/persona_responses.json")
 
 print("Loading results...")
 
@@ -71,7 +71,7 @@ with open("RESULTS.md", "w") as f:
     f.write(f"- Extended thinking on Opus provides detailed step-by-step reasoning\n")
     f.write(f"- Nova Pro offers cost-effective mid-tier performance\n")
     f.write(f"- Sonnet 4.6 provides strong reasoning at reasonable cost\n\n")
-    f.write(f"**Output:** `ensemble-thinking-models/results/responses.json`\n\n")
+    f.write(f"**Output:** `../ensemble-thinking-models/results/responses.json`\n\n")
     f.write("---\n\n")
 
     # Experiment 2: MoA
@@ -105,7 +105,7 @@ with open("RESULTS.md", "w") as f:
     f.write(f"- MoA ultra-cheap ensemble costs ~5x a single Nova Lite call but provides multi-perspective analysis\n")
     f.write(f"- Code-generation recipe balances cost and quality effectively\n")
     f.write(f"- Reasoning recipe provides most thorough analysis at higher cost\n\n")
-    f.write(f"**Output:** `ensemble-moa-bedrock-guide/results/benchmark_results.json`\n\n")
+    f.write(f"**Output:** `../ensemble-moa-bedrock-guide/results/benchmark_results.json`\n\n")
     f.write("---\n\n")
 
     # Experiment 3: Persona Orchestrator
@@ -122,7 +122,7 @@ with open("RESULTS.md", "w") as f:
     f.write("- Parallel persona execution enables diverse perspective analysis\n")
     f.write("- Each persona applies its unique reasoning framework\n")
     f.write("- System provides complementary viewpoints for decision-making\n\n")
-    f.write(f"**Output:** `ensemble-persona-orchestrator/results/persona_responses.json`\n\n")
+    f.write(f"**Output:** `../ensemble-persona-orchestrator/results/persona_responses.json`\n\n")
     f.write("---\n\n")
 
     # Summary
