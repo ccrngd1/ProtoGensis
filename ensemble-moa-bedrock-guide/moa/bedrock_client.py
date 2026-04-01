@@ -8,10 +8,10 @@ import sys
 import os
 from typing import Dict
 
-# Add parent directory to path to import shared module
+# Add parent directory to path to import ensemble_shared module
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
-from shared.bedrock_client import BedrockClient as SharedBedrockClient, calculate_cost
+from ensemble_shared.bedrock_client import BedrockClient as SharedBedrockClient, calculate_cost
 
 
 class BedrockClient:

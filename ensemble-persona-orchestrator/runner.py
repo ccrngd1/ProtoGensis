@@ -11,10 +11,10 @@ from pathlib import Path
 from typing import Dict, List, Optional
 from dataclasses import dataclass, asdict
 
-# Add parent directory to path to import shared module
+# Add parent directory to path to import ensemble_shared module
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from shared.bedrock_client import BedrockClient, calculate_cost
+from ensemble_shared.bedrock_client import BedrockClient, calculate_cost
 
 
 @dataclass
