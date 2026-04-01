@@ -15,13 +15,12 @@ from orchestrator import Orchestrator
 from diversity import measure_diversity, print_diversity_report
 
 
-def run_full_experiment(prompt: str, mock_mode: bool = True, output_file: str = None):
+def run_full_experiment(prompt: str, output_file: str = None):
     """
     Run complete experiment: personas → orchestration → diversity analysis
 
     Args:
         prompt: The question to analyze
-        mock_mode: If True, use mock responses (no Bedrock calls)
         output_file: Optional path to save results JSON
     """
     print("\n" + "="*80)
@@ -32,7 +31,7 @@ def run_full_experiment(prompt: str, mock_mode: bool = True, output_file: str = 
 
     # Step 1: Run prompt through all personas
     print("STEP 1: Running prompt through all personas...")
-    runner = PersonaRunner(mock_mode=mock_mode)
+    runner = PersonaRunner()
     ensemble_result = runner.run_ensemble_sync(prompt)
 
     # Step 2: Measure diversity
@@ -42,7 +41,7 @@ def run_full_experiment(prompt: str, mock_mode: bool = True, output_file: str = 
 
     # Step 3: Orchestrate with all strategies
     print("\nSTEP 3: Orchestrating responses with all strategies...")
-    orchestrator = Orchestrator(mock_mode=mock_mode)
+    orchestrator = Orchestrator()
     orchestration_result = orchestrator.orchestrate_all_strategies_sync(
         prompt,
         ensemble_result['responses']
@@ -56,7 +55,7 @@ def run_full_experiment(prompt: str, mock_mode: bool = True, output_file: str = 
             "prompt": prompt,
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
             "total_time_seconds": total_time,
-            "mock_mode": mock_mode
+            "mock_mode": False
         },
         "persona_responses": ensemble_result,
         "diversity_metrics": {
@@ -105,12 +104,11 @@ def run_full_experiment(prompt: str, mock_mode: bool = True, output_file: str = 
     return full_result
 
 
-def run_benchmark_suite(mock_mode: bool = True, prompt_id: str = None):
+def run_benchmark_suite(prompt_id: str = None):
     """
     Run all benchmark prompts and generate comparison report
 
     Args:
-        mock_mode: If True, use mock responses
         prompt_id: If provided, run only this specific prompt
     """
     # Load benchmark prompts
@@ -142,7 +140,6 @@ def run_benchmark_suite(mock_mode: bool = True, prompt_id: str = None):
 
         result = run_full_experiment(
             prompt=prompt_data['prompt'],
-            mock_mode=mock_mode,
             output_file=output_file
         )
 
@@ -234,15 +231,13 @@ def main():
 
     args = parser.parse_args()
 
-    mock_mode = not args.live
-
+    
     if args.benchmark:
-        run_benchmark_suite(mock_mode=mock_mode, prompt_id=args.prompt_id)
+        run_benchmark_suite(prompt_id=args.prompt_id)
     elif args.prompt:
         output_file = args.output or f"results/experiment_{int(time.time())}.json"
         run_full_experiment(
             prompt=args.prompt,
-            mock_mode=mock_mode,
             output_file=output_file
         )
     else:
@@ -258,7 +253,6 @@ def main():
         if prompt:
             run_full_experiment(
                 prompt=prompt,
-                mock_mode=mock_mode,
                 output_file="results/interactive_result.json"
             )
         else:

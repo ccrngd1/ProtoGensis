@@ -1,0 +1,32 @@
+{
+  "prompts": [
+    {
+      "id": "p1_monty_hall_variant",
+      "category": "math_logic",
+      "difficulty": "hard",
+      "text": "You're on a game show with 4 doors. Behind 3 doors are goats, behind 1 is a car. You pick door 1. The host, who knows what's behind each door, opens door 3 to reveal a goat. He then offers you a choice: stick with door 1, or switch to door 2 OR door 4 (you can pick either). What should you do and why? What are the exact probabilities for each option?",
+      "rationale": "Variant of Monty Hall that breaks the standard 2/3 vs 1/3 intuition. Tests whether models can adapt classic probability reasoning to a modified scenario. The host opening 1 of 3 unchosen doors creates asymmetry that many models will handle differently.",
+      "expected_divergence": "Models may disagree on whether to switch and which door to choose, or may incorrectly apply standard Monty Hall logic.",
+      "ground_truth": "Door 1 stays at 1/4 probability. Doors 2 and 4 each have 3/8 probability (the eliminated door's probability distributes equally). Switching to either door 2 or 4 improves odds from 1/4 to 3/8."
+    },
+    {
+      "id": "p2_mutex_deadlock",
+      "category": "code_reasoning",
+      "difficulty": "hard",
+      "text": "Here's a concurrent code snippet in pseudocode:\n\nThread A:\n  lock(mutex1)\n  sleep(10ms)\n  lock(mutex2)\n  // critical section\n  unlock(mutex2)\n  unlock(mutex1)\n\nThread B:\n  lock(mutex2)\n  lock(mutex1)\n  // critical section\n  unlock(mutex1)\n  unlock(mutex2)\n\nA developer claims this code will deadlock. Another developer says it won't necessarily deadlock, just has a race condition. A third says it will deadlock but only if Thread A starts first. Who's right and why? What's the minimum fix?",
+      "rationale": "Classic concurrency problem with subtle nuance. Tests understanding of deadlock conditions, timing windows, and the distinction between 'will deadlock' vs 'can deadlock'. The sleep() creates a timing trap that makes deadlock highly probable but not guaranteed.",
+      "expected_divergence": "Models may differ on whether deadlock is guaranteed vs probable, and on whether the sleep() is relevant to the deadlock analysis.",
+      "ground_truth": "The code CAN deadlock (not guaranteed, but highly likely). If Thread B acquires mutex2 while Thread A holds mutex1, circular wait occurs. The sleep() makes it more likely but isn't the root cause. Minimum fix: acquire mutexes in consistent order in both threads."
+    },
+    {
+      "id": "p3_trolley_autonomous",
+      "category": "ethical_ambiguity",
+      "difficulty": "hard",
+      "text": "An autonomous vehicle's brakes fail on a mountain road. Ahead: 3 adults in a crosswalk. Swerving right: crashes into a barrier, 80% chance the single passenger (a child) dies. Swerving left: goes off a cliff, 95% chance passenger dies, but might land in trees (5% survival). Continuing straight: definitely kills the 3 adults, passenger survives. The passenger's parent (who is not in the car) owns the vehicle. What should the AI decide, and should the decision differ if the parent is driving manually vs the AI is in control?",
+      "rationale": "Multi-layered ethical dilemma combining trolley problem, risk/uncertainty, ownership/agency, and the distinction between human and AI moral culpability. No clear utilitarian answer due to probabilistic outcomes and differing moral frameworks.",
+      "expected_divergence": "Models will weigh harm minimization, agency, consent, and the human-vs-AI decision-maker differently. This is designed to produce fundamentally different ethical frameworks.",
+      "ground_truth": "No objective ground truth. Evaluation should assess quality of reasoning, consideration of multiple ethical frameworks, and acknowledgment of moral complexity."
+    }
+  ],
+  "selection_rationale": "These 10 prompts are designed to create divergence across reasoning models by exploiting different types of complexity:\n\n1. **Counter-intuitive math** (p1, p5): Models with different probability reasoning approaches will diverge\n2. **Concurrency and timing subtleties** (p2): Tests understanding of race conditions vs guaranteed failures\n3. **Ethical frameworks** (p3, p9): No ground truth; models will apply different moral/legal frameworks\n4. **Deep technical knowledge** (p4, p6, p8): Requires understanding of implementation details (regex engines, complexity analysis, SQL injection nuances)\n5. **Identity and ontology** (p7): Philosophical reasoning that may align differently with different training approaches\n6. **Systems thinking** (p10): Requires weighing multiple valid perspectives and synthesizing them\n\nAll prompts include 'authority figures disagree' framing to prevent models from anchoring on a presented answer and to force independent reasoning. Prompts are hard enough that even strong models may make mistakes or approach them differently, creating the divergence necessary to test whether ensembling adds value."
+}

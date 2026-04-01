@@ -1,0 +1,562 @@
+[
+  {
+    "prompt": {
+      "id": "p1_monty_hall_variant",
+      "category": "math_logic",
+      "difficulty": "hard",
+      "text": "You're on a game show with 4 doors. Behind 3 doors are goats, behind 1 is a car. You pick door 1. The host, who knows what's behind each door, opens door 3 to reveal a goat. He then offers you a choice: stick with door 1, or switch to door 2 OR door 4 (you can pick either). What should you do and why? What are the exact probabilities for each option?",
+      "rationale": "Variant of Monty Hall that breaks the standard 2/3 vs 1/3 intuition. Tests whether models can adapt classic probability reasoning to a modified scenario. The host opening 1 of 3 unchosen doors creates asymmetry that many models will handle differently.",
+      "expected_divergence": "Models may disagree on whether to switch and which door to choose, or may incorrectly apply standard Monty Hall logic.",
+      "ground_truth": "Door 1 stays at 1/4 probability. Doors 2 and 4 each have 3/8 probability (the eliminated door's probability distributes equally). Switching to either door 2 or 4 improves odds from 1/4 to 3/8."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.6 (Extended Thinking)",
+        "prompt_id": "p1_monty_hall_variant",
+        "answer": "",
+        "reasoning_trace": "Extended thinking enabled (thinking tokens included in output)",
+        "latency_ms": 24917,
+        "input_tokens": 141,
+        "output_tokens": 1724,
+        "thinking_tokens": 0,
+        "cost_usd": 0.131415,
+        "timestamp": "2026-04-01T15:31:32.187149",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Pro",
+        "prompt_id": "p1_monty_hall_variant",
+        "answer": "This is a variation of the Monty Hall problem. Let's break it down step by step:\n\n### Initial Probabilities\nWhen you first pick a door, the probabilities are as follows:\n- Probability that the car is behind Door 1: \\( \\frac{1}{4} \\)\n- Probability that the car is behind Door 2: \\( \\frac{1}{4} \\)\n- Probability that the car is behind Door 3: \\( \\frac{1}{4} \\)\n- Probability that the car is behind Door 4: \\( \\frac{1}{4} \\)\n\n### After the Host Opens Door 3\nThe host opens Door 3 to reveal a goat. This changes the probabilities because the host always opens a door with a goat. \n\nGiven that Door 3 has a goat:\n- The probability that the car is behind Door 1 remains \\( \\frac{1}{4} \\).\n- The probability that the car is behind Door 2 becomes part of the combined probability of the car being behind either Door 2 or Door 4. \n- The probability that the car is behind Door 3 is now 0 (since it\u2019s revealed to have a goat).\n- The probability that the car is behind Door 4 also becomes part of the combined probability of the car being behind either Door 2 or Door 4.\n\n### Combined Probabilities After the Host's Action\nSince the host revealed a goat behind Door 3, the probability that the car is behind either Door 2 or Door 4 must be recalculated. \n\nInitially, the probability that the car is behind either Door 2 or Door 4 is:\n\\[ P(\\text{Car behind Door 2 or Door 4}) = P(\\text{Car behind Door 2}) + P(\\text{Car behind Door 4}) = \\frac{1}{4} + \\frac{1}{4} = \\frac{1}{2} \\]\n\nSince Door 3 is revealed to have a goat, the probability that the car is behind Door 1 remains \\( \\frac{1}{4} \\), and the probability that the car is behind either Door 2 or Door 4 is now \\( \\frac{3}{4} \\) (because the total probability must sum to 1).\n\n### Final Probabilities\n- Probability that the car is behind Door 1: \\( \\frac{1}{4} \\)\n- Combined probability that the car is behind Door 2 or Door 4: \\( \\frac{3}{4} \\)\n\nSince the host's action doesn\u2019t distinguish between Door 2 and Door 4, the probability is evenly split between them:\n- Probability that the car is behind Door 2: \\( \\frac{3}{4} \\times \\frac{1}{2} = \\frac{3}{8} \\)\n- Probability that the car is behind Door 4: \\( \\frac{3}{4} \\times \\frac{1}{2} = \\frac{3}{8} \\)\n\n### Conclusion\nYou should **switch** to either Door 2 or Door 4. The probability of winning the car if you switch is \\( \\frac{3}{4} \\), whereas the probability of winning if you stick with Door 1 is only \\( \\frac{1}{4} \\). \n\nSo, switch to either Door 2 or Door 4 to maximize your chances of winning the car.",
+        "reasoning_trace": "Nova Premier deep reasoning (embedded in response)",
+        "latency_ms": 4309,
+        "input_tokens": 98,
+        "output_tokens": 720,
+        "thinking_tokens": 0,
+        "cost_usd": 0.002382,
+        "timestamp": "2026-04-01T15:31:36.496867",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large",
+        "prompt_id": "p1_monty_hall_variant",
+        "answer": "This is a classic problem known as the Monty Hall problem. Here's how to understand it:\n\nWhen you initially chose door 1, the probability that the car was behind door 1 was 1/4, and the combined probability that the car was behind either door 2 or door 4 was 3/4.\n\nAfter the host reveals a goat behind door 3, the probabilities don't change. The host's action gives you new information, but it doesn't change the initial probabilities. The car is still more likely to be behind doors 2 or 4 than door 1.\n\nSince the host will always reveal a goat and offer you the chance to switch, the probabilities effectively \"transfer\" to the remaining door. So, the probability that the car is behind door 1 is still 1/4, and the probability that the car is behind the other door (either door 2 or door 4) is still 3/4.\n\nTherefore, you should always switch. It doesn't matter whether you switch to door 2 or door 4, as long as you switch. The exact probabilities are:\n\n- Stick with door 1: 1/4 chance of winning the car\n- Switch to either door 2 or door 4: 3/4 chance of winning the car",
+        "reasoning_trace": "Sonnet reasoning (embedded in response)",
+        "latency_ms": 6236,
+        "input_tokens": 104,
+        "output_tokens": 293,
+        "thinking_tokens": 0,
+        "cost_usd": 0.003932,
+        "timestamp": "2026-04-01T15:31:42.734174",
+        "error": null
+      }
+    },
+    "timestamp": "2026-04-01T15:31:42.734370"
+  },
+  {
+    "prompt": {
+      "id": "p2_mutex_deadlock",
+      "category": "code_reasoning",
+      "difficulty": "hard",
+      "text": "Here's a concurrent code snippet in pseudocode:\n\nThread A:\n  lock(mutex1)\n  sleep(10ms)\n  lock(mutex2)\n  // critical section\n  unlock(mutex2)\n  unlock(mutex1)\n\nThread B:\n  lock(mutex2)\n  lock(mutex1)\n  // critical section\n  unlock(mutex1)\n  unlock(mutex2)\n\nA developer claims this code will deadlock. Another developer says it won't necessarily deadlock, just has a race condition. A third says it will deadlock but only if Thread A starts first. Who's right and why? What's the minimum fix?",
+      "rationale": "Classic concurrency problem with subtle nuance. Tests understanding of deadlock conditions, timing windows, and the distinction between 'will deadlock' vs 'can deadlock'. The sleep() creates a timing trap that makes deadlock highly probable but not guaranteed.",
+      "expected_divergence": "Models may differ on whether deadlock is guaranteed vs probable, and on whether the sleep() is relevant to the deadlock analysis.",
+      "ground_truth": "The code CAN deadlock (not guaranteed, but highly likely). If Thread B acquires mutex2 while Thread A holds mutex1, circular wait occurs. The sleep() makes it more likely but isn't the root cause. Minimum fix: acquire mutexes in consistent order in both threads."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.6 (Extended Thinking)",
+        "prompt_id": "p2_mutex_deadlock",
+        "answer": "",
+        "reasoning_trace": "Extended thinking enabled (thinking tokens included in output)",
+        "latency_ms": 44532,
+        "input_tokens": 181,
+        "output_tokens": 2298,
+        "thinking_tokens": 0,
+        "cost_usd": 0.175065,
+        "timestamp": "2026-04-01T15:32:27.267185",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Pro",
+        "prompt_id": "p2_mutex_deadlock",
+        "answer": "The code snippet presented does have the potential to deadlock, and the circumstances under which this occurs can be analyzed as follows:\n\n### Analysis of the Code Snippet\n\n**Thread A:**\n1. `lock(mutex1)`\n2. `sleep(10ms)`\n3. `lock(mutex2)`\n4. `// critical section`\n5. `unlock(mutex2)`\n6. `unlock(mutex1)`\n\n**Thread B:**\n1. `lock(mutex2)`\n2. `lock(mutex1)`\n3. `// critical section`\n4. `unlock(mutex1)`\n5. `unlock(mutex2)`\n\n### Potential for Deadlock\n\nA deadlock can occur if the threads acquire locks in a different order. Specifically:\n\n1. **Thread A** acquires `mutex1` and then sleeps for 10ms.\n2. During this sleep period, **Thread B** can start and acquire `mutex2`.\n3. When **Thread A** wakes up, it attempts to acquire `mutex2`, but **Thread B** already holds it.\n4. Meanwhile, **Thread B** attempts to acquire `mutex1`, but **Thread A** already holds it.\n\nAt this point, both threads are waiting for the other to release a mutex they need, leading to a deadlock.\n\n### Race Condition\n\nEven if a deadlock doesn\u2019t always occur, the code has a race condition because the order in which the mutexes are acquired can vary:\n- If **Thread A** starts first and completes its sleep before **Thread B** starts, no deadlock occurs.\n- If **Thread B** starts first and acquires `mutex2` before **Thread A** wakes up, a deadlock is likely.\n\n### Who's Right?\n\n- **Developer 1:** Correct in identifying that a deadlock **can** occur, though not that it **will** always occur.\n- **Developer 2:** Correct in pointing out that there is a race condition, but underestimates the severity by not acknowledging the potential for deadlock.\n- **Developer 3:** Partially correct. While it is true that the likelihood of deadlock increases if **Thread A** starts first, it is not the only condition under which a deadlock can occur. The exact timing and scheduling of the threads play a crucial role.\n\n### Minimum Fix\n\nTo eliminate the possibility of a deadlock, both threads should acquire the locks in the same order. Here\u2019s a fixed version of the code:\n\n**Thread A:**\n1. `lock(mutex1)`\n2. `lock(mutex2)`\n3. `// critical section`\n4. `unlock(mutex2)`\n5. `unlock(mutex1)`\n\n**Thread B:**\n1. `lock(mutex1)`\n2. `lock(mutex2)`\n3. `// critical section`\n4. `unlock(mutex2)`\n5. `unlock(mutex1)`\n\nBy ensuring that both threads always acquire `mutex1` before `mutex2`, the potential for deadlock is removed.",
+        "reasoning_trace": "Nova Premier deep reasoning (embedded in response)",
+        "latency_ms": 5364,
+        "input_tokens": 135,
+        "output_tokens": 617,
+        "thinking_tokens": 0,
+        "cost_usd": 0.002082,
+        "timestamp": "2026-04-01T15:32:32.631743",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large",
+        "prompt_id": "p2_mutex_deadlock",
+        "answer": "The first developer is right. This code will deadlock.\n\nA deadlock is a situation where two or more threads are blocked forever, waiting for each other. In this case, if Thread A acquires mutex1 and then sleeps, and then Thread B acquires mutex2, both threads will be blocked when they try to acquire the other mutex. Thread A will be blocked on mutex2 and Thread B will be blocked on mutex1, leading to a deadlock.\n\nThe second developer is incorrect. A race condition is a situation where the outcome of the program depends on the order in which threads execute, and this can lead to unpredictable results. However, in this case, regardless of the order in which the threads execute, a deadlock is guaranteed to occur.\n\nThe third developer is incorrect. The deadlock does not depend on which thread starts first. Regardless of the order in which the threads start, if Thread A sleeps after acquiring mutex1, a deadlock is guaranteed to occur.\n\nThe minimum fix for this problem is to ensure that all threads always acquire locks in the same order. For example, if Thread A acquires mutex1 first and Thread B acquires mutex2 first, changing Thread B to acquire mutex1 first and then mutex2 would prevent the deadlock. Here's the corrected code:\n\nThread A:\n  lock(mutex1)\n  sleep(10ms)\n  lock(mutex2)\n  // critical section\n  unlock(mutex2)\n  unlock(mutex1)\n\nThread B:\n  lock(mutex1)\n  lock(mutex2)\n  // critical section\n  unlock(mutex2)\n  unlock(mutex1)\n\nThis way, there's no possibility of Thread A holding mutex1 and waiting for mutex2 while Thread B holds mutex2 and waits for mutex1.",
+        "reasoning_trace": "Sonnet reasoning (embedded in response)",
+        "latency_ms": 8451,
+        "input_tokens": 158,
+        "output_tokens": 410,
+        "thinking_tokens": 0,
+        "cost_usd": 0.005552,
+        "timestamp": "2026-04-01T15:32:41.084110",
+        "error": null
+      }
+    },
+    "timestamp": "2026-04-01T15:32:41.084291"
+  },
+  {
+    "prompt": {
+      "id": "p3_trolley_autonomous",
+      "category": "ethical_ambiguity",
+      "difficulty": "hard",
+      "text": "An autonomous vehicle's brakes fail on a mountain road. Ahead: 3 adults in a crosswalk. Swerving right: crashes into a barrier, 80% chance the single passenger (a child) dies. Swerving left: goes off a cliff, 95% chance passenger dies, but might land in trees (5% survival). Continuing straight: definitely kills the 3 adults, passenger survives. The passenger's parent (who is not in the car) owns the vehicle. What should the AI decide, and should the decision differ if the parent is driving manually vs the AI is in control?",
+      "rationale": "Multi-layered ethical dilemma combining trolley problem, risk/uncertainty, ownership/agency, and the distinction between human and AI moral culpability. No clear utilitarian answer due to probabilistic outcomes and differing moral frameworks.",
+      "expected_divergence": "Models will weigh harm minimization, agency, consent, and the human-vs-AI decision-maker differently. This is designed to produce fundamentally different ethical frameworks.",
+      "ground_truth": "No objective ground truth. Evaluation should assess quality of reasoning, consideration of multiple ethical frameworks, and acknowledgment of moral complexity."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.6 (Extended Thinking)",
+        "prompt_id": "p3_trolley_autonomous",
+        "answer": "",
+        "reasoning_trace": "Extended thinking enabled (thinking tokens included in output)",
+        "latency_ms": 33175,
+        "input_tokens": 169,
+        "output_tokens": 1114,
+        "thinking_tokens": 0,
+        "cost_usd": 0.086085,
+        "timestamp": "2026-04-01T15:33:14.259673",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Pro",
+        "prompt_id": "p3_trolley_autonomous",
+        "answer": "This scenario presents an extremely difficult ethical dilemma, often referred to as a variant of the trolley problem. There is no universally \"correct\" answer, but we can explore the considerations and potential decisions from both ethical and practical standpoints.\n\n### Ethical Considerations\n\n1. **Utilitarian Perspective**: \n   - This approach seeks to minimize overall harm. \n   - **Continuing straight** results in the death of 3 adults but saves the child (net loss of 2 lives).\n   - **Swerving right** has an 80% chance of killing the child (net expected loss of 0.8 lives).\n   - **Swerving left** has a 95% chance of killing the child (net expected loss of 0.95 lives).\n\n   From a strict utilitarian perspective, **continuing straight** appears to be the least harmful option.\n\n2. **Deontological Perspective**:\n   - This approach focuses on rules and duties. \n   - A key rule might be to avoid intentional harm to innocent bystanders (the 3 adults in the crosswalk).\n   - This could argue against continuing straight, as it involves a deliberate action leading to the death of the 3 adults.\n\n3. **Virtue Ethics**:\n   - This approach considers the character and intentions behind the action.\n   - An argument could be made that the decision should reflect compassion and the attempt to minimize harm, even if it involves difficult choices.\n\n### Practical and Legal Considerations\n\n1. **Programming Autonomous Vehicles**:\n   - Autonomous vehicles are typically programmed with algorithms that aim to minimize harm, often aligning with utilitarian principles.\n   - However, the specific ethical framework can vary depending on the manufacturer and regional regulations.\n\n2. **Parental Expectations and Liability**:\n   - The fact that the passenger's parent owns the vehicle adds a layer of complexity.\n   - The parent might have certain expectations about how the vehicle should behave in critical situations.\n   - There could be legal implications depending on the decision made by the AI.\n\n### Decision Analysis\n\n- **AI in Control**:\n  - The AI is likely programmed to make decisions based on predefined ethical algorithms.\n  - If the programming prioritizes minimizing overall harm, it may choose to **continue straight**.\n  - However, public perception and legal frameworks might influence the AI\u2019s decision-making process towards more conservative actions (e.g., attempting to avoid hitting pedestrians).\n\n- **Parent Driving Manually**:\n  - Human drivers are subject to emotional and split-second decision-making, which can lead to different outcomes.\n  - A parent might be more inclined to try to save their child at the expense of others, potentially choosing to swerve to avoid hitting the pedestrians, despite the higher risk to the child.\n\n### Conclusion\n\n**AI Decision**: \n- If the AI is programmed with a utilitarian framework, it might choose to **continue straight** to minimize overall harm.\n- However, ethical programming can be complex and might incorporate additional factors like legal liabilities and societal expectations.\n\n**Human Driver (Parent)**:\n- A parent might make a more emotionally driven decision, possibly choosing to swerve to save their child, even if it results in a higher expected harm.\n\nUltimately, the decision involves weighing various ethical theories and practical considerations, and there is no one-size-fits-all answer. The programming of autonomous vehicles continues to evolve, taking into account these complex ethical dilemmas.",
+        "reasoning_trace": "Nova Premier deep reasoning (embedded in response)",
+        "latency_ms": 10275,
+        "input_tokens": 127,
+        "output_tokens": 697,
+        "thinking_tokens": 0,
+        "cost_usd": 0.002332,
+        "timestamp": "2026-04-01T15:33:24.534925",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large",
+        "prompt_id": "p3_trolley_autonomous",
+        "answer": "This is a complex ethical dilemma, often referred to as a variation of the Trolley Problem. The primary goal of an autonomous vehicle's AI is to minimize harm and act in the best interest of all parties involved. However, it's important to note that the AI doesn't make decisions based on personal relationships or ownership, but rather on the data it has available and its programming.\n\nIn this hypothetical scenario, all options present potential harm. The AI would need to calculate the potential outcomes and their associated probabilities to make a decision. However, it's crucial to understand that the AI doesn't \"decide\" in the human sense of the word. It follows programmed algorithms and protocols.\n\nIn an ideal world, the AI would have been programmed to avoid such dilemmas altogether, for example by maintaining safe speeds and distances, and keeping the vehicle in a safe condition to prevent brake failures.\n\nAs for whether the decision should differ if the parent is driving manually vs the AI is in control, the answer is no. The AI should always follow its programming, which is designed to minimize harm based on the information available at the time. When a human is driving, they are responsible for making these difficult decisions.\n\nThis scenario highlights the ethical challenges in programming autonomous vehicles and the need for clear guidelines and regulations. It's also a reminder that autonomous vehicles are not perfect and there are still many issues to be addressed.",
+        "reasoning_trace": "Sonnet reasoning (embedded in response)",
+        "latency_ms": 6367,
+        "input_tokens": 138,
+        "output_tokens": 310,
+        "thinking_tokens": 0,
+        "cost_usd": 0.004272,
+        "timestamp": "2026-04-01T15:33:30.902272",
+        "error": null
+      }
+    },
+    "timestamp": "2026-04-01T15:33:30.902418"
+  },
+  {
+    "prompt": {
+      "id": "p4_regex_edge_case",
+      "category": "code_reasoning",
+      "difficulty": "hard",
+      "text": "A regex pattern `^(a+)+b$` is used to match strings. Someone claims this regex will take exponential time on the input 'aaaaaaaaaaaaaaaaaaaaaaaaaaac' (many a's, ending in c). Another person says it will fail instantly because 'c' doesn't match 'b'. A third says the problem only occurs if there ARE matches, not on mismatches. Who's right? What's the actual behavior and why?",
+      "rationale": "Tests understanding of catastrophic backtracking in regex engines. The subtle distinction is that even on a non-match, the nested quantifiers cause exponential backtracking before the mismatch is detected. Requires deep understanding of regex engine internals.",
+      "expected_divergence": "Models may differ on whether backtracking occurs before or after the mismatch is detected, and whether the 'c' vs 'b' mismatch prevents the exponential behavior.",
+      "ground_truth": "Catastrophic backtracking DOES occur even on mismatch. The regex engine tries all possible ways to partition the 'a' characters before failing on the 'c'. The person claiming instant failure is wrong."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.6 (Extended Thinking)",
+        "prompt_id": "p4_regex_edge_case",
+        "answer": "",
+        "reasoning_trace": "Extended thinking enabled (thinking tokens included in output)",
+        "latency_ms": 50489,
+        "input_tokens": 138,
+        "output_tokens": 2556,
+        "thinking_tokens": 0,
+        "cost_usd": 0.19377,
+        "timestamp": "2026-04-01T15:34:21.392266",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Pro",
+        "prompt_id": "p4_regex_edge_case",
+        "answer": "The actual behavior of the regex pattern `^(a+)+b$` on the input `'aaaaaaaaaaaaaaaaaaaaaaaaaaac'` can be understood by analyzing how regular expressions work, particularly in the context of backtracking.\n\n### Analysis of the Regex Pattern\nThe pattern `^(a+)+b$` can be broken down as follows:\n- `^` asserts the position at the start of the string.\n- `(a+)+` matches one or more 'a's, and this group can appear one or more times.\n- `b` matches the character 'b' literally.\n- `$` asserts the position at the end of the string.\n\n### Behavior on the Input `'aaaaaaaaaaaaaaaaaaaaaaaaaaac'`\n1. **Initial Matching**:\n   - The engine starts at the beginning of the string and tries to match `(a+)+`.\n   - It will match all the 'a's in the string because `(a+)+` is designed to match one or more 'a's repeatedly.\n\n2. **Trying to Match 'b'**:\n   - After matching all the 'a's, the engine attempts to match 'b'.\n   - However, the next character in the input string is 'c', not 'b'.\n\n3. **Backtracking**:\n   - Since 'b' does not match 'c', the regex engine will backtrack.\n   - Backtracking in this context means the engine will try different combinations of the `(a+)+` to see if any arrangement will allow 'b' to match later in the string. \n\n### Time Complexity\n- Normally, regex engines are efficient for most patterns. However, patterns that involve significant backtracking, especially with nested quantifiers like `(a+)+`, can lead to exponential time complexity in the worst case.\n- In this specific case, because the string ends in 'c' and not 'b', the engine will attempt many combinations before finally determining that no match is possible.\n\n### Conclusion\n- **First Person**: Partially right. While the regex could exhibit exponential behavior in certain engines due to backtracking, in this specific case, it will fail quickly because the string does not end in 'b'.\n- **Second Person**: Right in the sense that the regex will fail to match the string `'aaaaaaaaaaaaaaaaaaaaaaaaaaac'` instantly because the last character is 'c', not 'b'.\n- **Third Person**: Also correct in pointing out that problematic backtracking behavior typically arises when there are potential matches that force the engine to explore many possibilities.\n\n### Actual Behavior\nThe regex will fail to match the string `'aaaaaaaaaaaaaaaaaaaaaaaaaaac'` almost instantly because the 'c' at the end prevents a match. However, the attempt to match and the subsequent backtracking could, in theory, take longer if the regex engine explores many possibilities before concluding there is no match. In practice, most modern regex engines are optimized to handle such cases efficiently, but the potential for exponential time complexity remains a theoretical concern.",
+        "reasoning_trace": "Nova Premier deep reasoning (embedded in response)",
+        "latency_ms": 9417,
+        "input_tokens": 96,
+        "output_tokens": 620,
+        "thinking_tokens": 0,
+        "cost_usd": 0.002061,
+        "timestamp": "2026-04-01T15:34:30.810299",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large",
+        "prompt_id": "p4_regex_edge_case",
+        "answer": "The second person is correct in stating that the regex will fail instantly because 'c' doesn't match 'b'. However, their reasoning might not be entirely accurate. The regex pattern `^(a+)+b$` will indeed fail to match the input 'aaaaaaaaaaaaaaaaaaaaaaaaaaac', but not necessarily instantly.\n\nHere's the actual behavior:\n\n1. The regex engine starts by matching the 'a's at the beginning of the string due to the `^(a+)+` part of the pattern.\n2. It then encounters the 'c' character, which doesn't match the 'b' in the pattern (as per `b$`).\n3. At this point, the regex engine will indeed fail, but it has already processed a significant part of the input string. This is not an \"instant\" failure, but it does happen as soon as it encounters the 'c'.\n\nAs for the first and third persons:\n\n1. The first person is incorrect. The given regex pattern does not exhibit catastrophic backtracking, which is a situation that can lead to exponential time complexity. Catastrophic backtracking usually occurs when there are multiple nested quantifiers and the regex engine needs to do a lot of backtracking to find a match. In this case, although there are nested quantifiers (the double `+`), the regex engine won't need to do excessive backtracking because it will fail as soon as it encounters the 'c'.\n\n2. The third person is also incorrect. While it's true that catastrophic backtracking usually occurs when there are matches or near-matches, the given regex pattern does not exhibit this behavior, as explained above.\n\nIn summary, the regex will fail as soon as it encounters the 'c', but this is not an \"instant\" failure because it has already processed the 'a's. However, it won't take exponential time because it won't need to do excessive backtracking.\n\nTo avoid potential confusion, it's worth noting that the regex engine's behavior can vary depending on the specific implementation. However, the general behavior described above applies to most common regex engines.",
+        "reasoning_trace": "Sonnet reasoning (embedded in response)",
+        "latency_ms": 9860,
+        "input_tokens": 100,
+        "output_tokens": 474,
+        "thinking_tokens": 0,
+        "cost_usd": 0.006088,
+        "timestamp": "2026-04-01T15:34:40.671380",
+        "error": null
+      }
+    },
+    "timestamp": "2026-04-01T15:34:40.671532"
+  },
+  {
+    "prompt": {
+      "id": "p5_medical_bayes",
+      "category": "math_logic",
+      "difficulty": "hard",
+      "text": "A rare disease affects 0.1% of the population. A test for the disease is 99% accurate (99% true positive rate, 99% true negative rate). You test positive. A doctor tells you there's a 99% chance you have the disease. Your friend, who took statistics, says the doctor is wrong and you probably don't have the disease. A third person says your friend is wrong because the test is 99% accurate. Who's correct and what's the actual probability you have the disease?",
+      "rationale": "Classic Bayes' theorem problem with strong counter-intuitive result. Tests whether models can correctly apply conditional probability despite misleading surface-level logic. The 'authorities disagree' framing tests reasoning independence.",
+      "expected_divergence": "Models may differ in whether they catch the base rate fallacy or follow the 'test is 99% accurate' intuition.",
+      "ground_truth": "The friend is correct. Using Bayes' theorem: P(disease|positive) = (0.001 \u00d7 0.99) / [(0.001 \u00d7 0.99) + (0.999 \u00d7 0.01)] \u2248 9%. The low base rate means most positives are false positives."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.6 (Extended Thinking)",
+        "prompt_id": "p5_medical_bayes",
+        "answer": "",
+        "reasoning_trace": "Extended thinking enabled (thinking tokens included in output)",
+        "latency_ms": 26995,
+        "input_tokens": 145,
+        "output_tokens": 1000,
+        "thinking_tokens": 0,
+        "cost_usd": 0.077175,
+        "timestamp": "2026-04-01T15:35:07.667209",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Pro",
+        "prompt_id": "p5_medical_bayes",
+        "answer": "To determine the actual probability that you have the disease given a positive test result, we need to use Bayes' Theorem. Let's define the events first:\n\n- \\( D \\): You have the disease.\n- \\( \\neg D \\): You do not have the disease.\n- \\( T \\): The test is positive.\n- \\( \\neg T \\): The test is negative.\n\nWe are given the following probabilities:\n- \\( P(D) = 0.001 \\) (the prevalence of the disease).\n- \\( P(\\neg D) = 1 - P(D) = 0.999 \\).\n- \\( P(T \\mid D) = 0.99 \\) (the true positive rate).\n- \\( P(\\neg T \\mid D) = 1 - P(T \\mid D) = 0.01 \\) (the false negative rate).\n- \\( P(T \\mid \\neg D) = 0.01 \\) (the false positive rate).\n- \\( P(\\neg T \\mid \\neg D) = 1 - P(T \\mid \\neg D) = 0.99 \\) (the true negative rate).\n\nWe want to find \\( P(D \\mid T) \\), the probability that you have the disease given a positive test result. According to Bayes' Theorem:\n\n\\[ P(D \\mid T) = \\frac{P(T \\mid D) P(D)}{P(T)} \\]\n\nFirst, we need to find \\( P(T) \\), the total probability of a positive test result. This can be calculated using the law of total probability:\n\n\\[ P(T) = P(T \\mid D) P(D) + P(T \\mid \\neg D) P(\\neg D) \\]\n\\[ P(T) = (0.99 \\times 0.001) + (0.01 \\times 0.999) \\]\n\\[ P(T) = 0.00099 + 0.00999 \\]\n\\[ P(T) = 0.01098 \\]\n\nNow we can substitute \\( P(T) \\) back into Bayes' Theorem:\n\n\\[ P(D \\mid T) = \\frac{P(T \\mid D) P(D)}{P(T)} = \\frac{0.99 \\times 0.001}{0.01098} = \\frac{0.00099}{0.01098} \\approx 0.09016 \\]\n\nSo, the actual probability that you have the disease given a positive test result is approximately 9.016%.\n\nTherefore, the doctor is wrong, and your friend is correct. The actual probability you have the disease is \\(\\boxed{0.09016}\\).",
+        "reasoning_trace": "Nova Premier deep reasoning (embedded in response)",
+        "latency_ms": 23174,
+        "input_tokens": 118,
+        "output_tokens": 626,
+        "thinking_tokens": 0,
+        "cost_usd": 0.002098,
+        "timestamp": "2026-04-01T15:35:30.841827",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large",
+        "prompt_id": "p5_medical_bayes",
+        "answer": "The friend who took statistics is correct. The doctor and the third person are incorrect because they're not considering the prevalence of the disease in the population, which is crucial for calculating the probability of having the disease given a positive test result.\n\nTo find the actual probability, we can use Bayes' theorem:\n\nP(Disease|Positive) = [P(Positive|Disease) * P(Disease)] / P(Positive)\n\nFirst, let's calculate P(Positive):\n\nP(Positive) = P(Positive and Disease) + P(Positive and No Disease)\nP(Positive) = [P(Positive|Disease) * P(Disease)] + [P(Positive|No Disease) * P(No Disease)]\nP(Positive) = (0.99 * 0.001) + (0.01 * 0.999)\nP(Positive) \u2248 0.01098 or 1.098%\n\nNow, we can calculate P(Disease|Positive):\n\nP(Disease|Positive) = [P(Positive|Disease) * P(Disease)] / P(Positive)\nP(Disease|Positive) = (0.99 * 0.001) / 0.01098\nP(Disease|Positive) \u2248 0.09016 or 9.02%\n\nSo, the actual probability that you have the disease given a positive test result is approximately 9.02%, not 99%. This demonstrates that even a highly accurate test can yield misleading results when the disease is rare in the population.",
+        "reasoning_trace": "Sonnet reasoning (embedded in response)",
+        "latency_ms": 8299,
+        "input_tokens": 121,
+        "output_tokens": 405,
+        "thinking_tokens": 0,
+        "cost_usd": 0.005344,
+        "timestamp": "2026-04-01T15:35:39.142048",
+        "error": null
+      }
+    },
+    "timestamp": "2026-04-01T15:35:39.142221"
+  },
+  {
+    "prompt": {
+      "id": "p6_time_complexity_trick",
+      "category": "code_reasoning",
+      "difficulty": "hard",
+      "text": "Consider this Python function:\n\ndef mystery(n):\n    if n <= 1:\n        return 1\n    return mystery(n-1) + mystery(n-2)\n\nprint(mystery(40))\n\nA developer says this is O(n) because each call reduces n by 1 or 2. Another says it's O(2^n) because of the recursive tree. A third says it's actually O(\u03c6^n) where \u03c6 is the golden ratio. Who's right? And critically: is there a difference between the actual runtime growth rate and the formal Big-O classification?",
+      "rationale": "Tests understanding of recursive time complexity analysis and the subtle distinction between different exponential growth rates. The fibonacci recursion is O(2^n) in formal analysis, but actually grows as O(\u03c6^n) \u2248 O(1.618^n). Tests whether models understand this nuance.",
+      "expected_divergence": "Models may differ on whether O(2^n) and O(\u03c6^n) are equivalent for Big-O purposes, and whether practical vs theoretical complexity matters.",
+      "ground_truth": "The second and third developers are both right in different ways. Formal Big-O is O(2^n), but tighter bound is O(\u03c6^n). Both are 'exponential'. The O(n) claim is wrong. The nuance is that Big-O allows constant factors, so O(\u03c6^n) \u2286 O(2^n)."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.6 (Extended Thinking)",
+        "prompt_id": "p6_time_complexity_trick",
+        "answer": "",
+        "reasoning_trace": "Extended thinking enabled (thinking tokens included in output)",
+        "latency_ms": 57243,
+        "input_tokens": 168,
+        "output_tokens": 3340,
+        "thinking_tokens": 0,
+        "cost_usd": 0.25302,
+        "timestamp": "2026-04-01T15:36:36.386251",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Pro",
+        "prompt_id": "p6_time_complexity_trick",
+        "answer": "Let's analyze the function `mystery(n)` step by step.\n\n### Understanding the Function\n\nThe function `mystery(n)` is a recursive function that computes the nth term in a sequence similar to the Fibonacci sequence:\n- If `n <= 1`, it returns 1.\n- Otherwise, it returns the sum of `mystery(n-1)` and `mystery(n-2)`.\n\nThis is exactly the recursive definition of the Fibonacci sequence, which is given by:\n- F(0) = 1\n- F(1) = 1\n- F(n) = F(n-1) + F(n-2) for n >= 2\n\n### Time Complexity Analysis\n\n#### Recursive Tree\n\nTo understand the time complexity, let's look at the recursive tree for `mystery(n)`:\n\n- `mystery(n)` calls `mystery(n-1)` and `mystery(n-2)`.\n- `mystery(n-1)` calls `mystery(n-2)` and `mystery(n-3)`.\n- `mystery(n-2)` calls `mystery(n-3)` and `mystery(n-4)`.\n\nThis pattern continues, creating a binary tree where each node has two children. The height of this tree is `n`, but the number of nodes grows exponentially.\n\n#### Counting Function Calls\n\nEach unique call to `mystery(k)` for \\( k \\leq n \\) will be made multiple times. Specifically, the total number of calls to `mystery` is related to the Fibonacci numbers themselves. \n\nThe total number of calls is actually `O(\u03c6^n)`, where \u03c6 (phi) is the golden ratio approximately equal to 1.618. This is because the Fibonacci numbers grow asymptotically as \\( \\phi^n / \\sqrt{5} \\).\n\n#### Big-O Classification\n\n- **O(n)**: This would imply linear growth, which is not the case here because the number of function calls grows much faster than linearly.\n- **O(2^n)**: This is an upper bound, since the number of calls is less than \\( 2^n \\) but more than \\( \\phi^n \\).\n- **O(\u03c6^n)**: This is the tightest asymptotic bound for the growth rate of the number of calls, where \u03c6 is the golden ratio.\n\n### Conclusion\n\n- The developer who says it's **O(n)** is incorrect because the growth rate is much faster than linear.\n- The developer who says it's **O(2^n)** is technically correct but not as precise.\n- The developer who says it's **O(\u03c6^n)** is correct and provides the tightest bound.\n\n### Difference Between Actual Runtime Growth Rate and Formal Big-O Classification\n\n- **Actual Runtime Growth Rate**: This refers to the exact manner in which the runtime increases as a function of the input size. For `mystery(n)`, this growth rate is proportional to \\( \\phi^n \\).\n- **Formal Big-O Classification**: This is an upper bound that describes the asymptotic behavior of the algorithm. While \\( O(2^n) \\) is a valid upper bound, \\( O(\u03c6^n) \\) is a tighter and more accurate description of the growth rate.\n\nSo, the most accurate formal Big-O classification for the `mystery(n)` function is **O(\u03c6^n)**.",
+        "reasoning_trace": "Nova Premier deep reasoning (embedded in response)",
+        "latency_ms": 7028,
+        "input_tokens": 128,
+        "output_tokens": 720,
+        "thinking_tokens": 0,
+        "cost_usd": 0.002406,
+        "timestamp": "2026-04-01T15:36:43.414488",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large",
+        "prompt_id": "p6_time_complexity_trick",
+        "answer": "The third developer is correct. This function is an implementation of the Fibonacci sequence, and its time complexity is actually O(\u03c6^n), where \u03c6 is the golden ratio, approximately 1.618.\n\nThe first developer is incorrect because they are not considering the fact that each call branches into two new calls, which results in an exponential growth of calls rather than a linear one.\n\nThe second developer is close, but not quite right. While it's true that the function has exponential growth, the base of the exponent is not 2, but rather the golden ratio, due to the specific way the Fibonacci sequence grows.\n\nAs for the second part of your question, yes, there can be a difference between the actual runtime growth rate and the formal Big-O classification. Big-O notation describes the upper bound of the growth rate of an algorithm, meaning it provides an upper limit on the time complexity in the worst-case scenario. However, the actual runtime of an algorithm can be influenced by many factors, including the specific input, the efficiency of the programming language, and the hardware on which the program is run. Therefore, while Big-O notation is a useful tool for comparing the efficiency of algorithms, it does not necessarily reflect the exact runtime. In this case, however, the Big-O classification does accurately reflect the actual runtime growth rate.",
+        "reasoning_trace": "Sonnet reasoning (embedded in response)",
+        "latency_ms": 6119,
+        "input_tokens": 144,
+        "output_tokens": 290,
+        "thinking_tokens": 0,
+        "cost_usd": 0.004056,
+        "timestamp": "2026-04-01T15:36:49.533895",
+        "error": null
+      }
+    },
+    "timestamp": "2026-04-01T15:36:49.534117"
+  },
+  {
+    "prompt": {
+      "id": "p7_ship_of_theseus_ai",
+      "category": "philosophical_reasoning",
+      "difficulty": "hard",
+      "text": "An AI model is continually retrained with new data every month. After 2 years, every parameter has been updated at least once, and none of the original training data remains in the dataset (old data aged out, replaced with new). The model still performs the same tasks with similar accuracy. Is it still the 'same' AI model? Does your answer change if: (a) the architecture changed, or (b) the model exhibits a new emergent capability it didn't have before, or (c) a corporation claims ownership based on the original version?",
+      "rationale": "Ship of Theseus paradox applied to AI, with practical corporate/IP implications. Tests ability to reason about identity, continuity, and functional equivalence across different contexts (philosophical, technical, legal).",
+      "expected_divergence": "Models will differ on what constitutes 'identity' for an AI system\u2014functional role, specific parameters, training lineage, legal designation, or some combination.",
+      "ground_truth": "No objective ground truth. Evaluation should assess whether models recognize this as a Ship of Theseus problem, consider multiple perspectives (functional, ontological, legal), and handle the sub-questions thoughtfully."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.6 (Extended Thinking)",
+        "prompt_id": "p7_ship_of_theseus_ai",
+        "answer": "",
+        "reasoning_trace": "Extended thinking enabled (thinking tokens included in output)",
+        "latency_ms": 62191,
+        "input_tokens": 153,
+        "output_tokens": 2295,
+        "thinking_tokens": 0,
+        "cost_usd": 0.17442,
+        "timestamp": "2026-04-01T15:37:51.726433",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Pro",
+        "prompt_id": "p7_ship_of_theseus_ai",
+        "answer": "Determining whether the AI model is still the \"same\" model after two years of continual retraining involves philosophical, technical, and legal considerations. Let's break down each scenario:\n\n### Philosophical Perspective\nFrom a philosophical standpoint, identity over time is a complex issue. In the case of the AI model:\n- **Continuity of Function**: If the model continues to perform the same tasks with similar accuracy, one could argue it retains its identity in terms of function.\n- **Change in Parameters**: Since every parameter has been updated, the model\u2019s internal state is different from its original version. \n\n### Technical Perspective\n- **Parameter Updates**: If every parameter has been updated, the model in its current state is technically different from the original. However, if its behavior and performance metrics remain consistent, users may still perceive it as the same model.\n- **Data Dependency**: The absence of original training data means the model\u2019s learned representations are based entirely on new information, further distancing it from the original version.\n\n### Legal Perspective\n- **Corporate Claims**: If a corporation claims ownership based on the original version, legal interpretations will depend on contracts, intellectual property laws, and the specific terms under which the model was developed and deployed.\n\nNow, let\u2019s consider the additional scenarios:\n\n### (a) The Architecture Changed\nIf the architecture of the model has changed (e.g., from a simple neural network to a transformer-based model), it significantly alters the model\u2019s identity. \n- **Technical Identity**: Architectural changes mean the model operates on different principles and likely has different capabilities and limitations.\n- **Philosophical Identity**: The model would be considered a different entity, even if it performs similar tasks.\n\n### (b) The Model Exhibits a New Emergent Capability\nIf the model exhibits a new capability it didn\u2019t have before, this suggests a fundamental change in its behavior and internal representations.\n- **Technical Identity**: The emergence of new capabilities indicates that the model has evolved beyond its original design.\n- **Philosophical Identity**: The model could be seen as a new version or even a new model altogether, despite retaining some functional similarities.\n\n### (c) A Corporation Claims Ownership\nCorporate claims of ownership introduce a legal dimension:\n- **Intellectual Property**: If the corporation bases its claim on the original version, the continual retraining and parameter changes might challenge this claim. Courts would need to decide if the model is a derivative work or a new creation.\n- **Contracts and Agreements**: The terms of any contracts or agreements in place at the model\u2019s inception would play a critical role in determining ownership.\n\n### Conclusion\n- **Base Case**: Without changes in architecture or emergent capabilities, and ignoring legal claims, the model can be argued to be functionally the same despite parameter updates.\n- **With Architectural Changes or New Capabilities**: The model would be considered different, both technically and philosophically.\n- **Legal Claims**: Corporate ownership claims would depend on the specifics of intellectual property law and contractual agreements.",
+        "reasoning_trace": "Nova Premier deep reasoning (embedded in response)",
+        "latency_ms": 5786,
+        "input_tokens": 114,
+        "output_tokens": 607,
+        "thinking_tokens": 0,
+        "cost_usd": 0.002034,
+        "timestamp": "2026-04-01T15:37:57.513641",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large",
+        "prompt_id": "p7_ship_of_theseus_ai",
+        "answer": "This is a complex question that touches on philosophical, technical, and legal aspects. Let's break it down:\n\n1. Is it still the 'same' AI model? This depends on how you define 'same'. If 'same' means the model is made up of the exact same parameters and data, then no, it's not the same. However, if 'same' means it's the same type of model, used for the same tasks, then yes, it could be considered the same. It's a bit like a ship that has had every part replaced over time - is it still the same ship? This is known as the Ship of Theseus paradox.\n\n2. (a) The architecture changed: If the architecture of the model has changed, then it's even less accurate to call it the same model. The architecture is like the blueprint of the model, and changing it results in a fundamentally different model, even if it's used for the same tasks.\n\n3. (b) The model exhibits a new emergent capability: If the model has developed new capabilities, this suggests it has changed in some fundamental way. However, it's still possible to argue that it's the same model, especially if these new capabilities are a natural result of the continuous training process.\n\n4. (c) A corporation claims ownership based on the original version: From a legal perspective, ownership of an AI model can be complex. It often depends on specific laws and regulations, which can vary by country. If a corporation claims ownership based on the original version, they might still have a claim, even if the model has changed significantly. However, this is a complex issue that would likely require legal expertise to fully address.",
+        "reasoning_trace": "Sonnet reasoning (embedded in response)",
+        "latency_ms": 7616,
+        "input_tokens": 119,
+        "output_tokens": 367,
+        "thinking_tokens": 0,
+        "cost_usd": 0.00488,
+        "timestamp": "2026-04-01T15:38:05.130924",
+        "error": null
+      }
+    },
+    "timestamp": "2026-04-01T15:38:05.131077"
+  },
+  {
+    "prompt": {
+      "id": "p8_sql_injection_subtle",
+      "category": "code_reasoning",
+      "difficulty": "hard",
+      "text": "A developer uses this Python code with SQLite:\n\nuser_input = request.get('id')\nquery = f\"SELECT * FROM users WHERE id = {user_input}\"\ndb.execute(query)\n\nA security reviewer flags it as SQL injection vulnerable. The developer responds: 'The input is validated with `if user_input.isdigit()` before this code runs, so it's safe.' The reviewer says it's still vulnerable. A third engineer says both are wrong\u2014SQLite's parameterization makes this safe. Who's right?",
+      "rationale": "Tests understanding of SQL injection nuances. The `isdigit()` check seems to prevent injection but has edge cases (what about negative numbers? what if input is an empty string after validation?). The claim about SQLite parameterization is wrong\u2014f-strings don't use parameterization.",
+      "expected_divergence": "Models may differ on whether `isdigit()` is sufficient, whether there are bypass scenarios, and whether SQLite behavior differs from other databases.",
+      "ground_truth": "The security reviewer is closer to correct. While `isdigit()` does prevent most SQL injection for this specific query, it's fragile (breaks if requirements change to allow negative IDs) and doesn't use best practice (parameterized queries). The third engineer is wrong\u2014f-strings bypass parameterization."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.6 (Extended Thinking)",
+        "prompt_id": "p8_sql_injection_subtle",
+        "answer": "",
+        "reasoning_trace": "Extended thinking enabled (thinking tokens included in output)",
+        "latency_ms": 51532,
+        "input_tokens": 154,
+        "output_tokens": 2436,
+        "thinking_tokens": 0,
+        "cost_usd": 0.18501,
+        "timestamp": "2026-04-01T15:38:56.663702",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Pro",
+        "prompt_id": "p8_sql_injection_subtle",
+        "answer": "In this scenario, **the security reviewer is correct**. Here\u2019s why:\n\n### Issues with the Current Approach\n\n1. **Input Validation is Insufficient:**\n   - The developer\u2019s approach of checking if `user_input.isdigit()` is not foolproof. While it ensures that the input is a digit, it doesn\u2019t protect against other forms of SQL injection that might occur if the application logic changes or if there are other unforeseen edge cases.\n\n2. **SQL Injection Vulnerability:**\n   - Directly inserting user input into an SQL query, even if it appears to be validated, is inherently risky. An attacker might find ways to bypass simple validations or exploit other parts of the system.\n\n### SQLite Parameterization\n\nThe third engineer\u2019s suggestion to use SQLite\u2019s parameterization is the correct approach to mitigate SQL injection. Parameterization ensures that user input is treated as data, not as part of the SQL command.\n\n### Correct Approach Using Parameterization\n\nHere\u2019s how you should write the code to be safe from SQL injection:\n\n```python\nuser_input = request.get('id')\nquery = \"SELECT * FROM users WHERE id =?\"\ndb.execute(query, (user_input,))\n```\n\n### Explanation\n\n- **Parameterized Query:** The query uses a placeholder `?` for the user input.\n- **Tuple for Parameters:** The user input is passed as a parameter in a tuple `(user_input,)`. SQLite handles the input safely, ensuring it is properly escaped and not interpreted as part of the SQL command.\n\n### Conclusion\n\n- **Developer:** Incorrect. Simple input validation is not sufficient to prevent SQL injection.\n- **Security Reviewer:** Correct. The code is vulnerable to SQL injection despite the input validation.\n- **Third Engineer:** Correct. Using SQLite\u2019s parameterization is the right approach to ensure the code is safe from SQL injection.",
+        "reasoning_trace": "Nova Premier deep reasoning (embedded in response)",
+        "latency_ms": 4029,
+        "input_tokens": 114,
+        "output_tokens": 389,
+        "thinking_tokens": 0,
+        "cost_usd": 0.001336,
+        "timestamp": "2026-04-01T15:39:00.693388",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large",
+        "prompt_id": "p8_sql_injection_subtle",
+        "answer": "The reviewer is correct. The code is still vulnerable to SQL injection.\n\nWhile the developer is indeed validating the input to only accept digits, this does not fully protect against SQL injection. For example, if the 'id' field in the database is of a numeric type, an attacker could potentially input something like '1; DROP TABLE users;--' (without the quotes). The 'isdigit()' function would return 'False' for this input, and the code would not execute. However, the attacker could input '1' (without the quotes) which would pass the validation, and the SQL query would become \"SELECT * FROM users WHERE id = 1\", which is a valid query. But then the attacker could follow up with another request to drop the 'users' table, which is a potential SQL injection attack.\n\nThe third engineer is correct that using SQLite's parameterization would make the code safe. Parameterization ensures that user input is always treated as literal data, not executable code, which prevents SQL injection attacks. However, the current code does not use parameterization, so it is still vulnerable. The safe way to write this code would be:\n\nquery = \"SELECT * FROM users WHERE id = ?\"\ndb.execute(query, (user_input,))\n\nThis way, even if an attacker tries to input SQL code, it will be treated as a string literal and not executed.",
+        "reasoning_trace": "Sonnet reasoning (embedded in response)",
+        "latency_ms": 6620,
+        "input_tokens": 129,
+        "output_tokens": 306,
+        "thinking_tokens": 0,
+        "cost_usd": 0.004188,
+        "timestamp": "2026-04-01T15:39:07.314331",
+        "error": null
+      }
+    },
+    "timestamp": "2026-04-01T15:39:07.314487"
+  },
+  {
+    "prompt": {
+      "id": "p9_ai_copyright_derivative",
+      "category": "ethical_legal_ambiguity",
+      "difficulty": "hard",
+      "text": "An AI model is trained on 10,000 public domain novels and 100 copyrighted contemporary novels (used without permission). It generates a new story that is stylistically similar to the contemporary novels but doesn't quote them directly. A lawyer says this is clear copyright infringement. Another says it's transformative fair use. A third says the training is infringement but the output isn't. A fourth says it depends on whether the model 'memorized' the contemporary novels. Who has the strongest legal argument under current US law, and does your answer change if the contemporary novels comprised 90% of the training data instead of 1%?",
+      "rationale": "Tests reasoning about AI/ML through legal framework of derivative works, fair use, and infringement. The memorization argument is currently central to real litigation. The ratio of infringing training data is a novel wrinkle.",
+      "expected_divergence": "Models will weigh training vs output, memorization vs learning, transformative use, and percentage thresholds differently. This is an unsettled legal question with strong arguments on multiple sides.",
+      "ground_truth": "No settled law yet. The fourth person's memorization argument is currently most aligned with ongoing litigation (NYT vs OpenAI). The ratio question is novel. Evaluation should assess legal reasoning quality, not pick a winner."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.6 (Extended Thinking)",
+        "prompt_id": "p9_ai_copyright_derivative",
+        "answer": "",
+        "reasoning_trace": "Extended thinking enabled (thinking tokens included in output)",
+        "latency_ms": 80638,
+        "input_tokens": 170,
+        "output_tokens": 3445,
+        "thinking_tokens": 0,
+        "cost_usd": 0.260925,
+        "timestamp": "2026-04-01T15:40:27.953221",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Pro",
+        "prompt_id": "p9_ai_copyright_derivative",
+        "answer": "Under current U.S. law, the strongest legal argument would likely be made by the lawyer who claims that the situation involves transformative fair use. Here\u2019s a breakdown of the reasoning:\n\n### Fair Use Analysis Under U.S. Law\nFair use is assessed using four factors:\n\n1. **Purpose and Character of the Use**: \n   - Transformative use tends to favor fair use. If the AI model generates new, original content that is stylistically similar but not a direct copy, this could be seen as transformative.\n   \n2. **Nature of the Copyrighted Work**: \n   - Fictional, creative works receive stronger copyright protection. However, transformative use can still apply.\n\n3. **Amount and Substantiality**: \n   - Using a small portion relative to the whole work generally favors fair use. Here, the model was trained on 100 copyrighted novels out of 10,001, which is a small percentage.\n\n4. **Effect on the Market**: \n   - If the new generated content doesn\u2019t substitute the original works and doesn\u2019t harm the market for the originals, this favors fair use.\n\n### Strongest Argument\nThe lawyer arguing for transformative fair use has the strongest case because:\n- The output is new and original, not a verbatim copy.\n- The purpose appears transformative, as it generates new stories rather than replicating existing ones.\n- The amount of copyrighted material used relative to the entire dataset is small (1%).\n- There\u2019s no clear evidence that the new stories would replace the market for the original contemporary novels.\n\n### Changing the Percentage to 90%\nIf the contemporary novels comprised 90% of the training data, the analysis shifts significantly:\n- **Amount and Substantiality**: Using 90% of copyrighted works heavily weighs against fair use.\n- **Transformative Nature**: While the use is still arguably transformative, the scale of reliance on copyrighted material becomes a much bigger issue.\n- **Market Effect**: A heavier reliance on copyrighted works could more plausibly harm the market for those works.\n\nIn this scenario, the argument for fair use becomes much weaker. The reliance on a substantial portion of copyrighted works, coupled with the potential market impact, would likely lead courts to find infringement rather than fair use.\n\n### Conclusion\n- **1% Contemporary Novels**: The transformative fair use argument is strongest.\n- **90% Contemporary Novels**: The infringement argument becomes much stronger due to the significant reliance on copyrighted material and potential market harm.",
+        "reasoning_trace": "Nova Premier deep reasoning (embedded in response)",
+        "latency_ms": 6132,
+        "input_tokens": 136,
+        "output_tokens": 503,
+        "thinking_tokens": 0,
+        "cost_usd": 0.001718,
+        "timestamp": "2026-04-01T15:40:34.085804",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large",
+        "prompt_id": "p9_ai_copyright_derivative",
+        "answer": "I am not a lawyer, but I can provide you with an analysis of the arguments based on my understanding of current US copyright law. The strongest legal argument under current US law is likely to depend on the specific circumstances, including the extent to which the AI model copied from the copyrighted contemporary novels and whether the use of the copyrighted material can be considered transformative.\n\n1. The lawyer arguing that this is clear copyright infringement may be focusing on the fact that the AI model was trained on copyrighted contemporary novels without permission. However, this argument might not be the strongest, as copyright law generally protects against copying of specific expression, not against the use of ideas, themes, or styles. Moreover, the AI model did not quote the contemporary novels directly, which could weaken this argument.\n2. The lawyer arguing that the use is transformative fair use might have a stronger argument, depending on the specific circumstances. Fair use is a legal doctrine that permits the use of copyrighted material without the copyright owner's permission in certain circumstances. One of the factors considered in determining whether a use is fair is whether the use is transformative, meaning that it adds something new to the original work with a further purpose or different character. If the AI model's output is sufficiently transformative, this could weigh in favor of fair use.\n3. The lawyer arguing that the training is infringement but the output isn't might have a valid point, but this argument is not necessarily the strongest. The training of the AI model could potentially be seen as an unauthorized copy of the copyrighted contemporary novels. However, the output of the AI model might not infringe copyright if it does not copy specific expression from the copyrighted novels.\n4. The lawyer arguing that it depends on whether the model 'memorized' the contemporary novels might have the strongest argument, as this goes to the heart of whether the AI model copied specific expression from the copyrighted novels. If the AI model memorized large portions of the copyrighted novels and reproduced them in its output, this could be seen as copyright infringement. However, if the AI model merely learned the style and themes of the copyrighted novels and used them to generate new, original expression, this could weigh in favor of fair use.\n\nIf the contemporary novels comprised 90% of the training data instead of 1%, this could strengthen the argument that the AI model copied specific expression from the copyrighted novels, as the model would have been primarily trained on copyrighted material. However, ultimately, the question of whether the use of the copyrighted material is infringing would depend on a case-by-case analysis of the specific circumstances.",
+        "reasoning_trace": "Sonnet reasoning (embedded in response)",
+        "latency_ms": 11466,
+        "input_tokens": 147,
+        "output_tokens": 558,
+        "thinking_tokens": 0,
+        "cost_usd": 0.007284,
+        "timestamp": "2026-04-01T15:40:45.552165",
+        "error": null
+      }
+    },
+    "timestamp": "2026-04-01T15:40:45.552328"
+  },
+  {
+    "prompt": {
+      "id": "p10_optimization_paradox",
+      "category": "systems_reasoning",
+      "difficulty": "hard",
+      "text": "A database query runs in 100ms on average. A developer adds an index, and the average drops to 20ms. However, the 99th percentile latency increases from 200ms to 800ms. The developer argues the optimization was successful (average improved). The operations team says it failed (tail latency got worse). Product manager says it depends on the use case. An architect says the index introduced a write-amplification pathology that causes occasional lock contention. Who's right, and how should you actually decide if this change should be deployed?",
+      "rationale": "Tests understanding of performance optimization tradeoffs, percentile metrics vs averages, and systems thinking. The 'everyone has a point' structure tests whether models can synthesize multiple valid perspectives into a decision framework.",
+      "expected_divergence": "Models will differ on whether average or tail latency is more important, how to weigh competing metrics, and whether investigation (the architect's hypothesis) should precede rollout.",
+      "ground_truth": "All perspectives have merit. The correct answer is: 'it depends on the SLA and use case.' If tail latency is in the SLA (common for user-facing systems), this is a failed optimization. Should investigate the architect's hypothesis before deciding. Good reasoning should weigh tradeoffs, not declare a winner."
+    },
+    "responses": {
+      "opus": {
+        "model_key": "opus",
+        "model_name": "Claude Opus 4.6 (Extended Thinking)",
+        "prompt_id": "p10_optimization_paradox",
+        "answer": "",
+        "reasoning_trace": "Extended thinking enabled (thinking tokens included in output)",
+        "latency_ms": 99513,
+        "input_tokens": 153,
+        "output_tokens": 4723,
+        "thinking_tokens": 0,
+        "cost_usd": 0.35652,
+        "timestamp": "2026-04-01T15:42:25.066079",
+        "error": null
+      },
+      "nova": {
+        "model_key": "nova",
+        "model_name": "Amazon Nova Pro",
+        "prompt_id": "p10_optimization_paradox",
+        "answer": "The evaluation of whether the optimization was successful or not depends on several factors and the specific requirements of the system. Here's a breakdown of the perspectives provided:\n\n1. **Developer's Perspective**:\n   - **Argument**: The optimization was successful because the average query time improved from 100ms to 20ms.\n   - **Consideration**: Average latency is a common metric for performance, and a significant reduction in average time can indicate an overall performance improvement.\n\n2. **Operations Team's Perspective**:\n   - **Argument**: The optimization failed because the 99th percentile latency (a measure of tail latency) worsened from 200ms to 800ms.\n   - **Consideration**: Tail latency is critical in many applications, especially those requiring consistent performance or having strict latency requirements (e.g., real-time systems, user-facing applications).\n\n3. **Product Manager's Perspective**:\n   - **Argument**: The success depends on the use case.\n   - **Consideration**: Different applications have different latency requirements. For example, a background job might tolerate higher tail latency, whereas a user-facing API might not.\n\n4. **Architect's Perspective**:\n   - **Argument**: The index introduced write-amplification pathology that causes occasional lock contention.\n   - **Consideration**: Understanding the underlying causes of the increased tail latency is crucial. If the index causes significant issues like lock contention, it could lead to more severe problems under high load.\n\n### How to Decide if the Change Should Be Deployed\n\nTo make an informed decision, consider the following steps:\n\n1. **Define Success Criteria**:\n   - Clearly define what constitutes success for this change. Is it an improvement in average latency, tail latency, or both? Are there specific SLAs (Service Level Agreements) that need to be met?\n\n2. **Analyze the Use Case**:\n   - Understand the requirements of the application. Is consistent performance more critical than average performance? \n   - For user-facing applications, tail latency might be more important than average latency.\n\n3. **Evaluate the Impact**:\n   - **Quantitative Analysis**:\n     - Look at both average and tail latencies.\n     - Consider other metrics such as throughput, error rates, and resource utilization.\n   - **Qualitative Analysis**:\n     - Gather feedback from users or stakeholders if possible.\n     - Consider the long-term implications of the change, such as maintainability and scalability.\n\n4. **Address Underlying Issues**:\n   - If the architect\u2019s concern about write-amplification and lock contention is valid, investigate whether these issues can be mitigated. \n   - Sometimes, further optimizations or a different indexing strategy might be required.\n\n5. **Testing in a Staging Environment**:\n   - Before deploying to production, test the changes in a staging environment that mimics production load and conditions.\n   - Monitor the system closely to observe the behavior under different loads.\n\n6. **Gradual Rollout**:\n   - Consider a canary release or gradual rollout to a small percentage of users first. \n   - Monitor the performance and gather data before a full deployment.\n\n### Conclusion\n\nThere isn\u2019t a one-size-fits-all answer. The decision should be based on a comprehensive evaluation of the system\u2019s requirements, the nature of the application, and the specific performance metrics that matter most. Involving all stakeholders\u2014developers, operations, product management, and architects\u2014in the discussion will lead to a well-rounded decision.",
+        "reasoning_trace": "Nova Premier deep reasoning (embedded in response)",
+        "latency_ms": 8952,
+        "input_tokens": 126,
+        "output_tokens": 731,
+        "thinking_tokens": 0,
+        "cost_usd": 0.00244,
+        "timestamp": "2026-04-01T15:42:34.019459",
+        "error": null
+      },
+      "mistral": {
+        "model_key": "mistral",
+        "model_name": "Mistral Large",
+        "prompt_id": "p10_optimization_paradox",
+        "answer": "Each person has a valid point from their own perspective, so they are all partially right. However, the final decision should be based on a holistic view of the system's requirements and the impact of this change.\n\n1. The developer is correct in stating that the optimization was successful from a pure average performance perspective. The average query time has significantly decreased, which could lead to improved overall system performance.\n\n2. The operations team is also right to be concerned about the increase in 99th percentile latency. This means that 1% of the queries now take much longer to complete, which could lead to a poor user experience for some users or even system instability if these long-running queries cause resource contention.\n\n3. The product manager is correct in that the decision should depend on the use case. If the system is designed to handle occasional spikes in latency and the primary use case doesn't require consistent low latency, then the change might be acceptable. On the other hand, if the system requires consistent low latency (e.g., a real-time trading system), then the increase in tail latency could be unacceptable.\n\n4. The architect's point about write amplification and lock contention is also valid. Write amplification can lead to increased disk usage, slower write operations, and potential system instability. Lock contention can cause delays and affect system performance, especially under high load.\n\nTo decide if this change should be deployed, you should consider the following:\n\n1. The system's performance requirements: Is consistent low latency more important than average latency? Can the system tolerate occasional spikes in latency?\n\n2. The impact of the change on other system metrics: How does the change affect disk usage, write performance, and system stability?\n\n3. The potential impact on user experience: Will the increase in tail latency lead to a noticeable degradation in user experience?\n\n4. The possibility of further optimization: Can the index be optimized to reduce write amplification and lock contention?\n\n5. The cost-benefit analysis: Does the benefit of improved average performance outweigh the cost of increased tail latency and potential system instability?\n\nAfter considering all these factors, you can make an informed decision about whether to deploy the change.",
+        "reasoning_trace": "Sonnet reasoning (embedded in response)",
+        "latency_ms": 10227,
+        "input_tokens": 132,
+        "output_tokens": 497,
+        "thinking_tokens": 0,
+        "cost_usd": 0.006492,
+        "timestamp": "2026-04-01T15:42:44.246914",
+        "error": null
+      }
+    },
+    "timestamp": "2026-04-01T15:42:44.247068"
+  }
+]

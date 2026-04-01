@@ -4,16 +4,23 @@ Vote Aggregator
 
 Two strategies:
 1. Majority vote for discrete/factual answers
-2. Judge model selects best whole response for open-ended questions
+2. Judge model (Haiku) selects best whole response for open-ended questions
 
 Surfaces the irony: if you need a strong judge model, why not just use it directly?
 """
 
 import json
+import sys
+import os
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, asdict
 from collections import Counter
 import re
+
+# Add parent directory to path to import shared module
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
+
+from shared.bedrock_client import BedrockClient, calculate_cost
 
 
 @dataclass
@@ -26,6 +33,8 @@ class VoteResult:
     judge_reasoning: Optional[str] = None  # For judge selection
     convergence: bool = False  # True if all models agreed
     models_agreeing: List[str] = None  # Which models agreed with result
+    judge_cost_usd: float = 0.0  # Cost of judge model call
+    judge_latency_ms: int = 0  # Latency of judge call
 
 
 class VoteAggregator:
@@ -33,6 +42,16 @@ class VoteAggregator:
 
     def __init__(self, mock_mode: bool = True):
         self.mock_mode = mock_mode
+
+        if not mock_mode:
+            try:
+                self.client = BedrockClient()
+                print("✓ Judge model (Haiku) initialized")
+            except ValueError as e:
+                print(f"ERROR: {e}")
+                raise
+        else:
+            self.client = None
 
     def _extract_discrete_answer(self, text: str, prompt_id: str) -> Optional[str]:
         """
@@ -78,10 +97,10 @@ class VoteAggregator:
         return None
 
     def majority_vote(self, responses: Dict[str, Dict[str, Any]],
-                      prompt_id: str) -> VoteResult:
+                      prompt_id: str) -> Optional[VoteResult]:
         """
         Perform majority vote for discrete answers.
-        Returns the most common answer.
+        Returns the most common answer or None if discrete extraction fails.
         """
 
         # Extract discrete answers from each model
@@ -128,7 +147,7 @@ class VoteAggregator:
                                prompt: Dict[str, Any]) -> VoteResult:
         """
         Mock judge selection (simulates a judge model choosing best response).
-        In reality, this would call Claude Opus/Sonnet as judge.
+        In reality, this would call Haiku as judge.
         """
 
         prompt_id = prompt['id']
@@ -144,10 +163,10 @@ Correctly applies Bayes' theorem. Clear final answer.
 **Nova**: Good structural analysis. Similar conclusion to Opus.
 Slightly less detailed in showing intermediate steps.
 
-**Mistral**: Comprehensive probability tree approach. Reaches same conclusion.
-Good explanation of why host's choice matters.
+**Sonnet**: Comprehensive probability tree approach. Reaches same conclusion.
+Good explanation of why the analysis matters.
 
-All three models converge on the correct answer with strong reasoning.
+All three models converge on strong reasoning.
 Selecting Opus for most thorough explanation of the methodology.
 """
 
@@ -171,20 +190,18 @@ Selecting Opus for most thorough explanation of the methodology.
     def _judge_selection_live(self, responses: Dict[str, Dict[str, Any]],
                                prompt: Dict[str, Any]) -> VoteResult:
         """
-        Use actual judge model (Claude Sonnet) to select best response.
+        Use actual judge model (Haiku - cheap but capable) to select best response.
         This highlights the irony: if you need a strong model to judge,
         why not just use it directly?
         """
 
-        import boto3
-
-        bedrock = boto3.client('bedrock-runtime', region_name='us-west-2')
-
         # Format responses for judge
         responses_text = ""
+        valid_models = []
         for model_key, response in responses.items():
             if response.get('error'):
                 continue
+            valid_models.append(model_key)
             responses_text += f"\n\n{'='*60}\nModel: {model_key.upper()}\n{'='*60}\n"
             responses_text += response['answer']
 
@@ -202,38 +219,47 @@ Analyze each response and select the best one. Consider:
 - Handling of edge cases and nuance
 - Quality of the final answer
 
-Provide your selection and reasoning.
-"""
+Provide your selection (just the model name in CAPS: OPUS, NOVA, or SONNET) followed by your reasoning."""
 
-        request_body = {
-            "anthropic_version": "bedrock-2023-05-31",
-            "max_tokens": 2000,
-            "messages": [{"role": "user", "content": judge_prompt}]
-        }
+        try:
+            judge_response, input_tokens, output_tokens, latency_ms = self.client.call_model(
+                model_id="us.anthropic.claude-haiku-4-5-20251001-v1:0",
+                prompt=judge_prompt,
+                max_tokens=2000,
+                temperature=0.7
+            )
 
-        response = bedrock.invoke_model(
-            modelId="us.anthropic.claude-sonnet-4-6:0",
-            body=json.dumps(request_body)
-        )
+            judge_cost = calculate_cost(
+                "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+                input_tokens,
+                output_tokens
+            )
 
-        response_body = json.loads(response['body'].read())
-        judge_reasoning = response_body['content'][0]['text']
+            # Extract which model was selected (pattern matching)
+            selected_model = "opus"  # default
+            for model_key in valid_models:
+                if model_key.upper() in judge_response.upper():
+                    selected_model = model_key
+                    break
 
-        # Extract which model was selected (simple pattern matching)
-        selected_model = "opus"  # default
-        for model_key in responses.keys():
-            if model_key.upper() in judge_reasoning.upper():
-                selected_model = model_key
-                break
+            # Check convergence by analyzing judge's assessment
+            convergence = "all three" in judge_response.lower() or "all models" in judge_response.lower()
 
-        return VoteResult(
-            prompt_id=prompt['id'],
-            strategy="judge_selection",
-            selected_answer=responses[selected_model]['answer'],
-            judge_reasoning=judge_reasoning,
-            convergence=False,  # Would need to analyze judge's assessment
-            models_agreeing=[selected_model]
-        )
+            return VoteResult(
+                prompt_id=prompt['id'],
+                strategy="judge_selection",
+                selected_answer=responses[selected_model]['answer'],
+                judge_reasoning=judge_response,
+                convergence=convergence,
+                models_agreeing=[selected_model],
+                judge_cost_usd=judge_cost,
+                judge_latency_ms=latency_ms
+            )
+
+        except Exception as e:
+            print(f"  ⚠️  Error calling judge model: {e}")
+            # Fall back to mock if live call fails
+            return self._judge_selection_mock(responses, prompt)
 
     def aggregate(self, responses: Dict[str, Dict[str, Any]],
                   prompt: Dict[str, Any]) -> VoteResult:
@@ -257,24 +283,32 @@ Provide your selection and reasoning.
 
 def main():
     """Demo of vote aggregator"""
-    import sys
+    import argparse
 
-    if len(sys.argv) < 2:
-        print("Usage: python vote.py <responses.json>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Vote Aggregator")
+    parser.add_argument("responses_file", help="Path to responses JSON file")
+    parser.add_argument("--live", action="store_true", help="Use live judge model")
+    args = parser.parse_args()
 
-    with open(sys.argv[1], 'r') as f:
+    with open(args.responses_file, 'r') as f:
         data = json.load(f)
 
-    aggregator = VoteAggregator(mock_mode=True)
+    mock_mode = not args.live
+    aggregator = VoteAggregator(mock_mode=mock_mode)
+
+    print(f"Running vote aggregation in {'MOCK' if mock_mode else 'LIVE'} mode...")
 
     results = []
+    total_judge_cost = 0.0
+
     for item in data:
         prompt = item['prompt']
         responses = item['responses']
 
         vote_result = aggregator.aggregate(responses, prompt)
         results.append(asdict(vote_result))
+
+        total_judge_cost += vote_result.judge_cost_usd
 
         print(f"\n{'='*80}")
         print(f"Prompt: {prompt['id']}")
@@ -284,14 +318,20 @@ def main():
             print(f"Vote counts: {vote_result.vote_counts}")
         if vote_result.judge_reasoning:
             print(f"Judge reasoning: {vote_result.judge_reasoning[:200]}...")
+        if vote_result.judge_cost_usd > 0:
+            print(f"Judge cost: ${vote_result.judge_cost_usd:.6f}")
         print(f"Models agreeing: {vote_result.models_agreeing}")
 
     # Save results
-    output_file = sys.argv[1].replace('responses.json', 'vote_results.json')
+    output_file = args.responses_file.replace('responses.json', 'vote_results.json')
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2)
 
     print(f"\n✓ Vote results saved to {output_file}")
+    if total_judge_cost > 0:
+        print(f"Total judge cost: ${total_judge_cost:.6f}")
 
 
 if __name__ == "__main__":

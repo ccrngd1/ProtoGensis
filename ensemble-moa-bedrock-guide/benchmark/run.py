@@ -20,7 +20,7 @@ from datetime import datetime
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from moa import MoA, Layer, ModelConfig, BedrockClient, MockBedrockClient
+from moa import MoA, Layer, ModelConfig, BedrockClient
 from moa.models import BEDROCK_MODELS, get_recipe
 
 
@@ -33,8 +33,7 @@ def load_prompts(prompts_file: str = "benchmark/prompts.json") -> List[Dict]:
 
 async def run_single_model(
     model_key: str,
-    prompt: str,
-    mock_mode: bool = False
+    prompt: str
 ) -> Dict:
     """
     Run a single model on a prompt.
@@ -42,7 +41,6 @@ async def run_single_model(
     Args:
         model_key: Model identifier
         prompt: Input prompt
-        mock_mode: Use mock client
 
     Returns:
         Dict with response, cost, and latency data
@@ -53,7 +51,7 @@ async def run_single_model(
     import time
 
     pricing = get_model_pricing(model_key)
-    client = MockBedrockClient() if mock_mode else BedrockClient()
+    client = BedrockClient()
 
     # Track execution
     start_time = time.time()
@@ -85,8 +83,7 @@ async def run_single_model(
 
 async def run_moa_ensemble(
     recipe_name: str,
-    prompt: str,
-    mock_mode: bool = False
+    prompt: str
 ) -> Dict:
     """
     Run MoA ensemble on a prompt.
@@ -94,14 +91,13 @@ async def run_moa_ensemble(
     Args:
         recipe_name: Name of the recipe to use
         prompt: Input prompt
-        mock_mode: Use mock client
 
     Returns:
         Dict with response, cost, and latency data
     """
     from moa.core import create_moa_from_recipe
 
-    moa = create_moa_from_recipe(recipe_name, mock_mode=mock_mode)
+    moa = create_moa_from_recipe(recipe_name)
     response = await moa.run(prompt)
 
     return {
@@ -117,7 +113,6 @@ async def run_moa_ensemble(
 
 async def run_benchmark_suite(
     prompts: List[Dict],
-    mock_mode: bool = False,
     limit: int | None = None
 ) -> Dict:
     """
@@ -125,7 +120,6 @@ async def run_benchmark_suite(
 
     Args:
         prompts: List of benchmark prompts
-        mock_mode: Use mock client
         limit: Limit number of prompts (for testing)
 
     Returns:
@@ -138,7 +132,7 @@ async def run_benchmark_suite(
         "metadata": {
             "timestamp": datetime.now().isoformat(),
             "num_prompts": len(prompts),
-            "mock_mode": mock_mode
+            "mode": "live"
         },
         "single_models": {},
         "ensembles": {},
@@ -146,11 +140,13 @@ async def run_benchmark_suite(
     }
 
     print(f"Running benchmark suite with {len(prompts)} prompts...")
-    print(f"Mock mode: {mock_mode}\n")
+    print(f"Mode: LIVE (AWS Bedrock)\n")
 
     # Models to test
-    cheap_models = ["nova-lite", "mistral-7b", "llama-3.1-8b"]
-    baseline_models = ["haiku", "sonnet"]
+    # NOTE: Mistral 7B and Llama 3.1 8B are not available on this Bedrock account
+    # Using Nova Lite (which is the substitute) for cheap models
+    cheap_models = ["nova-lite"]  # Single cheap model baseline
+    baseline_models = ["nova-lite", "haiku", "sonnet"]  # As per spec: Nova Lite alone, Haiku alone, Sonnet alone
     ensemble_recipes = ["ultra-cheap", "code-generation", "reasoning"]
 
     # Run single cheap models
@@ -163,8 +159,7 @@ async def run_benchmark_suite(
             try:
                 result = await run_single_model(
                     model_key=model_key,
-                    prompt=prompt_data['prompt'],
-                    mock_mode=mock_mode
+                    prompt=prompt_data['prompt']
                 )
                 results["single_models"][model_key].append({
                     "prompt_id": prompt_data['id'],
@@ -188,8 +183,7 @@ async def run_benchmark_suite(
             try:
                 result = await run_moa_ensemble(
                     recipe_name=recipe,
-                    prompt=prompt_data['prompt'],
-                    mock_mode=mock_mode
+                    prompt=prompt_data['prompt']
                 )
                 results["ensembles"][recipe].append({
                     "prompt_id": prompt_data['id'],
@@ -213,8 +207,7 @@ async def run_benchmark_suite(
             try:
                 result = await run_single_model(
                     model_key=model_key,
-                    prompt=prompt_data['prompt'],
-                    mock_mode=mock_mode
+                    prompt=prompt_data['prompt']
                 )
                 results["baselines"][model_key].append({
                     "prompt_id": prompt_data['id'],
@@ -265,11 +258,6 @@ def main():
 
     parser = argparse.ArgumentParser(description="Run MoA benchmarks")
     parser.add_argument(
-        "--mock",
-        action="store_true",
-        help="Use mock mode (no real Bedrock API calls)"
-    )
-    parser.add_argument(
         "--limit",
         type=int,
         default=None,
@@ -290,7 +278,6 @@ def main():
     # Run benchmarks
     results = asyncio.run(run_benchmark_suite(
         prompts=prompts,
-        mock_mode=args.mock,
         limit=args.limit
     ))
 

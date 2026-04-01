@@ -8,7 +8,7 @@ Focus: economics, latency, and practical deployment decisions.
 from .core import MoA, Layer, ModelConfig, create_moa_from_recipe
 from .cost_tracker import CostTracker
 from .latency_tracker import LatencyTracker
-from .bedrock_client import BedrockClient, MockBedrockClient
+from .bedrock_client import BedrockClient
 
 __version__ = "1.0.0"
 
@@ -19,6 +19,5 @@ __all__ = [
     "CostTracker",
     "LatencyTracker",
     "BedrockClient",
-    "MockBedrockClient",
     "create_moa_from_recipe",
 ]

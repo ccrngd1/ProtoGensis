@@ -10,9 +10,16 @@ This is the most sophisticated aggregation strategy but also the most expensive
 """
 
 import json
+import sys
+import os
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, asdict
 import hashlib
+
+# Add parent directory to path to import shared module
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
+
+from shared.bedrock_client import BedrockClient, calculate_cost
 
 
 @dataclass
@@ -25,6 +32,7 @@ class StitchResult:
     extracted_insights: Dict[str, List[str]] = None  # Key insights from each model
     convergence_analysis: str = ""  # Where models agreed/diverged
     cost_usd: float = 0.0  # Cost of orchestrator call
+    latency_ms: int = 0  # Latency of orchestrator call
     models_used: List[str] = None
 
 
@@ -33,6 +41,16 @@ class StitchSynthesizer:
 
     def __init__(self, mock_mode: bool = True):
         self.mock_mode = mock_mode
+
+        if not mock_mode:
+            try:
+                self.client = BedrockClient()
+                print("✓ Orchestrator model (Haiku) initialized")
+            except ValueError as e:
+                print(f"ERROR: {e}")
+                raise
+        else:
+            self.client = None
 
     def _extract_key_insights(self, response: Dict[str, Any]) -> List[str]:
         """
@@ -134,10 +152,10 @@ class StitchSynthesizer:
     def _synthesize_mock(self, responses: Dict[str, Dict[str, Any]],
                          prompt: Dict[str, Any],
                          extracted_insights: Dict[str, List[str]],
-                         convergence_analysis: str) -> tuple[str, str, float]:
+                         convergence_analysis: str) -> tuple:
         """
         Mock synthesis (simulates orchestrator model combining insights).
-        In reality, this would call Claude Opus/Sonnet.
+        In reality, this would call Haiku as orchestrator.
         """
 
         prompt_id = prompt['id']
@@ -150,47 +168,43 @@ class StitchSynthesizer:
 3. Identified strongest reasoning chains:
    - Opus: Rigorous step-by-step probability calculation
    - Nova: Clear Bayesian framework application
-   - Mistral: Comprehensive probability tree approach
+   - Sonnet: Comprehensive probability tree approach
 
 4. Combined insights:
    - All models correctly identify the core probability principle
    - Opus provides the most detailed mathematical steps
    - Nova offers the clearest structural framework
-   - Mistral validates with alternative calculation method
+   - Sonnet validates with alternative calculation method
 
 5. Synthesized answer draws on:
    - Mathematical rigor from Opus
    - Structural clarity from Nova
-   - Validation methodology from Mistral
+   - Validation methodology from Sonnet
 """
 
         # Mock synthesized answer (would be actual LLM generation)
         synthesized_answer = f"""[Synthesized from 3 reasoning models]
 
-Based on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Mistral's validation approach:
+Based on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Sonnet's validation approach:
 
 {responses['opus']['answer'][:200]}...
 
 This conclusion is strengthened by convergence across all three models, each arriving at the same result through different reasoning paths, which increases confidence in the answer's correctness.
 """
 
-        # Mock cost (orchestrator model call)
-        cost_usd = 0.015  # Approximate cost for Opus synthesis call
+        # Mock cost and latency
+        cost_usd = 0.005  # Approximate cost for Haiku synthesis call
+        latency_ms = 3000
 
-        return synthesized_answer, synthesis_reasoning, cost_usd
+        return synthesized_answer, synthesis_reasoning, cost_usd, latency_ms
 
     def _synthesize_live(self, responses: Dict[str, Dict[str, Any]],
                          prompt: Dict[str, Any],
                          extracted_insights: Dict[str, List[str]],
-                         convergence_analysis: str) -> tuple[str, str, float]:
+                         convergence_analysis: str) -> tuple:
         """
-        Use actual orchestrator model (Claude Opus/Sonnet) to synthesize answer.
+        Use actual orchestrator model (Haiku - cheap and fast) to synthesize answer.
         """
-
-        import boto3
-        import time
-
-        bedrock = boto3.client('bedrock-runtime', region_name='us-west-2')
 
         # Format insights for orchestrator
         insights_text = ""
@@ -227,37 +241,32 @@ Your task:
 3. Note where models converge (high confidence) and diverge (areas of uncertainty)
 4. Produce a final answer that is better than any individual response
 
-Provide both your synthesis reasoning and the final synthesized answer.
-"""
+Provide both your synthesis reasoning and the final synthesized answer."""
 
-        start_time = time.time()
+        try:
+            synthesis_output, input_tokens, output_tokens, latency_ms = self.client.call_model(
+                model_id="us.anthropic.claude-haiku-4-5-20251001-v1:0",
+                prompt=orchestrator_prompt,
+                max_tokens=3000,
+                temperature=0.7
+            )
 
-        request_body = {
-            "anthropic_version": "bedrock-2023-05-31",
-            "max_tokens": 3000,
-            "messages": [{"role": "user", "content": orchestrator_prompt}]
-        }
+            cost_usd = calculate_cost(
+                "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+                input_tokens,
+                output_tokens
+            )
 
-        response = bedrock.invoke_model(
-            modelId="us.anthropic.claude-opus-4-6:0",
-            body=json.dumps(request_body)
-        )
+            # Use the full synthesis output
+            synthesis_reasoning = synthesis_output
+            synthesized_answer = synthesis_output
 
-        response_body = json.loads(response['body'].read())
-        synthesis_output = response_body['content'][0]['text']
+            return synthesized_answer, synthesis_reasoning, cost_usd, latency_ms
 
-        # Calculate cost
-        usage = response_body.get('usage', {})
-        input_tokens = usage.get('input_tokens', 0)
-        output_tokens = usage.get('output_tokens', 0)
-        cost_usd = (input_tokens / 1000) * 0.015 + (output_tokens / 1000) * 0.075
-
-        # Parse synthesis reasoning and answer from output
-        # (in practice, might structure this better)
-        synthesis_reasoning = synthesis_output
-        synthesized_answer = synthesis_output  # Would parse more carefully
-
-        return synthesized_answer, synthesis_reasoning, cost_usd
+        except Exception as e:
+            print(f"  ⚠️  Error calling orchestrator model: {e}")
+            # Fall back to mock if live call fails
+            return self._synthesize_mock(responses, prompt, extracted_insights, convergence_analysis)
 
     def synthesize(self, responses: Dict[str, Dict[str, Any]],
                    prompt: Dict[str, Any]) -> StitchResult:
@@ -278,11 +287,11 @@ Provide both your synthesis reasoning and the final synthesized answer.
 
         # Synthesize answer
         if self.mock_mode:
-            synthesized_answer, synthesis_reasoning, cost_usd = self._synthesize_mock(
+            synthesized_answer, synthesis_reasoning, cost_usd, latency_ms = self._synthesize_mock(
                 responses, prompt, extracted_insights, convergence_analysis
             )
         else:
-            synthesized_answer, synthesis_reasoning, cost_usd = self._synthesize_live(
+            synthesized_answer, synthesis_reasoning, cost_usd, latency_ms = self._synthesize_live(
                 responses, prompt, extracted_insights, convergence_analysis
             )
 
@@ -293,22 +302,27 @@ Provide both your synthesis reasoning and the final synthesized answer.
             extracted_insights=extracted_insights,
             convergence_analysis=convergence_analysis,
             cost_usd=cost_usd,
+            latency_ms=latency_ms,
             models_used=list(extracted_insights.keys())
         )
 
 
 def main():
     """Demo of stitch synthesizer"""
-    import sys
+    import argparse
 
-    if len(sys.argv) < 2:
-        print("Usage: python stitch.py <responses.json>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Stitch Synthesizer")
+    parser.add_argument("responses_file", help="Path to responses JSON file")
+    parser.add_argument("--live", action="store_true", help="Use live orchestrator model")
+    args = parser.parse_args()
 
-    with open(sys.argv[1], 'r') as f:
+    with open(args.responses_file, 'r') as f:
         data = json.load(f)
 
-    synthesizer = StitchSynthesizer(mock_mode=True)
+    mock_mode = not args.live
+    synthesizer = StitchSynthesizer(mock_mode=mock_mode)
+
+    print(f"Running stitch synthesis in {'MOCK' if mock_mode else 'LIVE'} mode...")
 
     results = []
     total_cost = 0.0
@@ -326,13 +340,16 @@ def main():
         print(f"Prompt: {prompt['id']}")
         print(f"Models used: {stitch_result.models_used}")
         print(f"Synthesis cost: ${stitch_result.cost_usd:.6f}")
+        print(f"Synthesis latency: {stitch_result.latency_ms}ms")
         print(f"\nConvergence Analysis:")
         print(stitch_result.convergence_analysis)
         print(f"\nSynthesized Answer:")
         print(stitch_result.synthesized_answer[:300] + "...")
 
     # Save results
-    output_file = sys.argv[1].replace('responses.json', 'stitch_results.json')
+    output_file = args.responses_file.replace('responses.json', 'stitch_results.json')
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2)
 

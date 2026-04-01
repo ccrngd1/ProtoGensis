@@ -7,16 +7,16 @@ Three strategies:
 3. Debate: Feed disagreements back for one round, then resolve
 """
 import asyncio
-import json
+import sys
+import os
 import time
-from typing import Dict, List, Optional
+from typing import Dict, List
 from dataclasses import dataclass, asdict
 
-try:
-    import boto3
-    BEDROCK_AVAILABLE = True
-except ImportError:
-    BEDROCK_AVAILABLE = False
+# Add parent directory to path to import shared module
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from shared.bedrock_client import BedrockClient, calculate_cost
 
 
 @dataclass
@@ -32,25 +32,21 @@ class OrchestrationResult:
 class Orchestrator:
     """Orchestrates multiple persona responses into final output"""
 
-    def __init__(
-        self,
-        model_id: str = "us.anthropic.claude-sonnet-4-20250514-v1:0",
-        mock_mode: bool = False
-    ):
+    def __init__(self, model_id: str = "us.anthropic.claude-sonnet-4-6"):
         """
         Initialize orchestrator
 
         Args:
             model_id: Bedrock model ID for orchestration
-            mock_mode: If True, generate mock orchestrated responses
         """
         self.model_id = model_id
-        self.mock_mode = mock_mode or not BEDROCK_AVAILABLE
-
-        if not self.mock_mode:
-            self.bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
-        else:
-            print("Orchestrator running in MOCK MODE")
+        try:
+            self.bedrock_client = BedrockClient()
+            print("✓ Orchestrator initialized with Bedrock client")
+        except ValueError as e:
+            print(f"ERROR: {e}")
+            print("Set AWS_BEARER_TOKEN_BEDROCK environment variable")
+            raise
 
     async def _call_llm(
         self,
@@ -60,124 +56,33 @@ class Orchestrator:
         max_tokens: int = 3000
     ) -> str:
         """Call LLM for orchestration (lower temperature for more consistent judging)"""
-        if self.mock_mode:
-            # Simulate processing time
-            await asyncio.sleep(0.3)
-            return self._generate_mock_orchestration(prompt, system_prompt)
-
-        messages = [{"role": "user", "content": prompt}]
-
-        body = {
-            "anthropic_version": "bedrock-2023-05-31",
-            "max_tokens": max_tokens,
-            "temperature": temperature,
-            "system": system_prompt,
-            "messages": messages
-        }
-
         loop = asyncio.get_event_loop()
-        response = await loop.run_in_executor(
+        result = await loop.run_in_executor(
             None,
-            lambda: self.bedrock.invoke_model(
-                modelId=self.model_id,
-                body=json.dumps(body)
-            )
+            self._call_llm_sync,
+            prompt,
+            system_prompt,
+            max_tokens,
+            temperature
         )
+        return result
 
-        response_body = json.loads(response['body'].read())
-        return response_body['content'][0]['text']
-
-    def _generate_mock_orchestration(self, prompt: str, system_prompt: str) -> str:
-        """Generate mock orchestrated response based on strategy"""
-        if "Pick the strongest" in system_prompt or "judge" in system_prompt.lower():
-            return """
-**Selected Response: Domain Expert**
-
-**Rationale:**
-The Domain Expert's response provides the most pragmatic and actionable guidance. While other personas raised valuable concerns (Skeptical Analyst's risk assessment, Devil's Advocate's questioning of the premise), the Domain Expert balanced theoretical considerations with practical implementation reality.
-
-Key strengths of the selected response:
-1. Referenced specific best practices and precedents
-2. Acknowledged common failure modes to avoid
-3. Provided concrete next steps rather than just analysis
-4. Balanced innovation with proven patterns
-
-The First Principles Thinker's axiom-based approach was intellectually rigorous but perhaps over-engineered for a 3-month timeline. The Creative Problem Solver offered novel approaches but lacked consideration of implementation constraints.
-
-**Final Answer:** [Domain Expert's complete response would be included here]
-"""
-        elif "Synthesize" in system_prompt or "combine" in system_prompt.lower():
-            return """
-**Synthesized Response:**
-
-Drawing the strongest elements from all personas:
-
-**Foundation (from First Principles Thinker):**
-The core question is: what authentication capabilities must we have, vs. what's conventional overhead? Essential: user identity, session management, password security. Not essential initially: SSO, multi-factor auth (can add later).
-
-**Risk Assessment (from Skeptical Analyst & Devil's Advocate):**
-Building auth in-house carries significant risks:
-- Security vulnerabilities from inexperienced implementation
-- Ongoing maintenance burden (password resets, token refresh, edge cases)
-- Regulatory compliance (GDPR, data breach notification)
-- Opportunity cost—3 engineers for 3 months, but how much goes to auth vs. core product?
-
-**Pragmatic Solution (from Domain Expert):**
-Industry consensus for small teams: use Auth0 or similar. Historical data shows in-house auth is a common startup mistake. The "not invented here" syndrome is costly.
-
-**Creative Middle Ground (from Creative Problem Solver):**
-Consider: start with Auth0, but design your system with an auth abstraction layer. If you outgrow it (scale or cost), you can swap implementations later. This inverts the risk—you get speed now, keep flexibility later.
-
-**Validation Approach (from Empiricist):**
-Metrics to decide: (1) time-to-market impact, (2) security incident rate, (3) developer hours spent on auth vs. features. Run a spike: spend 1 week prototyping both approaches, measure complexity.
-
-**Systems View (from Systems Thinker):**
-Second-order effects: if you build auth, every new feature has auth implications (permissions, roles, API security). This compounds over time. But if Auth0 pricing scales with MAU, there's a future cost curve to model.
-
-**Recommendation:**
-Use Auth0 (or similar) with an abstraction layer. Your constraint is time and team size, and auth is a solved problem. Invest your scarce engineering resources in your unique value proposition, not in reimplementing OAuth flows. Revisit if you reach 100K+ MAU or have specific compliance needs that commodity auth can't meet.
-"""
-        else:  # Debate strategy
-            return """
-**Debate Resolution:**
-
-**Round 1 - Key Disagreements Identified:**
-
-1. **Build vs. Buy Trade-off:**
-   - First Principles: "From axioms, auth is just cryptographic identity verification—not complex"
-   - Domain Expert: "Historical precedent shows small teams underestimate auth complexity"
-   - **Tension:** Theoretical simplicity vs. implementation reality
-
-2. **Risk Assessment:**
-   - Skeptical Analyst: "Security vulnerabilities are the primary risk"
-   - Devil's Advocate: "Vendor lock-in and pricing risk are overlooked"
-   - **Tension:** Implementation risk vs. dependency risk
-
-3. **Timeline Feasibility:**
-   - Creative Solver: "Could we do hybrid—use Auth0 for MVP, plan migration path?"
-   - Empiricist: "No data provided on actual implementation time for either approach"
-
-**Round 2 - Consensus Building:**
-
-After debate round, personas converged on:
-- **Agreement:** Time constraint (3 months, 3 engineers) is the binding factor
-- **Agreement:** Auth is necessary but not differentiating for most startups
-- **Agreement:** Need to validate assumptions with time-boxed exploration
-
-**Remaining Disagreement:**
-- Whether abstraction layer adds valuable flexibility or premature architecture
-
-**Final Resolution:**
-
-**Recommended approach:** Use third-party auth (Auth0/Clerk/Supabase Auth) for MVP
-
-**Rationale from debate:**
-The First Principles Thinker's challenge to build from fundamentals is intellectually valid but conflicts with the Empiricist's observation that we lack data on actual implementation complexity. The Domain Expert's pattern-matching shows this is a known solved problem. The Devil's Advocate's vendor risk concern is real but manageable (abstraction layer addresses this without over-engineering).
-
-The Systems Thinker's insight closes the debate: auth creates ongoing feedback loops (every feature touches auth). Starting with a well-tested service reduces that system complexity during the critical early phase.
-
-**Debate outcome:** 5 personas leaning toward third-party, 2 suggesting build-with-abstraction. The conditional recommendations (validate with spike, design for optionality) represent the synthesis of the disagreement.
-"""
+    def _call_llm_sync(
+        self,
+        prompt: str,
+        system_prompt: str,
+        max_tokens: int,
+        temperature: float
+    ) -> str:
+        """Synchronous LLM call (run in thread pool)"""
+        response_text, input_tokens, output_tokens, latency_ms = self.bedrock_client.call_model(
+            model_id=self.model_id,
+            prompt=prompt,
+            system_prompt=system_prompt,
+            max_tokens=max_tokens,
+            temperature=temperature
+        )
+        return response_text
 
     def _format_responses_for_orchestration(
         self,
@@ -439,45 +344,5 @@ Format:
         return asyncio.run(self.orchestrate_all_strategies(prompt, responses))
 
 
-def main():
-    """Demo usage"""
-    # Simulate persona responses for testing
-    mock_responses = [
-        {
-            "persona_name": "First Principles Thinker",
-            "reasoning_framework": "axiomatic_deduction",
-            "response_text": "From first principles, authentication is fundamentally about cryptographic proof of identity. The core axiom is: a system must verify that a request comes from who it claims to come from. Building from this foundation, we need: (1) secure storage of credentials, (2) cryptographic hashing, (3) session token generation. These are well-understood problems with standard solutions. The question isn't 'can we build it' but 'should we allocate scarce resources to it'?"
-        },
-        {
-            "persona_name": "Domain Expert",
-            "reasoning_framework": "pattern_recognition",
-            "response_text": "Industry best practice for teams under 10 people: use established auth providers. Historical precedent: YC companies that built auth in-house spent 2-3x estimated time. Common failure mode: underestimating edge cases (password reset, email verification, session management across devices, token refresh). State of the art: Auth0, Clerk, Supabase Auth. Anti-pattern: 'we're different, we need custom auth.' Unless you have extremely specific compliance requirements, you're not different."
-        },
-        {
-            "persona_name": "Devil's Advocate",
-            "reasoning_framework": "adversarial_interrogation",
-            "response_text": "Arguing against third-party auth: (1) Vendor lock-in and pricing risk—Auth0 scales with MAU, could become expensive. (2) You're trusting critical infrastructure to external service—outage = your users can't log in. (3) Customization constraints—when you need specific auth flows, you'll fight the provider's abstractions. (4) Learning opportunity cost—your team never learns auth deeply, technical debt accumulates in the abstraction layer. Counter-argument to 'it's a solved problem': if it's so solved, why are there a dozen competing providers?"
-        }
-    ]
-
-    orchestrator = Orchestrator(mock_mode=True)
-
-    prompt = "Should we build our own auth or use a third-party service?"
-
-    result = orchestrator.orchestrate_all_strategies_sync(prompt, mock_responses)
-
-    # Print results
-    print("\n" + "="*60)
-    print("ORCHESTRATION RESULTS:")
-    print("="*60 + "\n")
-
-    for strategy_name, strategy_result in result["strategies"].items():
-        print(f"### Strategy: {strategy_name.replace('_', ' ').title()}")
-        print(f"Latency: {strategy_result['latency_ms']:.0f}ms")
-        print("-" * 60)
-        print(strategy_result['final_output'][:600] + "...")
-        print("\n" + "="*60 + "\n")
-
-
 if __name__ == "__main__":
-    main()
+    print("Orchestrator module - use via runner.py or experiment.py")

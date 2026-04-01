@@ -9,7 +9,7 @@ import asyncio
 from dataclasses import dataclass
 from typing import List, Dict, Optional
 
-from .bedrock_client import BaseBedrockClient, MockBedrockClient, BedrockClient
+from .bedrock_client import BedrockClient
 from .cost_tracker import CostTracker
 from .latency_tracker import LatencyTracker
 from .models import get_model_pricing
@@ -58,10 +58,9 @@ class MoA:
     def __init__(
         self,
         layers: List[Layer],
-        client: Optional[BaseBedrockClient] = None,
+        client: Optional[BedrockClient] = None,
         track_cost: bool = True,
-        track_latency: bool = True,
-        mock_mode: bool = False
+        track_latency: bool = True
     ):
         """
         Initialize MoA orchestrator.
@@ -71,7 +70,6 @@ class MoA:
             client: Bedrock client (optional, will create default if not provided)
             track_cost: Whether to track costs
             track_latency: Whether to track latency
-            mock_mode: Use mock client instead of real Bedrock API
         """
         if not layers:
             raise ValueError("At least one layer is required")
@@ -83,8 +81,6 @@ class MoA:
         # Initialize client
         if client:
             self.client = client
-        elif mock_mode:
-            self.client = MockBedrockClient()
         else:
             self.client = BedrockClient()
 
@@ -294,16 +290,12 @@ Your task: Synthesize all the above responses into a single, coherent final answ
 
 
 # Convenience function for quick MoA setup
-def create_moa_from_recipe(
-    recipe_name: str,
-    mock_mode: bool = False
-) -> MoA:
+def create_moa_from_recipe(recipe_name: str) -> MoA:
     """
     Create an MoA instance from a predefined recipe.
 
     Args:
         recipe_name: Name of the recipe from models.RECIPES
-        mock_mode: Use mock client instead of real Bedrock API
 
     Returns:
         Configured MoA instance
@@ -334,4 +326,4 @@ def create_moa_from_recipe(
         aggregator_model = ModelConfig(model_key=recipe['aggregator'])
         layers.append(Layer(models=[aggregator_model], layer_type='aggregator'))
 
-    return MoA(layers=layers, mock_mode=mock_mode)
+    return MoA(layers=layers)
