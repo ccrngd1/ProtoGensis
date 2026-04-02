@@ -37,13 +37,55 @@ class ModelConfig:
 
 # Model configurations based on AWS Bedrock pricing
 MODELS = {
-    # Tier 1: Premium thinking models
-    "opus": ModelConfig(
+    # Tier 1: Thinking-enabled models (extended reasoning)
+    "opus-thinking": ModelConfig(
         name="Claude Opus 4.6 (Extended Thinking)",
         model_id="us.anthropic.claude-opus-4-6-v1",
         supports_thinking=True,
         cost_per_1k_input=0.015,
         cost_per_1k_output=0.075,
+        extended_thinking_multiplier=1.0
+    ),
+    "sonnet-thinking": ModelConfig(
+        name="Claude Sonnet 4.6 (Extended Thinking)",
+        model_id="us.anthropic.claude-sonnet-4-6",
+        supports_thinking=True,
+        cost_per_1k_input=0.003,
+        cost_per_1k_output=0.015,
+        extended_thinking_multiplier=1.0
+    ),
+    "haiku-thinking": ModelConfig(
+        name="Claude Haiku 4.5 (Extended Thinking)",
+        model_id="us.anthropic.claude-haiku-4-5-20251001-v1:0",
+        supports_thinking=True,
+        cost_per_1k_input=0.0008,
+        cost_per_1k_output=0.004,
+        extended_thinking_multiplier=1.0
+    ),
+
+    # Tier 1b: Same models WITHOUT thinking (for comparison)
+    "opus-fast": ModelConfig(
+        name="Claude Opus 4.6 (Fast)",
+        model_id="us.anthropic.claude-opus-4-6-v1",
+        supports_thinking=False,
+        cost_per_1k_input=0.015,
+        cost_per_1k_output=0.075,
+        extended_thinking_multiplier=1.0
+    ),
+    "sonnet-fast": ModelConfig(
+        name="Claude Sonnet 4.6 (Fast)",
+        model_id="us.anthropic.claude-sonnet-4-6",
+        supports_thinking=False,
+        cost_per_1k_input=0.003,
+        cost_per_1k_output=0.015,
+        extended_thinking_multiplier=1.0
+    ),
+    "haiku-fast": ModelConfig(
+        name="Claude Haiku 4.5 (Fast)",
+        model_id="us.anthropic.claude-haiku-4-5-20251001-v1:0",
+        supports_thinking=False,
+        cost_per_1k_input=0.0008,
+        cost_per_1k_output=0.004,
         extended_thinking_multiplier=1.0
     ),
 
@@ -73,15 +115,7 @@ MODELS = {
         extended_thinking_multiplier=1.0
     ),
 
-    # Tier 3: Budget models
-    "haiku": ModelConfig(
-        name="Claude Haiku 4.5",
-        model_id="us.anthropic.claude-haiku-4-5-20251001-v1:0",
-        supports_thinking=False,
-        cost_per_1k_input=0.0008,
-        cost_per_1k_output=0.004,
-        extended_thinking_multiplier=1.0
-    ),
+    # Tier 3: Other fast models
     "llama-3-1-8b": ModelConfig(
         name="Meta Llama 3.1 8B",
         model_id="us.meta.llama3-1-8b-instruct-v1:0",
