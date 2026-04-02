@@ -251,6 +251,7 @@ PRICING = {
     "us.amazon.nova-micro-v1:0": {"input": 0.035, "output": 0.14},
     "us.amazon.nova-lite-v1:0": {"input": 0.06, "output": 0.24},
     "amazon.nova-2-lite-v1:0": {"input": 0.06, "output": 0.24},
+    "global.amazon.nova-2-lite-v1:0": {"input": 0.06, "output": 0.24},  # Global inference profile
     "us.amazon.nova-pro-v1:0": {"input": 0.80, "output": 3.20},
     "us.amazon.nova-premier-v1:0": {"input": 2.00, "output": 8.00},
 
