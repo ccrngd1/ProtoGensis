@@ -2,43 +2,43 @@
   "summary_metrics": [
     {
       "approach": "Individual: Opus",
-      "total_cost_usd": 0.14505,
-      "avg_latency_ms": 6398,
+      "total_cost_usd": 1.987005,
+      "avg_latency_ms": 53348,
       "convergence_rate": 0.0,
       "prompts_evaluated": 10
     },
     {
       "approach": "Individual: Nova",
-      "total_cost_usd": 0.00617,
-      "avg_latency_ms": 6810,
+      "total_cost_usd": 0.020223,
+      "avg_latency_ms": 10657,
       "convergence_rate": 0.0,
       "prompts_evaluated": 10
     },
     {
       "approach": "Individual: Mistral",
-      "total_cost_usd": 0.024712,
-      "avg_latency_ms": 6453,
+      "total_cost_usd": 0.05628800000000001,
+      "avg_latency_ms": 10354,
       "convergence_rate": 0.0,
       "prompts_evaluated": 10
     },
     {
       "approach": "Ensemble: Vote",
-      "total_cost_usd": 0.3559320000000001,
-      "avg_latency_ms": 7398,
-      "convergence_rate": 0.1,
+      "total_cost_usd": 2.263516,
+      "avg_latency_ms": 53348,
+      "convergence_rate": 0.0,
       "prompts_evaluated": 10
     },
     {
       "approach": "Ensemble: Stitch",
-      "total_cost_usd": 0.32593200000000006,
-      "avg_latency_ms": 12398,
+      "total_cost_usd": 2.1135159999999993,
+      "avg_latency_ms": 58348,
       "convergence_rate": 0.0,
       "prompts_evaluated": 10
     },
     {
       "approach": "Baseline: Self-Consistency (Opus 3x)",
-      "total_cost_usd": 0.43515000000000004,
-      "avg_latency_ms": 19194,
+      "total_cost_usd": 5.961015,
+      "avg_latency_ms": 160044,
       "convergence_rate": 0.7,
       "prompts_evaluated": 10
     }
@@ -47,128 +47,148 @@
     {
       "prompt_id": "p1_monty_hall_variant",
       "convergence": false,
-      "opus_answer": "Switch to either door 2 or door 4 (equal odds). Door 1 remains 1/4 probability, doors 2 and 4 each become 3/8. Switching improves your odds from 25% t...",
-      "nova_answer": "Switch to door 2 or door 4 - both have 37.5% probability vs door 1's 25%. The host's constrained choice reveals information that benefits the other un...",
-      "mistral_answer": "You should switch. Door 1 stays at 1/4 (25%). Doors 2 and 4 each have 3/8 (37.5%) probability. Choose either door 2 or 4 to maximize winning chances....",
-      "vote_strategy": "majority_vote",
-      "vote_answer": "Switch to either door 2 or door 4 (equal odds). Door 1 remains 1/4 probability, doors 2 and 4 each become 3/8. Switching improves your odds from 25% t...",
-      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Mistral's vali...",
+      "model_answers": {
+        "opus": "",
+        "nova": "In this scenario, the situation is similar to the classic Monty Hall problem, but with an additional door. Let's break down the probabilities to deter...",
+        "mistral": "This is a well-known probability puzzle known as the Monty Hall problem. Here's how to understand it:\n\nWhen you initially chose door 1, the probabilit..."
+      },
+      "vote_strategy": "judge_selection",
+      "vote_answer": "...",
+      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Sonnet's valid...",
       "ground_truth": "Door 1 stays at 1/4 probability. Doors 2 and 4 each have 3/8 probability (the eliminated door's probability distributes equally). Switching to either door 2 or 4 improves odds from 1/4 to 3/8.",
-      "analysis": "\u2717 Models diverged | Vote: Used majority voting (discrete answer)"
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value"
     },
     {
       "prompt_id": "p2_mutex_deadlock",
       "convergence": false,
-      "opus_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p2_mutex_deadlock]: Based on the analysis, the answer depends on the specific framework and constra...",
-      "nova_answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p2_mutex_deadlock]: Based on the analysis, the answer depends on the specific framework and constr...",
-      "mistral_answer": "[Mistral Large Reasoning concludes for p2_mutex_deadlock]: Based on the analysis, the answer depends on the specific framework and constraints applied...",
+      "model_answers": {
+        "opus": "",
+        "nova": "Let's analyze the given pseudocode and the claims made by the developers.\n\n### Analysis of the Pseudocode\n\n**Thread A:**\n```pseudo\nlock(mutex1)\nsleep(...",
+        "mistral": "The first developer is right. This code will deadlock.\n\nA deadlock is a situation where two or more threads are blocked forever, waiting for each othe..."
+      },
       "vote_strategy": "judge_selection",
-      "vote_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p2_mutex_deadlock]: Based on the analysis, the answer depends on the specific framework and constra...",
-      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Mistral's vali...",
+      "vote_answer": "...",
+      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Sonnet's valid...",
       "ground_truth": "The code CAN deadlock (not guaranteed, but highly likely). If Thread B acquires mutex2 while Thread A holds mutex1, circular wait occurs. The sleep() makes it more likely but isn't the root cause. Minimum fix: acquire mutexes in consistent order in both threads.",
       "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value"
     },
     {
       "prompt_id": "p3_trolley_autonomous",
       "convergence": false,
-      "opus_answer": "No clear answer exists. I'd argue: AI should swerve right (80% child risk) because it minimizes total expected deaths while avoiding certainty of kill...",
-      "nova_answer": "The AI should swerve right (80% passenger risk). This minimizes expected deaths (0.8 vs 3) and avoids deliberately killing pedestrians. The human-vs-A...",
-      "mistral_answer": "Swerve right (80% child risk). This minimizes total expected harm while avoiding the certain death of 3 people. The decision should be the same whethe...",
+      "model_answers": {
+        "opus": "",
+        "nova": "This scenario presents a profound ethical dilemma, often discussed in the context of the \"trolley problem.\" Here\u2019s a breakdown of the decision-making ...",
+        "mistral": "This is a complex ethical dilemma, often referred to as a variation of the \"trolley problem\". The question is not just about programming, but also abo..."
+      },
       "vote_strategy": "judge_selection",
-      "vote_answer": "No clear answer exists. I'd argue: AI should swerve right (80% child risk) because it minimizes total expected deaths while avoiding certainty of kill...",
-      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Mistral's vali...",
+      "vote_answer": "...",
+      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Sonnet's valid...",
       "ground_truth": "No objective ground truth. Evaluation should assess quality of reasoning, consideration of multiple ethical frameworks, and acknowledgment of moral complexity.",
       "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value"
     },
     {
       "prompt_id": "p4_regex_edge_case",
       "convergence": false,
-      "opus_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p4_regex_edge_case]: Based on the analysis, the answer depends on the specific framework and constr...",
-      "nova_answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p4_regex_edge_case]: Based on the analysis, the answer depends on the specific framework and const...",
-      "mistral_answer": "[Mistral Large Reasoning concludes for p4_regex_edge_case]: Based on the analysis, the answer depends on the specific framework and constraints applie...",
+      "model_answers": {
+        "opus": "",
+        "nova": "The behavior of the regular expression `^(a+)+b$` on the input `'aaaaaaaaaaaaaaaaaaaaaaaaaaac'` can be understood by breaking down the components of t...",
+        "mistral": "The second person is correct in that the regex will fail instantly because 'c' doesn't match 'b'. However, their reasoning is incomplete. The actual b..."
+      },
       "vote_strategy": "judge_selection",
-      "vote_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p4_regex_edge_case]: Based on the analysis, the answer depends on the specific framework and constr...",
-      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Mistral's vali...",
+      "vote_answer": "...",
+      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Sonnet's valid...",
       "ground_truth": "Catastrophic backtracking DOES occur even on mismatch. The regex engine tries all possible ways to partition the 'a' characters before failing on the 'c'. The person claiming instant failure is wrong.",
       "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value"
     },
     {
       "prompt_id": "p5_medical_bayes",
       "convergence": false,
-      "opus_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p5_medical_bayes]: Based on the analysis, the answer depends on the specific framework and constrai...",
-      "nova_answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p5_medical_bayes]: Based on the analysis, the answer depends on the specific framework and constra...",
-      "mistral_answer": "[Mistral Large Reasoning concludes for p5_medical_bayes]: Based on the analysis, the answer depends on the specific framework and constraints applied....",
+      "model_answers": {
+        "opus": "",
+        "nova": "To determine the actual probability that you have the disease given a positive test result, we need to use Bayes' Theorem. Let's define the events fir...",
+        "mistral": "This is a classic example of a counter-intuitive result in probability, specifically dealing with Bayes' theorem. Let's break it down:\n\n1. The prevale..."
+      },
       "vote_strategy": "judge_selection",
-      "vote_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p5_medical_bayes]: Based on the analysis, the answer depends on the specific framework and constrai...",
-      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Mistral's vali...",
+      "vote_answer": "...",
+      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Sonnet's valid...",
       "ground_truth": "The friend is correct. Using Bayes' theorem: P(disease|positive) = (0.001 \u00d7 0.99) / [(0.001 \u00d7 0.99) + (0.999 \u00d7 0.01)] \u2248 9%. The low base rate means most positives are false positives.",
-      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended)"
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value"
     },
     {
       "prompt_id": "p6_time_complexity_trick",
       "convergence": false,
-      "opus_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p6_time_complexity_trick]: Based on the analysis, the answer depends on the specific framework and ...",
-      "nova_answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p6_time_complexity_trick]: Based on the analysis, the answer depends on the specific framework and...",
-      "mistral_answer": "[Mistral Large Reasoning concludes for p6_time_complexity_trick]: Based on the analysis, the answer depends on the specific framework and constraints ...",
+      "model_answers": {
+        "opus": "",
+        "nova": "Let's analyze the function `mystery(n)` step by step.\n\n### Understanding the Function\n\nThe function `mystery(n)` is a recursive function that follows ...",
+        "mistral": "The third developer is correct. The time complexity of this function is actually O(\u03c6^n), where \u03c6 is the golden ratio. This function is an implementati..."
+      },
       "vote_strategy": "judge_selection",
-      "vote_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p6_time_complexity_trick]: Based on the analysis, the answer depends on the specific framework and ...",
-      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Mistral's vali...",
+      "vote_answer": "...",
+      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Sonnet's valid...",
       "ground_truth": "The second and third developers are both right in different ways. Formal Big-O is O(2^n), but tighter bound is O(\u03c6^n). Both are 'exponential'. The O(n) claim is wrong. The nuance is that Big-O allows constant factors, so O(\u03c6^n) \u2286 O(2^n).",
       "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value"
     },
     {
       "prompt_id": "p7_ship_of_theseus_ai",
       "convergence": false,
-      "opus_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p7_ship_of_theseus_ai]: Based on the analysis, the answer depends on the specific framework and con...",
-      "nova_answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p7_ship_of_theseus_ai]: Based on the analysis, the answer depends on the specific framework and co...",
-      "mistral_answer": "[Mistral Large Reasoning concludes for p7_ship_of_theseus_ai]: Based on the analysis, the answer depends on the specific framework and constraints app...",
+      "model_answers": {
+        "opus": "",
+        "nova": "This is a fascinating philosophical and practical question about the identity and continuity of AI models. Let's break down the considerations and how...",
+        "mistral": "This is a complex question that touches on philosophy, computer science, and law. Let's break it down:\n\n1. Is it still the 'same' AI model? This depen..."
+      },
       "vote_strategy": "judge_selection",
-      "vote_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p7_ship_of_theseus_ai]: Based on the analysis, the answer depends on the specific framework and con...",
-      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Mistral's vali...",
+      "vote_answer": "...",
+      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Sonnet's valid...",
       "ground_truth": "No objective ground truth. Evaluation should assess whether models recognize this as a Ship of Theseus problem, consider multiple perspectives (functional, ontological, legal), and handle the sub-questions thoughtfully.",
       "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value"
     },
     {
       "prompt_id": "p8_sql_injection_subtle",
       "convergence": false,
-      "opus_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p8_sql_injection_subtle]: Based on the analysis, the answer depends on the specific framework and c...",
-      "nova_answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p8_sql_injection_subtle]: Based on the analysis, the answer depends on the specific framework and ...",
-      "mistral_answer": "[Mistral Large Reasoning concludes for p8_sql_injection_subtle]: Based on the analysis, the answer depends on the specific framework and constraints a...",
+      "model_answers": {
+        "opus": "",
+        "nova": "In this scenario, the security reviewer is correct in flagging the code as vulnerable to SQL injection, despite the developer's claim that input valid...",
+        "mistral": "The security reviewer is correct. The code is still vulnerable to SQL injection.\n\nWhile the developer is indeed validating the input to only allow dig..."
+      },
       "vote_strategy": "judge_selection",
-      "vote_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p8_sql_injection_subtle]: Based on the analysis, the answer depends on the specific framework and c...",
-      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Mistral's vali...",
+      "vote_answer": "...",
+      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Sonnet's valid...",
       "ground_truth": "The security reviewer is closer to correct. While `isdigit()` does prevent most SQL injection for this specific query, it's fragile (breaks if requirements change to allow negative IDs) and doesn't use best practice (parameterized queries). The third engineer is wrong\u2014f-strings bypass parameterization.",
       "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value"
     },
     {
       "prompt_id": "p9_ai_copyright_derivative",
       "convergence": false,
-      "opus_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p9_ai_copyright_derivative]: Based on the analysis, the answer depends on the specific framework an...",
-      "nova_answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p9_ai_copyright_derivative]: Based on the analysis, the answer depends on the specific framework a...",
-      "mistral_answer": "[Mistral Large Reasoning concludes for p9_ai_copyright_derivative]: Based on the analysis, the answer depends on the specific framework and constraint...",
+      "model_answers": {
+        "opus": "",
+        "nova": "Under current U.S. law, the most legally sound position would likely be a nuanced combination of the second and third viewpoints, with an emphasis on ...",
+        "mistral": "I am not a lawyer, but I can provide you with an analysis of the arguments based on current US copyright law. The strongest legal argument may depend ..."
+      },
       "vote_strategy": "judge_selection",
-      "vote_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p9_ai_copyright_derivative]: Based on the analysis, the answer depends on the specific framework an...",
-      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Mistral's vali...",
+      "vote_answer": "...",
+      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Sonnet's valid...",
       "ground_truth": "No settled law yet. The fourth person's memorization argument is currently most aligned with ongoing litigation (NYT vs OpenAI). The ratio question is novel. Evaluation should assess legal reasoning quality, not pick a winner.",
       "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value"
     },
     {
       "prompt_id": "p10_optimization_paradox",
       "convergence": false,
-      "opus_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p10_optimization_paradox]: Based on the analysis, the answer depends on the specific framework and ...",
-      "nova_answer": "[Amazon Nova Premier (Deep Reasoning) concludes for p10_optimization_paradox]: Based on the analysis, the answer depends on the specific framework and...",
-      "mistral_answer": "[Mistral Large Reasoning concludes for p10_optimization_paradox]: Based on the analysis, the answer depends on the specific framework and constraints ...",
+      "model_answers": {
+        "opus": "",
+        "nova": "This scenario highlights the complexity of evaluating the success of a database optimization. Each stakeholder brings a valid perspective, and the dec...",
+        "mistral": "Each person has a valid point based on their perspective, so they are all partially right.\n\nThe developer is correct in saying that the optimization w..."
+      },
       "vote_strategy": "judge_selection",
-      "vote_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p10_optimization_paradox]: Based on the analysis, the answer depends on the specific framework and ...",
-      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Mistral's vali...",
+      "vote_answer": "...",
+      "stitch_answer": "[Synthesized from 3 reasoning models]\n\nBased on ensemble analysis combining Opus's mathematical rigor, Nova's structural framework, and Sonnet's valid...",
       "ground_truth": "All perspectives have merit. The correct answer is: 'it depends on the SLA and use case.' If tail latency is in the SLA (common for user-facing systems), this is a failed optimization. Should investigate the architect's hypothesis before deciding. Good reasoning should weigh tradeoffs, not declare a winner.",
       "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value"
     }
   ],
   "insights": {
-    "convergence_rate": 0.1,
-    "cost_ratio_ensemble_vs_best": 2.247032057911065,
+    "convergence_rate": 0.0,
+    "cost_ratio_ensemble_vs_best": 1.0636691905657003,
     "when_ensembling_helps": "When models diverge (low convergence), ensemble synthesis can combine best reasoning. When models converge (high agreement), ensemble adds cost without value.",
-    "judge_irony": "If you need Claude Opus/Sonnet as judge to select best response, you could have just used that model directly. Judge quality matters more than ensemble size."
+    "judge_irony": "If you need a high-quality model as judge to select best response, you could have just used that model directly. Judge quality matters more than ensemble size."
   }
 }

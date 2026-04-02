@@ -1,116 +1,132 @@
 [
   {
     "prompt_id": "p1_monty_hall_variant",
-    "strategy": "majority_vote",
-    "selected_answer": "Switch to either door 2 or door 4 (equal odds). Door 1 remains 1/4 probability, doors 2 and 4 each become 3/8. Switching improves your odds from 25% to 37.5%.",
-    "vote_counts": {
-      "switch": 3
-    },
-    "judge_reasoning": null,
-    "convergence": true,
+    "strategy": "judge_selection",
+    "selected_answer": "",
+    "vote_counts": null,
+    "judge_reasoning": "Judge evaluation for p1_monty_hall_variant:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Sonnet**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why the analysis matters.\n\nAll three models converge on strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
+    "convergence": false,
     "models_agreeing": [
-      "opus",
-      "nova",
-      "mistral"
-    ]
+      "opus"
+    ],
+    "judge_cost_usd": 0.0,
+    "judge_latency_ms": 0
   },
   {
     "prompt_id": "p2_mutex_deadlock",
     "strategy": "judge_selection",
-    "selected_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p2_mutex_deadlock]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+    "selected_answer": "",
     "vote_counts": null,
-    "judge_reasoning": "Judge evaluation for p2_mutex_deadlock:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Mistral**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why host's choice matters.\n\nAll three models converge on the correct answer with strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
+    "judge_reasoning": "Judge evaluation for p2_mutex_deadlock:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Sonnet**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why the analysis matters.\n\nAll three models converge on strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
     "convergence": false,
     "models_agreeing": [
       "opus"
-    ]
+    ],
+    "judge_cost_usd": 0.0,
+    "judge_latency_ms": 0
   },
   {
     "prompt_id": "p3_trolley_autonomous",
     "strategy": "judge_selection",
-    "selected_answer": "No clear answer exists. I'd argue: AI should swerve right (80% child risk) because it minimizes total expected deaths while avoiding certainty of killing 3 people. But reasonable people can disagree. The human-vs-AI distinction matters: humans might permissibly choose to save the child (going straight), but we may not want to program AIs to value passengers over pedestrians. This reflects our discomfort with explicitly encoding trade-offs we tolerate in human judgment.",
+    "selected_answer": "",
     "vote_counts": null,
-    "judge_reasoning": "Judge evaluation for p3_trolley_autonomous:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Mistral**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why host's choice matters.\n\nAll three models converge on the correct answer with strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
+    "judge_reasoning": "Judge evaluation for p3_trolley_autonomous:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Sonnet**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why the analysis matters.\n\nAll three models converge on strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
     "convergence": false,
     "models_agreeing": [
       "opus"
-    ]
+    ],
+    "judge_cost_usd": 0.0,
+    "judge_latency_ms": 0
   },
   {
     "prompt_id": "p4_regex_edge_case",
     "strategy": "judge_selection",
-    "selected_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p4_regex_edge_case]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+    "selected_answer": "",
     "vote_counts": null,
-    "judge_reasoning": "Judge evaluation for p4_regex_edge_case:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Mistral**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why host's choice matters.\n\nAll three models converge on the correct answer with strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
+    "judge_reasoning": "Judge evaluation for p4_regex_edge_case:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Sonnet**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why the analysis matters.\n\nAll three models converge on strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
     "convergence": false,
     "models_agreeing": [
       "opus"
-    ]
+    ],
+    "judge_cost_usd": 0.0,
+    "judge_latency_ms": 0
   },
   {
     "prompt_id": "p5_medical_bayes",
     "strategy": "judge_selection",
-    "selected_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p5_medical_bayes]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+    "selected_answer": "",
     "vote_counts": null,
-    "judge_reasoning": "Judge evaluation for p5_medical_bayes:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Mistral**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why host's choice matters.\n\nAll three models converge on the correct answer with strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
+    "judge_reasoning": "Judge evaluation for p5_medical_bayes:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Sonnet**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why the analysis matters.\n\nAll three models converge on strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
     "convergence": false,
     "models_agreeing": [
       "opus"
-    ]
+    ],
+    "judge_cost_usd": 0.0,
+    "judge_latency_ms": 0
   },
   {
     "prompt_id": "p6_time_complexity_trick",
     "strategy": "judge_selection",
-    "selected_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p6_time_complexity_trick]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+    "selected_answer": "",
     "vote_counts": null,
-    "judge_reasoning": "Judge evaluation for p6_time_complexity_trick:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Mistral**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why host's choice matters.\n\nAll three models converge on the correct answer with strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
+    "judge_reasoning": "Judge evaluation for p6_time_complexity_trick:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Sonnet**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why the analysis matters.\n\nAll three models converge on strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
     "convergence": false,
     "models_agreeing": [
       "opus"
-    ]
+    ],
+    "judge_cost_usd": 0.0,
+    "judge_latency_ms": 0
   },
   {
     "prompt_id": "p7_ship_of_theseus_ai",
     "strategy": "judge_selection",
-    "selected_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p7_ship_of_theseus_ai]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+    "selected_answer": "",
     "vote_counts": null,
-    "judge_reasoning": "Judge evaluation for p7_ship_of_theseus_ai:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Mistral**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why host's choice matters.\n\nAll three models converge on the correct answer with strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
+    "judge_reasoning": "Judge evaluation for p7_ship_of_theseus_ai:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Sonnet**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why the analysis matters.\n\nAll three models converge on strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
     "convergence": false,
     "models_agreeing": [
       "opus"
-    ]
+    ],
+    "judge_cost_usd": 0.0,
+    "judge_latency_ms": 0
   },
   {
     "prompt_id": "p8_sql_injection_subtle",
     "strategy": "judge_selection",
-    "selected_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p8_sql_injection_subtle]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+    "selected_answer": "",
     "vote_counts": null,
-    "judge_reasoning": "Judge evaluation for p8_sql_injection_subtle:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Mistral**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why host's choice matters.\n\nAll three models converge on the correct answer with strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
+    "judge_reasoning": "Judge evaluation for p8_sql_injection_subtle:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Sonnet**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why the analysis matters.\n\nAll three models converge on strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
     "convergence": false,
     "models_agreeing": [
       "opus"
-    ]
+    ],
+    "judge_cost_usd": 0.0,
+    "judge_latency_ms": 0
   },
   {
     "prompt_id": "p9_ai_copyright_derivative",
     "strategy": "judge_selection",
-    "selected_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p9_ai_copyright_derivative]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+    "selected_answer": "",
     "vote_counts": null,
-    "judge_reasoning": "Judge evaluation for p9_ai_copyright_derivative:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Mistral**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why host's choice matters.\n\nAll three models converge on the correct answer with strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
+    "judge_reasoning": "Judge evaluation for p9_ai_copyright_derivative:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Sonnet**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why the analysis matters.\n\nAll three models converge on strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
     "convergence": false,
     "models_agreeing": [
       "opus"
-    ]
+    ],
+    "judge_cost_usd": 0.0,
+    "judge_latency_ms": 0
   },
   {
     "prompt_id": "p10_optimization_paradox",
     "strategy": "judge_selection",
-    "selected_answer": "[Claude Opus 4.5 (Extended Thinking) concludes for p10_optimization_paradox]: Based on the analysis, the answer depends on the specific framework and constraints applied.",
+    "selected_answer": "",
     "vote_counts": null,
-    "judge_reasoning": "Judge evaluation for p10_optimization_paradox:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Mistral**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why host's choice matters.\n\nAll three models converge on the correct answer with strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
+    "judge_reasoning": "Judge evaluation for p10_optimization_paradox:\n\nComparing three responses:\n\n**Opus**: Strong reasoning trace with step-by-step probability calculations.\nCorrectly applies Bayes' theorem. Clear final answer.\n\n**Nova**: Good structural analysis. Similar conclusion to Opus.\nSlightly less detailed in showing intermediate steps.\n\n**Sonnet**: Comprehensive probability tree approach. Reaches same conclusion.\nGood explanation of why the analysis matters.\n\nAll three models converge on strong reasoning.\nSelecting Opus for most thorough explanation of the methodology.\n",
     "convergence": false,
     "models_agreeing": [
       "opus"
-    ]
+    ],
+    "judge_cost_usd": 0.0,
+    "judge_latency_ms": 0
   }
 ]

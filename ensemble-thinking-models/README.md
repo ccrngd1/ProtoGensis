@@ -104,7 +104,14 @@ To run with actual Bedrock API calls:
 # Ensure AWS credentials are configured
 python3 harness.py --live --output results/responses.json
 
-# Then run aggregators and evaluation as above
+# Run vote aggregation
+python3 aggregators/vote.py results/responses.json
+
+# Run stitch synthesis
+python3 aggregators/stitch.py results/responses.json
+
+# Run evaluation
+python3 evaluate.py
 ```
 
 **Cost estimate for live mode:** ~$0.18 for all 10 prompts through 3 models (may vary based on response lengths)

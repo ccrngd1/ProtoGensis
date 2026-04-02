@@ -3,7 +3,7 @@
 Evaluation Framework
 
 Compares individual model performance vs ensemble aggregation methods:
-- Individual models (Opus, Nova, Mistral)
+- Individual models (dynamically detected from responses)
 - Vote aggregation
 - Stitch synthesis
 - Self-consistency baseline (same model, multiple runs)
@@ -16,6 +16,7 @@ Metrics:
 """
 
 import json
+import argparse
 from typing import Dict, List, Any
 from dataclasses import dataclass, asdict
 from collections import defaultdict
@@ -36,9 +37,7 @@ class PromptComparison:
     """Comparison data for a single prompt"""
     prompt_id: str
     convergence: bool
-    opus_answer: str
-    nova_answer: str
-    mistral_answer: str
+    model_answers: Dict[str, str]  # Dynamic model answers
     vote_strategy: str
     vote_answer: str
     stitch_answer: str
@@ -54,6 +53,7 @@ class Evaluator:
         self.vote_results = None
         self.stitch_results = None
         self.prompts_metadata = None
+        self.model_keys = None
 
     def load_data(self, responses_file: str = "results/responses.json",
                   vote_file: str = "results/vote_results.json",
@@ -73,6 +73,21 @@ class Evaluator:
         with open(prompts_file, 'r') as f:
             prompts_data = json.load(f)
             self.prompts_metadata = {p['id']: p for p in prompts_data['prompts']}
+
+        # Dynamically detect available model keys from responses
+        self.model_keys = self._extract_model_keys()
+
+    def _extract_model_keys(self) -> List[str]:
+        """Extract available model keys from responses data"""
+        if not self.responses or len(self.responses) == 0:
+            return []
+
+        # Get model keys from first response item
+        first_item = self.responses[0]
+        model_keys = list(first_item['responses'].keys())
+
+        print(f"Detected model keys: {model_keys}")
+        return model_keys
 
     def calculate_individual_metrics(self, model_key: str) -> EvaluationMetrics:
         """Calculate metrics for a single model"""
@@ -99,15 +114,15 @@ class Evaluator:
     def calculate_vote_metrics(self) -> EvaluationMetrics:
         """Calculate metrics for vote aggregation"""
 
-        # Vote cost = cost of all 3 models + optional judge call
+        # Vote cost = cost of all models + optional judge call
         total_model_cost = 0.0
         total_latency = 0
         num_prompts = len(self.responses)
         convergence_count = 0
 
         for item in self.responses:
-            # Cost of running all 3 models
-            for model_key in ['opus', 'nova', 'mistral']:
+            # Cost of running all models
+            for model_key in self.model_keys:
                 response = item['responses'][model_key]
                 if not response.get('error'):
                     total_model_cost += response['cost_usd']
@@ -115,7 +130,7 @@ class Evaluator:
             # Max latency (parallel execution)
             max_latency = max(
                 item['responses'][mk]['latency_ms']
-                for mk in ['opus', 'nova', 'mistral']
+                for mk in self.model_keys
                 if not item['responses'][mk].get('error')
             )
             total_latency += max_latency
@@ -142,14 +157,14 @@ class Evaluator:
     def calculate_stitch_metrics(self) -> EvaluationMetrics:
         """Calculate metrics for stitch synthesis"""
 
-        # Stitch cost = cost of all 3 models + orchestrator synthesis
+        # Stitch cost = cost of all models + orchestrator synthesis
         total_cost = 0.0
         total_latency = 0
         num_prompts = len(self.responses)
 
         for i, item in enumerate(self.responses):
-            # Cost of running all 3 models
-            for model_key in ['opus', 'nova', 'mistral']:
+            # Cost of running all models
+            for model_key in self.model_keys:
                 response = item['responses'][model_key]
                 if not response.get('error'):
                     total_cost += response['cost_usd']
@@ -161,7 +176,7 @@ class Evaluator:
             # Max latency (parallel) + synthesis time (estimated 5s)
             max_latency = max(
                 item['responses'][mk]['latency_ms']
-                for mk in ['opus', 'nova', 'mistral']
+                for mk in self.model_keys
                 if not item['responses'][mk].get('error')
             )
             total_latency += max_latency + 5000  # Add synthesis time
@@ -184,19 +199,21 @@ class Evaluator:
     def calculate_self_consistency_metrics(self) -> EvaluationMetrics:
         """
         Calculate metrics for self-consistency baseline.
-        This would be: run Opus 3x with temperature > 0, majority vote.
-        Using estimated costs/latency based on Opus pricing.
+        This would be: run the first model 3x with temperature > 0, majority vote.
+        Using estimated costs/latency based on first model's pricing.
         """
 
-        # Self-consistency = 3x Opus calls + voting logic (trivial cost)
-        opus_metrics = self.calculate_individual_metrics('opus')
+        # Self-consistency = 3x first model calls + voting logic (trivial cost)
+        # Use first model (typically the best/most expensive one)
+        baseline_model = self.model_keys[0] if self.model_keys else 'opus'
+        baseline_metrics = self.calculate_individual_metrics(baseline_model)
 
         return EvaluationMetrics(
-            approach="Baseline: Self-Consistency (Opus 3x)",
-            total_cost_usd=opus_metrics.total_cost_usd * 3,  # 3x Opus
-            avg_latency_ms=opus_metrics.avg_latency_ms * 3,  # Sequential or ~1x if parallel
+            approach=f"Baseline: Self-Consistency ({baseline_model.capitalize()} 3x)",
+            total_cost_usd=baseline_metrics.total_cost_usd * 3,  # 3x runs
+            avg_latency_ms=baseline_metrics.avg_latency_ms * 3,  # Sequential or ~1x if parallel
             convergence_rate=0.7,  # Estimated (would need actual test)
-            prompts_evaluated=opus_metrics.prompts_evaluated
+            prompts_evaluated=baseline_metrics.prompts_evaluated
         )
 
     def generate_comparison_matrix(self) -> List[EvaluationMetrics]:
@@ -205,7 +222,7 @@ class Evaluator:
         metrics = []
 
         # Individual models
-        for model_key in ['opus', 'nova', 'mistral']:
+        for model_key in self.model_keys:
             metrics.append(self.calculate_individual_metrics(model_key))
 
         # Ensemble approaches
@@ -253,12 +270,19 @@ class Evaluator:
             elif 'Low convergence' in stitch_convergence:
                 analysis.append("Stitch: Low agreement, synthesis adds value")
 
+            # Build model_answers dynamically
+            model_answers = {}
+            for model_key in self.model_keys:
+                if model_key in responses and not responses[model_key].get('error'):
+                    answer = responses[model_key]['answer']
+                    model_answers[model_key] = answer[:150] + ("..." if len(answer) > 150 else "")
+                else:
+                    model_answers[model_key] = "ERROR"
+
             comparison = PromptComparison(
                 prompt_id=prompt['id'],
                 convergence=convergence,
-                opus_answer=responses['opus']['answer'][:150] + "...",
-                nova_answer=responses['nova']['answer'][:150] + "...",
-                mistral_answer=responses['mistral']['answer'][:150] + "...",
+                model_answers=model_answers,
                 vote_strategy=vote_result.get('strategy', 'N/A'),
                 vote_answer=vote_result.get('selected_answer', 'N/A')[:150] + "...",
                 stitch_answer=stitch_result.get('synthesized_answer', 'N/A')[:150] + "...",
@@ -298,16 +322,20 @@ class Evaluator:
         print(f"\n💰 Cost Analysis:")
         print(f"   Cheapest: {cheapest.approach} (${cheapest.total_cost_usd:.6f})")
         print(f"   Most expensive: {most_expensive.approach} (${most_expensive.total_cost_usd:.6f})")
-        print(f"   Ratio: {most_expensive.total_cost_usd / cheapest.total_cost_usd:.1f}x more expensive")
+        if cheapest.total_cost_usd > 0:
+            print(f"   Ratio: {most_expensive.total_cost_usd / cheapest.total_cost_usd:.1f}x more expensive")
+        else:
+            print(f"   Ratio: N/A (cheapest has zero cost)")
 
-        # Compare ensemble vs best individual
-        opus_cost = next(m.total_cost_usd for m in metrics if 'opus' in m.approach.lower())
+        # Compare ensemble vs best individual (first model)
+        baseline_model = self.model_keys[0] if self.model_keys else 'opus'
+        baseline_cost = next(m.total_cost_usd for m in metrics if baseline_model in m.approach.lower())
         vote_cost = next(m.total_cost_usd for m in metrics if 'vote' in m.approach.lower())
         stitch_cost = next(m.total_cost_usd for m in metrics if 'stitch' in m.approach.lower())
 
         print(f"\n🎯 Ensemble Premium:")
-        print(f"   Vote vs Opus alone: {vote_cost / opus_cost:.2f}x cost")
-        print(f"   Stitch vs Opus alone: {stitch_cost / opus_cost:.2f}x cost")
+        print(f"   Vote vs {baseline_model.capitalize()} alone: {vote_cost / baseline_cost:.2f}x cost")
+        print(f"   Stitch vs {baseline_model.capitalize()} alone: {stitch_cost / baseline_cost:.2f}x cost")
 
         # Convergence insights
         vote_metrics = next(m for m in metrics if 'vote' in m.approach.lower())
@@ -322,15 +350,18 @@ class Evaluator:
                      output_file: str = "results/evaluation.json"):
         """Save evaluation results"""
 
+        # Use first model as baseline for comparison
+        baseline_model = self.model_keys[0] if self.model_keys else 'opus'
+
         output = {
             'summary_metrics': [asdict(m) for m in metrics],
             'prompt_comparisons': [asdict(c) for c in comparisons],
             'insights': {
                 'convergence_rate': next(m.convergence_rate for m in metrics if 'vote' in m.approach.lower()),
                 'cost_ratio_ensemble_vs_best': next(m.total_cost_usd for m in metrics if 'stitch' in m.approach.lower()) /
-                                               next(m.total_cost_usd for m in metrics if 'opus' in m.approach.lower()),
+                                               next(m.total_cost_usd for m in metrics if baseline_model in m.approach.lower()),
                 'when_ensembling_helps': 'When models diverge (low convergence), ensemble synthesis can combine best reasoning. When models converge (high agreement), ensemble adds cost without value.',
-                'judge_irony': 'If you need Claude Opus/Sonnet as judge to select best response, you could have just used that model directly. Judge quality matters more than ensemble size.'
+                'judge_irony': 'If you need a high-quality model as judge to select best response, you could have just used that model directly. Judge quality matters more than ensemble size.'
             }
         }
 
@@ -343,10 +374,29 @@ class Evaluator:
 def main():
     """Main evaluation entry point"""
 
+    parser = argparse.ArgumentParser(description='Evaluate ensemble thinking model results')
+    parser.add_argument('--responses', default='results/responses.json',
+                        help='Path to responses JSON file (default: results/responses.json)')
+    parser.add_argument('--vote', default='results/vote_results.json',
+                        help='Path to vote results JSON file (default: results/vote_results.json)')
+    parser.add_argument('--stitch', default='results/stitch_results.json',
+                        help='Path to stitch results JSON file (default: results/stitch_results.json)')
+    parser.add_argument('--prompts', default='prompts/prompts.json',
+                        help='Path to prompts JSON file (default: prompts/prompts.json)')
+    parser.add_argument('--output', default='results/evaluation.json',
+                        help='Path to output evaluation JSON file (default: results/evaluation.json)')
+
+    args = parser.parse_args()
+
     evaluator = Evaluator()
 
     print("Loading data...")
-    evaluator.load_data()
+    evaluator.load_data(
+        responses_file=args.responses,
+        vote_file=args.vote,
+        stitch_file=args.stitch,
+        prompts_file=args.prompts
+    )
 
     print("Calculating metrics...")
     metrics = evaluator.generate_comparison_matrix()
@@ -357,14 +407,14 @@ def main():
     print(f"\nGenerating detailed prompt comparisons...")
     print(f"Analyzed {len(comparisons)} prompts")
 
-    evaluator.save_results(metrics, comparisons)
+    evaluator.save_results(metrics, comparisons, output_file=args.output)
 
     # Print a few example comparisons
     print(f"\n{'='*100}")
     print("EXAMPLE PROMPT COMPARISONS")
     print("="*100)
 
-    for i, comp in enumerate(comparisons[:3]):
+    for comp in comparisons[:3]:
         print(f"\n{comp.prompt_id}:")
         print(f"  Convergence: {comp.convergence}")
         print(f"  Vote strategy: {comp.vote_strategy}")
