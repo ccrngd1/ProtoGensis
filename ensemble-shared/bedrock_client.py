@@ -154,9 +154,14 @@ class BedrockClient:
                 for i, block in enumerate(content):
                     if 'text' in block:
                         text_parts.append(block['text'])
+                    elif 'reasoningContent' in block:
+                        # Extended thinking models return reasoningContent (internal reasoning)
+                        # This is separate from the answer text, which comes in another block
+                        # We can skip this block as it's internal reasoning, not the final answer
+                        pass
                     elif extended_thinking:
-                        # Debug what's in the block if not 'text'
-                        print(f"WARNING: Content block {i} has no 'text' field. Keys: {block.keys()}")
+                        # Debug unexpected block structure
+                        print(f"WARNING: Content block {i} has unexpected structure. Keys: {block.keys()}")
 
                 # Join all text parts (thinking + answer)
                 response_text = '\n\n'.join(text_parts) if text_parts else ''

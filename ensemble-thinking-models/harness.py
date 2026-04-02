@@ -92,14 +92,14 @@ MODELS = {
     ),
 
     # Tier 4: Micro/Nano models
-    "nova-2-lite": ModelConfig(
-        name="Amazon Nova 2 Lite",
-        model_id="amazon.nova-2-lite-v1:0",
-        supports_thinking=False,
-        cost_per_1k_input=0.00006,
-        cost_per_1k_output=0.00024,
-        extended_thinking_multiplier=1.0
-    ),
+    # "nova-2-lite": ModelConfig(
+    #     name="Amazon Nova 2 Lite",
+    #     model_id="amazon.nova-2-lite-v1:0",
+    #     supports_thinking=False,
+    #     cost_per_1k_input=0.00006,
+    #     cost_per_1k_output=0.00024,
+    #     extended_thinking_multiplier=1.0
+    # ),  # DISABLED: Not available with on-demand throughput
     "nova-lite": ModelConfig(
         name="Amazon Nova Lite",
         model_id="us.amazon.nova-lite-v1:0",
@@ -116,22 +116,22 @@ MODELS = {
         cost_per_1k_output=0.00014,
         extended_thinking_multiplier=1.0
     ),
-    "llama-3-2-3b": ModelConfig(
-        name="Meta Llama 3.2 3B",
-        model_id="us.meta.llama3-2-3b-instruct-v1:0",
-        supports_thinking=False,
-        cost_per_1k_input=0.00015,
-        cost_per_1k_output=0.00015,
-        extended_thinking_multiplier=1.0
-    ),
-    "llama-3-2-1b": ModelConfig(
-        name="Meta Llama 3.2 1B",
-        model_id="us.meta.llama3-2-1b-instruct-v1:0",
-        supports_thinking=False,
-        cost_per_1k_input=0.0001,
-        cost_per_1k_output=0.0001,
-        extended_thinking_multiplier=1.0
-    ),
+    # "llama-3-2-3b": ModelConfig(
+    #     name="Meta Llama 3.2 3B",
+    #     model_id="us.meta.llama3-2-3b-instruct-v1:0",
+    #     supports_thinking=False,
+    #     cost_per_1k_input=0.00015,
+    #     cost_per_1k_output=0.00015,
+    #     extended_thinking_multiplier=1.0
+    # ),  # DISABLED: Marked as legacy, not used in 15 days
+    # "llama-3-2-1b": ModelConfig(
+    #     name="Meta Llama 3.2 1B",
+    #     model_id="us.meta.llama3-2-1b-instruct-v1:0",
+    #     supports_thinking=False,
+    #     cost_per_1k_input=0.0001,
+    #     cost_per_1k_output=0.0001,
+    #     extended_thinking_multiplier=1.0
+    # ),  # DISABLED: Marked as legacy, not used in 15 days
     "nemotron-nano": ModelConfig(
         name="Nvidia Nemotron Nano 12B",
         model_id="nvidia.nemotron-nano-12b-v2",
