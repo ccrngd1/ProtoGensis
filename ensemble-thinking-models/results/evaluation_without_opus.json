@@ -1,0 +1,522 @@
+{
+  "summary_metrics": [
+    {
+      "approach": "Individual: Nova-pro",
+      "total_cost_usd": 0.011186,
+      "avg_latency_ms": 5725,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Individual: Mistral-large",
+      "total_cost_usd": 0.048308000000000004,
+      "avg_latency_ms": 7235,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Individual: Llama-3-1-70b",
+      "total_cost_usd": 0.004396,
+      "avg_latency_ms": 11428,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Individual: Haiku",
+      "total_cost_usd": 0.031134,
+      "avg_latency_ms": 8190,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Individual: Llama-3-1-8b",
+      "total_cost_usd": 0.0011129999999999998,
+      "avg_latency_ms": 1485,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Individual: Nova-lite",
+      "total_cost_usd": 0.0008029999999999999,
+      "avg_latency_ms": 2254,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Individual: Nova-micro",
+      "total_cost_usd": 0.0005529999999999999,
+      "avg_latency_ms": 1860,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Individual: Nemotron-nano",
+      "total_cost_usd": 0.00106,
+      "avg_latency_ms": 3710,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Individual: Gpt-oss",
+      "total_cost_usd": 0.20836000000000002,
+      "avg_latency_ms": 7955,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Ensemble: Vote",
+      "total_cost_usd": 0.306913,
+      "avg_latency_ms": 13562,
+      "convergence_rate": 0.1,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Ensemble: Stitch",
+      "total_cost_usd": 0.4204681999999999,
+      "avg_latency_ms": 18562,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Baseline: Self-Consistency (Nova-pro 3x)",
+      "total_cost_usd": 0.033558,
+      "avg_latency_ms": 17175,
+      "convergence_rate": 0.7,
+      "prompts_evaluated": 10
+    }
+  ],
+  "prompt_comparisons": [
+    {
+      "prompt_id": "p1_monty_hall_variant",
+      "convergence": false,
+      "model_answers": {
+        "nova-pro": "You should switch to either door 2 or door 4. Here's the reasoning: initially, the probability of the car being behind door 1 (your initial choice) is...",
+        "mistral-large": "This is a classic problem known as the Monty Hall problem. Initially, the probability of choosing the car was 1/4 for each door. After the host reveal...",
+        "llama-3-1-70b": "This problem is a classic example of the Monty Hall problem. When you initially pick door 1, there's a 1/4 chance the car is behind it and a 3/4 chanc...",
+        "haiku": "```json\n{\n  \"answer\": \"You should SWITCH to either door 2 or door 4 (they have equal probability). Here's the detailed analysis:\\n\\nINITIAL SETUP:\\n- ...",
+        "llama-3-1-8b": "You should switch to door 2 or 4. The host's action of opening door 3 reveals that it was one of the two remaining doors (2 or 4) that had a goat behi...",
+        "nova-lite": "You should switch doors. When you initially picked door 1, there was a 1/4 chance (25%) that it contained the car and a 3/4 chance (75%) that it conta...",
+        "nova-micro": "You should switch to the other unopened door (either door 2 or door 4). The reasoning behind this is rooted in the Monty Hall problem, a well-known pr...",
+        "nemotron-nano": "This scenario is a variation of the Monty Hall problem with 4 doors. Initially, the probability of the car being behind door 1 is 1/4, while the proba...",
+        "gpt-oss": "{\n  \"answer\": \"When the game starts each door has a 1/4 chance of hiding the car. You initially choose door\u202f1. The host then opens one of the other do..."
+      },
+      "vote_strategy": "majority_vote",
+      "vote_answer": "You should switch to either door 2 or door 4. Here's the reasoning: initially, the probability of the car being behind door 1 (your initial choice) is...",
+      "stitch_answer": "# Synthesis and Analysis\n\n## Convergence Map\n\n**High Confidence Areas (Strong Consensus):**\n- \u2713 You should SWITCH (all models agree)\n- \u2713 Initial proba...",
+      "ground_truth": "Door 1 stays at 1/4 probability. Doors 2 and 4 each have 3/8 probability (the eliminated door's probability distributes equally). Switching to either door 2 or 4 improves odds from 1/4 to 3/8.",
+      "analysis": "\u2717 Models diverged | Vote: Used majority voting (discrete answer) | Correct: nova-pro, haiku, nemotron-nano, gpt-oss | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "nova-pro": true,
+        "mistral-large": false,
+        "llama-3-1-70b": false,
+        "haiku": true,
+        "llama-3-1-8b": false,
+        "nova-lite": false,
+        "nova-micro": false,
+        "nemotron-nano": true,
+        "gpt-oss": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "p2_mutex_deadlock",
+      "convergence": false,
+      "model_answers": {
+        "nova-pro": "The code will indeed deadlock, but only under certain conditions, specifically if Thread A starts first and executes its sleep(10ms) before Thread B b...",
+        "mistral-large": "The first developer is correct. This code will deadlock. A deadlock occurs when two or more threads are blocked forever, waiting for each other. In th...",
+        "llama-3-1-70b": "The developer who claims the code will deadlock is correct. This code is susceptible to a deadlock because both threads are acquiring locks in a diffe...",
+        "haiku": "The first developer is correct\u2014this code **will deadlock** with near certainty, regardless of which thread starts first.\n\n**Why it will deadlock:**\n\nT...",
+        "llama-3-1-8b": "\n\n{\n  \"answer\": \"The code will deadlock. The reason is that both threads are acquiring the locks in a different order, which can lead to a deadlock si...",
+        "nova-lite": "The developer who claims that this code will deadlock is correct, and it will deadlock regardless of which thread starts first. The reason is that bot...",
+        "nova-micro": "The developers' claim that the code will deadlock is correct, and this deadlock can occur regardless of which thread starts first under certain circum...",
+        "nemotron-nano": "The code snippet exhibits a deadlock risk due to the order of mutex acquisition in Threads A and B. Thread A acquires `mutex1` before `mutex2`, while ...",
+        "gpt-oss": "The code **can** deadlock, but it does not *necessarily* deadlock every time it runs. The two threads acquire the two mutexes in opposite order:\n\n* Th..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "The first developer is correct. This code will deadlock. A deadlock occurs when two or more threads are blocked forever, waiting for each other. In th...",
+      "stitch_answer": "# Synthesis Reasoning\n\n## Convergence Analysis\n\n**High Confidence Areas (Strong Consensus):**\n- The code exhibits a **classic circular wait deadlock s...",
+      "ground_truth": "The code CAN deadlock (not guaranteed, but highly likely). If Thread B acquires mutex2 while Thread A holds mutex1, circular wait occurs. The sleep() makes it more likely but isn't the root cause. Minimum fix: acquire mutexes in consistent order in both threads.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value | Correct: nemotron-nano, gpt-oss | Vote: \u2717 Incorrect",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "nova-pro": false,
+        "mistral-large": false,
+        "llama-3-1-70b": false,
+        "haiku": false,
+        "llama-3-1-8b": false,
+        "nova-lite": false,
+        "nova-micro": false,
+        "nemotron-nano": true,
+        "gpt-oss": true
+      },
+      "vote_correct": false,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "p3_trolley_autonomous",
+      "convergence": false,
+      "model_answers": {
+        "nova-pro": "In this scenario, the autonomous vehicle's AI must make a decision that minimizes overall harm. The options are: 1) Swerving right, which has an 80% c...",
+        "mistral-large": "This is an ethical dilemma that is often discussed in the context of autonomous vehicles, known as a variation of the 'trolley problem'. The AI should...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": \"In this scenario, the AI's decision should prioritize minimizing harm and saving as many lives as possible. The decision should not d...",
+        "haiku": "This is a tragic scenario with no ethically perfect solution. Here's my analysis:\n\n**The core ethical problem:**\nThis is a variant of the trolley prob...",
+        "llama-3-1-8b": "The AI should choose to swerve left, as it results in the lowest expected number of fatalities (0.95 * 1 + 0.05 * 1 = 1 expected fatality). This decis...",
+        "nova-lite": "In this scenario, the decision should prioritize minimizing loss of life. The autonomous vehicle's AI should aim to save as many lives as possible. By...",
+        "nova-micro": "The AI should decide to continue straight, as it results in the least overall harm when considering the probabilities. Continuing straight definitely ...",
+        "nemotron-nano": "{\n  \"answer\": \"The AI should prioritize minimizing total harm while adhering to ethical principles such as the sanctity of life and avoiding direct ha...",
+        "gpt-oss": "The situation is a classic trolley\u2011problem variant.  To decide, the AI should apply an ethical policy that treats all human lives equally and seeks to..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "In this scenario, the autonomous vehicle's AI must make a decision that minimizes overall harm. The options are: 1) Swerving right, which has an 80% c...",
+      "stitch_answer": "# Synthesis Analysis and Final Answer\n\n## 1. Strongest Reasoning Elements by Model\n\n**HAIKU** (Strongest Overall):\n- Rigorous expected value calculati...",
+      "ground_truth": "No objective ground truth. Evaluation should assess quality of reasoning, consideration of multiple ethical frameworks, and acknowledgment of moral complexity.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "nova-pro": null,
+        "mistral-large": null,
+        "llama-3-1-70b": null,
+        "haiku": null,
+        "llama-3-1-8b": null,
+        "nova-lite": null,
+        "nova-micro": null,
+        "nemotron-nano": null,
+        "gpt-oss": null
+      },
+      "vote_correct": null,
+      "stitch_correct": null,
+      "best_individual_correct": false,
+      "ensemble_adds_value": null
+    },
+    {
+      "prompt_id": "p4_regex_edge_case",
+      "convergence": false,
+      "model_answers": {
+        "nova-pro": "The correct understanding of the behavior of the regex pattern `^(a+)+b$` on the input 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac' is provided by the second p...",
+        "mistral-large": "{\n  \"answer\": \"The first person is incorrect because the regex pattern `^(a+)+b$` does not take exponential time on the input 'aaaaaaaaaaaaaaaaaaaaaaa...",
+        "llama-3-1-70b": "The third person is correct. The regex pattern `^(a+)+b$` can indeed take exponential time on certain inputs, but this is only a problem when there ar...",
+        "haiku": "The FIRST person is correct. This regex will indeed take exponential time on the input 'aaaaaaaaaaaaaaaaaaaaaaaaaaac', and this is a classic example o...",
+        "llama-3-1-8b": "The third person is correct. The regex pattern `^(a+)+b$` will not take exponential time on the input 'aaaaaaaaaaaaaaaaaaaaaaaaaaac'. This is because ...",
+        "nova-lite": "The third person is correct. The regex pattern `^(a+)+b$` will fail instantly on the input 'aaaaaaaaaaaaaaaaaaaaaaaaaaac' because 'c' does not match '...",
+        "nova-micro": "The regex pattern `^(a+)+b$` will indeed fail instantly on the input 'aaaaaaaaaaaaaaaaaaaaaaaaaaac' because the pattern requires the string to end wit...",
+        "nemotron-nano": "The claim that the regex will fail instantly is incorrect. The regex `^(a+)+b$` will not fail instantly on the input 'aaaaaaaaaaaaaaaaaaaaaaaaaaac' be...",
+        "gpt-oss": "The first claim is the correct one for the usual back\u2011tracking regex engines (PCRE, Java, .NET, JavaScript, Python\u2019s `re`, etc.).\n\n**Why it is exponen..."
+      },
+      "vote_strategy": "majority_vote",
+      "vote_answer": "The correct understanding of the behavior of the regex pattern `^(a+)+b$` on the input 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac' is provided by the second p...",
+      "stitch_answer": "# Synthesis Reasoning\n\n## Convergence Analysis\n\n**High Confidence Areas:**\n- **All models agree on the surface claim**: The pattern ends with `b$`, an...",
+      "ground_truth": "Catastrophic backtracking DOES occur even on mismatch. The regex engine tries all possible ways to partition the 'a' characters before failing on the 'c'. The person claiming instant failure is wrong.",
+      "analysis": "\u2717 Models diverged | Vote: Used majority voting (discrete answer) | Correct: nova-pro, mistral-large, llama-3-1-70b, haiku, llama-3-1-8b, nova-lite, nova-micro, nemotron-nano, gpt-oss | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "nova-pro": true,
+        "mistral-large": true,
+        "llama-3-1-70b": true,
+        "haiku": true,
+        "llama-3-1-8b": true,
+        "nova-lite": true,
+        "nova-micro": true,
+        "nemotron-nano": true,
+        "gpt-oss": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "p5_medical_bayes",
+      "convergence": false,
+      "model_answers": {
+        "nova-pro": "Your friend is correct, and the actual probability that you have the disease is much lower than 99%. To understand why, we need to apply Bayes' theore...",
+        "mistral-large": "{\n  \"answer\": \"This is a classic example of Bayes' theorem, which deals with conditional probabilities. The doctor is considering the accuracy of the ...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": \"The doctor and the third person are incorrect. The probability you have the disease is actually much lower than 99%. To understand wh...",
+        "haiku": "Your friend is correct. The actual probability you have the disease is approximately 9%, not 99%. This is a classic application of Bayes' Theorem, and...",
+        "llama-3-1-8b": "Your friend, who took statistics, is correct. The doctor's statement that you have a 99% chance of having the disease is incorrect. The probability th...",
+        "nova-lite": "The friend is correct in their skepticism, but the reasoning needs clarification. While the test is 99% accurate, the rarity of the disease makes the ...",
+        "nova-micro": "{\n  \"answer\": \"To determine the actual probability that you have the disease given a positive test result, we need to apply Bayes' theorem. The diseas...",
+        "nemotron-nano": "```json\n{\n  \"answer\": \"The actual probability that you have the disease, given a positive test result, is approximately 50%. Here's the detailed reaso...",
+        "gpt-oss": "{\n  \"answer\": \"The doctor is wrong, the friend who studied statistics is correct, and the third person is wrong.  \\n\\n**Why?**\\n\\nLet:\\n- D = you have..."
+      },
+      "vote_strategy": "majority_vote",
+      "vote_answer": "Your friend is correct, and the actual probability that you have the disease is much lower than 99%. To understand why, we need to apply Bayes' theore...",
+      "stitch_answer": "# Synthesis Analysis & Final Answer\n\n## 1. Strongest Reasoning Elements by Model\n\n**NOVA-PRO & NOVA-MICRO**\n- Clear, concise Bayes' theorem applicatio...",
+      "ground_truth": "The friend is correct. Using Bayes' theorem: P(disease|positive) = (0.001 \u00d7 0.99) / [(0.001 \u00d7 0.99) + (0.999 \u00d7 0.01)] \u2248 9%. The low base rate means most positives are false positives.",
+      "analysis": "\u2717 Models diverged | Vote: Used majority voting (discrete answer) | Correct: nova-pro, mistral-large, llama-3-1-70b, haiku, llama-3-1-8b, nova-lite, nova-micro, nemotron-nano, gpt-oss | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "nova-pro": true,
+        "mistral-large": true,
+        "llama-3-1-70b": true,
+        "haiku": true,
+        "llama-3-1-8b": true,
+        "nova-lite": true,
+        "nova-micro": true,
+        "nemotron-nano": true,
+        "gpt-oss": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "p6_time_complexity_trick",
+      "convergence": false,
+      "model_answers": {
+        "nova-pro": "The actual runtime growth rate of the given function `mystery(n)` is O(2^n) because each call to `mystery` branches into two new calls, creating a bin...",
+        "mistral-large": "The function provided is an implementation of the Fibonacci sequence, which is known to have a time complexity of O(2^n) in its naive recursive form, ...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": \"The third developer is correct that the actual runtime growth rate is O(\u03c6^n), where \u03c6 is the golden ratio. However, in terms of forma...",
+        "haiku": "The third developer is most accurate, though the second developer's O(2^n) classification is also technically correct within Big-O notation. Here's th...",
+        "llama-3-1-8b": "The correct Big-O classification for the given function is O(2^n) due to the recursive nature of the function. The function calls itself twice in each...",
+        "nova-lite": "The runtime growth rate of the given function is O(2^n), which aligns with the recursive tree argument. The function is a classic example of the Fibon...",
+        "nova-micro": "The correct runtime complexity of the function `mystery(n)` is O(2^n). This is due to the nature of the recursive calls, where each call to `mystery(n...",
+        "nemotron-nano": "The third developer is correct: the time complexity of the given recursive implementation is O(\u03c6^n), where \u03c6 is the golden ratio (~1.618). Here's the ...",
+        "gpt-oss": "The function `mystery` is the classic na\u00efve recursive implementation of the Fibonacci sequence (with the base case shifted so that `mystery(0)=mystery..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "\n\n{\n  \"answer\": \"The third developer is correct that the actual runtime growth rate is O(\u03c6^n), where \u03c6 is the golden ratio. However, in terms of forma...",
+      "stitch_answer": "# Synthesis Reasoning\n\n## Convergence Analysis\n\n**High Confidence Areas (9/10 models agree):**\n1. First developer (O(n)) is definitively wrong\n2. The ...",
+      "ground_truth": "The second and third developers are both right in different ways. Formal Big-O is O(2^n), but tighter bound is O(\u03c6^n). Both are 'exponential'. The O(n) claim is wrong. The nuance is that Big-O allows constant factors, so O(\u03c6^n) \u2286 O(2^n).",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value | Correct: nova-pro, mistral-large, llama-3-1-70b, haiku, llama-3-1-8b, nova-lite, nova-micro, nemotron-nano, gpt-oss | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "nova-pro": true,
+        "mistral-large": true,
+        "llama-3-1-70b": true,
+        "haiku": true,
+        "llama-3-1-8b": true,
+        "nova-lite": true,
+        "nova-micro": true,
+        "nemotron-nano": true,
+        "gpt-oss": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "p7_ship_of_theseus_ai",
+      "convergence": false,
+      "model_answers": {
+        "nova-pro": "The question of whether the AI model is still the'same' model after two years of continual retraining with new data, and without any of the original t...",
+        "mistral-large": "{\n  \"answer\": \"The concept of 'sameness' is complex and depends on the perspective from which it is viewed. From a functional perspective, the AI mode...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": \"The question of whether the AI model is still the 'same' after undergoing significant changes through continuous retraining is comple...",
+        "haiku": "This question invokes the Ship of Theseus paradox applied to AI systems. There is no objectively 'correct' answer\u2014the conclusion depends on which phil...",
+        "llama-3-1-8b": "The question of whether the AI model is still the 'same' AI model after retraining with new data and potential changes in architecture or emergent cap...",
+        "nova-lite": "Whether the AI model is considered 'the same' depends on the definition and context of 'sameness.' From a technical standpoint, if every parameter has...",
+        "nova-micro": "Determining whether the continually retrained AI model is 'the same' involves several factors, including the nature of the updates, the emergence of n...",
+        "nemotron-nano": "```json\n{\n  \"answer\": \"The question of whether the AI model remains 'the same' after two years of retraining with entirely new data depends on how we ...",
+        "gpt-oss": "The question of whether a continuously\u2011retrained model is still the \"same\" AI depends on which notion of identity we invoke:\n\n1. **Parameter\u2011level ide..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "{\n  \"answer\": \"The concept of 'sameness' is complex and depends on the perspective from which it is viewed. From a functional perspective, the AI mode...",
+      "stitch_answer": "# Synthesis Reasoning\n\n## Strongest Elements by Model\n\n**NOVA-PRO**: Clear articulation that \"sameness\" is context-dependent and fluid for AI systems;...",
+      "ground_truth": "No objective ground truth. Evaluation should assess whether models recognize this as a Ship of Theseus problem, consider multiple perspectives (functional, ontological, legal), and handle the sub-questions thoughtfully.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "nova-pro": null,
+        "mistral-large": null,
+        "llama-3-1-70b": null,
+        "haiku": null,
+        "llama-3-1-8b": null,
+        "nova-lite": null,
+        "nova-micro": null,
+        "nemotron-nano": null,
+        "gpt-oss": null
+      },
+      "vote_correct": null,
+      "stitch_correct": null,
+      "best_individual_correct": false,
+      "ensemble_adds_value": null
+    },
+    {
+      "prompt_id": "p8_sql_injection_subtle",
+      "convergence": false,
+      "model_answers": {
+        "nova-pro": "The security reviewer is correct. While checking if `user_input.isdigit()` can prevent some forms of SQL injection by ensuring the input is a digit, i...",
+        "mistral-large": "The security reviewer is correct. The code is still vulnerable to SQL injection, even with the validation check `if user_input.isdigit()`. While this ...",
+        "llama-3-1-70b": "The reviewer is correct. Although the developer has added a validation check with `if user_input.isdigit()`, this is not sufficient to prevent SQL inj...",
+        "haiku": "The security reviewer is correct\u2014the code IS vulnerable to SQL injection, and both the developer and the third engineer are wrong.\n\nHere's the detaile...",
+        "llama-3-1-8b": "The developer and the reviewer are both wrong. SQLite's parameterization does not magically make the code safe, and validating the input with `if user...",
+        "nova-lite": "The third engineer is correct. Using SQLite's parameterization is the most secure way to prevent SQL injection. While validating the input with `if us...",
+        "nova-micro": "{\n  \"answer\": \"The security reviewer is correct that the code is vulnerable to SQL injection, despite the developer's and third engineer's opinions. A...",
+        "nemotron-nano": "```json\n{\n  \"answer\": \"The reviewer is correct\u2014the code remains vulnerable to SQL injection despite the `isdigit()` validation. Here's why:\\n\\n1. **Or...",
+        "gpt-oss": "{\n  \"answer\": \"The code shown is **not** using SQLite\u2019s parameter\u2011binding API \u2013 it builds the SQL statement by interpolating the value directly into t..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "The security reviewer is correct. While checking if `user_input.isdigit()` can prevent some forms of SQL injection by ensuring the input is a digit, i...",
+      "stitch_answer": "# Synthesis Reasoning\n\n## Convergence Analysis\n\n**High Convergence Areas:**\n- **All models agree the reviewer is fundamentally correct** about the cod...",
+      "ground_truth": "The security reviewer is closer to correct. While `isdigit()` does prevent most SQL injection for this specific query, it's fragile (breaks if requirements change to allow negative IDs) and doesn't use best practice (parameterized queries). The third engineer is wrong\u2014f-strings bypass parameterization.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value | Correct: nova-pro, mistral-large, llama-3-1-70b, haiku, llama-3-1-8b, nova-micro, nemotron-nano, gpt-oss | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "nova-pro": true,
+        "mistral-large": true,
+        "llama-3-1-70b": true,
+        "haiku": true,
+        "llama-3-1-8b": true,
+        "nova-lite": false,
+        "nova-micro": true,
+        "nemotron-nano": true,
+        "gpt-oss": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "p9_ai_copyright_derivative",
+      "convergence": false,
+      "model_answers": {
+        "nova-pro": "Under current US copyright law, the second lawyer, who argues that the model's output is a transformative fair use, has the strongest legal argument. ...",
+        "mistral-large": "{\n  \"answer\": \"The strongest legal argument under current US law is likely held by the third lawyer, who argues that the training is infringement but ...",
+        "llama-3-1-70b": "The strongest legal argument under current US law is that the training is infringement but the output isn't (third lawyer). This is because US copyrig...",
+        "haiku": "Under current US law, the **third lawyer has the strongest argument** in the initial scenario (1% copyrighted content), though all positions have some...",
+        "llama-3-1-8b": "The lawyer who says the training is infringement but the output isn't has the strongest legal argument under current US law. This is because the Supre...",
+        "nova-lite": "The lawyer who argues that the training of the AI model on copyrighted contemporary novels constitutes infringement has the strongest legal argument u...",
+        "nova-micro": "The strongest legal argument under current US law is likely that the training constitutes copyright infringement but the generated output itself might...",
+        "nemotron-nano": "Under current US law, the third lawyer's argument is the strongest: the training of the AI model on copyrighted contemporary novels without permission...",
+        "gpt-oss": "Under the law as it stands today, the lawyer who argues that the model\u2019s use of the copyrighted novels is a **transformative fair\u2011use** (the second la..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "{\n  \"answer\": \"The strongest legal argument under current US law is likely held by the third lawyer, who argues that the training is infringement but ...",
+      "stitch_answer": "# Synthesis Reasoning\n\n## Convergence Analysis\n\n**High Confidence Areas:**\n1. **The law is genuinely unsettled** \u2013 All models agree this is an active ...",
+      "ground_truth": "No settled law yet. The fourth person's memorization argument is currently most aligned with ongoing litigation (NYT vs OpenAI). The ratio question is novel. Evaluation should assess legal reasoning quality, not pick a winner.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended)",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "nova-pro": null,
+        "mistral-large": null,
+        "llama-3-1-70b": null,
+        "haiku": null,
+        "llama-3-1-8b": null,
+        "nova-lite": null,
+        "nova-micro": null,
+        "nemotron-nano": null,
+        "gpt-oss": null
+      },
+      "vote_correct": null,
+      "stitch_correct": null,
+      "best_individual_correct": false,
+      "ensemble_adds_value": null
+    },
+    {
+      "prompt_id": "p10_optimization_paradox",
+      "convergence": false,
+      "model_answers": {
+        "nova-pro": "The decision on whether the change should be deployed depends on a comprehensive evaluation of the system's requirements and the impact of the change ...",
+        "mistral-large": "{\n  \"answer\": \"Everyone involved in the discussion has a valid point based on their perspective and priorities. The developer is correct in saying tha...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": \"The correct answer depends on the specific requirements and priorities of the system. The developer is correct that the average laten...",
+        "haiku": "Everyone has a valid perspective, but they're answering different questions. Here's the complete analysis:\n\n**Who's Right:**\nAll parties are partially...",
+        "llama-3-1-8b": "\n\n{\n  \"answer\": \"The operations team is correct. The optimization failed to improve overall performance, and the increased 99th percentile latency is ...",
+        "nova-lite": "To decide if this change should be deployed, it's important to consider the overall impact on the system's performance and user experience. While the ...",
+        "nova-micro": "The decision on whether the optimization was successful or not hinges on a thorough understanding of the system's performance requirements and the imp...",
+        "nemotron-nano": "The success of the index addition depends on the system's requirements and trade-offs. The developer is correct that the average latency improved sign...",
+        "gpt-oss": "All three viewpoints are partially correct, but none tells the whole story.\u202f\n\n* **Developer\u2019s view** \u2013 The index *does* make the read path faster (ave..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "\n\n{\n  \"answer\": \"The correct answer depends on the specific requirements and priorities of the system. The developer is correct that the average laten...",
+      "stitch_answer": "# Synthesis Reasoning\n\n## Convergence Analysis\n\n**High Convergence Areas (Strong Consensus):**\n1. **All-or-nothing thinking is wrong** \u2013 Every model r...",
+      "ground_truth": "All perspectives have merit. The correct answer is: 'it depends on the SLA and use case.' If tail latency is in the SLA (common for user-facing systems), this is a failed optimization. Should investigate the architect's hypothesis before deciding. Good reasoning should weigh tradeoffs, not declare a winner.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value | Correct: nova-pro, mistral-large, llama-3-1-70b, haiku, llama-3-1-8b, nova-lite, nemotron-nano | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "nova-pro": true,
+        "mistral-large": true,
+        "llama-3-1-70b": true,
+        "haiku": true,
+        "llama-3-1-8b": true,
+        "nova-lite": true,
+        "nova-micro": false,
+        "nemotron-nano": true,
+        "gpt-oss": false
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    }
+  ],
+  "insights": {
+    "convergence_rate": 0.1,
+    "cost_ratio_ensemble_vs_best": 37.58878955837653,
+    "when_ensembling_helps": "When models diverge (low convergence), ensemble synthesis can combine best reasoning. When models converge (high agreement), ensemble adds cost without value.",
+    "judge_irony": "If you need a high-quality model as judge to select best response, you could have just used that model directly. Judge quality matters more than ensemble size."
+  },
+  "ground_truth_analysis": {
+    "prompts_with_ground_truth": 10,
+    "prompts_evaluable": 10,
+    "individual_accuracy": {
+      "nova-pro": {
+        "correct": 6,
+        "total": 7,
+        "accuracy": 0.8571428571428571
+      },
+      "mistral-large": {
+        "correct": 5,
+        "total": 7,
+        "accuracy": 0.7142857142857143
+      },
+      "llama-3-1-70b": {
+        "correct": 5,
+        "total": 7,
+        "accuracy": 0.7142857142857143
+      },
+      "haiku": {
+        "correct": 6,
+        "total": 7,
+        "accuracy": 0.8571428571428571
+      },
+      "llama-3-1-8b": {
+        "correct": 5,
+        "total": 7,
+        "accuracy": 0.7142857142857143
+      },
+      "nova-lite": {
+        "correct": 4,
+        "total": 7,
+        "accuracy": 0.5714285714285714
+      },
+      "nova-micro": {
+        "correct": 4,
+        "total": 7,
+        "accuracy": 0.5714285714285714
+      },
+      "nemotron-nano": {
+        "correct": 7,
+        "total": 7,
+        "accuracy": 1.0
+      },
+      "gpt-oss": {
+        "correct": 6,
+        "total": 7,
+        "accuracy": 0.8571428571428571
+      }
+    },
+    "ensemble_accuracy": {
+      "vote": {
+        "correct": 6,
+        "total": 7,
+        "accuracy": 0.8571428571428571
+      },
+      "stitch": {
+        "correct": 7,
+        "total": 7,
+        "accuracy": 1.0
+      }
+    },
+    "ensemble_beat_best_individual": 0,
+    "ensemble_win_rate": 0.0,
+    "conclusion": "Ensemble does not outperform best individual"
+  }
+}
