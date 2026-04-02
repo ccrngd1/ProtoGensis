@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Run Expanded Ensemble Experiment with Multiple Models
 # Tests with and without Opus to compare value added
+#
+# Usage:
+#   ./run_expanded_experiment.sh           # Interactive (asks for confirmation)
+#   ./run_expanded_experiment.sh -y        # Skip confirmation
 
 set -euo pipefail
 
@@ -11,7 +15,22 @@ if [ -z "${AWS_BEARER_TOKEN_BEDROCK:-}" ]; then
     exit 1
 fi
 
+# Parse arguments
+SKIP_CONFIRMATION=false
+if [[ "${1:-}" == "-y" ]] || [[ "${1:-}" == "--yes" ]]; then
+    SKIP_CONFIRMATION=true
+fi
+
 cd "$PROJECT_DIR"
+
+# Verify prompts file exists
+if [ ! -f "prompts/prompts.json" ]; then
+    echo "ERROR: prompts/prompts.json not found"
+    exit 1
+fi
+
+# Count prompts
+PROMPT_COUNT=$(python3 -c "import json; print(len(json.load(open('prompts/prompts.json'))['prompts']))")
 
 echo "========================================"
 echo "Expanded Ensemble Experiment"
@@ -23,10 +42,29 @@ echo "  Tier 2: nova-pro, mistral-large, llama-3-1-70b, gpt-oss"
 echo "  Tier 3: haiku, llama-3-1-8b"
 echo "  Tier 4: nova-2-lite, nova-lite, nova-micro, llama-3-2-3b, llama-3-2-1b, nemotron-nano"
 echo ""
+echo "Prompts: ${PROMPT_COUNT}"
+echo ""
 echo "Running TWO experiments:"
 echo "  1. WITH Opus (all 13 models)"
 echo "  2. WITHOUT Opus (12 models, excluding expensive thinking model)"
 echo ""
+echo "Estimated cost: ~\$0.98 total (\$0.70 + \$0.28)"
+echo "Estimated time: ~5-6 minutes (with parallelization)"
+echo ""
+
+# Confirmation prompt (unless -y flag)
+if [ "$SKIP_CONFIRMATION" = false ]; then
+    read -p "Continue? [y/N] " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Aborted."
+        exit 0
+    fi
+    echo ""
+fi
+
+# Start timer
+START_TIME=$(date +%s)
 
 # Experiment 1: WITH OPUS (all models)
 echo "========================================"
@@ -163,6 +201,15 @@ if 'ground_truth_analysis' in with_opus and 'ground_truth_analysis' in without_o
 
 echo ""
 echo "✓ Experiment complete!"
+echo ""
+
+# Calculate elapsed time
+END_TIME=$(date +%s)
+ELAPSED=$((END_TIME - START_TIME))
+MINUTES=$((ELAPSED / 60))
+SECONDS=$((ELAPSED % 60))
+
+echo "Total time: ${MINUTES}m ${SECONDS}s"
 echo ""
 echo "Results saved:"
 echo "  - results/responses_with_opus.json"
