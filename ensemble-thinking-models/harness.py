@@ -37,6 +37,7 @@ class ModelConfig:
 
 # Model configurations based on AWS Bedrock pricing
 MODELS = {
+    # Tier 1: Premium thinking models
     "opus": ModelConfig(
         name="Claude Opus 4.6 (Extended Thinking)",
         model_id="us.anthropic.claude-opus-4-6-v1",
@@ -45,7 +46,9 @@ MODELS = {
         cost_per_1k_output=0.075,
         extended_thinking_multiplier=1.0
     ),
-    "nova": ModelConfig(
+
+    # Tier 2: Mid-tier models
+    "nova-pro": ModelConfig(
         name="Amazon Nova Pro",
         model_id="us.amazon.nova-pro-v1:0",
         supports_thinking=False,
@@ -53,14 +56,98 @@ MODELS = {
         cost_per_1k_output=0.0032,
         extended_thinking_multiplier=1.0
     ),
-    "mistral": ModelConfig(
+    "mistral-large": ModelConfig(
         name="Mistral Large",
         model_id="mistral.mistral-large-2402-v1:0",
         supports_thinking=False,
         cost_per_1k_input=0.004,
         cost_per_1k_output=0.012,
         extended_thinking_multiplier=1.0
-    )
+    ),
+    "llama-3-1-70b": ModelConfig(
+        name="Meta Llama 3.1 70B",
+        model_id="us.meta.llama3-1-70b-instruct-v1:0",
+        supports_thinking=False,
+        cost_per_1k_input=0.00072,
+        cost_per_1k_output=0.00072,
+        extended_thinking_multiplier=1.0
+    ),
+
+    # Tier 3: Budget models
+    "haiku": ModelConfig(
+        name="Claude Haiku 4.5",
+        model_id="us.anthropic.claude-haiku-4-5-20251001-v1:0",
+        supports_thinking=False,
+        cost_per_1k_input=0.0008,
+        cost_per_1k_output=0.004,
+        extended_thinking_multiplier=1.0
+    ),
+    "llama-3-1-8b": ModelConfig(
+        name="Meta Llama 3.1 8B",
+        model_id="us.meta.llama3-1-8b-instruct-v1:0",
+        supports_thinking=False,
+        cost_per_1k_input=0.00022,
+        cost_per_1k_output=0.00022,
+        extended_thinking_multiplier=1.0
+    ),
+
+    # Tier 4: Micro/Nano models
+    "nova-2-lite": ModelConfig(
+        name="Amazon Nova 2 Lite",
+        model_id="amazon.nova-2-lite-v1:0",
+        supports_thinking=False,
+        cost_per_1k_input=0.00006,
+        cost_per_1k_output=0.00024,
+        extended_thinking_multiplier=1.0
+    ),
+    "nova-lite": ModelConfig(
+        name="Amazon Nova Lite",
+        model_id="us.amazon.nova-lite-v1:0",
+        supports_thinking=False,
+        cost_per_1k_input=0.00006,
+        cost_per_1k_output=0.00024,
+        extended_thinking_multiplier=1.0
+    ),
+    "nova-micro": ModelConfig(
+        name="Amazon Nova Micro",
+        model_id="us.amazon.nova-micro-v1:0",
+        supports_thinking=False,
+        cost_per_1k_input=0.000035,
+        cost_per_1k_output=0.00014,
+        extended_thinking_multiplier=1.0
+    ),
+    "llama-3-2-3b": ModelConfig(
+        name="Meta Llama 3.2 3B",
+        model_id="us.meta.llama3-2-3b-instruct-v1:0",
+        supports_thinking=False,
+        cost_per_1k_input=0.00015,
+        cost_per_1k_output=0.00015,
+        extended_thinking_multiplier=1.0
+    ),
+    "llama-3-2-1b": ModelConfig(
+        name="Meta Llama 3.2 1B",
+        model_id="us.meta.llama3-2-1b-instruct-v1:0",
+        supports_thinking=False,
+        cost_per_1k_input=0.0001,
+        cost_per_1k_output=0.0001,
+        extended_thinking_multiplier=1.0
+    ),
+    "nemotron-nano": ModelConfig(
+        name="Nvidia Nemotron Nano 12B",
+        model_id="nvidia.nemotron-nano-12b-v2",
+        supports_thinking=False,
+        cost_per_1k_input=0.00015,
+        cost_per_1k_output=0.00015,
+        extended_thinking_multiplier=1.0
+    ),
+    "gpt-oss": ModelConfig(
+        name="OpenAI GPT OSS 120B",
+        model_id="openai.gpt-oss-120b-1:0",
+        supports_thinking=False,
+        cost_per_1k_input=0.004,
+        cost_per_1k_output=0.016,
+        extended_thinking_multiplier=1.0
+    ),
 }
 
 
@@ -78,20 +165,153 @@ class ModelResponse:
     thinking_tokens: int
     cost_usd: float
     timestamp: str
+    confidence: float = 0.5  # Confidence score 0-1
     error: Optional[str] = None
 
 
 class BedrockHarness:
     """Orchestrates calls to reasoning models via AWS Bedrock"""
 
-    def __init__(self):
+    def __init__(self, models_to_run: List[str] = None):
+        """
+        Initialize harness.
+
+        Args:
+            models_to_run: List of model keys to run. If None, runs all models.
+        """
         try:
             self.client = BedrockClient()
             print("✓ Bedrock client initialized")
+
+            # Determine which models to run
+            if models_to_run:
+                self.active_models = {k: MODELS[k] for k in models_to_run if k in MODELS}
+            else:
+                self.active_models = MODELS
+
+            print(f"✓ Running {len(self.active_models)} models: {', '.join(self.active_models.keys())}")
         except ValueError as e:
             print(f"ERROR: {e}")
             print("Set AWS_BEARER_TOKEN_BEDROCK environment variable")
             raise
+
+    def _build_json_prompt(self, question: str) -> str:
+        """Build a prompt that requests JSON output with answer and confidence."""
+        return f"""{question}
+
+IMPORTANT: You must respond in valid JSON format with exactly this structure:
+{{
+  "answer": "Your detailed answer here, with full reasoning and explanation",
+  "confidence": 0.85
+}}
+
+Where:
+- "answer" is your complete response to the question
+- "confidence" is a number between 0 and 1 indicating how confident you are in your answer
+  - 0.0 = no confidence, complete uncertainty
+  - 0.5 = moderate confidence, could go either way
+  - 0.8 = high confidence, quite certain
+  - 0.95+ = very high confidence, nearly certain
+
+Provide your best reasoning in the "answer" field, then honestly assess your confidence."""
+
+    def _parse_json_response(self, text: str) -> tuple[str, float]:
+        """
+        Parse JSON response to extract answer and confidence.
+        Returns (answer, confidence). If parsing fails, returns (raw_text, 0.5).
+        """
+        try:
+            # Try to find JSON in the response (model might add text before/after)
+            import re
+
+            # Look for JSON object
+            json_match = re.search(r'\{[^}]*"answer"[^}]*"confidence"[^}]*\}', text, re.DOTALL)
+            if not json_match:
+                # Try alternate order
+                json_match = re.search(r'\{[^}]*"confidence"[^}]*"answer"[^}]*\}', text, re.DOTALL)
+
+            if json_match:
+                json_str = json_match.group(0)
+                data = json.loads(json_str)
+                answer = data.get('answer', text)
+                confidence = float(data.get('confidence', 0.5))
+                # Clamp confidence to 0-1
+                confidence = max(0.0, min(1.0, confidence))
+                return answer, confidence
+            else:
+                # No JSON found, return raw text with default confidence
+                return text, 0.5
+
+        except Exception as e:
+            print(f"  ⚠️  JSON parsing failed: {e}, using raw response")
+            return text, 0.5
+
+    def _call_model_generic(self, model_key: str, prompt: str, prompt_id: str) -> ModelResponse:
+        """Call any model with JSON output format."""
+        model_config = MODELS[model_key]
+
+        # Build JSON-formatted prompt
+        json_prompt = self._build_json_prompt(prompt)
+
+        try:
+            # Check if this is a thinking model
+            if model_config.supports_thinking:
+                response_text, input_tokens, output_tokens, latency_ms = self.client.call_model(
+                    model_id=model_config.model_id,
+                    prompt=json_prompt,
+                    max_tokens=16000,
+                    temperature=None,
+                    extended_thinking=True,
+                    thinking_budget=10000
+                )
+            else:
+                response_text, input_tokens, output_tokens, latency_ms = self.client.call_model(
+                    model_id=model_config.model_id,
+                    prompt=json_prompt,
+                    max_tokens=4096,
+                    temperature=0.7
+                )
+
+            # Parse JSON response
+            answer, confidence = self._parse_json_response(response_text)
+
+            # Calculate cost
+            cost_usd = calculate_cost(model_config.model_id, input_tokens, output_tokens)
+
+            return ModelResponse(
+                model_key=model_key,
+                model_name=model_config.name,
+                prompt_id=prompt_id,
+                answer=answer,
+                reasoning_trace=f"Confidence: {confidence:.2f}" + (
+                    " (extended thinking)" if model_config.supports_thinking else ""
+                ),
+                latency_ms=latency_ms,
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+                thinking_tokens=0,
+                cost_usd=round(cost_usd, 6),
+                timestamp=datetime.now().isoformat(),
+                confidence=confidence  # Add confidence to response
+            )
+
+        except Exception as e:
+            print(f"  ⚠️  Error calling {model_key}: {e}")
+            return ModelResponse(
+                model_key=model_key,
+                model_name=model_config.name,
+                prompt_id=prompt_id,
+                answer="",
+                reasoning_trace="",
+                latency_ms=0,
+                input_tokens=0,
+                output_tokens=0,
+                thinking_tokens=0,
+                cost_usd=0.0,
+                timestamp=datetime.now().isoformat(),
+                error=str(e),
+                confidence=0.0
+            )
 
     def _call_claude_opus(self, prompt: str, prompt_id: str) -> ModelResponse:
         """Call Claude Opus with extended thinking"""
@@ -233,20 +453,18 @@ class BedrockHarness:
             )
 
     def run_prompt(self, prompt_id: str, prompt_text: str) -> Dict[str, ModelResponse]:
-        """Run a single prompt through all three models"""
+        """Run a single prompt through all active models"""
         print(f"\n{'='*80}")
         print(f"Running prompt: {prompt_id}")
         print(f"{'='*80}")
 
         responses = {}
 
-        for model_key, model_func in [
-            ("opus", self._call_claude_opus),
-            ("nova", self._call_nova_pro),
-            ("mistral", self._call_mistral)
-        ]:
-            print(f"\nCalling {MODELS[model_key].name}...")
-            response = model_func(prompt_text, prompt_id)
+        for model_key in self.active_models.keys():
+            model_config = self.active_models[model_key]
+            print(f"\nCalling {model_config.name}...")
+
+            response = self._call_model_generic(model_key, prompt_text, prompt_id)
             responses[model_key] = response
 
             if response.error:
@@ -255,6 +473,7 @@ class BedrockHarness:
                 print(f"  ✓ Completed in {response.latency_ms}ms")
                 print(f"  💰 Cost: ${response.cost_usd:.6f}")
                 print(f"  📊 Tokens: {response.input_tokens} in / {response.output_tokens} out")
+                print(f"  🎯 Confidence: {response.confidence:.2f}")
 
         return responses
 
@@ -300,8 +519,20 @@ def main():
                        help="Path to prompts JSON file")
     parser.add_argument("--output", default="results/responses.json",
                        help="Output file for results")
+    parser.add_argument("--models", nargs='+',
+                       help="Specific models to run (e.g., --models opus haiku nova-pro)")
+    parser.add_argument("--exclude-opus", action="store_true",
+                       help="Exclude Opus from the model list")
 
     args = parser.parse_args()
+
+    # Determine which models to run
+    if args.models:
+        models_to_run = args.models
+    elif args.exclude_opus:
+        models_to_run = [k for k in MODELS.keys() if k != "opus"]
+    else:
+        models_to_run = None  # Run all
 
     print("="*80)
     print("Ensemble Thinking Models Harness")
@@ -309,9 +540,15 @@ def main():
     print(f"Mode: LIVE (AWS Bedrock)")
     print(f"Prompts: {args.prompts}")
     print(f"Output: {args.output}")
+    if args.models:
+        print(f"Models: {', '.join(args.models)}")
+    elif args.exclude_opus:
+        print(f"Models: ALL EXCEPT OPUS")
+    else:
+        print(f"Models: ALL ({len(MODELS)} models)")
     print("="*80)
 
-    harness = BedrockHarness()
+    harness = BedrockHarness(models_to_run=models_to_run)
     results = harness.run_all_prompts(args.prompts)
     harness.save_results(results, args.output)
 
@@ -320,18 +557,21 @@ def main():
     print("SUMMARY")
     print("="*80)
 
+    # Calculate stats across all models that were run
+    model_keys = list(harness.active_models.keys())
+
     total_cost = sum(
         r['responses'][model]['cost_usd']
         for r in results
-        for model in ['opus', 'nova', 'mistral']
-        if not r['responses'][model].get('error')
+        for model in model_keys
+        if model in r['responses'] and not r['responses'][model].get('error')
     )
 
     total_time = sum(
         r['responses'][model]['latency_ms']
         for r in results
-        for model in ['opus', 'nova', 'mistral']
-        if not r['responses'][model].get('error')
+        for model in model_keys
+        if model in r['responses'] and not r['responses'][model].get('error')
     ) / 1000
 
     print(f"Prompts processed: {len(results)}")

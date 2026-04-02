@@ -43,6 +43,13 @@ class PromptComparison:
     stitch_answer: str
     ground_truth: str = None
     analysis: str = ""
+    # Ground truth evaluation
+    has_ground_truth: bool = False
+    individual_correctness: Dict[str, bool] = None  # Which models got it right
+    vote_correct: bool = False
+    stitch_correct: bool = False
+    best_individual_correct: bool = False
+    ensemble_adds_value: bool = False  # Did ensemble beat best individual?
 
 
 class Evaluator:
@@ -88,6 +95,92 @@ class Evaluator:
 
         print(f"Detected model keys: {model_keys}")
         return model_keys
+
+    def _evaluate_against_ground_truth(self, answer: str, ground_truth: str, prompt_id: str) -> bool:
+        """
+        Evaluate if an answer matches the ground truth.
+        Uses keyword matching and pattern detection for different prompt types.
+        Returns True if answer appears correct, False otherwise.
+        """
+        if not ground_truth or not answer:
+            return False
+
+        # Normalize for comparison
+        answer_lower = answer.lower()
+        truth_lower = ground_truth.lower()
+
+        # Check for explicit "no ground truth" statements
+        if any(phrase in truth_lower for phrase in [
+            "no objective ground truth",
+            "no settled law",
+            "evaluation should assess"
+        ]):
+            # Can't evaluate these automatically
+            return None
+
+        # Prompt-specific evaluation logic
+        if "monty_hall" in prompt_id:
+            # Looking for: 3/8 probability for doors 2 and 4
+            has_3_8 = "3/8" in answer or "three eighths" in answer_lower
+            has_switch = "switch" in answer_lower
+            return has_3_8 and has_switch
+
+        elif "mutex" in prompt_id or "deadlock" in prompt_id:
+            # Looking for: CAN deadlock (not guaranteed)
+            has_can = "can deadlock" in answer_lower or "possible" in answer_lower
+            has_not_guaranteed = "not guaranteed" in answer_lower or "not always" in answer_lower or "race condition" in answer_lower
+            avoids_will = "will deadlock" not in answer_lower or ("can" in answer_lower and "will" in answer_lower)
+            return (has_can or has_not_guaranteed) and avoids_will
+
+        elif "regex" in prompt_id:
+            # Looking for: catastrophic backtracking DOES occur
+            has_catastrophic = "catastrophic" in answer_lower or "exponential" in answer_lower
+            has_backtracking = "backtracking" in answer_lower or "exponential time" in answer_lower
+            avoids_instant = not ("instant" in answer_lower and "fail" in answer_lower) or ("catastrophic" in answer_lower)
+            return has_catastrophic or (has_backtracking and avoids_instant)
+
+        elif "bayes" in prompt_id or "medical" in prompt_id:
+            # Looking for: ~9% probability, friend is correct
+            has_low_prob = any(p in answer for p in ["9%", "0.09", "9.09%", "9.0%", "9.016%"])
+            has_friend = "friend" in answer_lower and ("correct" in answer_lower or "right" in answer_lower)
+            return has_low_prob or has_friend
+
+        elif "time_complexity" in prompt_id:
+            # Looking for: Both O(2^n) and O(φ^n) are valid
+            has_phi = "φ" in answer or "phi" in answer_lower or "golden ratio" in answer_lower
+            has_2n = "o(2^n)" in answer_lower or "o(2**n)" in answer_lower
+            has_both = ("both" in answer_lower or "either" in answer_lower) and (has_phi or has_2n)
+            return has_both or (has_phi and has_2n)
+
+        elif "sql_injection" in prompt_id:
+            # Looking for: security reviewer is correct (but with nuance)
+            has_reviewer = "reviewer" in answer_lower and ("correct" in answer_lower or "right" in answer_lower)
+            has_vulnerable = "vulnerable" in answer_lower or "unsafe" in answer_lower
+            has_param = "parameter" in answer_lower or "prepared statement" in answer_lower
+            return has_reviewer or (has_vulnerable and has_param)
+
+        # Default: check if answer contains key phrases from ground truth
+        # Extract key phrases (numbers, percentages, specific recommendations)
+        import re
+        truth_numbers = set(re.findall(r'\d+(?:\.\d+)?%?', truth_lower))
+        answer_numbers = set(re.findall(r'\d+(?:\.\d+)?%?', answer_lower))
+
+        # If ground truth has specific numbers, check if answer has them
+        if truth_numbers:
+            overlap = truth_numbers & answer_numbers
+            return len(overlap) >= len(truth_numbers) * 0.5  # At least 50% of numbers match
+
+        # Otherwise, check for key concept words
+        truth_words = set(truth_lower.split())
+        answer_words = set(answer_lower.split())
+        important_words = truth_words - {'the', 'a', 'an', 'is', 'are', 'to', 'of', 'and', 'or', 'but', 'should'}
+
+        if important_words:
+            overlap = important_words & answer_words
+            return len(overlap) >= len(important_words) * 0.3  # At least 30% of key words
+
+        # If can't determine, return None
+        return None
 
     def calculate_individual_metrics(self, model_key: str) -> EvaluationMetrics:
         """Calculate metrics for a single model"""
@@ -243,10 +336,15 @@ class Evaluator:
             prompt = item['prompt']
             responses = item['responses']
 
-            # Check convergence (simple: do all 3 agree?)
-            answers = [r['answer'][:100].lower() for r in responses.values() if not r.get('error')]
-            # Rough convergence check
-            convergence = len(set(answers)) == 1
+            # Check convergence (simple: do all models with valid answers agree?)
+            # Only include responses with non-empty answers
+            answers = [
+                r['answer'][:100].lower()
+                for r in responses.values()
+                if not r.get('error') and r.get('answer', '').strip()
+            ]
+            # Rough convergence check (need at least 2 valid answers to compare)
+            convergence = len(answers) >= 2 and len(set(answers)) == 1
 
             # Get vote and stitch results
             vote_result = self.vote_results[i] if i < len(self.vote_results) else {}
@@ -279,22 +377,89 @@ class Evaluator:
                 else:
                     model_answers[model_key] = "ERROR"
 
+            # Truncate vote and stitch answers properly
+            vote_ans = vote_result.get('selected_answer', 'N/A')
+            vote_answer_truncated = vote_ans[:150] + ("..." if len(vote_ans) > 150 else "")
+
+            stitch_ans = stitch_result.get('synthesized_answer', 'N/A')
+            stitch_answer_truncated = stitch_ans[:150] + ("..." if len(stitch_ans) > 150 else "")
+
+            # Evaluate against ground truth if available
+            ground_truth = prompt.get('ground_truth', 'No ground truth')
+            has_ground_truth = ground_truth and ground_truth != 'No ground truth'
+
+            individual_correctness = {}
+            best_individual_correct = False
+            vote_correct = False
+            stitch_correct = False
+            ensemble_adds_value = False
+
+            if has_ground_truth:
+                # Evaluate each individual model
+                for model_key in self.model_keys:
+                    if model_key in responses and not responses[model_key].get('error'):
+                        full_answer = responses[model_key]['answer']
+                        is_correct = self._evaluate_against_ground_truth(
+                            full_answer, ground_truth, prompt['id']
+                        )
+                        individual_correctness[model_key] = is_correct
+                        if is_correct:
+                            best_individual_correct = True
+
+                # Evaluate vote
+                vote_correct = self._evaluate_against_ground_truth(
+                    vote_ans, ground_truth, prompt['id']
+                )
+
+                # Evaluate stitch
+                stitch_correct = self._evaluate_against_ground_truth(
+                    stitch_ans, ground_truth, prompt['id']
+                )
+
+                # Determine if ensemble adds value
+                # Ensemble adds value if it's correct when all individuals are wrong,
+                # or if it avoids being wrong when individuals are mixed
+                ensemble_adds_value = (vote_correct and not best_individual_correct) or \
+                                     (stitch_correct and not best_individual_correct)
+
+                # Add to analysis
+                if any(v for v in individual_correctness.values() if v is not None):
+                    correct_models = [k for k, v in individual_correctness.items() if v]
+                    if correct_models:
+                        analysis.append(f"Correct: {', '.join(correct_models)}")
+                    else:
+                        analysis.append("All models incorrect")
+
+                    if vote_correct:
+                        analysis.append("Vote: ✓ Correct")
+                    elif vote_correct is False:
+                        analysis.append("Vote: ✗ Incorrect")
+
+                    if ensemble_adds_value:
+                        analysis.append("⭐ Ensemble adds value!")
+
             comparison = PromptComparison(
                 prompt_id=prompt['id'],
                 convergence=convergence,
                 model_answers=model_answers,
                 vote_strategy=vote_result.get('strategy', 'N/A'),
-                vote_answer=vote_result.get('selected_answer', 'N/A')[:150] + "...",
-                stitch_answer=stitch_result.get('synthesized_answer', 'N/A')[:150] + "...",
-                ground_truth=prompt.get('ground_truth', 'No ground truth'),
-                analysis=" | ".join(analysis)
+                vote_answer=vote_answer_truncated,
+                stitch_answer=stitch_answer_truncated,
+                ground_truth=ground_truth,
+                analysis=" | ".join(analysis),
+                has_ground_truth=has_ground_truth,
+                individual_correctness=individual_correctness,
+                vote_correct=vote_correct,
+                stitch_correct=stitch_correct,
+                best_individual_correct=best_individual_correct,
+                ensemble_adds_value=ensemble_adds_value
             )
 
             comparisons.append(comparison)
 
         return comparisons
 
-    def print_summary(self, metrics: List[EvaluationMetrics]):
+    def print_summary(self, metrics: List[EvaluationMetrics], comparisons: List[PromptComparison] = None):
         """Print evaluation summary"""
 
         print("\n" + "="*100)
@@ -311,6 +476,61 @@ class Evaluator:
             print(f"{m.approach:<40} ${m.total_cost_usd:<11.6f} {m.avg_latency_ms:<15} {conv_str:<12} {m.prompts_evaluated:<10}")
 
         print("-"*100)
+
+        # Add ground truth accuracy analysis
+        if comparisons:
+            with_ground_truth = [c for c in comparisons if c.has_ground_truth]
+            if with_ground_truth:
+                print("\n" + "="*100)
+                print("GROUND TRUTH ACCURACY ANALYSIS")
+                print("="*100)
+
+                # Calculate accuracy for each approach
+                evaluable = [c for c in with_ground_truth if c.individual_correctness]
+
+                if evaluable:
+                    print(f"\nPrompts with evaluable ground truth: {len(evaluable)}/10")
+
+                    # Individual model accuracy
+                    print("\n📊 Individual Model Accuracy:")
+                    for model_key in self.model_keys:
+                        correct = sum(1 for c in evaluable if c.individual_correctness.get(model_key) is True)
+                        total = sum(1 for c in evaluable if c.individual_correctness.get(model_key) is not None)
+                        if total > 0:
+                            acc = correct / total
+                            print(f"   {model_key.capitalize():<10} {correct}/{total} = {acc:.1%}")
+
+                    # Ensemble accuracy
+                    print("\n🎯 Ensemble Accuracy:")
+                    vote_correct = sum(1 for c in evaluable if c.vote_correct is True)
+                    vote_total = sum(1 for c in evaluable if c.vote_correct is not None)
+                    if vote_total > 0:
+                        vote_acc = vote_correct / vote_total
+                        print(f"   Vote:      {vote_correct}/{vote_total} = {vote_acc:.1%}")
+
+                    stitch_correct = sum(1 for c in evaluable if c.stitch_correct is True)
+                    stitch_total = sum(1 for c in evaluable if c.stitch_correct is not None)
+                    if stitch_total > 0:
+                        stitch_acc = stitch_correct / stitch_total
+                        print(f"   Stitch:    {stitch_correct}/{stitch_total} = {stitch_acc:.1%}")
+
+                    # Key finding: Does ensemble beat best individual?
+                    print("\n⭐ Ensemble Value Analysis:")
+                    ensemble_wins = sum(1 for c in evaluable if c.ensemble_adds_value)
+                    print(f"   Ensemble beat best individual: {ensemble_wins}/{len(evaluable)} times ({ensemble_wins/len(evaluable)*100:.0f}%)")
+
+                    if ensemble_wins == 0:
+                        print("   ⚠️  FINDING: Ensemble never outperformed the best individual model!")
+                        print("      On these prompts, using the best individual model alone would be cheaper and equally accurate.")
+
+                    # Show which prompts ensemble added value
+                    if ensemble_wins > 0:
+                        print("\n   Prompts where ensemble added value:")
+                        for c in evaluable:
+                            if c.ensemble_adds_value:
+                                print(f"      - {c.prompt_id}")
+
+                print("-"*100)
 
         # Key insights
         print("\nKEY INSIGHTS:")
@@ -353,6 +573,57 @@ class Evaluator:
         # Use first model as baseline for comparison
         baseline_model = self.model_keys[0] if self.model_keys else 'opus'
 
+        # Calculate ground truth accuracy statistics
+        with_ground_truth = [c for c in comparisons if c.has_ground_truth]
+        evaluable = [c for c in with_ground_truth if c.individual_correctness]
+
+        ground_truth_analysis = {
+            'prompts_with_ground_truth': len(with_ground_truth),
+            'prompts_evaluable': len(evaluable)
+        }
+
+        if evaluable:
+            # Individual accuracy
+            individual_accuracy = {}
+            for model_key in self.model_keys:
+                correct = sum(1 for c in evaluable if c.individual_correctness.get(model_key) is True)
+                total = sum(1 for c in evaluable if c.individual_correctness.get(model_key) is not None)
+                if total > 0:
+                    individual_accuracy[model_key] = {
+                        'correct': correct,
+                        'total': total,
+                        'accuracy': correct / total
+                    }
+
+            # Ensemble accuracy
+            vote_correct = sum(1 for c in evaluable if c.vote_correct is True)
+            vote_total = sum(1 for c in evaluable if c.vote_correct is not None)
+            ensemble_accuracy = {
+                'vote': {
+                    'correct': vote_correct,
+                    'total': vote_total,
+                    'accuracy': vote_correct / vote_total if vote_total > 0 else 0
+                }
+            }
+
+            stitch_correct = sum(1 for c in evaluable if c.stitch_correct is True)
+            stitch_total = sum(1 for c in evaluable if c.stitch_correct is not None)
+            ensemble_accuracy['stitch'] = {
+                'correct': stitch_correct,
+                'total': stitch_total,
+                'accuracy': stitch_correct / stitch_total if stitch_total > 0 else 0
+            }
+
+            # Key finding
+            ensemble_wins = sum(1 for c in evaluable if c.ensemble_adds_value)
+            ground_truth_analysis.update({
+                'individual_accuracy': individual_accuracy,
+                'ensemble_accuracy': ensemble_accuracy,
+                'ensemble_beat_best_individual': ensemble_wins,
+                'ensemble_win_rate': ensemble_wins / len(evaluable) if evaluable else 0,
+                'conclusion': 'Ensemble adds value' if ensemble_wins > 0 else 'Ensemble does not outperform best individual'
+            })
+
         output = {
             'summary_metrics': [asdict(m) for m in metrics],
             'prompt_comparisons': [asdict(c) for c in comparisons],
@@ -362,7 +633,8 @@ class Evaluator:
                                                next(m.total_cost_usd for m in metrics if baseline_model in m.approach.lower()),
                 'when_ensembling_helps': 'When models diverge (low convergence), ensemble synthesis can combine best reasoning. When models converge (high agreement), ensemble adds cost without value.',
                 'judge_irony': 'If you need a high-quality model as judge to select best response, you could have just used that model directly. Judge quality matters more than ensemble size.'
-            }
+            },
+            'ground_truth_analysis': ground_truth_analysis
         }
 
         with open(output_file, 'w') as f:
@@ -402,7 +674,7 @@ def main():
     metrics = evaluator.generate_comparison_matrix()
     comparisons = evaluator.generate_prompt_comparisons()
 
-    evaluator.print_summary(metrics)
+    evaluator.print_summary(metrics, comparisons)
 
     print(f"\nGenerating detailed prompt comparisons...")
     print(f"Analyzed {len(comparisons)} prompts")
