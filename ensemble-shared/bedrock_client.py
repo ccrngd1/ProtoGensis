@@ -132,9 +132,36 @@ class BedrockClient:
                 # Parse successful response
                 data = response.json()
 
-                # Extract response text
+                # Debug: Save raw response for extended thinking models
+                if extended_thinking and os.environ.get('DEBUG_BEDROCK'):
+                    debug_file = f"/tmp/bedrock_response_{int(time.time())}.json"
+                    with open(debug_file, 'w') as f:
+                        json.dump(data, f, indent=2)
+                    print(f"DEBUG: Saved raw response to {debug_file}")
+
+                # Extract response text from all content blocks
+                # For extended thinking, there may be multiple blocks (thinking + answer)
                 content = data.get('output', {}).get('message', {}).get('content', [])
-                response_text = content[0].get('text', '') if content else ''
+
+                if not content:
+                    print(f"WARNING: No content blocks in response. Full response keys: {data.keys()}")
+                    print(f"Output keys: {data.get('output', {}).keys()}")
+                    print(f"Message keys: {data.get('output', {}).get('message', {}).keys()}")
+
+                # Collect all text from all content blocks
+                text_parts = []
+                for i, block in enumerate(content):
+                    if 'text' in block:
+                        text_parts.append(block['text'])
+                    elif extended_thinking:
+                        # Debug what's in the block if not 'text'
+                        print(f"WARNING: Content block {i} has no 'text' field. Keys: {block.keys()}")
+
+                # Join all text parts (thinking + answer)
+                response_text = '\n\n'.join(text_parts) if text_parts else ''
+
+                if extended_thinking and not response_text:
+                    print(f"WARNING: Extended thinking enabled but no text extracted from {len(content)} content blocks")
 
                 # Extract token usage
                 usage = data.get('usage', {})
@@ -215,7 +242,9 @@ PRICING = {
     "us.anthropic.claude-haiku-4-5-20251001-v1:0": {"input": 0.80, "output": 4.00},
 
     # Nova models
+    "us.amazon.nova-micro-v1:0": {"input": 0.035, "output": 0.14},
     "us.amazon.nova-lite-v1:0": {"input": 0.06, "output": 0.24},
+    "amazon.nova-2-lite-v1:0": {"input": 0.06, "output": 0.24},
     "us.amazon.nova-pro-v1:0": {"input": 0.80, "output": 3.20},
     "us.amazon.nova-premier-v1:0": {"input": 2.00, "output": 8.00},
 
@@ -225,8 +254,16 @@ PRICING = {
     "mistral.mistral-large-2402-v1:0": {"input": 4.00, "output": 12.00},
 
     # Llama models
+    "us.meta.llama3-2-1b-instruct-v1:0": {"input": 0.10, "output": 0.10},
+    "us.meta.llama3-2-3b-instruct-v1:0": {"input": 0.15, "output": 0.15},
     "us.meta.llama3-1-8b-instruct-v1:0": {"input": 0.22, "output": 0.22},
     "us.meta.llama3-1-70b-instruct-v1:0": {"input": 0.72, "output": 0.72},
+
+    # Nvidia models
+    "nvidia.nemotron-nano-12b-v2": {"input": 0.15, "output": 0.15},
+
+    # OpenAI models
+    "openai.gpt-oss-120b-1:0": {"input": 4.00, "output": 16.00},
 }
 
 def calculate_cost(model_id: str, input_tokens: int, output_tokens: int) -> float:

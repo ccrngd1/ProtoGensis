@@ -22,7 +22,17 @@ echo "Prompts: 10"
 echo ""
 
 cd "$PROJECT_DIR"
-PYTHONUNBUFFERED=1 python3 -u harness.py --output "$OUTPUT_FILE"
+PYTHONUNBUFFERED=1 python3 -u harness.py --live --output "$OUTPUT_FILE"
 
 echo ""
 echo "Results saved to: $PROJECT_DIR/$OUTPUT_FILE"
+
+# Copy live results to standard location for aggregators
+cp "$OUTPUT_FILE" results/responses.json
+echo "✓ Copied $OUTPUT_FILE to results/responses.json"
+
+PYTHONUNBUFFERED=1 python3 -u aggregators/vote.py results/responses.json --live
+
+PYTHONUNBUFFERED=1 python3 -u aggregators/stitch.py results/responses.json --live
+
+PYTHONUNBUFFERED=1 python3 -u evaluate.py
