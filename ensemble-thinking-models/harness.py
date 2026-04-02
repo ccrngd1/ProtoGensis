@@ -92,14 +92,14 @@ MODELS = {
     ),
 
     # Tier 4: Micro/Nano models
-    "nova-2-lite": ModelConfig(
-        name="Amazon Nova 2 Lite",
-        model_id="global.amazon.nova-2-lite-v1:0",  # Using global inference profile
-        supports_thinking=False,
-        cost_per_1k_input=0.00006,
-        cost_per_1k_output=0.00024,
-        extended_thinking_multiplier=1.0
-    ),
+    # "nova-2-lite": ModelConfig(
+    #     name="Amazon Nova 2 Lite",
+    #     model_id="global.amazon.nova-2-lite-v1:0",  # Using global inference profile
+    #     supports_thinking=False,
+    #     cost_per_1k_input=0.00006,
+    #     cost_per_1k_output=0.00024,
+    #     extended_thinking_multiplier=1.0
+    # ),  # Available but disabled for this run
     "nova-lite": ModelConfig(
         name="Amazon Nova Lite",
         model_id="us.amazon.nova-lite-v1:0",
