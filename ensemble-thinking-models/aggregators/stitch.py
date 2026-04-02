@@ -310,10 +310,13 @@ Provide both your synthesis reasoning and the final synthesized answer."""
 def main():
     """Demo of stitch synthesizer"""
     import argparse
+    from concurrent.futures import ThreadPoolExecutor, as_completed
 
     parser = argparse.ArgumentParser(description="Stitch Synthesizer")
     parser.add_argument("responses_file", help="Path to responses JSON file")
     parser.add_argument("--live", action="store_true", help="Use live orchestrator model")
+    parser.add_argument("--sequential", action="store_true",
+                       help="Process prompts sequentially instead of in parallel")
     args = parser.parse_args()
 
     with open(args.responses_file, 'r') as f:
@@ -322,29 +325,62 @@ def main():
     mock_mode = not args.live
     synthesizer = StitchSynthesizer(mock_mode=mock_mode)
 
-    print(f"Running stitch synthesis in {'MOCK' if mock_mode else 'LIVE'} mode...")
+    parallel_desc = "(sequential)" if args.sequential else "(parallel)"
+    print(f"Running stitch synthesis in {'MOCK' if mock_mode else 'LIVE'} mode {parallel_desc}...")
 
-    results = []
-    total_cost = 0.0
+    if args.sequential:
+        # Original sequential processing
+        results = []
+        total_cost = 0.0
 
-    for item in data:
-        prompt = item['prompt']
-        responses = item['responses']
+        for item in data:
+            prompt = item['prompt']
+            responses = item['responses']
 
-        stitch_result = synthesizer.synthesize(responses, prompt)
-        results.append(asdict(stitch_result))
+            stitch_result = synthesizer.synthesize(responses, prompt)
+            results.append(asdict(stitch_result))
 
-        total_cost += stitch_result.cost_usd
+            total_cost += stitch_result.cost_usd
 
-        print(f"\n{'='*80}")
-        print(f"Prompt: {prompt['id']}")
-        print(f"Models used: {stitch_result.models_used}")
-        print(f"Synthesis cost: ${stitch_result.cost_usd:.6f}")
-        print(f"Synthesis latency: {stitch_result.latency_ms}ms")
-        print(f"\nConvergence Analysis:")
-        print(stitch_result.convergence_analysis)
-        print(f"\nSynthesized Answer:")
-        print(stitch_result.synthesized_answer[:300] + "...")
+            print(f"\n{'='*80}")
+            print(f"Prompt: {prompt['id']}")
+            print(f"Models used: {stitch_result.models_used}")
+            print(f"Synthesis cost: ${stitch_result.cost_usd:.6f}")
+            print(f"Synthesis latency: {stitch_result.latency_ms}ms")
+            print(f"\nConvergence Analysis:")
+            print(stitch_result.convergence_analysis)
+            print(f"\nSynthesized Answer:")
+            print(stitch_result.synthesized_answer[:300] + "...")
+    else:
+        # Parallel processing
+        print(f"⚡ Processing {len(data)} prompts in parallel...")
+
+        def process_prompt(item):
+            prompt = item['prompt']
+            responses = item['responses']
+            stitch_result = synthesizer.synthesize(responses, prompt)
+            return prompt['id'], stitch_result
+
+        results_dict = {}
+        total_cost = 0.0
+
+        with ThreadPoolExecutor(max_workers=min(10, len(data))) as executor:
+            futures = {executor.submit(process_prompt, item): item['prompt']['id']
+                      for item in data}
+
+            for future in as_completed(futures):
+                prompt_id = futures[future]
+                try:
+                    returned_id, stitch_result = future.result()
+                    results_dict[returned_id] = stitch_result
+                    total_cost += stitch_result.cost_usd
+
+                    print(f"  ✓ {prompt_id}: ${stitch_result.cost_usd:.6f} | {stitch_result.latency_ms}ms")
+                except Exception as e:
+                    print(f"  ❌ {prompt_id}: Error - {e}")
+
+        # Convert to list in original order
+        results = [asdict(results_dict[item['prompt']['id']]) for item in data]
 
     # Save results
     output_file = args.responses_file.replace('responses.json', 'stitch_results.json')

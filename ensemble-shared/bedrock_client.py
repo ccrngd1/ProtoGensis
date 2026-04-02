@@ -15,12 +15,13 @@ _rate_limit_lock = threading.Lock()
 class BedrockClient:
     """HTTP-based Bedrock client using bearer token authentication."""
 
-    def __init__(self, region: str = "us-east-1", min_delay_between_calls: float = 0.5):
+    def __init__(self, region: str = "us-east-1", min_delay_between_calls: float = 0.1):
         """Initialize Bedrock client.
 
         Args:
             region: AWS region for Bedrock endpoint
             min_delay_between_calls: Minimum seconds between API calls (rate limiting)
+                                     Default 0.1s allows ~10 QPS, safe for parallel calls
         """
         self.region = region
         self.min_delay = min_delay_between_calls

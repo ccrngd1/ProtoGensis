@@ -488,12 +488,15 @@ Provide your selection (just the model name in CAPS: OPUS, NOVA, or SONNET) foll
 def main():
     """Demo of vote aggregator"""
     import argparse
+    from concurrent.futures import ThreadPoolExecutor, as_completed
 
     parser = argparse.ArgumentParser(description="Vote Aggregator")
     parser.add_argument("responses_file", help="Path to responses JSON file")
     parser.add_argument("--live", action="store_true", help="Use live judge model")
     parser.add_argument("--judge-selection", action="store_true",
                        help="Use judge selection (pick best) instead of semantic majority vote (pick most common)")
+    parser.add_argument("--sequential", action="store_true",
+                       help="Process prompts sequentially instead of in parallel")
     args = parser.parse_args()
 
     with open(args.responses_file, 'r') as f:
@@ -504,31 +507,64 @@ def main():
     aggregator = VoteAggregator(mock_mode=mock_mode, use_semantic_vote=use_semantic_vote)
 
     mode_desc = "MOCK" if mock_mode else ("JUDGE SELECTION" if args.judge_selection else "SEMANTIC MAJORITY VOTE")
-    print(f"Running vote aggregation in {mode_desc} mode...")
+    parallel_desc = "(sequential)" if args.sequential else "(parallel)"
+    print(f"Running vote aggregation in {mode_desc} mode {parallel_desc}...")
 
-    results = []
-    total_judge_cost = 0.0
+    if args.sequential:
+        # Original sequential processing
+        results = []
+        total_judge_cost = 0.0
 
-    for item in data:
-        prompt = item['prompt']
-        responses = item['responses']
+        for item in data:
+            prompt = item['prompt']
+            responses = item['responses']
 
-        vote_result = aggregator.aggregate(responses, prompt)
-        results.append(asdict(vote_result))
+            vote_result = aggregator.aggregate(responses, prompt)
+            results.append(asdict(vote_result))
 
-        total_judge_cost += vote_result.judge_cost_usd
+            total_judge_cost += vote_result.judge_cost_usd
 
-        print(f"\n{'='*80}")
-        print(f"Prompt: {prompt['id']}")
-        print(f"Strategy: {vote_result.strategy}")
-        print(f"Convergence: {vote_result.convergence}")
-        if vote_result.vote_counts:
-            print(f"Vote counts: {vote_result.vote_counts}")
-        if vote_result.judge_reasoning:
-            print(f"Judge reasoning: {vote_result.judge_reasoning[:200]}...")
-        if vote_result.judge_cost_usd > 0:
-            print(f"Judge cost: ${vote_result.judge_cost_usd:.6f}")
-        print(f"Models agreeing: {vote_result.models_agreeing}")
+            print(f"\n{'='*80}")
+            print(f"Prompt: {prompt['id']}")
+            print(f"Strategy: {vote_result.strategy}")
+            print(f"Convergence: {vote_result.convergence}")
+            if vote_result.vote_counts:
+                print(f"Vote counts: {vote_result.vote_counts}")
+            if vote_result.judge_reasoning:
+                print(f"Judge reasoning: {vote_result.judge_reasoning[:200]}...")
+            if vote_result.judge_cost_usd > 0:
+                print(f"Judge cost: ${vote_result.judge_cost_usd:.6f}")
+            print(f"Models agreeing: {vote_result.models_agreeing}")
+    else:
+        # Parallel processing
+        print(f"⚡ Processing {len(data)} prompts in parallel...")
+
+        def process_prompt(item):
+            prompt = item['prompt']
+            responses = item['responses']
+            vote_result = aggregator.aggregate(responses, prompt)
+            return prompt['id'], vote_result
+
+        results_dict = {}
+        total_judge_cost = 0.0
+
+        with ThreadPoolExecutor(max_workers=min(10, len(data))) as executor:
+            futures = {executor.submit(process_prompt, item): item['prompt']['id']
+                      for item in data}
+
+            for future in as_completed(futures):
+                prompt_id = futures[future]
+                try:
+                    returned_id, vote_result = future.result()
+                    results_dict[returned_id] = vote_result
+                    total_judge_cost += vote_result.judge_cost_usd
+
+                    print(f"  ✓ {prompt_id}: {vote_result.strategy} | {', '.join(vote_result.models_agreeing)}")
+                except Exception as e:
+                    print(f"  ❌ {prompt_id}: Error - {e}")
+
+        # Convert to list in original order
+        results = [asdict(results_dict[item['prompt']['id']]) for item in data]
 
     # Save results
     output_file = args.responses_file.replace('responses.json', 'vote_results.json')

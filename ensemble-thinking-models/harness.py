@@ -453,28 +453,97 @@ Provide your best reasoning in the "answer" field, then honestly assess your con
             )
 
     def run_prompt(self, prompt_id: str, prompt_text: str) -> Dict[str, ModelResponse]:
-        """Run a single prompt through all active models"""
+        """Run a single prompt through all active models (in parallel)"""
         print(f"\n{'='*80}")
         print(f"Running prompt: {prompt_id}")
         print(f"{'='*80}")
+        print(f"Calling {len(self.active_models)} models in parallel...")
 
-        responses = {}
+        # Build JSON-formatted prompt once
+        json_prompt = self._build_json_prompt(prompt_text)
 
-        for model_key in self.active_models.keys():
+        # Build batch of calls for all models
+        calls = []
+        model_keys = list(self.active_models.keys())
+
+        for model_key in model_keys:
             model_config = self.active_models[model_key]
-            print(f"\nCalling {model_config.name}...")
 
-            response = self._call_model_generic(model_key, prompt_text, prompt_id)
-            responses[model_key] = response
-
-            if response.error:
-                print(f"  ❌ Error: {response.error}")
+            if model_config.supports_thinking:
+                calls.append({
+                    'model_id': model_config.model_id,
+                    'prompt': json_prompt,
+                    'max_tokens': 16000,
+                    'temperature': None,
+                    'extended_thinking': True,
+                    'thinking_budget': 10000
+                })
             else:
-                print(f"  ✓ Completed in {response.latency_ms}ms")
-                print(f"  💰 Cost: ${response.cost_usd:.6f}")
-                print(f"  📊 Tokens: {response.input_tokens} in / {response.output_tokens} out")
-                print(f"  🎯 Confidence: {response.confidence:.2f}")
+                calls.append({
+                    'model_id': model_config.model_id,
+                    'prompt': json_prompt,
+                    'max_tokens': 4096,
+                    'temperature': 0.7,
+                    'extended_thinking': False
+                })
 
+        # Execute all calls in parallel
+        print(f"⚡ Parallel execution starting...")
+        batch_results = self.client.call_batch(calls, max_workers=len(self.active_models))
+
+        # Parse results into ModelResponse objects
+        responses = {}
+        for idx, model_key in enumerate(model_keys):
+            model_config = self.active_models[model_key]
+            response_text, input_tokens, output_tokens, latency_ms = batch_results[idx]
+
+            # Handle empty responses (errors)
+            if not response_text and input_tokens == 0:
+                responses[model_key] = ModelResponse(
+                    model_key=model_key,
+                    model_name=model_config.name,
+                    prompt_id=prompt_id,
+                    answer="",
+                    reasoning_trace="",
+                    latency_ms=0,
+                    input_tokens=0,
+                    output_tokens=0,
+                    thinking_tokens=0,
+                    cost_usd=0.0,
+                    confidence=0.0,
+                    timestamp=datetime.now().isoformat(),
+                    error="API call failed"
+                )
+                print(f"\n  ❌ {model_config.name}: Error")
+                continue
+
+            # Parse JSON response
+            answer, confidence = self._parse_json_response(response_text)
+
+            # Calculate cost
+            cost_usd = calculate_cost(model_config.model_id, input_tokens, output_tokens)
+
+            responses[model_key] = ModelResponse(
+                model_key=model_key,
+                model_name=model_config.name,
+                prompt_id=prompt_id,
+                answer=answer,
+                reasoning_trace=f"Confidence: {confidence:.2f}" + (
+                    " (extended thinking)" if model_config.supports_thinking else ""
+                ),
+                latency_ms=latency_ms,
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+                thinking_tokens=0,
+                cost_usd=round(cost_usd, 6),
+                confidence=confidence,
+                timestamp=datetime.now().isoformat()
+            )
+
+            # Print result
+            print(f"\n  ✓ {model_config.name}: {latency_ms}ms | ${cost_usd:.6f} | {input_tokens}→{output_tokens} tokens | conf={confidence:.2f}")
+
+        print(f"\n⚡ All models completed!")
         return responses
 
     def run_all_prompts(self, prompts_file: str = "prompts/prompts.json") -> List[Dict[str, Any]]:
