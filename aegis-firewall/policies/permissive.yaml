@@ -1,0 +1,26 @@
+# Permissive Policy Profile
+# Allows most operations, only blocks high-severity threats
+
+name: permissive
+description: Minimal restrictions, only blocks critical threats
+default_action: allow
+
+rules:
+  - name: block_high_severity
+    tools: '*'
+    min_severity: high
+    action: deny
+    reason: High severity threat detected
+
+  - name: escalate_secrets_and_pii
+    tools: '*'
+    threat_types:
+      - secret_scanner
+      - pii_detector
+    action: escalate
+    reason: Sensitive data detected, requires human approval
+
+  - name: allow_everything_else
+    tools: '*'
+    action: allow
+    reason: Permissive policy allows by default

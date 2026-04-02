@@ -1,0 +1,40 @@
+# AEGIS Firewall Configuration Example
+
+# Policy file to use
+policy_file: policies/standard.yaml
+
+# Audit log path
+audit_log: audit.jsonl
+
+# Optional: Ed25519 signing key (hex-encoded)
+# If not specified, a new key will be generated
+# signing_key: "your_hex_encoded_key_here"
+
+# MCP server command to proxy
+mcp_server_command:
+  - python
+  - -m
+  - example_mcp_server
+
+# Scanner configuration
+scanners:
+  shell_threshold: medium
+  allow_absolute_paths: false
+  pii_sensitivity: medium
+  check_entropy: true
+  sql_strict: true
+
+# Rate limiting configuration
+rate_limiting:
+  default_limit: 100  # calls per window
+  window_seconds: 60  # window size in seconds
+  per_tool_limits:
+    exec: 10
+    shell: 10
+    write_file: 50
+
+# HITL (Human-in-the-loop) configuration
+hitl_timeout: 300  # seconds (5 minutes)
+
+# Response scanning
+response_scanning: true

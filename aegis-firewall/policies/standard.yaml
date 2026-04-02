@@ -1,0 +1,66 @@
+# Standard Policy Profile
+# Balanced security - blocks dangerous operations, escalates suspicious ones
+
+name: standard
+description: Balanced security for production environments
+default_action: deny
+
+rules:
+  - name: block_shell_injection
+    tools: '*'
+    threat_types:
+      - shell_injection
+    action: deny
+    reason: Shell injection attempt blocked
+
+  - name: block_path_traversal
+    tools: '*'
+    threat_types:
+      - path_traversal
+    action: deny
+    reason: Path traversal attempt blocked
+
+  - name: block_sql_injection
+    tools: '*'
+    threat_types:
+      - sql_injection
+    action: deny
+    reason: SQL injection attempt blocked
+
+  - name: escalate_secrets
+    tools: '*'
+    threat_types:
+      - secret_scanner
+    min_severity: medium
+    action: escalate
+    reason: Secret detected, requires human review
+
+  - name: escalate_pii
+    tools: '*'
+    threat_types:
+      - pii_detector
+    min_severity: medium
+    action: escalate
+    reason: PII detected, requires human review
+
+  - name: escalate_medium_severity
+    tools: '*'
+    min_severity: medium
+    action: escalate
+    reason: Medium severity threat requires review
+
+  - name: allow_safe_tools
+    tools:
+      - read_file
+      - list_directory
+      - search
+      - get_time
+      - calculate
+    action: allow
+    reason: Safe read-only operations allowed
+
+  - name: allow_no_threats
+    tools: '*'
+    min_severity: none
+    action: allow
+    reason: No threats detected

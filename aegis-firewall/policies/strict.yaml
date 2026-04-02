@@ -1,0 +1,58 @@
+# Strict Policy Profile
+# Maximum security - escalates most operations for human approval
+
+name: strict
+description: Maximum security, requires approval for most operations
+default_action: deny
+
+rules:
+  - name: block_high_severity
+    tools: '*'
+    min_severity: high
+    action: deny
+    reason: High severity threat detected
+
+  - name: block_shell_commands
+    tools:
+      - exec
+      - shell
+      - run_command
+      - execute
+      - bash
+      - powershell
+    action: deny
+    reason: Shell execution blocked in strict mode
+
+  - name: block_file_write
+    tools:
+      - write_file
+      - delete_file
+      - create_file
+      - append_file
+    action: deny
+    reason: File modification blocked in strict mode
+
+  - name: escalate_medium_severity
+    tools: '*'
+    min_severity: medium
+    action: escalate
+    reason: Medium or higher severity requires approval
+
+  - name: escalate_any_threat
+    tools: '*'
+    min_severity: low
+    action: escalate
+    reason: Any detected threat requires approval in strict mode
+
+  - name: allow_safe_readonly
+    tools:
+      - read_file
+      - get_time
+      - search
+    action: allow
+    reason: Safe read-only operations
+
+  - name: escalate_everything_else
+    tools: '*'
+    action: escalate
+    reason: Strict mode requires approval for all operations
