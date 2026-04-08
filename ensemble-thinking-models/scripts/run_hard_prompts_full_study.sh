@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 if [ -z "${AWS_BEARER_TOKEN_BEDROCK:-}" ]; then
     echo "ERROR: AWS_BEARER_TOKEN_BEDROCK environment variable not set"

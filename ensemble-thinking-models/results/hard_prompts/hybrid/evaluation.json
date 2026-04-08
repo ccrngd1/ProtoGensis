@@ -1,0 +1,424 @@
+{
+  "summary_metrics": [
+    {
+      "approach": "Individual: Opus-thinking",
+      "total_cost_usd": 2.05881,
+      "avg_latency_ms": 54311,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 8
+    },
+    {
+      "approach": "Individual: Haiku-fast",
+      "total_cost_usd": 0.079235,
+      "avg_latency_ms": 13950,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Individual: Llama-3-1-70b",
+      "total_cost_usd": 0.009092000000000001,
+      "avg_latency_ms": 21008,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Individual: Nova-pro",
+      "total_cost_usd": 0.027389000000000004,
+      "avg_latency_ms": 9008,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Individual: Nova-lite",
+      "total_cost_usd": 0.002042,
+      "avg_latency_ms": 4178,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Individual: Nemotron-nano",
+      "total_cost_usd": 0.002189,
+      "avg_latency_ms": 5625,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Ensemble: Vote",
+      "total_cost_usd": 2.178757,
+      "avg_latency_ms": 47586,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Ensemble: Stitch",
+      "total_cost_usd": 2.3621282000000003,
+      "avg_latency_ms": 52586,
+      "convergence_rate": 0.0,
+      "prompts_evaluated": 10
+    },
+    {
+      "approach": "Baseline: Self-Consistency (Opus-thinking 3x)",
+      "total_cost_usd": 6.17643,
+      "avg_latency_ms": 162933,
+      "convergence_rate": 0.7,
+      "prompts_evaluated": 8
+    }
+  ],
+  "prompt_comparisons": [
+    {
+      "prompt_id": "h1_adversarial_integral",
+      "convergence": false,
+      "model_answers": {
+        "opus-thinking": "```json\n{\n  \"answer\": \"## The Dirichlet Integral: \u222b\u2080^\u221e sin(x)/x dx = \u03c0/2\\n\\n### 1. The Standard Result\\n\\nThe commonly cited result is:\\n\\n\u222b\u2080^\u221e sin(x)...",
+        "haiku-fast": "```json\n{\n  \"answer\": \"## The Standard Result and Its Subtlety\\n\\nThe standard result cited is:\\n\u222b\u2080^\u221e (sin(x)/x) dx = \u03c0/2\\n\\nHowever, this integral is...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": \"The standard result people cite for the integral \u222b\u2080^\u221e (sin(x)/x) dx is \u03c0/2. However, this result requires careful justification becau...",
+        "nova-pro": "The standard result that people often cite for the integral \u222b\u2080^\u221e (sin(x)/x) dx is \u03c0/2. This result, however, requires careful justification because th...",
+        "nova-lite": "The standard result people cite for the integral \u222b\u2080^\u221e (sin(x)/x) dx is \u03c0/2. This result requires careful justification because the integral does not c...",
+        "nemotron-nano": "The integral \u222b\u2080^\u221e (sin(x)/x) dx, known as the **Dirichlet integral**, is famously evaluated as \u03c0/2. However, a naive application of integration techni..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "```json\n{\n  \"answer\": \"## The Dirichlet Integral: \u222b\u2080^\u221e sin(x)/x dx = \u03c0/2\\n\\n### 1. The Standard Result\\n\\nThe commonly cited result is:\\n\\n\u222b\u2080^\u221e sin(x)...",
+      "stitch_answer": "# Synthesis and Orchestration\n\n## Analysis of Model Responses\n\n### Convergence Points (High Confidence)\nAll models agree on:\n1. **The standard result*...",
+      "ground_truth": "The integral equals \u03c0/2, but this requires careful treatment. The integrand sin(x)/x is not absolutely integrable over [0,\u221e), so the integral must be interpreted as an improper Riemann integral (limit as T\u2192\u221e). The standard proof uses either: (1) Frullani's theorem, (2) contour integration with residue theorem, or (3) Fourier transform properties. Simply stating \u03c0/2 without justification shows pattern matching, not understanding.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value | Correct: opus-thinking, haiku-fast, llama-3-1-70b, nova-pro, nova-lite, nemotron-nano | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "opus-thinking": true,
+        "haiku-fast": true,
+        "llama-3-1-70b": true,
+        "nova-pro": true,
+        "nova-lite": true,
+        "nemotron-nano": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "h2_pirate_gold",
+      "convergence": false,
+      "model_answers": {
+        "opus-thinking": "```json\n{\n  \"answer\": \"Pirate 1 should propose: {98, 0, 1, 0, 1} \u2014 that is, 98 coins for himself, 0 for Pirate 2, 1 for Pirate 3, 0 for Pirate 4, and ...",
+        "haiku-fast": "```json\n{\n  \"answer\": \"BACKWARD INDUCTION ANALYSIS:\\n\\nStart from the end and work backwards:\\n\\n**Stage 4: If only Pirates 4 & 5 remain**\\n- Pirate 4...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": \"Pirate 1 should propose a division where pirate 1 gets 98 gold coins, pirate 2 gets 1 gold coin, and pirate 3 gets 1 gold coin. Pirat...",
+        "nova-pro": "Pirate 1 should propose the division: 96 gold for pirate 1, 4 gold for pirate 3, and 0 gold for pirates 2, 4, and 5. This proposal will pass because:\n...",
+        "nova-lite": "Pirate 1 should propose a division of 60 gold coins for themselves, 20 for pirate 2, 10 for pirate 3, 5 for pirate 4, and 5 for pirate 5. This proposa...",
+        "nemotron-nano": "To solve this problem, we use **backward induction**, reasoning from the simplest case (fewer pirates) to the most complex case (all five pirates). Th..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "```json\n{\n  \"answer\": \"Pirate 1 should propose: {98, 0, 1, 0, 1} \u2014 that is, 98 coins for himself, 0 for Pirate 2, 1 for Pirate 3, 0 for Pirate 4, and ...",
+      "stitch_answer": "# Synthesis Analysis & Orchestrated Answer\n\n## Convergence Map\n\n**High Confidence (4-5 models agree):**\n- Base case (2 pirates): Pirate 4 takes 100, g...",
+      "ground_truth": "Pirate 1 should propose: [98, 0, 1, 0, 1] (Pirate 1 gets 98, Pirate 3 gets 1, Pirate 5 gets 1). Reasoning: Work backwards. If only pirate 5 left, gets 100. If 4&5: pirate 4 proposes [100,0], pirate 5 votes no, pirate 4 gets thrown (fails 50% threshold). If 3,4,5: pirate 3 proposes [99,0,1] giving pirate 5 one coin (better than 0 in 4&5 scenario), passes 2-1. If 2,3,4,5: pirate 2 proposes [99,0,1,0] giving pirate 4 one coin (better than 0 in 3,4,5 scenario), passes 2-2 (50%). If all 5: pirate 1 must get pirates 3 and 5 to vote yes (pirates 2&4 always vote no to get him thrown). Offering 1 coin each to pirates 3&5 makes them vote yes (better than 0 in 2,3,4,5 scenario). Passes 3-2.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Correct: opus-thinking, haiku-fast, llama-3-1-70b, nova-pro, nova-lite, nemotron-nano | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "opus-thinking": true,
+        "haiku-fast": true,
+        "llama-3-1-70b": true,
+        "nova-pro": true,
+        "nova-lite": true,
+        "nemotron-nano": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "h3_race_condition_bug",
+      "convergence": false,
+      "model_answers": {
+        "opus-thinking": "```json\n{\n  \"answer\": \"**Q1: The Bug \u2014 A TOCTOU (Time-of-Check-to-Time-of-Use) Race Condition**\\n\\nThe `get_or_compute` method has a critical window b...",
+        "haiku-fast": "```json\n{\n  \"answer\": \"## Q1: What's the bug? (Race condition specifics)\\n\\nThe bug is a **classic Time-of-Check-Time-of-Use (TOCTOU) race condition**...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": \"Q1: The bug is a race condition between the `get` and `set` methods in the `Cache` class. Specifically, when multiple threads call `g...",
+        "nova-pro": "### Q1: What's the bug?\n\nThe bug is a race condition in the `get_or_compute` method. Here's the sequence of events that leads to the bug:\n\n1. Thread A...",
+        "nova-lite": "{\n  \"answer\": \"Q1: The bug is a classic race condition that occurs in the `get_or_compute` method. The method first checks if a value exists in the ca...",
+        "nemotron-nano": "The bug stems from a race condition in the `get_or_compute` method. During the check `if val is None`, another thread could acquire the lock, retrieve..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "```json\n{\n  \"answer\": \"**Q1: The Bug \u2014 A TOCTOU (Time-of-Check-to-Time-of-Use) Race Condition**\\n\\nThe `get_or_compute` method has a critical window b...",
+      "stitch_answer": "# Synthesis Reasoning\n\n## Convergence Analysis\n\nAll models **converge strongly** on the core issue:\n- **Q1 (The Bug)**: TOCTOU race condition with una...",
+      "ground_truth": "Bug: Lock is released before compute_fn() executes. If two threads call get_or_compute() simultaneously for same key: (1) Thread A checks, val=None, releases lock (2) Thread B checks, val=None, releases lock (3) Both execute compute_fn() concurrently. Fix: Hold lock during computation OR use double-checked locking with separate 'computing' flag OR use threading.Event per key. Tests don't catch it because 100ms delay makes race window large in production but tests run sequentially or with mocked compute_fn that's instant.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value | Correct: opus-thinking, haiku-fast, llama-3-1-70b, nova-pro, nova-lite | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "opus-thinking": true,
+        "haiku-fast": true,
+        "llama-3-1-70b": true,
+        "nova-pro": true,
+        "nova-lite": true,
+        "nemotron-nano": false
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "h4_json_extraction_ambiguous",
+      "convergence": false,
+      "model_answers": {
+        "opus-thinking": "```json\n{\n  \"answer\": \"```json\\n{\\n  \\\"invoice_number\\\": \\\"2024-03-15-ACME-001\\\",\\n  \\\"customer\\\": {\\n    \\\"name\\\": \\\"John O'Brien & Associates, LLC\\\"...",
+        "haiku-fast": "```json\n{\n  \"answer\": {\n    \"invoice_number\": \"2024-03-15-ACME-001\",\n    \"customer\": {\n      \"name\": \"John O'Brien & Associates, LLC\",\n      \"address\"...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": {\n    \"invoice_number\": \"2024-03-15-ACME-001\",\n    \"customer\": {\n      \"name\": \"John O'Brien & Associates, LLC\",\n      \"address\": {\n  ...",
+        "nova-pro": "{\n  \"answer\": {\n    \"invoice_number\": \"2024-03-15-ACME-001\",\n    \"customer\": {\n      \"name\": \"John O'Brien & Associates, LLC\",\n      \"address\": {\n    ...",
+        "nova-lite": "```json\n{\n  \"answer\": {\n    \"invoice_number\": \"2024-03-15-ACME-001\",\n    \"customer\": {\n      \"name\": \"John O'Brien & Associates, LLC\",\n      \"address\"...",
+        "nemotron-nano": "{\n  \"answer\": \"Here's the structured JSON extraction with full reasoning:\\n\\n```json\\n{\\n  \\\"invoice_number\\\": \\\"2024-03-15-ACME-001\\\",\\n  \\\"customer\\..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "```json\n{\n  \"answer\": \"```json\\n{\\n  \\\"invoice_number\\\": \\\"2024-03-15-ACME-001\\\",\\n  \\\"customer\\\": {\\n    \\\"name\\\": \\\"John O'Brien & Associates, LLC\\\"...",
+      "stitch_answer": "# Synthesis Analysis & Reasoning\n\n## Model Performance Assessment\n\n### High-Confidence Convergence (All/Most Models Agree):\n1. **Invoice number extrac...",
+      "ground_truth": "Must correctly: (1) escape O'Brien apostrophe, (2) parse 'Apt. #5B' as part of address, (3) extract serial numbers as array, (4) create shipping array with two destinations (default + alternate for item 3), (5) use PO-2024-Q1-789 not 777, (6) calculate unit_price for item 2 as $2000 (6000/3), (7) store rescheduled date in metadata, (8) link contract reference to item 1",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value | Correct: opus-thinking, haiku-fast, llama-3-1-70b, nova-pro, nova-lite, nemotron-nano | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "opus-thinking": true,
+        "haiku-fast": true,
+        "llama-3-1-70b": true,
+        "nova-pro": true,
+        "nova-lite": true,
+        "nemotron-nano": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "h5_x12_to_hl7_semantic",
+      "convergence": false,
+      "model_answers": {
+        "opus-thinking": "ERROR",
+        "haiku-fast": "# X12 837P to HL7 v2.5 DFT^P03 Conversion\n\n## HL7 DFT^P03 Message:\n\n```\nMSH|^~\\&|CLAIM_SYSTEM|SUBMITTER|PAYER|AETNA|20240315143000||DFT^P03|MSG123456|...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": \"Here is the converted HL7 DFT^P03 message:\n\nMSH|^~\\\\&|CLAIMS_SYSTEM|CLAIMS_SYSTEM|AETNA|AETNA|20240315|1430||DFT^P03|CLAIM001|P|2.5|\n...",
+        "nova-pro": "Here is the converted HL7 DFT^P03 message based on the provided X12 837P segment, with detailed reasoning for each segment and field mapping:\n\n```\nMSH...",
+        "nova-lite": "Here is the converted HL7 DFT^P03 message with detailed reasoning for each segment:\n\n```hl7\nMSH|^~\\&|SendingSystem|SendingFacility|ReceivingApplicatio...",
+        "nemotron-nano": "Here's the HL7 DFT^P03 conversion with semantic mapping and reasoning:\n\n```\nMSH|^\\|^\\|^\\|DFT^P03*HL7V250*2.5\\|ELECTRONIC\\|ACK\\|\nEVN|A01||202403151430|..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "# X12 837P to HL7 v2.5 DFT^P03 Conversion\n\n## HL7 DFT^P03 Message:\n\n```\nMSH|^~\\&|CLAIM_SYSTEM|SUBMITTER|PAYER|AETNA|20240315143000||DFT^P03|MSG123456|...",
+      "stitch_answer": "# Synthesis Analysis & Final Answer\n\n## 1. Convergence & Divergence Analysis\n\n### HIGH CONVERGENCE (Strong Consensus):\n- **Segment ordering**: All mod...",
+      "ground_truth": "The contradiction indicates either: (a) data entry error in X12, (b) emergency office visit that didn't result in admission, or (c) CL1 segment misapplied. Correct approach: Prioritize Place of Service (11=Office) since it's more specific. CL1 admission fields should be omitted or PV1 should show outpatient encounter (PV1-2='O'). The onset date (DTP*431) should map to PV1-44 or OBX if tracking symptoms. FT1 segments must be created for each SV1 with correct CPT codes, amounts, and service dates. Common error: blindly setting PV1-2='I' (inpatient) based on CL1, which contradicts Place=11.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value | Correct: haiku-fast, llama-3-1-70b, nova-pro, nova-lite, nemotron-nano | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "haiku-fast": true,
+        "llama-3-1-70b": true,
+        "nova-pro": true,
+        "nova-lite": true,
+        "nemotron-nano": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "h6_medical_coding_ambiguous",
+      "convergence": false,
+      "model_answers": {
+        "opus-thinking": "## ICD-10-CM Code Assignment with Detailed Rationale\n\n### Final Code List (in sequencing order):\n\n| Seq | Code | Description |\n|-----|------|---------...",
+        "haiku-fast": "## ICD-10-CM DIAGNOSIS CODE ASSIGNMENT\n\n### PRIMARY DIAGNOSIS CODING:\n\n**1. ACUTE PERICARDITIS (PRIMARY DIAGNOSIS)**\n- **Code: I30.9** (Acute pericard...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": \"Given the complexities of this case, the following ICD-10-CM codes are assigned with detailed rationale:\n\n1. Primary diagnosis: \n   -...",
+        "nova-pro": "Here are the ICD-10-CM codes for the clinical note with detailed rationale: \n\n1. Primary diagnosis: \n- I24.1 (Acute pericarditis) - The clinical prese...",
+        "nova-lite": "Here are the ICD-10-CM codes with detailed reasoning for each ambiguity:\n\n1. Primary diagnosis: Given the clinical presentation and initial tests, the...",
+        "nemotron-nano": "```json\n{\n  \"answer\": \"Answer: {\\n  \\\"primary_diagnosis\\\": \\\"Acute pericarditis\\\",\\n  \\\"rule_out_acs\\\": \\\"R07.89\\\",\\n  \\\"resolved_fever\\\": \\\"R50.9\\\",\\..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "## ICD-10-CM Code Assignment with Detailed Rationale\n\n### Final Code List (in sequencing order):\n\n| Seq | Code | Description |\n|-----|------|---------...",
+      "stitch_answer": "# SYNTHESIS ANALYSIS & ORCHESTRATED ANSWER\n\n## 1. CONVERGENCE MAPPING\n\n### High Convergence (All/Most Models Agree):\n| Element | Consensus | Models |\n...",
+      "ground_truth": "Primary: I30.9 (Acute pericarditis, unspecified) - meets clinical criteria with friction rub and EKG changes. Do NOT code suspected ACS (R07.9 chest pain already captured by pericarditis diagnosis; coding guidelines say don't code suspected/rule-out conditions as if confirmed in outpatient/inpatient uncertain settings - use symptoms). Fever: Do not code (resolved, not significant to current encounter). Smoking: Z87.891 (Personal history of nicotine dependence) - quit 2 years ago, so 'former' not 'current'. Hypertension: I10 (Essential hypertension) - sequenced after primary diagnosis. Hyperlipidemia: E78.5 (Hyperlipidemia, unspecified). Common errors: (1) Coding I21.x (STEMI) based on ST elevation without confirming MI, (2) Coding Z03.89 (encounter for observation for suspected condition, ruled out) inappropriately, (3) Using F17.x (current tobacco use) instead of history code.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "opus-thinking": false,
+        "haiku-fast": false,
+        "llama-3-1-70b": false,
+        "nova-pro": false,
+        "nova-lite": false,
+        "nemotron-nano": false
+      },
+      "vote_correct": false,
+      "stitch_correct": false,
+      "best_individual_correct": false,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "h7_entity_recognition_context",
+      "convergence": false,
+      "model_answers": {
+        "opus-thinking": "```json\n{\n  \"answer\": {\n    \"problems\": [\n      {\n        \"term\": \"Depression\",\n        \"status\": \"history\",\n        \"certainty\": \"confirmed\",\n       ...",
+        "haiku-fast": "```json\n{\n  \"answer\": {\n    \"problems\": [\n      {\n        \"term\": \"Progressive weakness\",\n        \"status\": \"active\",\n        \"certainty\": \"confirmed\"...",
+        "llama-3-1-70b": "\n\nHere is the extracted information in the requested JSON format:\n\n```\n{\n  \"problems\": [\n    {\n      \"term\": \"depression\",\n      \"status\": \"history\",\n...",
+        "nova-pro": "{\n  \"answer\": {\n    \"problems\": [\n      {\n        \"term\": \"depression\",\n        \"status\": \"history\",\n        \"certainty\": \"confirmed\",\n        \"contex...",
+        "nova-lite": "```json\n{\n  \"answer\": {\n    \"problems\": [\n      {\n        \"term\": \"Depression\",\n        \"status\": \"active\",\n        \"certainty\": \"confirmed\",\n        ...",
+        "nemotron-nano": "```json\n{\n  \"answer\": {\n    \"problems\": [\n      {\n        \"term\": \"depression\",\n        \"status\": \"history\",\n        \"certainty\": \"confirmed\",\n       ..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "```json\n{\n  \"answer\": {\n    \"problems\": [\n      {\n        \"term\": \"Depression\",\n        \"status\": \"history\",\n        \"certainty\": \"confirmed\",\n       ...",
+      "stitch_answer": "# Synthesis Analysis and Combined Answer\n\n## 1. Convergence Analysis (High Confidence Areas)\n\nAll models demonstrate strong agreement on:\n\n### **Probl...",
+      "ground_truth": "Problems: depression (active/history), chronic back pain (active), proximal myopathy (active/confirmed), vitamin D deficiency (active/confirmed), polymyositis (differential/suspected). Medications: Prozac (active, for depression, possible relationship to myopathy per note), Lexapro (discontinued due to side effects), ibuprofen (active PRN, for back pain), calcium/vit D (active, for deficiency). Findings: proximal muscle weakness (present, bilateral, 4/5), muscle aches (present), rash (absent), fever (absent), weight loss (absent), elevated CK (present, 850), low vitamin D (present, 18). Procedures: ANA test (planned, to evaluate polymyositis), anti-Jo-1 (planned). Critical: Must link Prozac to possible myopathy cause AND note it's rare.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value | Correct: opus-thinking, haiku-fast, llama-3-1-70b, nova-lite, nemotron-nano | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "opus-thinking": true,
+        "haiku-fast": true,
+        "llama-3-1-70b": true,
+        "nova-pro": false,
+        "nova-lite": true,
+        "nemotron-nano": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "h8_conflicting_studies",
+      "convergence": false,
+      "model_answers": {
+        "opus-thinking": "## Systematic Analysis of Contradictory Evidence on Drug X\n\n### 1. SYNTHESIS: What Should a Clinician Conclude?\n\nA clinician should conclude that **th...",
+        "haiku-fast": "## 1. SYNTHESIS: What Should a Clinician Conclude?\n\nThe evidence is genuinely contradictory and requires careful interpretation rather than dismissal:...",
+        "llama-3-1-70b": "A clinician should conclude that the current evidence on Drug X for Disease Y is inconsistent and inconclusive. While Study A suggests a significant m...",
+        "nova-pro": "1. Synthesize: A clinician should conclude that the evidence for Drug X is mixed and inconclusive. While Study A suggests a significant mortality bene...",
+        "nova-lite": "1. Synthesize: A clinician should exercise caution when concluding about Drug X. While Study A suggests a beneficial effect with a significant reducti...",
+        "nemotron-nano": "1. **Synthesis:** The evidence is conflicting. Study A (RCT, NIH-funded) suggests Drug X reduces mortality in moderate Disease Y (50-70 years) with st..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "## Systematic Analysis of Contradictory Evidence on Drug X\n\n### 1. SYNTHESIS: What Should a Clinician Conclude?\n\nA clinician should conclude that **th...",
+      "stitch_answer": "# Synthesis Reasoning: Multi-Model Analysis\n\n## 1. STRONGEST REASONING ELEMENTS BY MODEL\n\n**OPUS-THINKING** (Most Comprehensive):\n- Rigorous hierarchy...",
+      "ground_truth": "Study A (NEJM) should carry most weight: RCT with good follow-up, appropriate power, relevant population. Study B's 30% loss-to-follow-up is a major validity threat (likely differential dropout - sicker patients may have died/dropped). Study C has severe selection bias (already hospitalized = sicker patients) and confounding by indication (sicker patients get Drug X), plus conflict of interest from competitor funding. Synthesized conclusion: Drug X likely reduces mortality in moderate Disease Y patients (50-70yo) by ~20-30%, but effect unclear in milder disease (underpowered in that subgroup) and may be harmful in severe disease (confounded data). For 65yo with moderate Disease Y: Recommend Drug X based on Study A matching this profile exactly. Common errors: (1) averaging all three studies, (2) dismissing Study C without identifying confounding by indication, (3) not recognizing Study B's attrition bias.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Correct: opus-thinking, haiku-fast, nova-pro, nova-lite, nemotron-nano | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "opus-thinking": true,
+        "haiku-fast": true,
+        "llama-3-1-70b": false,
+        "nova-pro": true,
+        "nova-lite": true,
+        "nemotron-nano": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "h9_json_nested_ambiguous",
+      "convergence": false,
+      "model_answers": {
+        "opus-thinking": "```json\n{\n  \"answer\": {\n    \"contract_id\": \"SVC-2023-001\",\n    \"amendment_number\": 3,\n    \"effective_date\": \"2023-09-15\",\n    \"parties\": [\n      {\n   ...",
+        "haiku-fast": "```json\n{\n  \"answer\": {\n    \"contract_id\": \"SVC-2023-001\",\n    \"amendment_number\": 3,\n    \"effective_date\": \"2023-09-15\",\n    \"parties\": [\n      {\n   ...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": {\n    \"contract_id\": \"SVC-2023-001\",\n    \"amendment_number\": 3,\n    \"effective_date\": \"2023-09-15\",\n    \"parties\": [\n      {\n        \"...",
+        "nova-pro": "{\n  \"answer\": \"The extracted nested JSON from the multi-entity document with ambiguous relationships is as follows:\\n\\n```json\\n{\\n  \\\"contract_id\\\": ...",
+        "nova-lite": "```json\n{\n  \"answer\": {\n    \"contract_id\": \"SVC-2023-001\",\n    \"amendment_number\": 3,\n    \"effective_date\": \"2023-09-15\",\n    \"parties\": [\n      {\n   ...",
+        "nemotron-nano": "```json\n{\n  \"answer\": {\n    \"contract_id\": \"SVC-2023-001\",\n    \"amendment_number\": 3,\n    \"effective_date\": \"2023-09-15\",\n    \"parties\": [\n      {\n   ..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "```json\n{\n  \"answer\": {\n    \"contract_id\": \"SVC-2023-001\",\n    \"amendment_number\": 3,\n    \"effective_date\": \"2023-09-15\",\n    \"parties\": [\n      {\n   ...",
+      "stitch_answer": "# Synthesis Analysis & Orchestration\n\n## Cross-Model Analysis\n\n### Convergence Points (High Confidence - 95%+)\n\nAll models consistently extracted:\n- *...",
+      "ground_truth": "Must correctly: (1) service B status='conditional' with dependency on Service D audit OR status='active' effective 10/1/2023 with note about restoration, (2) Service D status='conditional' with condition='security audit by 10/15/2023', (3) Provider entity has former_names=['Tech Co.'] with change_event={date: '5/1/2023', type: 'merger', approval_date: '5/5/2023'}, (4) Alice Wong scope=['invoicing'], Bob Johnson scope=['primary contact'], (5) Service B change_history showing: added (Amd#1), removed (Amd#2, price=$6000), restored (Amd#3, price=$5000), (6) Service A pricing change_history: Amd#2=$4000, Amd#3=$4500, (7) Service C status='terminated' effective_date='9/30/2023' with proration note.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value | Correct: opus-thinking, haiku-fast, llama-3-1-70b, nova-pro, nova-lite, nemotron-nano | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "opus-thinking": true,
+        "haiku-fast": true,
+        "llama-3-1-70b": true,
+        "nova-pro": true,
+        "nova-lite": true,
+        "nemotron-nano": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    },
+    {
+      "prompt_id": "h10_x12_hl7_semantic_ambiguity",
+      "convergence": false,
+      "model_answers": {
+        "opus-thinking": "ERROR",
+        "haiku-fast": "# X12 835 to HL7 RAS^O17 Conversion with Semantic Analysis\n\n## Critical Semantic Issues & Resolution\n\n### 1. Payment Amount Contradiction\n**Problem:**...",
+        "llama-3-1-70b": "\n\n{\n  \"answer\": \"The conversion from X12 835 to HL7 RAS^O17 requires careful analysis of the semantic issues presented. \n\n1. The payment amount contra...",
+        "nova-pro": "To convert the X12 835 to HL7 RAS^O17, we need to carefully analyze and resolve the semantic issues presented:\n\n1. Payment Amount Contradiction: The B...",
+        "nova-lite": "{\n  \"answer\": \"To convert the X12 835 to HL7 RAS^O17, I've considered the semantic reasoning of each segment and resolved some contradictions in the d...",
+        "nemotron-nano": "This conversion resolves several semantic inconsistencies while maintaining fidelity to the source data's intent:\n\n1. **Payment Amount Contradiction**..."
+      },
+      "vote_strategy": "semantic_majority_vote",
+      "vote_answer": "# X12 835 to HL7 RAS^O17 Conversion with Semantic Analysis\n\n## Critical Semantic Issues & Resolution\n\n### 1. Payment Amount Contradiction\n**Problem:**...",
+      "stitch_answer": "# Synthesis Analysis & Final Answer\n\n## Model Convergence & Divergence Analysis\n\n### High Convergence Areas (Confidence: 90%+)\n1. **Transaction Type**...",
+      "ground_truth": "Key insights: (1) BPR negative payment (-$150) represents a recoupment/takeback from previous overpayment, separate from current claim payment ($350). RAS message should reflect recoupment with proper ORC status. (2) J3490 is 'unclassified drug' - in pharmacy context, this should trigger a flag that specific NDC code is missing; message should include note about unspecified drug. (3) Adjustment math: Service 1 billed $200, denied $50 (CO*45), paid $150. Service 2 billed $100, denied $100 (CO*96), paid $0. Service 3 (implied) billed $200, denied $50 (CO*45 line 2), paid $150. Total: billed $500, denied $200, paid $300, patient responsibility $200 (not $150 as stated - ERROR). (4) The CLP patient responsibility ($150) contradicts the math - should be $200. Most likely: CLP is wrong OR there's an unlisted insurance adjustment. Correct conversion should: flag the math discrepancy, note recoupment status, request NDC clarification for J3490.",
+      "analysis": "\u2717 Models diverged | Vote: Required judge selection (open-ended) | Stitch: Low agreement, synthesis adds value | Correct: haiku-fast, llama-3-1-70b, nova-pro, nova-lite, nemotron-nano | Vote: \u2713 Correct",
+      "has_ground_truth": true,
+      "individual_correctness": {
+        "haiku-fast": true,
+        "llama-3-1-70b": true,
+        "nova-pro": true,
+        "nova-lite": true,
+        "nemotron-nano": true
+      },
+      "vote_correct": true,
+      "stitch_correct": true,
+      "best_individual_correct": true,
+      "ensemble_adds_value": false
+    }
+  ],
+  "insights": {
+    "convergence_rate": 0.0,
+    "cost_ratio_ensemble_vs_best": 1.1473269510056783,
+    "when_ensembling_helps": "When models diverge (low convergence), ensemble synthesis can combine best reasoning. When models converge (high agreement), ensemble adds cost without value.",
+    "judge_irony": "If you need a high-quality model as judge to select best response, you could have just used that model directly. Judge quality matters more than ensemble size."
+  },
+  "ground_truth_analysis": {
+    "prompts_with_ground_truth": 10,
+    "prompts_evaluable": 10,
+    "individual_accuracy": {
+      "opus-thinking": {
+        "correct": 7,
+        "total": 8,
+        "accuracy": 0.875
+      },
+      "haiku-fast": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "llama-3-1-70b": {
+        "correct": 8,
+        "total": 10,
+        "accuracy": 0.8
+      },
+      "nova-pro": {
+        "correct": 8,
+        "total": 10,
+        "accuracy": 0.8
+      },
+      "nova-lite": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "nemotron-nano": {
+        "correct": 8,
+        "total": 10,
+        "accuracy": 0.8
+      }
+    },
+    "ensemble_accuracy": {
+      "vote": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "stitch": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      }
+    },
+    "ensemble_beat_best_individual": 0,
+    "ensemble_win_rate": 0.0,
+    "conclusion": "Ensemble does not outperform best individual"
+  }
+}

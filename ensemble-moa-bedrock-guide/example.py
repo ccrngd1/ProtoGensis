@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Quick example: Running MoA ensemble in mock mode.
+Quick example: Running MoA ensemble with live Bedrock calls.
 
-This demonstrates the core functionality without requiring AWS credentials.
+Requires AWS_BEARER_TOKEN_BEDROCK environment variable to be set.
 """
 
 import asyncio
@@ -11,14 +11,14 @@ from moa import create_moa_from_recipe
 
 async def main():
     print("=" * 60)
-    print("MoA on Bedrock - Quick Example (Mock Mode)")
+    print("MoA on Bedrock - Quick Example (Live API Calls)")
     print("=" * 60)
 
     # Example 1: Ultra-cheap ensemble
     print("\n[Example 1] Ultra-Cheap Ensemble")
     print("-" * 60)
 
-    moa = create_moa_from_recipe("ultra-cheap", mock_mode=True)
+    moa = create_moa_from_recipe("ultra-cheap")
     prompt = "What is the CAP theorem in distributed systems?"
 
     print(f"Prompt: {prompt}")
@@ -40,7 +40,7 @@ async def main():
     print("\n\n[Example 2] Code Generation Ensemble")
     print("-" * 60)
 
-    moa = create_moa_from_recipe("code-generation", mock_mode=True)
+    moa = create_moa_from_recipe("code-generation")
     prompt = "Write a Python function to check if a string is a palindrome."
 
     print(f"Prompt: {prompt}")
@@ -69,7 +69,7 @@ async def main():
     print("\nComparing recipes...\n")
 
     for recipe_name in recipes:
-        moa = create_moa_from_recipe(recipe_name, mock_mode=True)
+        moa = create_moa_from_recipe(recipe_name)
         response = await moa.run(test_prompt)
 
         print(f"{recipe_name:20s} | "
@@ -79,10 +79,11 @@ async def main():
 
     print("\n" + "=" * 60)
     print("Examples complete!")
-    print("\nTo use with real Bedrock API:")
-    print("  1. Configure AWS credentials (aws configure)")
-    print("  2. Set mock_mode=False in create_moa_from_recipe()")
-    print("  3. Run the script")
+    print("\nNote: All calls use live Bedrock API via AWS_BEARER_TOKEN_BEDROCK")
+    print("Cost incurred for this run:")
+    print("  - Ultra-cheap: ~$0.00005 per call")
+    print("  - Code-generation: ~$0.00074 per call")
+    print("  - Reasoning: ~$0.00137 per call")
     print("\nFor more examples, see README.md")
     print("=" * 60)
 

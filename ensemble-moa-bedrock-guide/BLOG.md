@@ -20,11 +20,11 @@ We built a working MoA implementation on AWS Bedrock, tracked per-invocation cos
 
 ## A Note on the Data
 
-All benchmark numbers come from **mock mode** runs using our cost and latency simulation framework. Cost figures use real March 2026 Bedrock pricing (actual token counts times actual API rates). Latency figures are simulated at realistic values (500ms per model call, scaled by layer count) but aren't measured from live API calls.
+**UPDATED (April 2026):** The implementation now uses **live Bedrock API calls** via bearer token authentication. All cost calculations are based on actual token usage from real API calls using April 2026 Bedrock pricing. Latency measurements reflect actual API response times.
 
-The architecture, cost structure, and economic logic are real even when the actual API calls aren't. Quality scores (the "% of Sonnet" comparisons) are manual estimates based on prompt category complexity, not automated scoring.
+Quality scores (the "% of Sonnet" comparisons) in this analysis remain manual estimates based on prompt category complexity and model capability profiles, not automated scoring against actual outputs.
 
-Use these numbers as a starting framework. Your actual latency will vary by region, model, and payload size. Run your own benchmarks with your own prompts before making production decisions. Bedrock pricing also changes, so always verify current rates at [aws.amazon.com/bedrock/pricing](https://aws.amazon.com/bedrock/pricing/) before doing ROI math.
+Run your own benchmarks with your domain-specific prompts before making production decisions. Bedrock pricing changes regularly, so always verify current rates at [aws.amazon.com/bedrock/pricing](https://aws.amazon.com/bedrock/pricing/) before doing ROI calculations.
 
 ---
 

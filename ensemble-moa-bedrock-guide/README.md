@@ -13,10 +13,10 @@ A hands-on implementation of Mixture-of-Agents (MoA) using AWS Bedrock, with per
 ## What's Included
 
 - ✅ **Working MoA framework** — Configurable layers, pluggable models, async execution
-- ✅ **Cost tracking** — Per-token pricing from actual Bedrock rates (March 2026)
+- ✅ **Cost tracking** — Per-token pricing from actual Bedrock rates (April 2026)
 - ✅ **Latency tracking** — Wall-clock measurements per model, per layer, total pipeline
 - ✅ **Benchmark suite** — 20 prompts across reasoning, code, creative, factual, and analysis categories
-- ✅ **Mock mode** — Test architectures without live Bedrock API calls
+- ✅ **Live Bedrock integration** — Uses bearer token authentication (AWS_BEARER_TOKEN_BEDROCK)
 - ✅ **Production recipes** — Pre-configured ensembles for common use cases
 - ✅ **Honest analysis** — When to use MoA, when NOT to use MoA
 
@@ -32,25 +32,22 @@ git clone https://github.com/[your-repo]/ensemble-moa-bedrock-guide.git
 cd ensemble-moa-bedrock-guide
 
 # Install dependencies (Python 3.11+)
-pip install boto3
+pip install requests
 
-# For real Bedrock API calls, configure AWS credentials
-aws configure
-# Or set environment variables:
-# export AWS_ACCESS_KEY_ID=your_key
-# export AWS_SECRET_ACCESS_KEY=your_secret
-# export AWS_DEFAULT_REGION=us-east-1
+# Set bearer token for Bedrock API authentication
+export AWS_BEARER_TOKEN_BEDROCK=your_bearer_token_here
+export AWS_DEFAULT_REGION=us-east-1
 ```
 
-### Run Your First Ensemble (Mock Mode)
+### Run Your First Ensemble
 
 ```python
 import asyncio
 from moa import create_moa_from_recipe
 
 async def main():
-    # Create MoA from pre-built recipe (mock mode = no API calls)
-    moa = create_moa_from_recipe("code-generation", mock_mode=True)
+    # Create MoA from pre-built recipe (uses live Bedrock API)
+    moa = create_moa_from_recipe("code-generation")
 
     # Run a prompt through the ensemble
     prompt = "Write a Python function to find the longest palindrome in a string."
@@ -69,10 +66,10 @@ async def main():
 asyncio.run(main())
 ```
 
-**Output:**
+**Expected Output:**
 ```
 Final Response:
-[Synthesized response from 3 cheap models + aggregator]
+[Synthesized response from 3 models + aggregator - actual Bedrock output]
 
 Cost Summary:
 {
@@ -83,7 +80,7 @@ Cost Summary:
 
 Latency Summary:
 {
-  'total_duration_ms': 1003.45,
+  'total_duration_ms': 1200-1500,  # Actual API latency
   'num_layers': 2
 }
 ```
@@ -115,8 +112,8 @@ layers = [
     )
 ]
 
-# Create MoA instance (mock_mode=True for testing)
-moa = MoA(layers=layers, mock_mode=True)
+# Create MoA instance (uses live Bedrock API)
+moa = MoA(layers=layers)
 
 # Run
 prompt = "Explain the CAP theorem in distributed systems."
@@ -153,7 +150,7 @@ layers = [
     )
 ]
 
-moa = MoA(layers=layers, mock_mode=False)  # Real Bedrock API
+moa = MoA(layers=layers)  # Live Bedrock API
 response = await moa.run("Design a fraud detection system for a payment processor.")
 ```
 
@@ -162,8 +159,8 @@ response = await moa.run("Design a fraud detection system for a payment processo
 ```python
 from moa import create_moa_from_recipe
 
-# Available recipes: "ultra-cheap", "code-generation", "reasoning", "creative-writing"
-moa = create_moa_from_recipe("ultra-cheap", mock_mode=True)
+# Available recipes: "ultra-cheap", "code-generation", "reasoning"
+moa = create_moa_from_recipe("ultra-cheap")
 response = await moa.run("What is Kubernetes?")
 ```
 
@@ -180,8 +177,7 @@ latency_tracker = LatencyTracker()
 moa = MoA(
     layers=my_layers,
     track_cost=True,
-    track_latency=True,
-    mock_mode=False
+    track_latency=True
 )
 
 # Run multiple queries
@@ -283,23 +279,17 @@ moa = create_moa_from_recipe("creative-writing")
 
 ## Running Benchmarks
 
-### Run Full Benchmark Suite (Mock Mode)
+### Run Full Benchmark Suite
 
 ```bash
-python benchmark/run.py --mock --output results/my_results.json
+# WARNING: This will incur AWS charges (~$0.50-$1.00 for 20 prompts)
+python benchmark/run.py --output results/benchmark_results.json
 ```
 
 ### Run Limited Benchmark (5 prompts for testing)
 
 ```bash
-python benchmark/run.py --mock --limit 5
-```
-
-### Run with Real Bedrock API
-
-```bash
-# WARNING: This will incur AWS charges
-python benchmark/run.py --output results/real_results.json
+python benchmark/run.py --limit 5 --output results/test_results.json
 ```
 
 ### View Results
@@ -448,13 +438,9 @@ ensemble-moa-bedrock-guide/
 ### Environment Variables
 
 ```bash
-# AWS credentials for Bedrock API
-export AWS_ACCESS_KEY_ID=your_key_id
-export AWS_SECRET_ACCESS_KEY=your_secret_key
+# Bearer token for Bedrock API authentication
+export AWS_BEARER_TOKEN_BEDROCK=your_bearer_token_here
 export AWS_DEFAULT_REGION=us-east-1
-
-# Optional: Override default Bedrock region
-export BEDROCK_REGION=us-west-2
 ```
 
 ### Model Configuration
@@ -484,14 +470,11 @@ RECIPES["my-custom-recipe"] = {
 
 ### Q: Do I need an AWS account?
 
-**A:** For mock mode, no. For real Bedrock API calls, yes. You'll need:
+**A:** Yes. You'll need:
 - AWS account with Bedrock access enabled
-- IAM credentials with `bedrock:InvokeModel` permissions
+- Bearer token with permissions to invoke Bedrock models
 - Model access granted in Bedrock console (some models require access request)
-
-### Q: What does mock mode do?
-
-**A:** Mock mode simulates Bedrock API responses without making real API calls. Uses realistic latency (500ms per model) and generates synthetic responses. Cost tracking uses real Bedrock pricing, so cost estimates are accurate.
+- Set `AWS_BEARER_TOKEN_BEDROCK` environment variable
 
 ### Q: Can I use models not listed in `models.py`?
 
@@ -520,21 +503,21 @@ RECIPES["my-custom-recipe"] = {
 
 ## Performance Tips
 
-1. **Use mock mode for development** — Iterate on architecture without API costs
-2. **Enable async parallelization** — Always use `asyncio.run()` and `await`
-3. **Right-size your aggregator** — Don't bottleneck with a too-cheap aggregator
-4. **Batch when possible** — If processing multiple prompts, batch them and run concurrently
-5. **Monitor per-layer costs** — Track which layers dominate cost; optimize there first
-6. **Cache at the prompt level** — If same prompt appears often, cache the MoA response
+1. **Enable async parallelization** — Always use `asyncio.run()` and `await` for concurrent model calls
+2. **Right-size your aggregator** — Don't bottleneck with a too-cheap aggregator
+3. **Batch when possible** — If processing multiple prompts, batch them and run concurrently
+4. **Monitor per-layer costs** — Track which layers dominate cost; optimize there first
+5. **Cache at the prompt level** — If same prompt appears often, cache the MoA response
+6. **Rate limiting** — The shared client enforces 0.1s minimum delay between calls (configurable)
 
 ---
 
 ## Troubleshooting
 
-### Error: "boto3 not installed"
+### Error: "AWS_BEARER_TOKEN_BEDROCK environment variable not set"
 
 ```bash
-pip install boto3
+export AWS_BEARER_TOKEN_BEDROCK=your_bearer_token_here
 ```
 
 ### Error: "Model access denied"
@@ -576,14 +559,14 @@ If you find bugs or want to share results:
 
 ## Cost Warning
 
-⚠️ **Running benchmarks with real Bedrock API will incur AWS charges.**
+⚠️ **Running benchmarks will incur AWS charges.**
 
-Example costs (March 2026 pricing):
+Example costs (April 2026 pricing):
 - Full 20-prompt benchmark, all configs: ~$0.50-$1.00
 - Single ensemble run: $0.00005 - $0.00137 depending on recipe
 - 1M queries with "code-generation" recipe: ~$735
 
-Always start with `--mock` mode. Enable real API calls only when you're confident in your configuration.
+Test with `--limit 5` first to verify your setup before running the full benchmark suite.
 
 ---
 

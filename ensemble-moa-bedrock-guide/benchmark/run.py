@@ -16,11 +16,12 @@ import sys
 from pathlib import Path
 from typing import List, Dict
 from datetime import datetime
+import numpy as np
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from moa import MoA, Layer, ModelConfig, BedrockClient
+from moa import MoA, Layer, ModelConfig, BedrockClient, QualityJudge
 from moa.models import BEDROCK_MODELS, get_recipe
 
 
@@ -113,7 +114,8 @@ async def run_moa_ensemble(
 
 async def run_benchmark_suite(
     prompts: List[Dict],
-    limit: int | None = None
+    limit: int | None = None,
+    enable_judge: bool = True
 ) -> Dict:
     """
     Run full benchmark suite.
@@ -121,6 +123,7 @@ async def run_benchmark_suite(
     Args:
         prompts: List of benchmark prompts
         limit: Limit number of prompts (for testing)
+        enable_judge: Enable judge model scoring (default: True)
 
     Returns:
         Dict with all benchmark results
@@ -132,7 +135,8 @@ async def run_benchmark_suite(
         "metadata": {
             "timestamp": datetime.now().isoformat(),
             "num_prompts": len(prompts),
-            "mode": "live"
+            "mode": "live",
+            "judge_enabled": enable_judge
         },
         "single_models": {},
         "ensembles": {},
@@ -147,7 +151,7 @@ async def run_benchmark_suite(
     # Using Nova Lite (which is the substitute) for cheap models
     cheap_models = ["nova-lite"]  # Single cheap model baseline
     baseline_models = ["nova-lite", "haiku", "sonnet"]  # As per spec: Nova Lite alone, Haiku alone, Sonnet alone
-    ensemble_recipes = ["ultra-cheap", "code-generation", "reasoning"]
+    ensemble_recipes = ["ultra-cheap", "code-generation", "reasoning", "same-model-baseline"]  # Added ablation test
 
     # Run single cheap models
     print("Testing individual cheap models...")
@@ -221,6 +225,104 @@ async def run_benchmark_suite(
                     "error": str(e)
                 })
 
+    # Score all responses with judge model
+    if enable_judge:
+        print("\n" + "="*60)
+        print("SCORING RESPONSES WITH JUDGE MODEL (Opus)")
+        print("="*60)
+
+        judge = QualityJudge(judge_model="opus")
+
+        # Score single models
+        for model_key, result_list in results["single_models"].items():
+            print(f"\nScoring {model_key}...")
+            evaluations = [
+                {
+                    'prompt': prompts[i]['prompt'],
+                    'response': result_list[i].get('response', ''),
+                    'expected_answer': prompts[i].get('expected_answer')
+                }
+                for i in range(len(result_list))
+                if 'response' in result_list[i]
+            ]
+
+            if evaluations:
+                scores = await judge.score_batch(evaluations)
+
+                # Add scores to results
+                score_idx = 0
+                for i in range(len(result_list)):
+                    if 'response' in result_list[i]:
+                        score = scores[score_idx]
+                        result_list[i]['judge_score'] = {
+                            'correctness': score.correctness,
+                            'completeness': score.completeness,
+                            'clarity': score.clarity,
+                            'total': score.total,
+                            'justification': score.justification
+                        }
+                        score_idx += 1
+
+        # Score ensembles
+        for recipe, result_list in results["ensembles"].items():
+            print(f"\nScoring {recipe} ensemble...")
+            evaluations = [
+                {
+                    'prompt': prompts[i]['prompt'],
+                    'response': result_list[i].get('response', ''),
+                    'expected_answer': prompts[i].get('expected_answer')
+                }
+                for i in range(len(result_list))
+                if 'response' in result_list[i]
+            ]
+
+            if evaluations:
+                scores = await judge.score_batch(evaluations)
+
+                score_idx = 0
+                for i in range(len(result_list)):
+                    if 'response' in result_list[i]:
+                        score = scores[score_idx]
+                        result_list[i]['judge_score'] = {
+                            'correctness': score.correctness,
+                            'completeness': score.completeness,
+                            'clarity': score.clarity,
+                            'total': score.total,
+                            'justification': score.justification
+                        }
+                        score_idx += 1
+
+        # Score baselines
+        for model_key, result_list in results["baselines"].items():
+            print(f"\nScoring {model_key} baseline...")
+            evaluations = [
+                {
+                    'prompt': prompts[i]['prompt'],
+                    'response': result_list[i].get('response', ''),
+                    'expected_answer': prompts[i].get('expected_answer')
+                }
+                for i in range(len(result_list))
+                if 'response' in result_list[i]
+            ]
+
+            if evaluations:
+                scores = await judge.score_batch(evaluations)
+
+                score_idx = 0
+                for i in range(len(result_list)):
+                    if 'response' in result_list[i]:
+                        score = scores[score_idx]
+                        result_list[i]['judge_score'] = {
+                            'correctness': score.correctness,
+                            'completeness': score.completeness,
+                            'clarity': score.clarity,
+                            'total': score.total,
+                            'justification': score.justification
+                        }
+                        score_idx += 1
+
+        print("\n✓ Judge scoring complete")
+
     return results
 
 
@@ -237,12 +339,28 @@ def calculate_summary_stats(results: Dict) -> Dict:
         costs = [r['cost'] for r in result_list if 'cost' in r]
         latencies = [r['latency_ms'] for r in result_list if 'latency_ms' in r]
 
-        return {
+        stats = {
             "avg_cost": round(sum(costs) / len(costs), 6) if costs else 0,
             "total_cost": round(sum(costs), 6) if costs else 0,
             "avg_latency_ms": round(sum(latencies) / len(latencies), 2) if latencies else 0,
             "num_runs": len(result_list)
         }
+
+        # Add quality stats if available
+        quality_scores = [
+            r['judge_score']['total']
+            for r in result_list
+            if 'judge_score' in r
+        ]
+
+        if quality_scores:
+            import numpy as np
+            stats["avg_quality"] = round(sum(quality_scores) / len(quality_scores), 2)
+            stats["min_quality"] = round(min(quality_scores), 2)
+            stats["max_quality"] = round(max(quality_scores), 2)
+            stats["quality_std"] = round(np.std(quality_scores), 2)
+
+        return stats
 
     # Calculate for each category
     for category in ['single_models', 'ensembles', 'baselines']:
@@ -269,6 +387,11 @@ def main():
         default="results/benchmark_results.json",
         help="Output file path"
     )
+    parser.add_argument(
+        "--no-judge",
+        action="store_true",
+        help="Disable judge model scoring (faster, cheaper)"
+    )
 
     args = parser.parse_args()
 
@@ -278,7 +401,8 @@ def main():
     # Run benchmarks
     results = asyncio.run(run_benchmark_suite(
         prompts=prompts,
-        limit=args.limit
+        limit=args.limit,
+        enable_judge=not args.no_judge
     ))
 
     # Calculate summary stats
@@ -310,6 +434,27 @@ def main():
     print("\nBaselines (avg per prompt):")
     for model, stats in summary['baselines'].items():
         print(f"  {model:20s} ${stats['avg_cost']:.6f}  {stats['avg_latency_ms']:.0f}ms")
+
+    # Print quality scores if available
+    if not args.no_judge:
+        print("\n" + "="*60)
+        print("QUALITY SCORES (Judge Model: Opus)")
+        print("="*60)
+
+        print("\nSingle Models (avg quality /100):")
+        for model, stats in summary['single_models'].items():
+            if 'avg_quality' in stats:
+                print(f"  {model:20s} {stats['avg_quality']:5.1f} ± {stats['quality_std']:.1f}")
+
+        print("\nEnsembles (avg quality /100):")
+        for recipe, stats in summary['ensembles'].items():
+            if 'avg_quality' in stats:
+                print(f"  {recipe:20s} {stats['avg_quality']:5.1f} ± {stats['quality_std']:.1f}")
+
+        print("\nBaselines (avg quality /100):")
+        for model, stats in summary['baselines'].items():
+            if 'avg_quality' in stats:
+                print(f"  {model:20s} {stats['avg_quality']:5.1f} ± {stats['quality_std']:.1f}")
 
     print("\n" + "="*60)
 

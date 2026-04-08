@@ -166,6 +166,22 @@ RECIPES = {
         "layers": 3,
         "use_case": "Multi-step reasoning, analysis",
     },
+    "same-model-baseline": {
+        "name": "Same-Model Ensemble (Ablation)",
+        "description": "3x Nova Lite proposers + Nova Pro aggregator (tests if diversity matters)",
+        "proposers": ["nova-lite", "nova-lite", "nova-lite"],
+        "aggregator": "nova-pro",
+        "layers": 2,
+        "use_case": "Ablation study - tests diversity hypothesis",
+    },
+    "same-model-cheap": {
+        "name": "Same-Model Ensemble Ultra-Cheap",
+        "description": "3x Nova Lite proposers + Nova Lite aggregator",
+        "proposers": ["nova-lite", "nova-lite", "nova-lite"],
+        "aggregator": "nova-lite",
+        "layers": 2,
+        "use_case": "Ablation study - minimum cost same-model test",
+    },
 }
 
 

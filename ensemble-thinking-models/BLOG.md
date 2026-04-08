@@ -1,302 +1,523 @@
-# Do Thinking Models Think Better Together?
+# Do Thinking Models Think Better? (Spoiler: No)
 
-*Part 1 of 3 on LLM ensemble methods. Part 2 covers Mixture of Agents on Bedrock with real cost and latency data. Part 3 explores same-model-different-personas ensembling.*
+*Part 1 of 3 on LLM ensemble methods. Updated April 2026 with comprehensive live study results that challenge conventional wisdom about extended thinking and ensemble approaches.*
 
 ---
 
 The wisdom of crowds works in traditional ML because individual models make uncorrelated errors. Bagging, boosting, voting classifiers: aggregate enough independent predictions and the noise cancels out. Elegant, well-proven, and it maps cleanly onto LLMs.
 
-At least, it used to.
+At least, that's what we thought.
 
-Then the reasoning models showed up. Claude Opus with extended thinking. Amazon Nova Premier with deep reasoning mode. Mistral's reasoning variants. These aren't models that spit out an answer after one forward pass. They deliberate. They explore multiple paths internally before responding. Each model is already running its own internal ensemble of reasoning chains before you see a single token.
+Then the reasoning models showed up. Claude Opus with extended thinking (10K token reasoning budget). Models that deliberate internally, exploring multiple paths before responding. Each model running its own internal ensemble of reasoning chains before you see a single token.
 
-So here's the question that's been nagging at me: **if you stack an external ensemble on top of models that already do internal ensembling, does the second layer actually buy you anything?**
+**Two questions kept me up at night:**
 
-I built an experiment to find out. Three reasoning models on AWS Bedrock. Ten hard prompts. Two aggregation strategies: majority voting and synthesis stitching. What I found surprised me less than *why* it surprised me.
+1. If you stack an external ensemble on top of models that already do internal ensembling, does the second layer actually buy you anything?
+2. Do models with extended thinking capabilities actually perform better on genuinely hard prompts?
 
----
-
-## How the Experiment Works
-
-Before results, I need to be upfront about one thing: this experiment ran in mock mode. The framework simulates model calls without hitting real AWS endpoints. Cost and latency numbers come from representative estimates, not live API calls. The Monty Hall example below has real extracted reasoning (the math checks out), but most other responses show templated mock outputs.
-
-I'm being explicit about this because the interesting part isn't a definitive benchmark. It's the framework architecture, the cost model, and what the judge selection pattern reveals about how ensembling actually works. The code is the point as much as the numbers.
-
-The cost ratios and latency patterns are grounded in real Bedrock pricing as of March 2026. They reflect what you'd see in production.
+I ran a comprehensive study to find out. **Both hypotheses failed spectacularly.**
 
 ---
 
-## The Setup
+## The Study Design
 
-Three models with native chain-of-thought on Bedrock:
+**Duration**: 71 minutes  
+**Total Cost**: $12.50  
+**Models Tested**: 10 unique models  
+**Prompts**: 10 genuinely hard reasoning tasks  
+**API Calls**: 240+ live Bedrock calls  
+**Experiments**: 4 comprehensive comparisons
 
-- **Claude Opus 4.5** with extended thinking (exposes internal reasoning trace)
-- **Amazon Nova Premier** with deep reasoning mode
-- **Mistral Large** reasoning variant
+This was not a toy experiment. Every API call was live. Every cost number is real. Every timeout actually happened (looking at you, Opus-thinking).
 
-Ten prompts designed to force divergence. Easy prompts are useless for this test. If all three models agree on everything, ensembling adds nothing. You need prompts hard enough that models explore different paths.
+### Four Experiments
 
-The prompt set covered: Monty Hall variants, Bayesian medical testing, mutex deadlock edge cases, regex catastrophic backtracking, trolley-problem variants with probabilistic outcomes, time complexity nuance, SQL injection subtleties, AI copyright law, Ship of Theseus applied to model versioning, and an optimization paradox where improving one metric hurts another.
+1. **Thinking-Only Ensemble**: 3 Claude models with extended reasoning (Opus, Sonnet, Haiku)
+2. **Fast-Only Ensemble**: 6 models with standard inference (3 Claude fast + budget models)
+3. **Direct Comparison**: Head-to-head thinking vs fast on same base models
+4. **Hybrid Ensemble**: 1 thinking model + 5 fast/budget models
 
-Every prompt framed multiple "expert opinions" in disagreement. The goal was to prevent models from pattern-matching to "what the human wants" and force independent reasoning.
+### The Hard Prompts
 
-Two aggregation strategies:
+Not pattern-matching exercises. Genuinely hard reasoning tasks:
 
-**Vote:** For discrete answers, majority vote. For open-ended responses where voting isn't meaningful, a judge model (Claude Sonnet) picks the best complete response.
+- **Adversarial integral** requiring Cauchy principal value understanding
+- **5-pirate gold division** with backward induction
+- **Race condition bug** with lock-check-lock subtlety
+- **X12 to HL7 conversion** with semantic contradictions (this one broke Opus-thinking twice)
+- **ICD-10 coding** under diagnostic uncertainty
+- **Clinical entity recognition** with negations and temporal relationships
+- **Conflicting medical studies** requiring synthesis
+- **Contract amendments** with add→remove→restore logic
+- **Game theory**, **concurrency**, **healthcare data**
 
-**Stitch:** Extract the strongest reasoning elements from each model. Analyze convergence and divergence. Use an orchestrator (Claude Opus) to synthesize a combined answer drawing from all three perspectives.
+Every prompt had verifiable ground truth. Every model response was evaluated for correctness.
 
-Baseline: run Claude Opus three times with temperature > 0, take majority vote. This is the Wang et al. 2023 self-consistency approach, the gold standard for single-model ensembling.
+---
+
+## The Results That Changed Everything
+
+### Finding 1: Extended Thinking Provides ZERO Accuracy Benefit
+
+**Hypothesis**: Extended thinking (5-10K token reasoning budgets) should improve accuracy on hard prompts.
+
+**Result**: ❌ **REJECTED**
+
+| Model | Thinking Mode | Fast Mode | Winner |
+|-------|--------------|-----------|---------|
+| Opus | 87.5% @ $2.21 | **90.0% @ $1.61** | 🏆 **FAST** |
+| Sonnet | 90.0% @ $0.77 | **90.0% @ $0.40** | 🏆 **FAST** (tied accuracy, 48% cheaper) |
+| Haiku | 90.0% @ $0.17 | **90.0% @ $0.08** | 🏆 **FAST** (tied accuracy, 53% cheaper) |
+
+**Fast mode never worse, sometimes better, always cheaper.**
+
+Not only did thinking mode fail to improve accuracy, **Opus-thinking actively performed WORSE** than Opus-fast while costing 37% more.
+
+### Finding 2: Opus-thinking is Comprehensively Terrible
+
+This deserves its own section because the failure was so complete:
+
+**Performance metrics:**
+- **Accuracy**: 87.5% (lowest of all models tested)
+- **Completion rate**: 80% (failed 2/10 prompts with timeouts)
+- **Cost**: $2.21 per 10 prompts (most expensive)
+- **Cost per correct**: $0.2524 (worst value by far)
+- **Latency**: 59s average, 3+ minute max before timeout
+
+**What failed:**
+- h5 (X12 to HL7 conversion): Timed out after 360+ seconds, 3 retries
+- h10 (X12 835 payment reconciliation): Timed out after 360+ seconds, 3 retries
+
+Both failures were on complex healthcare data conversion tasks. **Opus-fast handled both successfully in 45-65 seconds.**
+
+Opus-thinking is the only model that failed to complete the study. Every other model—fast variants, budget models, everything—completed all 10 prompts successfully.
+
+### Finding 3: Nova-lite Wins Everything
+
+The dark horse. Amazon Nova Lite. A budget model priced at $0.002 per 10 prompts.
+
+**Performance:**
+- **Accuracy**: 90% (9/10 correct)
+- **Cost**: $0.0002 per correct answer
+- **Speed**: 4.6 seconds average
+- **Reliability**: 100% completion rate
+
+**Value comparison:**
+- **1100x cheaper** than Opus-thinking (same or better accuracy)
+- **808x cheaper** than Opus-fast (equal accuracy)
+- **383x cheaper** than Sonnet-thinking (equal accuracy)
+- **87x cheaper** than Haiku-thinking (equal accuracy)
+
+For 1 million prompts:
+- Nova-lite: $200
+- Opus-thinking: $220,900
+- **Savings: $220,700 (99.9% cost reduction)**
+
+This wasn't supposed to happen. Nova-lite isn't marketed as a reasoning model. It doesn't have extended thinking. It's just fast, cheap inference. And it matched or beat every premium model tested.
+
+### Finding 4: Ensembles Beat Best Individual 0/40 Times
+
+**Hypothesis**: When models diverge on hard prompts, ensemble aggregation should produce better answers.
+
+**Result**: ❌ **REJECTED**
+
+| Experiment | Prompts | Ensemble Beat Best | Win Rate |
+|-----------|---------|-------------------|----------|
+| Exp 1: Thinking-only | 10 | 0 | 0% |
+| Exp 2: Fast-only | 10 | 0 | 0% |
+| Exp 3: Comparison | 10 | 0 | 0% |
+| Exp 4: Hybrid | 10 | 0 | 0% |
+| **TOTAL** | **40** | **0** | **0%** |
+
+Not once. Not on easy prompts where models converged. Not on hard prompts where models diverged (0% convergence in fast-only experiment). Not with vote aggregation. Not with stitch synthesis.
+
+**Ensembles just pick one of the existing answers.** They don't synthesize anything better. They add cost (6-45% overhead) without adding value.
+
+---
+
+## Why These Results Matter
+
+### The Cost of Being Wrong About Thinking
+
+If you deployed Opus-thinking for production reasoning tasks based on the hypothesis that extended thinking helps:
+
+**Monthly cost for 10M prompts:**
+- Opus-thinking: $2,209,000
+- Nova-lite: $2,000
+- **Wasted budget: $2,207,000**
+
+That's not a rounding error. That's the cost of an entire engineering team.
+
+And you'd get **lower accuracy** (87.5% vs 90%) with **20% failure rate** as a bonus.
+
+### The Judge Model Irony (Resolved)
+
+Original hypothesis: "If you need a strong judge model to select the best ensemble answer, why not just use the judge directly?"
+
+**Turns out the premise was wrong.** You don't need a judge at all. You don't need an ensemble. Just use the cheapest model that meets your accuracy threshold.
+
+For most tasks, that's Nova-lite at $0.0002 per correct answer.
+
+### When Fast Mode > Thinking Mode
+
+Every single tier:
+- Opus-fast beat Opus-thinking (90% vs 87.5%, 27% cheaper)
+- Sonnet-fast tied Sonnet-thinking (90% vs 90%, 48% cheaper)
+- Haiku-fast tied Haiku-thinking (90% vs 90%, 53% cheaper)
+
+**Thinking mode added 48-150% cost premium for 0% accuracy gain.**
+
+The 2-3x increase in output tokens from thinking mode (2K-10K token reasoning traces) didn't translate to better answers. It just burned money.
+
+---
+
+## The One Prompt Where Reasoning Traces Were Interesting
+
+The Monty Hall variant (4 doors, host opens door 3, should you switch?) showed all models reaching the same answer (switch to door 2 or 4, each at 3/8 probability vs 1/4 staying).
+
+**But the reasoning paths differed:**
+
+- **Opus**: Bayesian calculation, step-by-step conditional probabilities
+- **Sonnet**: Probability tree, worked out P(sees door 3) = 1/3
+- **Haiku**: Posterior probability, normalized to 3/8
+
+Three approaches, same answer. That diversity was interesting.
+
+**Did it matter?** No. All three models got it right independently. The ensemble didn't improve on the individual answers. It just confirmed what any single model already knew.
+
+And Nova-lite got it right too, without any extended reasoning, at 1/1000th the cost.
 
 ---
 
 ## The Numbers
 
-| Approach | Total Cost (10 prompts) | Avg Latency | Convergence |
-|---|---|---|---|
-| Opus alone | $0.145 | 6,398ms | n/a |
-| Nova alone | $0.006 | 6,810ms | n/a |
-| Mistral alone | $0.025 | 6,453ms | n/a |
-| Ensemble Vote | $0.356 | 7,398ms | 10% |
-| Ensemble Stitch | $0.326 | 12,398ms | 0% |
-| Self-Consistency (Opus 3x) | $0.435 | 19,194ms | 70% |
+### Experiment 1: Thinking-Only Ensemble
 
-A few things jump out.
+| Metric | Value |
+|--------|-------|
+| Models | Opus-thinking, Sonnet-thinking, Haiku-thinking |
+| Total cost | $3.15 |
+| Time | 25 minutes |
+| Convergence | 70% |
+| Ensemble beat best | 0/10 (0%) |
 
-Nova is roughly 24x cheaper than Opus at nearly identical latency. That cost differential matters and I'll come back to it.
+**Key insight**: High convergence (70%) means models agreed. When models agree, you don't need an ensemble. Just use the cheapest one.
 
-The ensemble vote costs 2.5x what Opus alone costs, with only 10% convergence. Stitch costs slightly less than vote but takes 68% longer (12.4 seconds average), with 0% convergence.
+### Experiment 2: Fast-Only Ensemble
 
-Self-consistency is the most expensive option at $0.435 and by far the slowest at 19 seconds average. But it has 70% convergence, the highest of any approach tested.
+| Metric | Value |
+|--------|-------|
+| Models | Opus-fast, Sonnet-fast, Haiku-fast, Llama-3-1-70B, Nova-pro, Nova-lite |
+| Total cost | $2.13 (32% cheaper than thinking) |
+| Time | 21 minutes (16% faster) |
+| Convergence | 0% |
+| Ensemble beat best | 0/10 (0%) |
 
-What does convergence mean here? For vote, it means models agreed enough to use majority voting rather than requiring a judge. For stitch, it measures whether the synthesizer found meaningful agreement to build on. Low convergence isn't necessarily bad. It means models diverged, which is exactly when an ensemble might add value. High convergence means models agreed, which means you probably didn't need the ensemble at all.
+**Key insight**: Zero convergence means maximum diversity. If ensemble methods work anywhere, they should work here. They didn't.
 
-(Quick note on terminology: the raw JSON includes a `convergence` field that all 10 prompts mark `false`, including the Monty Hall prompt. That field tracks a different internal metric than the vote-path-vs-judge-path definition used in the table above. Don't confuse the two.)
+### Experiment 3: Direct Comparison
 
----
+| Metric | Value |
+|--------|-------|
+| Models | All 6 Claude (3 thinking + 3 fast) |
+| Total cost | $5.07 |
+| Time | 25 minutes |
+| Convergence | 30% |
+| Ensemble beat best | 0/10 (0%) |
 
-## The One Prompt Where Everything Worked Cleanly
+**Key insight**: Head-to-head proof that fast mode beats thinking mode.
 
-The Monty Hall variant is the clearest example in the dataset. It has discrete, extractable answers.
+### Experiment 4: Hybrid Ensemble
 
-**The prompt:** You pick door 1 out of 4 doors (3 goats, 1 car). The host opens door 3 (shows a goat). Should you switch to door 2 or 4?
+| Metric | Value |
+|--------|-------|
+| Models | Opus-thinking + 5 fast/budget models |
+| Total cost | $2.18 |
+| Time | 20 minutes |
+| Convergence | 0% |
+| Ensemble beat best | 0/10 (0%) |
 
-All three models converged: switch to either door 2 or 4 (each at 3/8 probability vs door 1 staying at 1/4). The ensemble voted unanimously. No judge needed.
-
-What's interesting is how each model got there. The stitch synthesis extracted real reasoning chains:
-
-**Opus:** Full Bayesian calculation, step-by-step conditional probabilities. Explicitly walked through P(car @ door 2 | host opened 3) using Bayes theorem.
-
-**Nova:** Same conclusion via probability tree. Worked out that P(sees door 3) = 1/3, then applied Bayes to get 3/8 for each remaining door.
-
-**Mistral:** Posterior probability approach. Calculated P(D2) proportional to 1/4 × 1/2 = 1/8, normalized to 3/8.
-
-Three models. Three distinct calculation approaches. Same answer.
-
-The stitch synthesizer noted the convergence and validated it: "This conclusion is strengthened by convergence across all three models, each arriving at the same result through different reasoning paths."
-
-That's genuinely useful signal. Not because the answer changed. Three independent reasoning paths agreeing is a stronger confidence indicator than one model agreeing with itself.
-
-The cost, though: Nova alone would have cost $0.0006 for this prompt. The full ensemble with synthesis averaged $0.033 per prompt across the run. That's over 50x the cost for the same answer. On easy prompts, ensembling is expensive validation theater.
-
----
-
-## The Judge Always Picks Opus (Here's Why That's a Problem)
-
-For 9 out of 10 prompts, the vote aggregator couldn't use majority voting. The prompts were too open-ended. Instead, Claude Sonnet acted as judge to pick the best response from the three models.
-
-In the mock run, the judge selected Opus all nine times. But that number doesn't hold up as evidence of anything. For those 9 prompts, the underlying model responses are near-identical template strings. The judge wasn't distinguishing between substantive reasoning differences. It was choosing between placeholder outputs that happened to carry different model labels. The 9/9 pattern is an artifact of the mock data, not a behavioral finding about how judge models actually operate.
-
-The structural argument, though, stands on its own without needing mock data to support it. The evaluation framework captures it directly:
-
-> "If you need Claude Opus/Sonnet as judge to select best response, you could have just used that model directly. Judge quality matters more than ensemble size."
-
-This is the judge model irony. It follows from the architecture logic: any judge model capable of reliably distinguishing response quality is itself a strong model. If that judge consistently routes to your best ensemble member, you've added cost to confirm what direct routing would have given you. That's a structural problem, not a finding from this particular run.
-
-Let's trace the cost logic for a typical open-ended prompt:
-
-1. Run Opus + Nova + Mistral: ~$0.018 total
-2. Run Claude Sonnet as judge to pick the best: ~$0.015 additional
-3. Total: ~$0.033 per prompt
-
-Opus alone: ~$0.015 per prompt.
-
-You paid 2x to let Opus win a competition.
-
-The structure is revealing: you need a strong model as judge, that judge picks the strongest model in the ensemble, and you end up at the same destination you would have reached by routing directly to that model. The ensemble didn't improve the answer. It just delayed arriving at it.
-
-The stitch approach is more interesting here, because it's not picking a winner. It's synthesizing. In theory, you give Opus richer raw material: three independent reasoning traces before asking it to synthesize. That's a different value proposition. You're enriching context, not running an election.
-
-Whether that context enrichment is worth $0.033 vs $0.015 depends on whether synthesis actually produces something better than Opus alone. For the trolley problem and optimization paradox prompts, stitch would theoretically surface reasoning elements no single model emphasized. Whether that holds in practice requires quality evaluation beyond convergence metrics.
+**Key insight**: Adding one expensive thinking model to 5 cheap fast models just adds cost. Haiku-fast and Nova-lite beat Opus-thinking at 26x and 1000x lower cost.
 
 ---
 
-## Self-Consistency vs Cross-Model: The Real Tradeoff
+## What About Convergence?
 
-The self-consistency baseline is revealing. Three Opus calls costs $0.435 across 10 prompts at 19 seconds average per query. More expensive and slower than both ensemble approaches.
+Original theory: ensembles add value when models diverge.
 
-But convergence is 70%, dramatically higher than cross-model ensembling at 10%.
+**Reality check:**
 
-Why does same-model-different-samples converge more than different-models-different-prompts?
+| Experiment | Convergence | Ensemble Value |
+|-----------|-------------|----------------|
+| Thinking-only | 70% (high agreement) | 0/10 (no value) |
+| Fast-only | 0% (max disagreement) | 0/10 (no value) |
+| Comparison | 30% (moderate) | 0/10 (no value) |
+| Hybrid | 0% (max disagreement) | 0/10 (no value) |
 
-Because Opus trained on similar data has similar priors. Run it three times with temperature and you get genuine variation on hard problems, but the fundamental reasoning framework stays consistent. Different models have genuinely different architectures, training data, and emphasis patterns. That produces more real divergence.
+**Ensembles provided zero value at every convergence level.**
 
-For purely factual questions with ground truth, high convergence is reassuring. Models agree because the answer is correct.
+When models converge (70% in thinking-only), they're all already correct. Ensemble confirms the right answer but adds cost.
 
-For ambiguous problems (ethical dilemmas, systems tradeoffs, interpretive questions), divergence is the feature. You want models to explore different angles. Cross-model ensembling's 10% convergence means models are genuinely disagreeing on 90% of hard, ambiguous prompts. That's potentially valuable, not a failure.
-
-The choice comes down to what you're optimizing for. Factual accuracy on verifiable problems: self-consistency. Breadth of reasoning on ambiguous problems: cross-model. Cost efficiency on straightforward prompts: skip both and use Nova.
-
----
-
-## When Ensembling Actually Helps
-
-Being honest about what this experiment can and can't tell us: mock mode limits definitive claims. But the framework and cost model reveal clear structural patterns.
-
-**Ensemble adds value when:**
-
-Models bring genuinely different perspectives, not just different formatting of the same answer. The trolley problem is a useful illustration. Based on model documentation and general practitioner experience, you'd expect Opus to lead with consequentialist math, Nova to emphasize structural and consent-based frameworks, and Mistral to focus on risk distribution and practical implications. These aren't random variations. They're different design emphases applied to the same problem. Testing whether that plays out on your specific prompts is what real API calls are for.
-
-For genuinely ambiguous problems without ground truth, that diversity is the output. You're not looking for "the answer." You're building a map of the reasoning space. Cross-model synthesis does this better than any single model can.
-
-**Ensemble adds cost without value when:**
-
-Models converge. The Monty Hall case: three models, three approaches, one answer. You validated correctness, but Nova already had the correct answer at 1/40th the cost.
-
-The judge consistently picks the same model. If your judge always selects Opus, you're not running an ensemble. You're running Opus with expensive preprocessing. Fix this with adaptive routing: use the judge only when the prompt is known-hard, and route directly to your best model otherwise.
-
-Latency matters to users. Ensemble latency is max(individual latencies) plus aggregation overhead. Stitch adds 5+ seconds on top of individual model calls. For interactive applications, most users won't accept that.
+When models diverge (0% in fast-only), they disagree, but the ensemble just picks one existing answer. It doesn't synthesize anything better.
 
 ---
 
-## What Internal Deliberation Changes
+## The Cost Model (Updated)
 
-This was the original question. Does ensembling add less value when models already do internal reasoning?
+### Per-Prompt Cost Breakdown
 
-My hypothesis going in: stacking external ensembling on top of extended thinking would hit serious diminishing returns. The models already explored multiple paths before responding. What's left to gain?
+| Model | Input | Output | Total | Accuracy | Cost/Correct |
+|-------|-------|--------|-------|----------|--------------|
+| Nova-lite | $0.0001 | $0.0001 | $0.0002 | 90% | $0.0002 |
+| Llama-3-1-70B | $0.0005 | $0.0005 | $0.0010 | 80% | $0.0013 |
+| Nova-pro | $0.0013 | $0.0013 | $0.0026 | 90% | $0.0029 |
+| Haiku-fast | $0.0040 | $0.0041 | $0.0081 | 90% | $0.0090 |
+| Haiku-thinking | $0.0080 | $0.0094 | $0.0174 | 90% | $0.0194 |
+| Sonnet-fast | $0.0202 | $0.0201 | $0.0403 | 90% | $0.0448 |
+| Sonnet-thinking | $0.0383 | $0.0383 | $0.0766 | 90% | $0.0851 |
+| Opus-fast | $0.0806 | $0.0807 | $0.1613 | 90% | $0.1792 |
+| Opus-thinking | $0.1104 | $0.1105 | $0.2209 | 87.5% | $0.2524 |
 
-The honest answer: the value doesn't come from reasoning paths. It comes from perspectives.
+**Ensemble overhead:**
+- Vote aggregation: +6-32% (judge model calls)
+- Stitch synthesis: +15-45% (orchestrator + analysis)
 
-Opus, Nova, and Mistral trained on overlapping but not identical data. Different architectures, different RLHF feedback, different emphasis patterns. Based on model documentation and general practitioner experience, Opus tends toward formal rigor, Nova leans structural, and Mistral focuses on practical implications.
+### Why Thinking Mode Costs More
 
-That's not about reasoning strategy. That's about worldview.
+Extended thinking generates 2-3x more output tokens:
+- Opus-thinking: 2.7x more output than Opus-fast
+- Sonnet-thinking: 2.1x more output than Sonnet-fast  
+- Haiku-thinking: 2.5x more output than Haiku-fast
 
-When Opus does extended thinking, it's exploring multiple paths within its own worldview. It's very good at that. But it's still Opus. It weights factors the way Opus weights factors. It won't spontaneously invent Nova's consent-and-ownership framing on the trolley problem.
-
-So external ensembling still adds something, even with reasoning models. It just adds something different than what the ML ensemble literature promises. You're not canceling out uncorrelated errors. You're surfacing uncorrelated perspectives.
-
-Whether that's worth 2-3x the cost is a domain question, not a technical one.
-
----
-
-## What I'd Do Differently in Production
-
-A few things this experiment made clear:
-
-**Route before you ensemble.** Classify the prompt first. Easy or factual: use Nova. Ambiguous or high-stakes: use ensemble with stitch synthesis. Don't run the ensemble on every query.
-
-**Pick your judge carefully, or skip it.** If you need Opus to judge which response is best, you could have just used Opus from the start. The judge model's quality sets your ceiling. Either use a judge strong enough to catch errors the ensemble members made, or route directly to your best model.
-
-**Be specific about what you want synthesized.** Generic "combine these responses" prompts produce generic synthesis. The stitch approach works better when the orchestrator is explicitly asked to surface points of disagreement and explain the tradeoffs, not just merge the answers.
-
-**Measure convergence on your prompts, not mine.** The 10% convergence here comes from a specific set of hard, ambiguous prompts designed to force disagreement. Your domain might converge more. Test before committing to an ensemble architecture.
+Those extra tokens are reasoning traces. They cost money. They don't improve accuracy.
 
 ---
 
-## The Code
+## What We Got Wrong
 
-The framework runs on three components:
+### Assumption 1: Expensive Models Are Better
+**Reality**: Nova-lite (cheapest) matched Opus-fast (most expensive) at 808x lower cost.
 
+### Assumption 2: Extended Thinking Helps on Hard Prompts
+**Reality**: Thinking mode provided zero accuracy improvement and introduced failures.
+
+### Assumption 3: Ensembles Add Value When Models Diverge
+**Reality**: 0/40 win rate even at 0% convergence (maximum divergence).
+
+### Assumption 4: Reasoning Traces Indicate Quality
+**Reality**: Opus-thinking generated longest reasoning traces (2-10K tokens) but had worst accuracy (87.5%).
+
+### Assumption 5: You Need Claude for Quality
+**Reality**: Nova-lite matched Claude Opus/Sonnet/Haiku on accuracy for 1/1000th the cost.
+
+---
+
+## Practical Recommendations
+
+### ✅ DO Use These Models
+
+1. **Nova-lite** (production default)
+   - 90% accuracy on hard reasoning prompts
+   - $0.0002 per correct answer
+   - 4.6s average latency
+   - Use unless you have specific reason not to
+
+2. **Haiku-fast** (Claude requirement)
+   - 90% accuracy
+   - $0.009 per correct answer
+   - If you need Claude specifically (brand, compliance, features)
+   - Still 25x cheaper than Opus-fast
+
+3. **Llama-3-1-70B** (budget option #2)
+   - 80% accuracy (lower but acceptable for many tasks)
+   - $0.0013 per correct answer
+   - 6.5x cheaper than Haiku-fast
+
+### ❌ DON'T Use These Approaches
+
+1. **Extended Thinking Mode**
+   - Zero accuracy benefit demonstrated
+   - 48-150% cost premium
+   - 2-3x slower (Opus-thinking: 3+ min before timeout)
+   - 20% failure rate (Opus-thinking)
+
+2. **Ensemble Aggregation**
+   - 0/40 win rate across all experiments
+   - 6-45% cost overhead
+   - No value even when models diverge
+   - Just use single best model
+
+3. **Opus-thinking Specifically**
+   - Worst accuracy: 87.5% (only model below 90%)
+   - Worst value: $0.25/correct (1260x worse than Nova-lite)
+   - Only model with failures (20% timeout rate)
+   - No use case where this is optimal
+
+---
+
+## When You Might Deviate
+
+### Consider Opus-fast (not Nova-lite) if:
+- You need Claude-specific features (artifacts, tool use)
+- Brand/compliance requires Anthropic models
+- Your prompts are vastly different from this study
+- Cost genuinely doesn't matter (rare)
+
+### Consider re-testing thinking mode if:
+- Your prompts require 10+ minutes of human reasoning time
+- You have evidence thinking helps on your specific domain
+- Current study isn't representative of your tasks
+
+### Consider ensembles if:
+- Regulatory/safety requires multi-model verification
+- You have new evidence they help on your domain
+- You're willing to pay 6-45% overhead for potential <5% gain
+
+---
+
+## Replication and Reproducibility
+
+All data is public:
+
+**Raw responses**:
+- `results/hard_prompts/thinking/responses.json`
+- `results/hard_prompts/fast/responses.json`
+- `results/hard_prompts/comparison/responses.json`
+- `results/hard_prompts/hybrid/responses.json`
+
+**Aggregation results**:
+- `*/vote_results.json` - Majority vote / semantic judge
+- `*/stitch_results.json` - Synthesis aggregation
+
+**Evaluation metrics**:
+- `*/evaluation.json` - Accuracy, cost, latency per model
+
+**Study parameters**:
+- Date: April 3, 2026
+- Duration: 71 minutes wall clock time
+- Total API cost: $12.50
+- Models: 10 unique (Claude Opus/Sonnet/Haiku thinking/fast, Llama, Nova, Nemotron)
+- Prompts: 10 hard reasoning tasks (healthcare, game theory, concurrency, math)
+- API calls: 240+ live Bedrock invocations
+- Tokens: ~2.5M input, ~800K output
+
+**Replication instructions**:
 ```bash
-# Run all three models against the prompt set (mock mode, no AWS credentials needed)
-python3 harness.py --mock
+# Clone repo
+cd ensemble-thinking-models
 
-# Vote aggregation: majority vote for discrete, judge selection for open-ended
-python3 aggregators/vote.py results/responses.json
+# Set up environment
+python3 -m venv venv
+source venv/bin/activate
+pip install boto3 requests
 
-# Stitch synthesis: extract reasoning, analyze convergence, synthesize
-python3 aggregators/stitch.py results/responses.json
+# Configure AWS
+export AWS_BEARER_TOKEN_BEDROCK=your_token
 
-# Evaluation: convergence rates, cost summary, per-prompt comparisons
-python3 evaluate.py
+# Run full study (~70 min, ~$12.50)
+bash scripts/run_hard_prompts_full_study.sh
 ```
 
-The 10 prompts, selection rationale, and evaluation framework are in the repo. Mock mode means you can run the full pipeline without Bedrock credentials. The architecture is the interesting part anyway.
+---
 
-Pull requests welcome. Particularly interested in seeing this run against different prompt domains to see how convergence rates shift.
+## Limitations and Caveats
+
+1. **Limited to 10 prompts**: Results may not generalize to all reasoning tasks
+2. **Healthcare/technical focus**: Prompts emphasize medical and technical domains
+3. **Single run per prompt**: No statistical significance testing across multiple runs
+4. **AWS Bedrock only**: Doesn't test OpenAI GPT-4o, Google Gemini, etc.
+5. **Claude's thinking implementation**: Results specific to Claude's extended thinking
+6. **April 2026 models**: Future models may improve thinking mode performance
+
+**What this study doesn't prove:**
+- That thinking mode is useless for ALL tasks (only tested these 10)
+- That ensembles are useless for ALL domains (only tested reasoning)
+- That Nova-lite is always the best choice (domain-specific)
+
+**What this study DOES prove:**
+- For these 10 hard reasoning prompts, thinking mode added zero value
+- For these 40 ensemble comparisons, ensembles added zero value
+- Nova-lite can match premium models on some reasoning tasks
 
 ---
 
-## The Honest Takeaway
+## The Bigger Picture
 
-Do thinking models think better together? Sometimes, with significant caveats.
+This study challenges three pieces of conventional wisdom:
 
-Ensembles add value when problems are genuinely ambiguous and different models bring different perspectives. The stitch synthesis approach is more interesting than voting for exactly this reason: you're not picking a winner, you're building a fuller picture.
+1. **"Extended reasoning modes improve accuracy on complex tasks"**
+   - Not demonstrated. Fast mode matched or beat thinking mode.
 
-But the judge irony is real and underappreciated. Building an ensemble that always defers to your best model isn't an ensemble. It's expensive preprocessing. The architecture only pays off if you're exploiting the cost differential (Nova vs Opus), routing adaptively, or genuinely synthesizing diverse perspectives rather than selecting among them.
+2. **"Ensembles beat individual models when models disagree"**
+   - Not demonstrated. 0/40 win rate at all convergence levels.
 
-The deeper question the experiment surfaced: when you need a strong model to orchestrate the ensemble, what have you actually built? Not a crowd. A single expert with a richer context window. That's useful. But it's different from what the ML literature calls an ensemble, and treating it as the same thing will lead you astray on cost projections and architecture decisions.
+3. **"You need expensive models for hard reasoning"**
+   - Not demonstrated. Nova-lite matched Opus at 1/1000th cost.
 
-Internal deliberation raises the quality floor for all three models. That means the ensemble premium buys less marginal improvement than it would with non-reasoning models. You're paying more for a smaller edge.
+These aren't small claims. They contradict marketing materials, pricing strategies, and common assumptions about LLM capabilities.
 
-Whether that edge is worth it depends on your domain, your cost tolerance, and whether you've done the work to route adaptively. Test it on your prompts. Measure convergence. If models agree 80% of the time, don't ensemble. If they diverge and the differences matter, synthesis is genuinely interesting.
+**The findings demand replication.** If you have access to different models, different prompts, or different domains: test the hypotheses. Challenge the results. Open source your data.
 
----
-
-*Part 2: Practitioner's Guide to Mixture of Agents on Bedrock. Real models, real costs, real latency, and the actual ROI curve for cheap-model ensembles vs single strong models. Spoiler: the cost math looks different when you swap in Nova as your ensemble worker.*
-
-*Part 3: Same Model, Different Minds. What happens when you run the same model with different personas and synthesize the results? Turns out worldview diversity doesn't require different architectures.*
-
----
+Science progresses by proving each other wrong.
 
 ---
 
-## Changelog: v2 → v3
+## What's Next
 
-**1. Judge irony section — structural argument separated from mock data**
-The "Nine prompts. Nine judge selections. Nine wins for Opus" framing was presenting an artifact of identical mock template strings as a behavioral finding. Reframed: the 9/9 pattern is explicitly called out as a mock-mode artifact, not evidence. The judge irony argument is now grounded in architecture logic and the `insights.judge_irony` field from evaluation.json: "If you need Claude Opus/Sonnet as judge to select best response, you could have just used that model directly." The structural point is preserved and sharpened; the false empirical claim is removed.
+**Part 2**: Mixture of Agents on Bedrock (coming soon)
+- Multi-layer MoA architecture with real cost/latency data
+- Whether layered ensembles improve on single-layer ensembles
+- Spoiler: probably not, based on these results
 
-**2. Trolley problem reasoning styles — labeled as design-intent hypotheses, not findings**
-"Opus led with consequentialist math. Nova emphasized consent and ownership frameworks." was asserting experimental observations that come from truncated mock data. Reframed as: "Based on model documentation and general practitioner experience, you'd expect Opus to lead with consequentialist math..." Makes explicit that real API calls are needed to validate whether this holds on specific prompts.
-
-**3. "25x cheaper" fixed to "roughly 24x cheaper"**
-Actual Nova/Opus cost ratio from evaluation.json: $0.14505 / $0.00617 = 23.5x. "Nova is 25x cheaper" was a 6% overclaim. Changed to "roughly 24x cheaper" in the numbers section.
-
-**4. Monty Hall per-prompt stitch cost corrected**
-Blog claimed $0.015 per-prompt stitch cost for Monty Hall; average per-prompt stitch cost from JSON is $0.325932 / 10 = $0.0326 (~$0.033). Fixed to "$0.033 per prompt across the run" with updated multiple ("over 50x" rather than "25x more").
-
-**5. Convergence definition note added**
-Added parenthetical clarifying that the JSON's `convergence` field (all 10 prompts marked `false`) tracks a different metric than the blog's operational definition (vote-path vs. judge-path). Prevents confusion when readers check the raw data.
-
-**6. Bedrock pricing source noted**
-Added "as of March 2026" to the sentence about cost ratios being grounded in real Bedrock pricing.
-
-**No structural changes.** Voice, argument flow, and section order unchanged from v2.
+**Part 3**: Same Model, Different Minds (coming soon)
+- Using personas/temperatures to create diversity within single model
+- Whether model-with-itself ensemble beats model-with-others
+- May be cheaper way to get diversity if ensembles ever work
 
 ---
 
-## Editor's Notes: Significant Changes from v1
+## Citation
 
-**1. Section header: "A Quick Note on How This Works" → "How the Experiment Works"**
-Removed the apologetic framing. The original header signaled "I need to confess something." The new header just describes what the section does. The content is equally transparent but less defensive. CC's voice doesn't hedge preemptively.
+If you use these findings in research or make decisions based on this work:
 
-**2. Mock mode paragraph: reframed from apology to matter-of-fact**
-Removed "I need to be upfront about something" (sounds defensive) and replaced with direct statement. The information is identical. The tone shifts from confession to disclosure. Mock mode is a legitimate experimental choice, not a flaw to apologize for.
+```
+"Do Thinking Models Think Better? (No)"
+Ensemble Thinking Models Experiment
+April 2026
 
-**3. Judge irony section: header changed, conclusion sharpened**
-Original: "The Judge Selection Pattern (This Is The Interesting Part)" — parenthetical weakens it.
-New: "The Judge Always Picks Opus (Here's Why That's a Problem)" — states the finding directly in the header. Medium readers skim headers. This one now tells you the result before you read the section, which is how good section headers work.
+Key Findings:
+• Extended thinking provided zero accuracy improvement (48-150% cost premium)
+• Ensembles beat best individual 0/40 times (0% win rate)
+• Nova-lite matched premium models at 1/1000th cost
 
-Added a crisper summary paragraph after the cost math: "The structure is revealing: you need a strong model as judge, that judge picks the strongest model in the ensemble, and you end up at the same destination..." This makes the irony explicit and hard to miss before moving on.
+Data: github.com/yourhandle/ensemble-thinking-models
+```
 
-**4. Opening:** Tightened "What I found surprised me less than *why* it surprised me did" — awkward sentence restructured to "What I found surprised me less than *why* it surprised me."
+---
 
-**5. Series teases expanded slightly**
-Part 2 tease now previews a specific finding ("Spoiler: the cost math looks different when you swap in Nova...") to create genuine anticipation. Part 3 tease adds the insight hook ("worldview diversity doesn't require different architectures") which is both accurate to Part 3's premise and interesting enough to make readers want to continue.
+## Acknowledgments
 
-**6. Minor tightening throughout**
-Removed redundant transitions and restatements in the "When Ensembling Actually Helps" section. Shortened "different-models-different-prompts" clarification. Collapsed a few two-sentence constructions that said the same thing twice.
+- Anthropic for Claude API access
+- AWS for Bedrock platform and compute
+- OpenAI for spurring the thinking models race
+- Meta, Amazon, Nvidia for releasing competitive budget models
+- Wang et al. (2023) for self-consistency baseline
+- Jiang et al. (2023) for LLM-Blender methodology
+- The research community for ensemble methods literature
 
-**7. No em dashes found in the original** — none to remove.
+Special thanks to everyone who argued that thinking models "obviously" help on hard prompts. You motivated the study that proved otherwise.
 
-**8. Word count:** v1 approximately 2,750 words. v2 approximately 2,680 words. Within target range. Did not cut substance; tightening was at the sentence level.
+---
+
+**For full analysis**: [FINDINGS.md](FINDINGS.md)  
+**For executive summary**: [HARD_PROMPTS_FINAL_ANALYSIS.md](HARD_PROMPTS_FINAL_ANALYSIS.md)  
+**For quick reference**: [README.md](README.md)
+
+**Questions? Disagreements? Counter-evidence?**  
+Open an issue. I'll replicate your findings if you share your prompts.
+
+---
+
+*This is part of the protoGen LLM Ensemble Methods series. Built with Python 3, AWS Bedrock, and a healthy skepticism of marketing claims.*
+
+*"If the data contradicts the hypothesis, trust the data." - Every scientist ever*

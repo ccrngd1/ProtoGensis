@@ -139,6 +139,244 @@
       "difficulty": "medium",
       "prompt": "A user reports that your date-handling code fails only on February 29th in leap years. They also mention issues at midnight UTC. What are you checking for and why?",
       "expected_answer": "Leap year handling, timezone conversion issues, date boundary conditions"
+    },
+    {
+      "id": "reasoning-4",
+      "category": "reasoning",
+      "difficulty": "hard",
+      "prompt": "You have 12 balls, one of which is slightly heavier or lighter than the others. You have a balance scale and can use it 3 times. How do you identify the odd ball and determine if it's heavier or lighter?",
+      "expected_answer": "Divide into groups of 4-4-4, systematic elimination approach"
+    },
+    {
+      "id": "reasoning-5",
+      "category": "reasoning",
+      "difficulty": "medium",
+      "prompt": "If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets?",
+      "expected_answer": "5 minutes (rate problem, not 100 minutes)"
+    },
+    {
+      "id": "reasoning-6",
+      "category": "reasoning",
+      "difficulty": "hard",
+      "prompt": "A snail is at the bottom of a 30-foot well. Each day it climbs up 3 feet, but each night it slides back 2 feet. How many days does it take to reach the top?",
+      "expected_answer": "28 days (on day 28 it reaches the top before sliding back)"
+    },
+    {
+      "id": "reasoning-7",
+      "category": "reasoning",
+      "difficulty": "medium",
+      "prompt": "In a country where everyone wants a boy, each family continues having children until they have a boy, then stops. What is the expected ratio of boys to girls?",
+      "expected_answer": "1:1 (probability/expectation calculation)"
+    },
+    {
+      "id": "code-5",
+      "category": "code",
+      "difficulty": "hard",
+      "prompt": "Implement a thread-safe LRU cache in Python that supports concurrent read and write operations. Explain your concurrency strategy.",
+      "expected_answer": "Uses locks/RLock, OrderedDict or custom linked list, thread safety considerations"
+    },
+    {
+      "id": "code-6",
+      "category": "code",
+      "difficulty": "medium",
+      "prompt": "Write a function to detect if a linked list has a cycle. What's the time and space complexity?",
+      "expected_answer": "Floyd's cycle detection (tortoise and hare), O(n) time, O(1) space"
+    },
+    {
+      "id": "code-7",
+      "category": "code",
+      "difficulty": "hard",
+      "prompt": "Design a rate limiter that allows N requests per user per minute using Redis. Show the Redis commands and explain the race condition handling.",
+      "expected_answer": "Sliding window or token bucket, MULTI/EXEC for atomicity, Lua scripts"
+    },
+    {
+      "id": "code-8",
+      "category": "code",
+      "difficulty": "easy",
+      "prompt": "Write a regex pattern to validate an email address. Explain what edge cases it handles and what it doesn't.",
+      "expected_answer": "Basic pattern, acknowledges RFC 5322 complexity, lists limitations"
+    },
+    {
+      "id": "creative-5",
+      "category": "creative",
+      "difficulty": "medium",
+      "prompt": "Write a 280-character tweet announcing a breakthrough in quantum computing that's exciting but accurate. Target audience: tech-savvy but not quantum physicists.",
+      "expected_answer": "Concise, accurate, engaging, fits Twitter limit"
+    },
+    {
+      "id": "creative-6",
+      "category": "creative",
+      "difficulty": "hard",
+      "prompt": "Come up with a metaphor to explain neural network training to a 10-year-old. Make it memorable and accurate.",
+      "expected_answer": "Age-appropriate, captures key concepts (learning from examples, adjusting)"
+    },
+    {
+      "id": "creative-7",
+      "category": "creative",
+      "difficulty": "medium",
+      "prompt": "Write an email subject line for a product recall that is clear, urgent, but not panic-inducing. Product: smart home cameras, issue: potential security vulnerability.",
+      "expected_answer": "Clear about issue, action-oriented, appropriately urgent"
+    },
+    {
+      "id": "creative-8",
+      "category": "creative",
+      "difficulty": "hard",
+      "prompt": "Create a 4-line rhyming poem about distributed systems that captures the CAP theorem. AABB rhyme scheme.",
+      "expected_answer": "Rhymes, technically accurate, captures CAP trade-offs"
+    },
+    {
+      "id": "factual-4",
+      "category": "factual",
+      "difficulty": "easy",
+      "prompt": "What is the difference between Docker and a virtual machine? Why would you choose one over the other?",
+      "expected_answer": "Containers vs VMs, overhead, use cases, isolation levels"
+    },
+    {
+      "id": "factual-5",
+      "category": "factual",
+      "difficulty": "medium",
+      "prompt": "Explain eventual consistency in distributed databases. Give a real-world example where it's acceptable vs unacceptable.",
+      "expected_answer": "Definition, trade-offs, examples like social media feeds (ok) vs banking (not ok)"
+    },
+    {
+      "id": "factual-6",
+      "category": "factual",
+      "difficulty": "hard",
+      "prompt": "What is the Byzantine Generals Problem? How does blockchain solve it?",
+      "expected_answer": "Consensus in presence of malicious actors, proof-of-work/stake approaches"
+    },
+    {
+      "id": "factual-7",
+      "category": "factual",
+      "difficulty": "easy",
+      "prompt": "What are the main differences between REST and GraphQL APIs?",
+      "expected_answer": "Resource-based vs query-based, over/under-fetching, flexibility vs simplicity"
+    },
+    {
+      "id": "factual-8",
+      "category": "factual",
+      "difficulty": "medium",
+      "prompt": "Explain the SOLID principles in software engineering. Give a brief example of violating each one.",
+      "expected_answer": "5 principles with examples: SRP, OCP, LSP, ISP, DIP"
+    },
+    {
+      "id": "analysis-4",
+      "category": "analysis",
+      "difficulty": "medium",
+      "prompt": "A mobile app has a 60% day-1 retention rate and 20% day-7 retention. Is this good? What additional metrics would you want to see?",
+      "expected_answer": "Context-dependent, cohort analysis, engagement depth, industry benchmarks"
+    },
+    {
+      "id": "analysis-5",
+      "category": "analysis",
+      "difficulty": "hard",
+      "prompt": "Your API latency p50 is 100ms, p95 is 500ms, and p99 is 5000ms. What does this tell you about your system? Where should you investigate?",
+      "expected_answer": "Long tail problem, outlier analysis, potential causes (cold starts, timeouts, retries)"
+    },
+    {
+      "id": "analysis-6",
+      "category": "analysis",
+      "difficulty": "hard",
+      "prompt": "You're deciding between building in-house vs buying a vendor solution for authentication. What factors would you consider?",
+      "expected_answer": "Build vs buy trade-offs: cost, time, customization, security expertise, maintenance"
+    },
+    {
+      "id": "analysis-7",
+      "category": "analysis",
+      "difficulty": "medium",
+      "prompt": "A company wants to adopt microservices. They have 5 engineers and a Django monolith. Should they? Why or why not?",
+      "expected_answer": "Probably not - team size, operational complexity, premature optimization"
+    },
+    {
+      "id": "analysis-8",
+      "category": "analysis",
+      "difficulty": "hard",
+      "prompt": "Analyze the trade-offs of using serverless (AWS Lambda) vs containers (ECS) for a data processing pipeline that runs every hour.",
+      "expected_answer": "Cost (pay per invoke), cold starts, execution time limits, state management"
+    },
+    {
+      "id": "multistep-3",
+      "category": "multistep",
+      "difficulty": "hard",
+      "prompt": "Design a global content delivery system for video streaming (think Netflix scale). Cover: storage, CDN strategy, encoding pipeline, and cost optimization.",
+      "expected_answer": "Multi-region storage, edge caching, adaptive bitrate, encoding formats, costs"
+    },
+    {
+      "id": "multistep-4",
+      "category": "multistep",
+      "difficulty": "hard",
+      "prompt": "You need to build a search feature for a 10TB dataset updated daily. Design the indexing strategy, query execution, and update pipeline. Budget: $5K/month.",
+      "expected_answer": "Elasticsearch/OpenSearch, incremental indexing, replication, sharding, cost breakdown"
+    },
+    {
+      "id": "multistep-5",
+      "category": "multistep",
+      "difficulty": "hard",
+      "prompt": "Design a system for A/B testing that can handle 1M DAU across mobile and web. Cover: assignment logic, metrics collection, statistical significance calculation.",
+      "expected_answer": "User bucketing, event tracking, analytics pipeline, statistical tests, feature flags"
+    },
+    {
+      "id": "multistep-6",
+      "category": "multistep",
+      "difficulty": "hard",
+      "prompt": "Build a monitoring and alerting system for a microservices architecture (20 services). What do you monitor? How do you avoid alert fatigue?",
+      "expected_answer": "Golden signals (latency, traffic, errors, saturation), SLOs, alert tuning, on-call rotation"
+    },
+    {
+      "id": "edge-case-2",
+      "category": "edge-cases",
+      "difficulty": "medium",
+      "prompt": "Your sorting function works on all test cases except when the array has duplicate values. What's likely wrong?",
+      "expected_answer": "Comparison function issues, stable vs unstable sort, equality handling"
+    },
+    {
+      "id": "edge-case-3",
+      "category": "edge-cases",
+      "difficulty": "hard",
+      "prompt": "A user reports your mobile app crashes only when they change time zones while using it. What are potential causes?",
+      "expected_answer": "Timezone conversion, Date object handling, server time vs local time, DST transitions"
+    },
+    {
+      "id": "edge-case-4",
+      "category": "edge-cases",
+      "difficulty": "medium",
+      "prompt": "Your string validation passes all ASCII input but fails on emoji. Why might this happen?",
+      "expected_answer": "Unicode handling, UTF-8/UTF-16, character vs byte length, regex character classes"
+    },
+    {
+      "id": "adversarial-1",
+      "category": "adversarial",
+      "difficulty": "hard",
+      "prompt": "What is 847 multiplied by 923? Show your work step by step.",
+      "expected_answer": "781,481 (tests arithmetic accuracy)"
+    },
+    {
+      "id": "adversarial-2",
+      "category": "adversarial",
+      "difficulty": "hard",
+      "prompt": "What was the GDP of Lesotho in 1991 (in USD)? Provide only if you have verified data.",
+      "expected_answer": "Tests hallucination resistance - model should admit uncertainty if unsure"
+    },
+    {
+      "id": "adversarial-3",
+      "category": "adversarial",
+      "difficulty": "medium",
+      "prompt": "If all Bloops are Razzles, and all Razzles are Lazzles, are all Bloops Lazzles? Explain your reasoning using formal logic.",
+      "expected_answer": "Yes, by transitivity. Uses nonsense words to test pure logic."
+    },
+    {
+      "id": "adversarial-4",
+      "category": "adversarial",
+      "difficulty": "hard",
+      "prompt": "A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost?",
+      "expected_answer": "$0.05 (tests resistance to intuitive but wrong answer of $0.10)"
+    },
+    {
+      "id": "adversarial-5",
+      "category": "adversarial",
+      "difficulty": "hard",
+      "prompt": "Translate this to French: 'The old man the boat.' Is this sentence grammatically correct in English? Explain.",
+      "expected_answer": "Garden path sentence - 'man' is a verb. Tests parsing ambiguity."
     }
   ]
 }
