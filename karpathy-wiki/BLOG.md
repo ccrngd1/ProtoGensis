@@ -137,7 +137,7 @@ pip install -e .
 
 You'll need AWS credentials with Bedrock access and model access to `anthropic.claude-3-5-sonnet-20241022-v2:0` in `us-east-1`. Once that's configured, `kw init` sets up a knowledge base and you're ready to go.
 
-The codebase is roughly 2,200 lines across nine modules: `cli.py`, `compiler.py`, `config.py`, `db.py`, `health.py`, `ingestion.py`, `llm.py`, `query.py`, and `watcher.py`. Nothing exotic. If you want to adapt it to a different LLM provider or extend the compilation logic, the structure makes that reasonably easy.
+The codebase is roughly 2,800 lines across nine modules: `cli.py`, `compiler.py`, `config.py`, `db.py`, `health.py`, `ingestion.py`, `llm.py`, `query.py`, and `watcher.py`. Nothing exotic. If you want to adapt it to a different LLM provider or extend the compilation logic, the structure makes that reasonably easy.
 
 This is a protoGen project, which means it's a working reference implementation, not production software. Use it as a starting point, not a finished product.
 
