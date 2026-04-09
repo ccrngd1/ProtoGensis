@@ -385,14 +385,16 @@ But with AEGIS, that instruction never reaches your systems.
 ---
 
 **Try AEGIS:**
-- GitHub: [github.com/your-org/aegis-firewall](https://github.com/your-org/aegis-firewall)
-- Docs: [Read the full documentation](https://github.com/your-org/aegis-firewall/blob/main/README.md)
+- GitHub: [github.com/ccrngd1/ProtoGensis/tree/main/aegis-firewall](https://github.com/ccrngd1/ProtoGensis/tree/main/aegis-firewall)
+- Docs: [Read the full documentation](https://github.com/ccrngd1/ProtoGensis/tree/main/aegis-firewall/README.md)
 - Demos: `python demo/run_all_demos.py`
 
 **About the Author:**
-The AEGIS team is a group of security researchers and AI engineers focused on making autonomous agents safe for production use. We believe AI will transform how software is built, but only if we solve the security problem first.
+Nicholaus Lawson is a Solution Architect with a background in software engineering and AIML. He has worked across many verticals, including Industrial Automation, Health Care, Financial Services, and Software companies, from start-ups to large enterprises.
 
-*This work was inspired by real-world incidents, OWASP research, and countless hours of red-teaming AI agents. If you're building with agents, we'd love to hear from you.*
+This article and any opinions expressed by Nicholaus are his own and not a reflection of his current, past, or future employers or any of his colleagues or affiliates.
+
+Feel free to connect with Nicholaus via [LinkedIn](https://www.linkedin.com/in/nicholaus-lawson/).
 
 ---
 
