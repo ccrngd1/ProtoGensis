@@ -49,7 +49,8 @@ class BedrockClient:
         temperature: Optional[float] = 0.7,
         extended_thinking: bool = False,
         thinking_budget: int = 10000,
-        max_retries: int = 3
+        max_retries: int = 3,
+        timeout: int = 600
     ) -> Tuple[str, int, int, int]:
         """Call a Bedrock model via HTTP.
 
@@ -62,6 +63,8 @@ class BedrockClient:
             extended_thinking: Enable Claude extended thinking
             thinking_budget: Token budget for thinking (if extended_thinking=True)
             max_retries: Maximum retry attempts for throttling
+            timeout: HTTP request timeout in seconds (default: 600 = 10 minutes)
+                     Set to None for no timeout. Extended thinking may need longer timeouts.
 
         Returns:
             Tuple of (response_text, input_tokens, output_tokens, latency_ms)
@@ -112,7 +115,7 @@ class BedrockClient:
 
                 # Make API call
                 start_time = time.time()
-                response = requests.post(url, headers=headers, json=body, timeout=120)
+                response = requests.post(url, headers=headers, json=body, timeout=timeout)
                 latency_ms = int((time.time() - start_time) * 1000)
 
                 # Handle throttling

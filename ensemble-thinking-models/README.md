@@ -4,17 +4,21 @@
 
 An empirical experiment testing whether extended thinking and ensemble methods add value on hard reasoning tasks. Part of the protoGen LLM Ensemble Methods series.
 
-## ⚠️ Major Findings (Updated April 2026)
+## ⚠️ Preliminary Findings (Updated April 2026)
 
-**Both hypotheses REJECTED:**
+> **Note:** These are exploratory findings based on limited sample sizes (n=10 custom prompts, n=20 per benchmark) with single runs per prompt and no statistical significance testing. Conclusions should be considered preliminary pending replication with larger samples.
 
-1. ❌ **Extended thinking does NOT improve accuracy** on hard prompts (fast mode matched or beat thinking mode)
-2. ❌ **Ensembles provide ZERO value** (0/40 times beat best individual model)
+**Key observations:**
 
-**Validated across 4 standard benchmarks** (GSM8K, MMLU, HumanEval, GPQA): Ensembles consistently fail to beat or even match best individual models. Even when best model scores only 70%, ensembles perform worse.
+1. **Extended thinking showed no accuracy advantage** on our test sets (fast mode matched or beat thinking mode)
+2. **Naive ensembles (Haiku as judge) did not improve accuracy** (0/40 wins on custom prompts, 0/4 wins on benchmarks)
 
-**Winner:** Amazon Nova Lite (90% accuracy @ $0.0002 per correct answer)  
-**Loser:** Claude Opus Extended Thinking (87.5% accuracy @ $0.25 per correct answer, 1260x worse value)
+**Benchmark validation** (GSM8K, MMLU, HumanEval, GPQA with n=20 each): Ensembles using Haiku as judge/orchestrator consistently underperformed or tied best individual models. Even when best model scored 70% (GPQA), ensembles scored 55-60%.
+
+**Best value on custom prompts:** Amazon Nova Lite (90% accuracy @ $0.0002 per correct answer, n=10)  
+**Lowest performance:** Claude Opus Extended Thinking (87.5% accuracy @ $0.25 per correct answer, includes 2 timeouts)
+
+**Important limitations:** Sample sizes small, single run per prompt, keyword matching evaluation (LLM-as-judge now available), timeout configuration may have penalized Opus-thinking.
 
 **Read the full analysis:** [FINDINGS.md](FINDINGS.md)
 
@@ -24,15 +28,19 @@ An empirical experiment testing whether extended thinking and ensemble methods a
 
 This project tests two controversial hypotheses about LLM performance:
 
-### Hypothesis 1: Extended Thinking Helps on Hard Prompts ❌ REJECTED
+### Hypothesis 1: Extended Thinking Helps on Hard Prompts
 > "Models with extended reasoning capabilities (5-10K token thinking budgets) should perform better on genuinely hard prompts requiring deep reasoning."
 
-**Result:** Extended thinking provided **ZERO accuracy improvement** while costing 48-150% more. Fast inference matched or beat thinking mode on all models tested.
+**Preliminary result (n=10 custom, n=20 per benchmark):** Extended thinking showed no accuracy improvement on our test sets while costing 48-150% more. Fast inference matched or beat thinking mode. However, thinking mode helped on math benchmarks (GSM8K: thinking 100% vs fast 85%), suggesting context-dependency.
 
-### Hypothesis 2: Ensembles Beat Best Individual ❌ REJECTED
+**Caveat:** Opus-thinking had 2 timeouts (360s limit) that may have penalized it. Results based on keyword matching evaluation, which may bias against verbose thinking-mode answers.
+
+### Hypothesis 2: Ensembles Beat Best Individual
 > "When models diverge on hard prompts, ensemble aggregation (vote/stitch) should produce better answers than any single model."
 
-**Result:** Ensembles beat best individual **0/40 times (0% win rate)**. Ensembles just add cost without adding accuracy.
+**Preliminary result (0/40 custom, 0/4 benchmarks):** Naive ensembles using Haiku as judge/orchestrator did not beat best individual models. This may reflect the specific ensemble architecture (weak judge) rather than ensembles in general. Self-consistency and stronger verifiers not yet tested.
+
+**Caveat:** Only tested one ensemble design (Haiku judge). Real ensemble literature includes weighted voting, self-consistency, debate, and strong verifiers.
 
 ---
 
@@ -85,54 +93,65 @@ After custom prompt results contradicted published benchmarks (where thinking mo
 
 ---
 
-## Key Findings
+## Key Findings (Exploratory, n=10)
 
-### 1. Extended Thinking Failed Its Test
+### 1. Extended Thinking Showed No Advantage on Custom Prompts
 
-**Opus-fast (90%) BEAT Opus-thinking (87.5%)**
+**Opus-fast (90%, 9/10) vs Opus-thinking (87.5%, 7/8 completed)**
 
-- Opus-thinking: Lower accuracy, 2.5x cost, 20% failure rate (timeouts)
-- Sonnet: Tied at 90%, but thinking paid 2x more
-- Haiku: Tied at 90%, but thinking paid 2.2x more
+- Opus-thinking: Lower accuracy on completed prompts, 2.5x cost, 2 timeouts (360s limit)
+- Sonnet: Tied at 90% (9/10), but thinking paid 2x more
+- Haiku: Tied at 90% (9/10), but thinking paid 2.2x more
 
-**Cost premium for thinking mode: 48-150% with ZERO accuracy gain**
+**Note:** Timeouts may reflect infrastructure limits rather than model capability. Keyword matching may penalize verbose thinking-mode answers.
 
-### 2. Nova-lite is the Value Champion
+### 2. Nova-lite Had Strong Value on Custom Prompts
 
-- **90% accuracy** on hard reasoning prompts
+- **90% accuracy** on 10 hard reasoning prompts (9/10 correct)
 - **$0.0002 per correct answer**
-- **1100x cheaper** than Opus-thinking
+- **1100x cheaper** than Opus-thinking (same accuracy)
 - **808x cheaper** than Opus-fast (same accuracy)
 - **100% completion rate** (no timeouts)
 
-### 3. Opus-thinking is the Worst Option
+**Note:** Not yet validated on standard benchmarks. Results specific to 10 custom prompts (60% healthcare-focused).
 
-- **Worst accuracy**: 87.5% (only model below 90%)
-- **Worst value**: $0.25 per correct answer
-- **Only model with failures**: 20% timeout rate (2/10 prompts)
-- **Slowest**: 59s average, 3+ minute max before timeout
-- **Failed on**: Complex X12/HL7 healthcare data conversion tasks
+### 3. Opus-thinking Had Challenges on Custom Prompts
 
-### 4. Ensembles Provide No Value (Validated on 4 Standard Benchmarks)
+- **Accuracy**: 87.5% (7/8 completed, 2/10 timed out)
+- **Cost per correct**: $0.25 (highest)
+- **Completion rate**: 80% (2 timeouts at 360s limit)
+- **Average latency**: 59s (longest)
+- **Timeouts on**: X12/HL7 healthcare data conversion
+
+**Note:** Timeout configuration (360s) may have been too aggressive for thinking mode. Actual capability on those 2 prompts unknown.
+
+### 4. Naive Ensembles (Haiku Judge) Did Not Improve Accuracy
 
 **Custom prompts:** 0/40 times beat best individual  
-**Standard benchmarks:** 0/4 wins (1 tie, 3 losses)
+**Standard benchmarks:** 0/4 wins (1 tie on MMLU, 3 losses)
 
-- **Vote ensemble**: Uses Haiku as judge to pick semantic majority - consistently underperforms or ties best model
-- **Stitch ensemble**: Uses Haiku to synthesize responses - catastrophically fails (40-85% accuracy vs 70-100% best individual)
+- **Vote ensemble**: Uses Haiku (40-90% individual accuracy) as judge to pick semantic majority
+  - Bottleneck: Haiku lacks domain knowledge to judge stronger models (e.g., 40% on GPQA judging 70% models)
+  - Result: Consistently underperforms or ties best model
+- **Stitch ensemble**: Uses Haiku to synthesize 6 responses
+  - Bottleneck: Synthesis requires understanding model doesn't have
+  - Result: 40-85% accuracy vs 70-100% best individual
 - **Cost penalty**: 2.5-19x more expensive than using best model directly
-- **No benefit even when room exists**: GPQA with 70% best model → ensemble gets 55-60%
-- **Recommendation**: Never use ensembles. Just run the best individual model once.
+- **GPQA example**: Best model 70%, Vote 55%, Stitch 60%
 
-### 5. Fast Mode > Thinking Mode
+**Interpretation:** This tests one specific ensemble design (weak judge). Literature includes self-consistency, weighted voting, strong verifiers, and debate methods not yet tested. The architectural flaw (Haiku judging stronger models) may explain failure rather than ensembles being inherently useless.
 
-| Comparison | Thinking | Fast | Winner |
+**Preliminary recommendation:** For this ensemble architecture, just use best individual model. Other ensemble methods (self-consistency, strong verifiers) require testing.
+
+### 5. Fast Mode Matched or Beat Thinking Mode (Custom Prompts Only)
+
+| Comparison | Thinking | Fast | Result |
 |-----------|----------|------|--------|
-| Opus | 87.5% @ $2.21 | 90% @ $1.61 | **Fast** |
-| Sonnet | 90% @ $0.77 | 90% @ $0.40 | **Fast** |
-| Haiku | 90% @ $0.17 | 90% @ $0.08 | **Fast** |
+| Opus | 87.5% (7/8) @ $2.21 | 90% (9/10) @ $1.61 | Fast better |
+| Sonnet | 90% (9/10) @ $0.77 | 90% (9/10) @ $0.40 | Tied, fast cheaper |
+| Haiku | 90% (9/10) @ $0.17 | 90% (9/10) @ $0.08 | Tied, fast cheaper |
 
-**Fast mode never worse, sometimes better, always cheaper.**
+**Context-dependent:** GSM8K math benchmark showed opposite pattern (thinking 100% vs fast 85%). Results may be task-specific.
 
 ---
 

@@ -17,11 +17,12 @@ Metrics:
 
 import json
 import argparse
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, asdict
 from collections import defaultdict
 import sys
 import os
+import time
 
 # Add benchmarks directory to path for benchmark evaluators
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -31,6 +32,15 @@ try:
 except ImportError:
     BENCHMARK_EVALUATORS_AVAILABLE = False
     print("⚠️  Benchmark evaluators not available. Install benchmarks module for GSM8K/MMLU/HumanEval support.")
+
+# Import BedrockClient for LLM-as-judge
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+try:
+    from ensemble_shared.bedrock_client import BedrockClient
+    BEDROCK_CLIENT_AVAILABLE = True
+except ImportError:
+    BEDROCK_CLIENT_AVAILABLE = False
+    print("⚠️  BedrockClient not available. LLM-as-judge evaluation will not work.")
 
 
 @dataclass
@@ -66,12 +76,31 @@ class PromptComparison:
 class Evaluator:
     """Evaluates and compares ensemble approaches"""
 
-    def __init__(self):
+    def __init__(self, use_llm_judge: bool = False, judge_log_file: Optional[str] = None):
+        """
+        Initialize evaluator.
+
+        Args:
+            use_llm_judge: If True, use LLM (Opus) as judge for custom prompts instead of keyword matching
+            judge_log_file: Optional file to log judge decisions for transparency/audit
+        """
         self.responses = None
         self.vote_results = None
         self.stitch_results = None
         self.prompts_metadata = None
         self.model_keys = None
+        self.use_llm_judge = use_llm_judge
+        self.judge_log_file = judge_log_file
+        self.judge_client = None
+        self.total_judge_cost = 0.0
+
+        if use_llm_judge:
+            if not BEDROCK_CLIENT_AVAILABLE:
+                raise ValueError("BedrockClient not available - cannot use LLM judge")
+            self.judge_client = BedrockClient()
+            print("✓ LLM-as-judge enabled (using Opus)")
+            if judge_log_file:
+                print(f"✓ Judge decisions will be logged to {judge_log_file}")
 
     def load_data(self, responses_file: str = "results/responses.json",
                   vote_file: str = "results/vote_results.json",
@@ -107,23 +136,118 @@ class Evaluator:
         print(f"Detected model keys: {model_keys}")
         return model_keys
 
+    def _evaluate_with_llm_judge(self, question: str, answer: str, ground_truth: str, prompt_id: str) -> tuple[bool, str, float]:
+        """
+        Use Opus as judge to evaluate if an answer is correct.
+
+        Args:
+            question: The original question/prompt
+            answer: The model's answer to evaluate
+            ground_truth: The expected answer or grading criteria
+            prompt_id: ID for logging
+
+        Returns:
+            (is_correct, reasoning, cost_usd)
+        """
+        judge_prompt = f"""You are evaluating an AI model's answer to a question.
+
+Question:
+{question}
+
+Expected Answer / Grading Criteria:
+{ground_truth}
+
+Model's Answer:
+{answer}
+
+Your task:
+1. Determine if the model's answer is CORRECT or INCORRECT
+2. Be lenient with wording differences - focus on whether the core answer is right
+3. Check that key facts, numbers, and conclusions match the expected answer
+4. Minor stylistic differences or extra explanation are OK
+
+Respond in this exact format:
+VERDICT: [CORRECT or INCORRECT]
+REASONING: [1-2 sentences explaining your decision]
+
+Example:
+VERDICT: CORRECT
+REASONING: The model correctly identified the probability as 3/8 and recommended switching, matching the expected answer despite using different wording.
+"""
+
+        try:
+            start_time = time.time()
+            response, input_tokens, output_tokens, latency_ms = self.judge_client.call_model(
+                model_id="us.anthropic.claude-opus-4-6-v1",  # Opus 4.6 for best accuracy
+                prompt=judge_prompt,
+                max_tokens=500,
+                temperature=0.0  # Deterministic grading
+            )
+
+            # Calculate cost (Opus 4.6 pricing)
+            cost_usd = (input_tokens * 0.000015) + (output_tokens * 0.000075)
+            self.total_judge_cost += cost_usd
+
+            # Parse verdict
+            is_correct = "VERDICT: CORRECT" in response
+
+            # Extract reasoning
+            reasoning = ""
+            if "REASONING:" in response:
+                reasoning = response.split("REASONING:")[1].strip()
+
+            # Log for transparency
+            if self.judge_log_file:
+                log_entry = {
+                    "prompt_id": prompt_id,
+                    "verdict": "CORRECT" if is_correct else "INCORRECT",
+                    "reasoning": reasoning,
+                    "cost_usd": cost_usd,
+                    "timestamp": time.time()
+                }
+                with open(self.judge_log_file, 'a') as f:
+                    f.write(json.dumps(log_entry) + "\n")
+
+            return is_correct, reasoning, cost_usd
+
+        except Exception as e:
+            print(f"⚠️  LLM judge failed for {prompt_id}: {e}")
+            return None, str(e), 0.0
+
     def _evaluate_against_ground_truth(self, answer: str, ground_truth: str, prompt_id: str, prompt: Dict[str, Any] = None) -> bool:
         """
         Evaluate if an answer matches the ground truth.
-        Uses benchmark-specific evaluators if available, otherwise falls back to
-        keyword matching and pattern detection.
+        Priority order:
+        1. Benchmark-specific evaluators (GSM8K, MMLU, HumanEval, GPQA) - objective grading
+        2. LLM-as-judge (if enabled) - for custom prompts
+        3. Keyword matching fallback - legacy method
         Returns True if answer appears correct, False otherwise.
         """
         if not ground_truth or not answer:
             return False
 
-        # Try benchmark-specific evaluation first
+        # Try benchmark-specific evaluation first (most objective)
         if prompt and BENCHMARK_EVALUATORS_AVAILABLE:
             if 'benchmark' in prompt or 'evaluation_criteria' in prompt:
                 try:
                     return evaluate_benchmark(prompt, answer)
                 except Exception as e:
-                    print(f"⚠️  Benchmark evaluation failed for {prompt_id}: {e}, falling back to string matching")
+                    print(f"⚠️  Benchmark evaluation failed for {prompt_id}: {e}, falling back")
+
+        # Use LLM judge for custom prompts (if enabled)
+        if self.use_llm_judge and prompt:
+            question_text = prompt.get('text', prompt.get('question', ''))
+            if question_text:
+                is_correct, reasoning, cost = self._evaluate_with_llm_judge(
+                    question=question_text,
+                    answer=answer,
+                    ground_truth=ground_truth,
+                    prompt_id=prompt_id
+                )
+                if is_correct is not None:
+                    if cost > 0:
+                        print(f"  Judge: {prompt_id} = {'✓ CORRECT' if is_correct else '✗ INCORRECT'} (${cost:.4f})")
+                    return is_correct
 
         # Normalize for comparison
         answer_lower = answer.lower()
@@ -677,10 +801,17 @@ def main():
                         help='Path to prompts JSON file (default: prompts/prompts.json)')
     parser.add_argument('--output', default='results/evaluation.json',
                         help='Path to output evaluation JSON file (default: results/evaluation.json)')
+    parser.add_argument('--use-llm-judge', action='store_true',
+                        help='Use LLM (Opus) as judge for custom prompts instead of keyword matching')
+    parser.add_argument('--judge-log', default=None,
+                        help='Optional file to log judge decisions for audit (e.g., results/judge_log.jsonl)')
 
     args = parser.parse_args()
 
-    evaluator = Evaluator()
+    evaluator = Evaluator(
+        use_llm_judge=args.use_llm_judge,
+        judge_log_file=args.judge_log
+    )
 
     print("Loading data...")
     evaluator.load_data(
@@ -711,6 +842,15 @@ def main():
         print(f"  Convergence: {comp.convergence}")
         print(f"  Vote strategy: {comp.vote_strategy}")
         print(f"  Analysis: {comp.analysis}")
+
+    # Print judge cost summary if LLM judge was used
+    if evaluator.use_llm_judge and evaluator.total_judge_cost > 0:
+        print(f"\n{'='*100}")
+        print(f"LLM JUDGE COST SUMMARY")
+        print(f"{'='*100}")
+        print(f"Total judge cost: ${evaluator.total_judge_cost:.4f}")
+        if args.judge_log:
+            print(f"Judge decisions logged to: {args.judge_log}")
 
 
 if __name__ == "__main__":

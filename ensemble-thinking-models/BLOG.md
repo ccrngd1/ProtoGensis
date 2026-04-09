@@ -1,6 +1,6 @@
-# Do Thinking Models Think Better? (Spoiler: No)
+# Do Thinking Models Think Better? An Exploratory Study
 
-*Part 1 of 3 on LLM ensemble methods. Updated April 2026 with comprehensive live study results validated against 4 standard benchmarks (GSM8K, MMLU, HumanEval, GPQA) that challenge conventional wisdom about extended thinking and ensemble approaches.*
+*Part 1 of 3 on LLM ensemble methods. Updated April 2026 with exploratory findings from custom prompts (n=10) and standard benchmarks (n=20 each: GSM8K, MMLU, HumanEval, GPQA). **Important:** These are preliminary findings based on limited sample sizes, single runs per prompt, and no statistical significance testing. Treat as hypothesis-generating rather than conclusive.*
 
 ---
 
@@ -15,7 +15,7 @@ Then the reasoning models showed up. Claude Opus with extended thinking (10K tok
 1. If you stack an external ensemble on top of models that already do internal ensembling, does the second layer actually buy you anything?
 2. Do models with extended thinking capabilities actually perform better on genuinely hard prompts?
 
-I ran a comprehensive study to find out. **Both hypotheses failed spectacularly.**
+I ran an exploratory study to find out. **The preliminary results challenge both hypotheses**, though with important caveats about sample size and methodology.
 
 ---
 
@@ -65,21 +65,26 @@ Every prompt had verifiable ground truth. Every model response was evaluated for
 
 ## The Results That Changed Everything
 
-### Finding 1: Extended Thinking Provides ZERO Accuracy Benefit
+### Finding 1: Extended Thinking Showed No Advantage on Custom Prompts (n=10)
 
 **Hypothesis**: Extended thinking (5-10K token reasoning budgets) should improve accuracy on hard prompts.
 
-**Result**: ❌ **REJECTED**
+**Preliminary Result (n=10, single run each):**
 
-| Model | Thinking Mode | Fast Mode | Winner |
+| Model | Thinking Mode | Fast Mode | Result |
 |-------|--------------|-----------|---------|
-| Opus | 87.5% @ $2.21 | **90.0% @ $1.61** | 🏆 **FAST** |
-| Sonnet | 90.0% @ $0.77 | **90.0% @ $0.40** | 🏆 **FAST** (tied accuracy, 48% cheaper) |
-| Haiku | 90.0% @ $0.17 | **90.0% @ $0.08** | 🏆 **FAST** (tied accuracy, 53% cheaper) |
+| Opus | 87.5% (7/8) @ $2.21 | **90.0% (9/10) @ $1.61** | Fast better |
+| Sonnet | 90.0% (9/10) @ $0.77 | **90.0% (9/10) @ $0.40** | Tied, fast cheaper |
+| Haiku | 90.0% (9/10) @ $0.17 | **90.0% (9/10) @ $0.08** | Tied, fast cheaper |
 
-**Fast mode never worse, sometimes better, always cheaper.**
+**On these 10 prompts, fast mode was never worse, sometimes better, and always cheaper.**
 
-Not only did thinking mode fail to improve accuracy, **Opus-thinking actively performed WORSE** than Opus-fast while costing 37% more.
+**Important caveats:**
+- Opus-thinking had 2 timeouts (360s limit) - may reflect infrastructure not capability
+- Keyword matching evaluation may penalize verbose thinking-mode answers
+- GSM8K math benchmark showed opposite pattern (thinking 100% vs fast 85%)
+- Sample size: one prompt difference = 10% accuracy change
+- No statistical significance testing performed
 
 ### Finding 2: Opus-thinking is Comprehensively Terrible
 
@@ -123,11 +128,11 @@ For 1 million prompts:
 
 This wasn't supposed to happen. Nova-lite isn't marketed as a reasoning model. It doesn't have extended thinking. It's just fast, cheap inference. And it matched or beat every premium model tested.
 
-### Finding 4: Ensembles Beat Best Individual 0/40 Times
+### Finding 4: Naive Ensembles (Haiku Judge) Beat Best Individual 0/40 Times
 
 **Hypothesis**: When models diverge on hard prompts, ensemble aggregation should produce better answers.
 
-**Result**: ❌ **REJECTED**
+**Preliminary Result (testing one specific ensemble architecture):**
 
 | Experiment | Prompts | Ensemble Beat Best | Win Rate |
 |-----------|---------|-------------------|----------|
@@ -137,9 +142,13 @@ This wasn't supposed to happen. Nova-lite isn't marketed as a reasoning model. I
 | Exp 4: Hybrid | 10 | 0 | 0% |
 | **TOTAL** | **40** | **0** | **0%** |
 
-Not once. Not on easy prompts where models converged. Not on hard prompts where models diverged (0% convergence in fast-only experiment). Not with vote aggregation. Not with stitch synthesis.
+**What was tested:** Vote (Haiku as semantic majority judge) and Stitch (Haiku as synthesizer) aggregation. Not once did this ensemble architecture beat the best individual model.
 
-**Ensembles just pick one of the existing answers.** They don't synthesize anything better. They add cost (6-45% overhead) without adding value.
+**Important limitations:**
+- Only tested one ensemble design: weak model (Haiku) as judge/orchestrator
+- Literature includes other methods: self-consistency, weighted voting, strong verifiers, debate
+- The architectural flaw (Haiku judging stronger models) may explain failure
+- Sample size: n=10 per experiment, no statistical testing
 
 ### Validation: Testing Against Standard Benchmarks
 
@@ -184,39 +193,35 @@ Fair point. So we validated against 4 standard benchmarks:
 
 ---
 
-## Why These Results Matter
+## Why These Preliminary Results Matter
 
-### The Cost of Being Wrong About Thinking
+### The Cost of Extended Thinking
 
-If you deployed Opus-thinking for production reasoning tasks based on the hypothesis that extended thinking helps:
+If our 10-prompt findings generalize, deploying Opus-thinking for production reasoning tasks could be expensive:
 
-**Monthly cost for 10M prompts:**
-- Opus-thinking: $2,209,000
-- Nova-lite: $2,000
-- **Wasted budget: $2,207,000**
+**Hypothetical monthly cost for 10M prompts:**
+- Opus-thinking: ~$2,209,000
+- Nova-lite: ~$2,000
+- **Potential cost difference: ~$2,207,000**
 
-That's not a rounding error. That's the cost of an entire engineering team.
+**But:** Nova-lite not yet validated on standard benchmarks. Results based on 10 custom prompts (60% healthcare-focused). Task-specific performance may vary significantly.
 
-And you'd get **lower accuracy** (87.5% vs 90%) with **20% failure rate** as a bonus.
+### The Haiku Judge Bottleneck
 
-### The Judge Model Irony (Resolved)
+**Our ensemble architecture:** Haiku (weakest model) judges responses from stronger models
 
-Original hypothesis: "If you need a strong judge model to select the best ensemble answer, why not just use the judge directly?"
+**The problem:** Haiku scored 40% on GPQA but was asked to judge models scoring 70%. Like having an intern grade senior engineer work.
 
-**Turns out the premise was wrong.** You don't need a judge at all. You don't need an ensemble. Just use the cheapest model that meets your accuracy threshold.
+**The insight:** This specific architecture is flawed. Doesn't prove ensembles in general are useless. Literature includes self-consistency, weighted voting, strong verifiers, and debate methods not yet tested.
 
-For most tasks, that's Nova-lite at $0.0002 per correct answer.
+### When Fast Mode Matched/Beat Thinking Mode (Custom Prompts)
 
-### When Fast Mode > Thinking Mode
+On our 10 custom prompts:
+- Opus-fast: 90% (9/10) vs Opus-thinking: 87.5% (7/8, 2 timeouts)
+- Sonnet: Tied at 90% (9/10), fast 48% cheaper
+- Haiku: Tied at 90% (9/10), fast 53% cheaper
 
-Every single tier:
-- Opus-fast beat Opus-thinking (90% vs 87.5%, 27% cheaper)
-- Sonnet-fast tied Sonnet-thinking (90% vs 90%, 48% cheaper)
-- Haiku-fast tied Haiku-thinking (90% vs 90%, 53% cheaper)
-
-**Thinking mode added 48-150% cost premium for 0% accuracy gain.**
-
-The 2-3x increase in output tokens from thinking mode (2K-10K token reasoning traces) didn't translate to better answers. It just burned money.
+**Context matters:** GSM8K math benchmark showed opposite (thinking 100% vs fast 85%). Thinking mode appears task-dependent, not universally better or worse.
 
 ---
 
@@ -494,22 +499,28 @@ bash scripts/run_hard_prompts_full_study.sh
 
 ## The Bigger Picture
 
-This study challenges three pieces of conventional wisdom:
+This exploratory study raises questions about three pieces of conventional wisdom:
 
 1. **"Extended reasoning modes improve accuracy on complex tasks"**
-   - Not demonstrated. Fast mode matched or beat thinking mode.
+   - Mixed evidence: Fast matched/beat thinking on custom prompts (n=10), but thinking beat fast on GSM8K math (100% vs 85%)
+   - Appears task-dependent, not universally better or worse
+   - Needs larger sample sizes and statistical testing
 
 2. **"Ensembles beat individual models when models disagree"**
-   - Not demonstrated. 0/40 win rate at all convergence levels.
+   - Weak-judge ensembles (Haiku) showed 0/40 wins on custom prompts, 0/4 on benchmarks
+   - Architectural flaw: weak model judging stronger models
+   - Other ensemble methods (self-consistency, strong verifiers, debate) not yet tested
 
 3. **"You need expensive models for hard reasoning"**
-   - Not demonstrated. Nova-lite matched Opus at 1/1000th cost.
+   - Nova-lite matched Opus on 10 custom prompts (90% both) at 1/1000th cost
+   - Not yet validated on standard benchmarks
+   - Results may be specific to healthcare-heavy prompt set
 
-These aren't small claims. They contradict marketing materials, pricing strategies, and common assumptions about LLM capabilities.
+These are preliminary, exploratory findings with significant limitations (n=10-20, single runs, keyword evaluation). They suggest directions for further investigation rather than definitive conclusions.
 
-**The findings demand replication.** If you have access to different models, different prompts, or different domains: test the hypotheses. Challenge the results. Open source your data.
+**The findings need replication.** If you have access to different models, different prompts, or different domains: test the hypotheses. Challenge the results with proper sample sizes and statistical testing.
 
-Science progresses by proving each other wrong.
+Science progresses by careful replication and critique.
 
 ---
 
