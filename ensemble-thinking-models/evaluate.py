@@ -20,6 +20,17 @@ import argparse
 from typing import Dict, List, Any
 from dataclasses import dataclass, asdict
 from collections import defaultdict
+import sys
+import os
+
+# Add benchmarks directory to path for benchmark evaluators
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    from benchmarks.evaluators import evaluate_benchmark
+    BENCHMARK_EVALUATORS_AVAILABLE = True
+except ImportError:
+    BENCHMARK_EVALUATORS_AVAILABLE = False
+    print("⚠️  Benchmark evaluators not available. Install benchmarks module for GSM8K/MMLU/HumanEval support.")
 
 
 @dataclass
@@ -96,14 +107,23 @@ class Evaluator:
         print(f"Detected model keys: {model_keys}")
         return model_keys
 
-    def _evaluate_against_ground_truth(self, answer: str, ground_truth: str, prompt_id: str) -> bool:
+    def _evaluate_against_ground_truth(self, answer: str, ground_truth: str, prompt_id: str, prompt: Dict[str, Any] = None) -> bool:
         """
         Evaluate if an answer matches the ground truth.
-        Uses keyword matching and pattern detection for different prompt types.
+        Uses benchmark-specific evaluators if available, otherwise falls back to
+        keyword matching and pattern detection.
         Returns True if answer appears correct, False otherwise.
         """
         if not ground_truth or not answer:
             return False
+
+        # Try benchmark-specific evaluation first
+        if prompt and BENCHMARK_EVALUATORS_AVAILABLE:
+            if 'benchmark' in prompt or 'evaluation_criteria' in prompt:
+                try:
+                    return evaluate_benchmark(prompt, answer)
+                except Exception as e:
+                    print(f"⚠️  Benchmark evaluation failed for {prompt_id}: {e}, falling back to string matching")
 
         # Normalize for comparison
         answer_lower = answer.lower()
@@ -400,7 +420,7 @@ class Evaluator:
                     if model_key in responses and not responses[model_key].get('error'):
                         full_answer = responses[model_key]['answer']
                         is_correct = self._evaluate_against_ground_truth(
-                            full_answer, ground_truth, prompt['id']
+                            full_answer, ground_truth, prompt['id'], prompt
                         )
                         individual_correctness[model_key] = is_correct
                         if is_correct:
@@ -408,12 +428,12 @@ class Evaluator:
 
                 # Evaluate vote
                 vote_correct = self._evaluate_against_ground_truth(
-                    vote_ans, ground_truth, prompt['id']
+                    vote_ans, ground_truth, prompt['id'], prompt
                 )
 
                 # Evaluate stitch
                 stitch_correct = self._evaluate_against_ground_truth(
-                    stitch_ans, ground_truth, prompt['id']
+                    stitch_ans, ground_truth, prompt['id'], prompt
                 )
 
                 # Determine if ensemble adds value

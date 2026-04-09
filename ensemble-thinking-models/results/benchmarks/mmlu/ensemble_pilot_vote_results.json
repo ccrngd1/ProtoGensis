@@ -1,0 +1,359 @@
+[
+  {
+    "prompt_id": "mmlu_001",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "{\n  \"answer\": \"Let's analyze both statements.\\n\\nA free abelian group of rank n is isomorphic to Z^n (the direct product of n copies of Z).\\n\\n**Statement 1: Every nonzero free abelian group has an infinite number of bases.**\\n\\nConsider the free abelian group of rank 1, which is isomorphic to Z. A basis for Z consists of a single generator. The only generators of Z are {1} and {-1}. So Z has exactly 2 bases, not infinitely many. Therefore, Statement 1 is FALSE.\\n\\n**Statement 2: Every free abelian group of rank at least 2 has an infinite number of bases.**\\n\\nConsider Z^2 (rank 2). The standard basis is {(1,0), (0,1)}. Any change of basis corresponds to an invertible matrix over Z (i.e., a matrix in GL(2,Z), which consists of 2\u00d72 integer matrices with determinant \u00b11). \\n\\nFor example, {(1,0), (n,1)} forms a basis for Z^2 for every integer n, since the matrix [[1,n],[0,1]] has determinant 1. Since there are infinitely many choices of n, there are infinitely many bases.\\n\\nMore generally, for any free abelian group of rank n \u2265 2, GL(n,Z) is infinite (it contains infinitely many elementary matrices), so there are infinitely many bases.\\n\\nTherefore, Statement 2 is TRUE.\\n\\nThe answer is D) False, True.\",\n  \"confidence\": 0.97\n}",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-THINKING\nCONFIDENCE_WEIGHTS: 4.81\nREASONING: Five out of six models conclusively agree on answer D) False, True. They all correctly identify that:\n1. Statement 1 is FALSE because the rank-1 free abelian group \u2124 has exactly 2 bases ({1} and {-1}), not infinitely many.\n2. Statement 2 is TRUE because for rank n \u2265 2, infinitely many bases can be constructed (e.g., {(1,0), (k,1)} for all integers k in \u2124\u00b2), corresponding to the infinite group GL(n,\u2124).\n\nThe only outlier is HAIKU-FAST (confidence 0.92), which incorrectly concludes C) True, False. This model makes an error in evaluating Statement 1, apparently confusing the analysis or misunderstanding the definition of bases for rank-1 groups.\n\nThe weighted majority (4.81) significantly outweighs the single dissenting model (0.92), making D) False, True the clear consensus answer.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0040376000000000006,
+    "judge_latency_ms": 3647
+  },
+  {
+    "prompt_id": "mmlu_002",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The correct answer is C) Thoracic and abdominal. The diaphragm is a dome-shaped muscular partition that separates the thoracic cavity (which contains the heart and lungs) from the abdominal cavity (which contains organs such as the stomach, liver, intestines, etc.). It is the primary muscle of respiration. The other options are incorrect: A) The abdominal and pelvic cavities are separated by an imaginary plane (there is no physical partition like the diaphragm between them); B) The cranial and spinal cavities are continuous with each other through the foramen magnum; D) The pericardial and pleural cavities are both within the thoracic cavity and are separated by the pericardial sac, not the diaphragm.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.93\n\nREASONING: All six models unanimously agree on the same core conclusion: **The correct answer is C) Thoracic and abdominal cavities, separated by the diaphragm.** \n\nEach response:\n- Identifies the diaphragm as a dome-shaped muscular partition\n- Correctly states it separates the thoracic cavity (above, containing heart and lungs) from the abdominal cavity (below, containing digestive organs)\n- Systematically explains why all other options are incorrect:\n  - A) Abdominal/pelvic separated by imaginary plane, not diaphragm\n  - B) Cranial/spinal are continuous through foramen magnum\n  - D) Pericardial/pleural both within thoracic cavity, separated by mediastinum/membranes, not diaphragm\n\nWhile there are minor stylistic and explanatory differences (e.g., SONNET models mention specific hiatuses like aortic hiatus and esophageal hiatus), these represent elaborations on the same fundamental answer, not disagreements. The confidence scores are uniformly high (0.98-0.99), reflecting strong anatomical consensus on this well-established medical fact.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0029456,
+    "judge_latency_ms": 4140
+  },
+  {
+    "prompt_id": "mmlu_003",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The correct answer is C) You can never prove your theory to be correct only 'yet to be proven wrong.' This reflects a fundamental principle in the philosophy of science known as falsifiability, most notably articulated by Karl Popper. Scientific theories can never be definitively proven true \u2014 they can only be supported by evidence and survive attempts at falsification. No matter how many experiments confirm a theory, there is always the possibility that a future observation could contradict it. Therefore, the best we can say about a well-tested theory is that it has 'yet to be proven wrong.' The other answer choices are distractors filled with Star Wars references (Jedi, Yoda, Skywalker) designed to be humorous but incorrect. Option A references peer testing but uses the wrong framing ('proven correct'). Option B is nonsensical. Option D describes repetition of experiments, which supports but never proves a theory.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.71\n\nREASONING: All six models reach identical core conclusions:\n\n1. **The correct answer is C**: \"You can never prove your theory to be correct, only 'yet to be proven wrong.'\"\n\n2. **The underlying principle**: All models cite Karl Popper's concept of falsifiability as the foundation for this answer.\n\n3. **The epistemological stance**: Scientific theories cannot be definitively proven true; they can only survive attempts at falsification and remain provisionally accepted.\n\n4. **Why other options fail**: All models consistently reject options A, B, and D, recognizing that:\n   - A and B rely on fictional Star Wars/Trek references and flawed logic\n   - D misunderstands that repetition strengthens confidence but doesn't constitute proof\n\n5. **The key insight**: Theories gain credibility through failing to be disproven, not through positive proof.\n\nDespite minor variations in explanation depth and framing, there is complete semantic agreement across all six responses. The confidence scores range from 0.88 to 0.97, with a combined weight of 5.71, representing unanimous consensus on answer C as the scientifically and philosophically correct response.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0029184,
+    "judge_latency_ms": 4036
+  },
+  {
+    "prompt_id": "mmlu_004",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The correct answer is A) Stakeholders, Risks, Stakeholder management, Accountability, Transparency.\n\nThe complete sentence reads: Businesses engage in social accounting due to demands from **Stakeholders**, in order to identify **Risks**, to improve **Stakeholder management** and to encourage **Accountability** and **Transparency**.\n\nThis makes logical sense because:\n1. **Demands from Stakeholders** - Stakeholders (customers, employees, investors, communities) are the primary drivers pushing businesses to engage in social accounting.\n2. **Identify Risks** - Social accounting helps businesses identify social, environmental, and ethical risks that could affect operations.\n3. **Improve Stakeholder management** - By understanding social impacts, businesses can better manage relationships with their various stakeholders.\n4. **Encourage Accountability and Transparency** - Social accounting promotes both accountability (being responsible for actions) and transparency (openness about practices and impacts), which are naturally paired together as outcomes of the social accounting process.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.11\n\nREASONING: All six models unanimously agree that the correct answer is **A) Stakeholders, Risks, Stakeholder management, Accountability, Transparency**. \n\nThe core conclusion shared by all responses is that the completed sentence should read: \"Businesses engage in social accounting due to demands from **Stakeholders**, in order to identify **Risks**, to improve **Stakeholder management** and to encourage **Accountability** and **Transparency**.\"\n\nAll models provide consistent reasoning:\n1. Stakeholders are the primary drivers demanding social accounting\n2. Social accounting helps identify risks (social, environmental, ethical)\n3. It improves stakeholder management and relationships\n4. It encourages both accountability and transparency as outcomes\n\nAll models also correctly identify why the other options fail (grammatical/logical incoherence). There is complete semantic agreement across all six responses with no dissenting opinions.\n\nThe combined confidence weight of 5.11 (0.85 + 0.90 + 0.72 + 0.88 + 0.88 + 0.88) represents overwhelming consensus.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0030056,
+    "judge_latency_ms": 3400
+  },
+  {
+    "prompt_id": "mmlu_005",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The correct answer is A) a reduction in anxiety and perceived pain intensity.\n\nProviding patients with preparatory information before a painful procedure\u2014including what sensations to expect, the steps of the procedure, and how their pain will be managed\u2014is a well-established practice in pain management and patient care. This is based on extensive research showing that:\n\n1. **Reduction in anxiety**: When patients know what to expect, uncertainty is reduced, which is a major contributor to pre-procedural anxiety. Anxiety amplifies pain perception through psychological and physiological mechanisms (e.g., increased muscle tension, heightened sympathetic arousal).\n\n2. **Reduction in perceived pain intensity**: Informed patients tend to report lower pain scores. This is because preparatory information helps patients develop coping strategies, gives them a sense of control, and reduces the fear of the unknown\u2014all of which modulate pain perception.\n\nRegarding the other options:\n- B) Informing patients is actually associated with a **decreased** (not increased) use of analgesia, as patients who are less anxious and perceive less pain tend to require fewer analgesics.\n- C) While there may be some indirect benefits on nausea and vomiting, this is not the primary or most well-documented association with pre-procedural information.\n- D) Increased urine output is not a recognized primary outcome of providing pre-procedural pain information.\n\nThe evidence strongly supports that patient education and preparation before painful procedures leads to reduced anxiety and lower perceived pain intensity.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.64\n\nREASONING: All six models unanimously agree on the same core conclusion: **The correct answer is A) a reduction in anxiety and perceived pain intensity.**\n\nEach response identifies the same fundamental mechanisms:\n1. Pre-procedural information reduces uncertainty, which decreases anxiety\n2. Anxiety amplifies pain perception through psychological and physiological pathways\n3. Informed patients develop better coping strategies and sense of control\n4. This results in lower perceived pain intensity\n\nAll models also consistently reject the other options using identical logic:\n- Option B is incorrect because informed patients typically require LESS (not more) analgesia\n- Option C is not the primary documented association\n- Option D has no physiological relationship to pre-procedural education\n\nThe confidence scores are uniformly high (0.92-0.95), reflecting strong consensus on this well-established principle in pain management and patient-centered care. There is no disagreement among any of the models\u2014they all reach the identical conclusion through sound clinical reasoning supported by evidence from gate control theory, anxiety-pain relationships, and perioperative care literature.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0031744,
+    "judge_latency_ms": 3194
+  },
+  {
+    "prompt_id": "mmlu_006",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The statement that is NOT true is C) 'The vegetal pole undergoes cleavage more readily than does the animal pole.' In reality, the opposite is true. The vegetal pole contains more yolk than the animal pole. Since yolk inhibits cleavage (as stated correctly in option A), the vegetal pole undergoes cleavage more slowly and with greater difficulty than the animal pole. The animal pole, having less yolk, cleaves more readily and faster. This is why in eggs with moderate yolk (mesolecithal), cleavage is unequal \u2014 the cells at the animal pole (micromeres) are smaller and divide faster than the cells at the vegetal pole (macromeres). Options A, B, and D are all true statements: yolk does inhibit cleavage, telolecithal eggs (which have a large concentration of yolk at one pole) do undergo meroblastic (incomplete/partial) cleavage, and the rapid mitotic divisions during cleavage do produce cells called blastomeres.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.74\n\nREASONING: All six models unanimously agree on the same core conclusion: **Statement C is NOT true**. \n\nThe consensus reasoning is:\n- Statement C claims \"The vegetal pole undergoes cleavage more readily than does the animal pole\" \u2014 this is FALSE\n- The correct relationship is the OPPOSITE: the animal pole undergoes cleavage more readily than the vegetal pole\n- This is because the vegetal pole contains more yolk, and yolk inhibits cleavage (as correctly stated in option A)\n- Therefore, the yolk-rich vegetal pole cleaves more slowly, while the yolk-poor animal pole cleaves more rapidly\n- Statements A, B, and D are all confirmed as TRUE by all models\n\nAll models reach identical conclusions despite minor variations in explanation depth and phrasing. The confidence scores are: OPUS-FAST (0.97) + OPUS-THINKING (0.99) + SONNET-FAST (0.97) + SONNET-THINKING (0.97) + HAIKU-FAST (0.92) + HAIKU-THINKING (0.92) = 5.74 total weighted confidence.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0031944,
+    "judge_latency_ms": 3575
+  },
+  {
+    "prompt_id": "mmlu_007",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The Q-factor of a resonator is defined as Q = \u03bd\u2080/\u0394\u03bd, where \u03bd\u2080 is the resonant frequency and \u0394\u03bd is the bandwidth.\n\nFor X-band EPR, the typical operating frequency is approximately 9.5 GHz (9500 MHz).\n\nGiven:\n- Resonant frequency \u03bd\u2080 \u2248 9500 MHz (X-band)\n- Bandwidth \u0394\u03bd = 1.58 MHz\n\nQ = \u03bd\u2080/\u0394\u03bd = 9500 MHz / 1.58 MHz \u2248 6012.7\n\nTherefore, Q \u2248 6012.\n\nThe answer is D) Q = 6012.",
+    "vote_counts": null,
+    "judge_reasoning": "# Analysis of Model Responses\n\n## Core Conclusions\n\nLet me identify the core conclusion from each response:\n\n1. **OPUS-FAST**: Q \u2248 6012 (Answer: D) - Confidence: 0.97\n2. **OPUS-THINKING**: Q \u2248 6012 (Answer: D) - Confidence: 0.97\n3. **SONNET-FAST**: Q \u2248 6012 (Answer: D) - Confidence: 0.92\n4. **SONNET-THINKING**: Q \u2248 6012 (Answer: D) - Confidence: 0.95\n5. **HAIKU-FAST**: Q \u2248 6012 (Answer: D) - Confidence: 0.92\n6. **HAIKU-THINKING**: Q \u2248 6012 (Answer: D) - Confidence: 0.92\n\n## Grouping by Agreement\n\n**Group 1 (Answer D - Q = 6012):**\n- OPUS-FAST (0.97)\n- OPUS-THINKING (0.97)\n- SONNET-FAST (0.92)\n- SONNET-THINKING (0.95)\n- HAIKU-FAST (0.92)\n- HAIKU-THINKING (0.92)\n\n**Group 2 (Other answers):**\n- None\n\n## Confidence Weighting Calculation\n\n**Group 1 Total Weight:**\n0.97 + 0.97 + 0.92 + 0.95 + 0.92 + 0.92 = **5.65**\n\n**Group 2 Total Weight:**\n0 (no models)\n\n---\n\n## Result\n\n**MAJORITY:** OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\n**CONFIDENCE_WEIGHTS:** 5.65\n\n**REASONING:** All six models unanimously agree on the same conclusion: **Q \u2248 6012 (Answer D)**. They all use the standard Q-factor formula (Q = \u03bd\u2080/\u0394\u03bd), apply the X-band EPR standard frequency of 9.5 GHz (9500 MHz), and divide by the given bandwidth of 1.58 MHz to arrive at approximately 6012.66, which rounds to 6012. The unanimous agreement across all model variants (fast and thinking versions) with consistently high confidence scores (0.92-0.97) provides exceptionally strong support for this answer. The calculation is straightforward and physically reasonable for X-band EPR cavities.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0041488,
+    "judge_latency_ms": 4745
+  },
+  {
+    "prompt_id": "mmlu_008",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The correct answer is A) Currying can be applied to any function to the point where it has exactly one input argument.\n\nCurrying is a general technique that transforms a function taking multiple arguments into a sequence of functions, each taking a single argument. For example, a function f(a, b, c) with signature A \u00d7 B \u00d7 C \u2192 D can be curried into a function with signature A \u2192 (B \u2192 (C \u2192 D)). This process can be applied to any function regardless of the number of arguments, reducing it step by step until each function in the chain takes exactly one input argument.\n\nOption B is incorrect because currying can be applied to functions of any number of arguments (not just two). Option C is incorrect because currying works perfectly fine with functions that return functions \u2014 in fact, currying inherently produces functions that return functions. Option D is incorrect because currying can also be applied to higher-order functions (functions that take other functions as arguments); the argument just happens to be a function type, but the currying process works the same way.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.82\n\nREASONING: All six models unanimously agree on the same core conclusion: **Answer A is correct** - \"Currying can be applied to any function to the point where it has exactly one input argument.\"\n\nEach model:\n1. Identifies A as the correct answer\n2. Explains that currying is a general technique applicable to functions with any number of arguments\n3. Systematically refutes options B, C, and D with consistent reasoning:\n   - B is wrong because currying works on functions with more than two arguments\n   - C is wrong because currying inherently produces functions that return functions\n   - D is wrong because currying works on higher-order functions (those taking functions as arguments)\n\nThe confidence scores are: 0.99 + 0.99 + 0.97 + 0.97 + 0.95 + 0.95 = 5.82\n\nThere is complete semantic agreement across all models despite minor variations in explanation style and examples used. This represents a decisive, unanimous consensus.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.003196,
+    "judge_latency_ms": 3298
+  },
+  {
+    "prompt_id": "mmlu_009",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Statement 1: True. This is a standard theorem in analysis. If s_n \u2192 s and t_n \u2192 t (where s_n and t_n are complex sequences), then s_n\u00b7t_n \u2192 s\u00b7t. The proof uses the identity s_n\u00b7t_n - s\u00b7t = (s_n - s)(t_n - t) + s(t_n - t) + t(s_n - s), and since convergent sequences are bounded, each term goes to 0.\n\nStatement 2: False. By the Bolzano-Weierstrass theorem, every bounded sequence of real numbers has a convergent subsequence. So no such sequence exists.\n\nThe answer is B) True, False.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94\n\nREASONING: All six models reach identical conclusions on both statements:\n- **Statement 1 is TRUE**: All models correctly identify that the product rule for limits holds for complex sequences. They provide equivalent proofs using the decomposition s_n\u00b7t_n - st and the boundedness of convergent sequences.\n- **Statement 2 is FALSE**: All models unanimously invoke the Bolzano-Weierstrass theorem to conclude that every bounded sequence of real numbers must have a convergent subsequence, making the existence claim in Statement 2 impossible.\n\nAll models arrive at answer **(B) True, False** with high confidence (ranging from 0.98-0.99). The semantic agreement is complete across all responses despite minor variations in proof presentation and explanation style. The weighted confidence sum is 5.94 (0.99 + 0.99 + 0.99 + 0.99 + 0.98 + 0.98), representing unanimous consensus on the correct answer.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0034296,
+    "judge_latency_ms": 3823
+  },
+  {
+    "prompt_id": "mmlu_010",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The correct answer is B) involve the addition or removal of a phosphate group.\n\nKinases are enzymes that catalyze the transfer of phosphate groups from high-energy donor molecules (typically ATP) to specific substrates \u2014 a process known as phosphorylation. While kinases specifically add phosphate groups (phosphatases remove them), the answer choice B is the best option among those listed. Kinases use ATP as a phosphate donor, transferring the terminal (gamma) phosphate group to a substrate such as a protein, lipid, or sugar. This is a fundamental regulatory mechanism in cell biology, controlling enzyme activity, signal transduction, and many other cellular processes.\n\nWhy the other options are incorrect:\n- A) Kinases actually promote ATP breakdown (hydrolysis), not inhibit it, since they transfer a phosphate from ATP to a substrate.\n- C) Kinases have nothing to do with ketone groups.\n- D) The addition or removal of amino acids to a polypeptide chain is the function of ribosomes (translation) or proteases, not kinases.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.79\n\nREASONING: All six models reach identical conclusions with complete semantic agreement:\n\n**Core Conclusion:** The correct answer is B) involve the addition or removal of a phosphate group.\n\n**Unanimous Agreement On:**\n1. Kinases catalyze phosphoryl transfer reactions (phosphorylation)\n2. They transfer phosphate groups from ATP to substrate molecules\n3. Option A is incorrect (kinases USE ATP, not inhibit its breakdown)\n4. Option C is incorrect (ketone groups are not involved)\n5. Option D is incorrect (amino acid addition/removal is ribosomal/protease function)\n\n**Confidence Score Breakdown:**\n- OPUS-FAST: 0.97\n- OPUS-THINKING: 0.95\n- SONNET-FAST: 0.97\n- SONNET-THINKING: 0.97\n- HAIKU-FAST: 0.98\n- HAIKU-THINKING: 0.96\n\n**Total: 5.79**\n\nThere is no disagreement among any models. All responses provide the same answer with consistent biochemical reasoning, differing only in explanation depth and phrasing style. This represents complete consensus with exceptionally high confidence across all model variants.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0030688,
+    "judge_latency_ms": 3904
+  },
+  {
+    "prompt_id": "mmlu_011",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The total mechanical energy of the system is conserved in the absence of friction. At the equilibrium position, all the energy is kinetic (the spring potential energy is zero). Therefore:\n\nE_total = KE at equilibrium = \u00bdmv\u00b2\nE_total = \u00bd(0.30 kg)(0.040 m/s)\u00b2\nE_total = \u00bd(0.30)(0.0016)\nE_total = 0.00024 J = 0.24 mJ\n\nThe answer is A) 0.24 mJ.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.90\n\nREASONING: All six models reach the identical core conclusion: the total mechanical energy of the system is **0.24 mJ (Answer A)**. \n\nThe reasoning is consistent across all responses:\n1. At the equilibrium position, all mechanical energy exists as kinetic energy (spring PE = 0)\n2. Using E = \u00bdmv\u00b2 with m = 0.30 kg and v = 0.040 m/s\n3. E = \u00bd(0.30)(0.0016) = 0.00024 J = 0.24 mJ\n4. Energy is conserved throughout the motion due to absence of friction\n\nSeveral models (SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING) additionally verify this answer by calculating the spring constant and confirming the total energy at maximum displacement equals the kinetic energy at equilibrium, providing independent validation of the result.\n\nWith a combined confidence weight of 5.90 (0.99 + 0.99 + 0.99 + 0.99 + 0.95 + 0.98), there is unanimous agreement on this answer with very high confidence.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0031528000000000003,
+    "judge_latency_ms": 3802
+  },
+  {
+    "prompt_id": "mmlu_012",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The correct answer is B) Comparing the TTL values of the actual and spoofed addresses.\n\nIP address spoofing detection can be accomplished by comparing the TTL (Time To Live) values of the actual and spoofed addresses. Here's the reasoning:\n\n- **TTL (Time To Live)** is a field in the IP header that indicates how many hops (routers) a packet can pass through before being discarded. Each router that forwards the packet decrements the TTL by 1. The initial TTL value varies by operating system and is set by the originating host.\n\n- When an attacker spoofs an IP address, the packets they send will originate from their actual physical location on the network, meaning they will traverse a different network path than packets from the legitimate (spoofed) address would. This results in different TTL values arriving at the destination compared to what would be expected from the real source.\n\n- By comparing the TTL values of incoming packets against expected TTL values for the claimed source IP address, spoofed packets can be identified because the TTL will not match what is expected from the legitimate source's actual network distance.\n\nWhy the other options are less correct:\n- **A) IDS reading IP headers** - While an IDS can help detect various attacks, simply reading the IP header alone won't definitively detect spoofing since the spoofed header is designed to look legitimate.\n- **C) Implementing a firewall** - A firewall can filter traffic but doesn't inherently detect IP spoofing by itself (though ingress/egress filtering can help prevent it).\n- **D) Identifying incomplete TCP sessions** - This describes detection of SYN flood attacks or similar DoS attacks, which may use spoofed addresses but identifying incomplete sessions is not specifically a method for detecting IP spoofing itself.",
+    "vote_counts": null,
+    "judge_reasoning": "# Analysis of Model Responses\n\n## Core Conclusions Identified\n\n**Group 1 - Answer B (TTL Comparison):**\n- OPUS-FAST: B) Comparing TTL values - Confidence: 0.82\n- OPUS-THINKING: B) Comparing TTL values - Confidence: 0.82\n- SONNET-FAST: B) Comparing TTL values - Confidence: 0.78\n- SONNET-THINKING: B) Comparing TTL values - Confidence: 0.85\n- HAIKU-THINKING: B) Comparing TTL values - Confidence: 0.78\n\n**Group 2 - Answer A (IDS Reading IP Headers):**\n- HAIKU-FAST: A) IDS reading IP headers - Confidence: 0.82\n\n## Confidence Weighting Calculation\n\n**Group 1 (Answer B) Total Weight:**\n0.82 + 0.82 + 0.78 + 0.85 + 0.78 = **4.05**\n\n**Group 2 (Answer A) Total Weight:**\n0.82 = **0.82**\n\n## Result\n\nMAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 4.05\n\nREASONING: Five out of six models unanimously agree that the correct answer is **B) Comparing the TTL values of the actual and spoofed addresses**. All five models provide consistent technical reasoning: TTL values decrement at each router hop, so spoofed packets originating from different physical locations will have different TTL values than expected from the legitimate source. This creates a detectable anomaly. The single dissenting model (HAIKU-FAST) argues for Answer A, but its reasoning is weaker\u2014it acknowledges TTL analysis as \"supplementary\" while claiming IDS is more comprehensive, which contradicts the specificity of TTL-based detection. The weighted majority (4.05 vs 0.82) strongly favors Answer B.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0040632,
+    "judge_latency_ms": 5031
+  },
+  {
+    "prompt_id": "mmlu_013",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The correct answer is B) fluids. Thermal convection is the transfer of heat through the bulk movement of a fluid (liquid or gas). In convection, warmer portions of the fluid rise (due to lower density) while cooler portions sink, creating convection currents. This mechanism requires a fluid medium \u2014 it does not primarily involve radiant energy (which is associated with radiation, not convection) or insulators (which resist heat flow). Therefore, convection mainly involves fluids.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.87\n\nREASONING: All six models unanimously agree on the same core conclusion: **The correct answer is B) fluids**. \n\nEach response identifies that thermal convection is fundamentally a heat transfer mechanism that requires the bulk movement of fluids (liquids or gases). They all:\n- Define convection as heat transfer through fluid movement\n- Explain the density-driven circulation mechanism (hot fluid rises, cool fluid sinks)\n- Explicitly reject option A (radiant energy is a separate mechanism)\n- Explicitly reject option C (insulators inhibit rather than facilitate heat transfer)\n- Explicitly reject option D (not all three mechanisms apply)\n\nDespite minor stylistic and organizational differences in their explanations, all models reach identical conclusions with very high confidence scores (ranging from 0.96 to 0.99). This represents complete semantic agreement across all responses, making this a clear and decisive majority with a combined confidence weight of 5.87.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0023984,
+    "judge_latency_ms": 3430
+  },
+  {
+    "prompt_id": "mmlu_014",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The correct answer is D) It is the probability of failing to reject a null hypothesis that was wrong.\n\nA Type II error (often denoted by \u03b2) occurs when we fail to reject the null hypothesis when it is actually false. In other words, we miss detecting a real effect or difference that truly exists.\n\nLet's examine why the other options are incorrect:\n\nA) 'The probability of incorrectly rejecting the null hypothesis' \u2014 This describes a Type I error (denoted by \u03b1), not a Type II error. A Type I error occurs when we reject a null hypothesis that is actually true.\n\nB) 'It is equivalent to the power of the test' \u2014 The power of a test is defined as 1 - \u03b2 (i.e., 1 minus the probability of a Type II error). Power is the probability of correctly rejecting a false null hypothesis, which is the complement of a Type II error, not the Type II error itself.\n\nC) 'It is equivalent to the size of the test' \u2014 The size of the test refers to the significance level \u03b1, which is the probability of a Type I error, not a Type II error.\n\nTherefore, D is the best description of a Type II error: failing to reject a null hypothesis that was actually wrong (false).",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.93\n\nREASONING: All six models unanimously agree on the same core conclusion: **The correct answer is D) \"It is the probability of failing to reject a null hypothesis that was wrong.\"**\n\nAll models:\n1. Correctly identify that a Type II error (\u03b2) occurs when we fail to reject a false null hypothesis\n2. Correctly reject option A as describing a Type I error instead\n3. Correctly reject option B by explaining that power = 1 - \u03b2 (complementary, not equivalent)\n4. Correctly reject option C by noting that test size refers to significance level \u03b1 (Type I error)\n5. Affirm option D as the precise definition of Type II error\n\nThe explanations are consistent across all models, with only minor stylistic variations in presentation. There is complete semantic agreement on the answer and the reasoning. The combined confidence weight of 5.93 (0.99 + 0.99 + 0.99 + 0.99 + 0.98 + 0.98) reflects unanimous, high-confidence agreement across all models.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0031104,
+    "judge_latency_ms": 3265
+  },
+  {
+    "prompt_id": "mmlu_015",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "A) LSB, Least Significant Bit. In the binary number system, the first digit (bit) from right to left is called the Least Significant Bit (LSB). This is because the rightmost bit represents the smallest power of 2 (2^0 = 1), making it the least significant in terms of its contribution to the overall value of the binary number. Conversely, the leftmost bit is called the Most Significant Bit (MSB) because it represents the highest power of 2 in the number.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.91\n\nREASONING: All six models unanimously agree on the same core conclusion: the correct answer is A) LSB, Least Significant Bit. Every response identifies that the first digit from right to left in a binary number system is called the LSB because it represents the smallest power of 2 (2^0 = 1) and therefore has the least impact on the overall value of the binary number. While the explanations vary in depth and examples provided, the fundamental answer and reasoning are identical across all models. The combined confidence weight of 5.91 (0.99 + 0.98 + 0.99 + 0.99 + 0.98 + 0.98) represents near-perfect consensus on this well-established computer science concept.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.002216,
+    "judge_latency_ms": 2595
+  },
+  {
+    "prompt_id": "mmlu_016",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "First, round each time to the nearest tenth of a second:\n\n18.04 \u2192 18.0 seconds\n21.39 \u2192 21.4 seconds\n12.99 \u2192 13.0 seconds\n14.14 \u2192 14.1 seconds\n\nNow add the rounded times:\n18.0 + 21.4 + 13.0 + 14.1 = 66.5 seconds\n\nThe answer is B) 66.5 seconds.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94 (0.99 + 0.99 + 0.99 + 0.99 + 0.99 + 0.99)\n\nREASONING: All six models reach identical conclusions through the same methodology. They all:\n1. Round each time to the nearest tenth of a second using standard rounding rules (round up if hundredths digit \u2265 5, round down if < 5)\n2. Arrive at the same rounded values: 18.0, 21.4, 13.0, and 14.1 seconds\n3. Sum these rounded values to get 66.5 seconds\n4. Select answer B) 66.5 seconds\n\nAll models demonstrate perfect agreement on both the process and the final answer, with uniform high confidence scores of 0.99. There is no disagreement among any of the responses.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0024096,
+    "judge_latency_ms": 3127
+  },
+  {
+    "prompt_id": "mmlu_017",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The sentence 'Doctors are helpful unless their patients are rude' can be analyzed as follows. In propositional logic, 'P unless Q' is standardly translated as 'P or Q' (inclusive disjunction), which is equivalent to 'if not Q, then P.' Here, P = 'Doctors are helpful' (H) and Q = 'their patients are rude' (R). So 'unless' gives us: H unless R = H \u2228 R. However, let's think more carefully about the meaning. 'Doctors are helpful unless their patients are rude' means doctors are helpful in all cases except when patients are rude. This means: if patients are NOT rude, then doctors ARE helpful. The contrapositive would be: if doctors are NOT helpful, then patients ARE rude. This is captured by ~R \u2192 H, which is logically equivalent to H \u2228 R. Looking at the options: C) H \u2228 ~R would mean 'Doctors are helpful or patients are not rude,' which is equivalent to R \u2192 H (if patients are rude, doctors are helpful) \u2014 that's not the intended meaning. D) H \u2228 R means 'Doctors are helpful or patients are rude,' which is equivalent to ~H \u2192 R and also ~R \u2192 H (if patients are not rude, then doctors are helpful). This correctly captures the 'unless' meaning. The standard translation of 'P unless Q' is P \u2228 Q. So the answer is D) H \u2228 R.",
+    "vote_counts": null,
+    "judge_reasoning": "# Analysis of Model Responses\n\n## Core Conclusions\n\n| Model | Conclusion | Confidence |\n|-------|-----------|-----------|\n| OPUS-FAST | D) H \u2228 R | 0.95 |\n| OPUS-THINKING | D) H \u2228 R | 0.95 |\n| SONNET-FAST | D) H \u2228 R | 0.72 |\n| SONNET-THINKING | D) H \u2228 R | 0.92 |\n| HAIKU-FAST | C) H \u2228 ~R | 0.95 |\n| HAIKU-THINKING | D) H \u2228 R | 0.92 |\n\n## Grouping by Agreement\n\n**Group 1 (Answer D: H \u2228 R)**\n- OPUS-FAST: 0.95\n- OPUS-THINKING: 0.95\n- SONNET-FAST: 0.72\n- SONNET-THINKING: 0.92\n- HAIKU-THINKING: 0.92\n\n**Group 2 (Answer C: H \u2228 ~R)**\n- HAIKU-FAST: 0.95\n\n## Confidence Weighting Calculation\n\n**Group 1 Total:** 0.95 + 0.95 + 0.72 + 0.92 + 0.92 = **4.46**\n\n**Group 2 Total:** 0.95 = **0.95**\n\n---\n\n## Result\n\n**MAJORITY:** OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-THINKING\n\n**CONFIDENCE_WEIGHTS:** 4.46\n\n**REASONING:** Five out of six models agree on answer **D) H \u2228 R**, with a combined confidence weight of 4.46 versus 0.95 for the dissenting view. The consensus is that \"P unless Q\" in propositional logic standardly translates to \"P \u2228 Q,\" making \"Doctors are helpful unless their patients are rude\" equivalent to H \u2228 R. This is logically equivalent to ~R \u2192 H (if patients are not rude, then doctors are helpful), which correctly captures the intended meaning. Only HAIKU-FAST argues for C) H \u2228 ~R, but this represents a minority position despite its high individual confidence score.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0047216,
+    "judge_latency_ms": 4231
+  },
+  {
+    "prompt_id": "mmlu_018",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The answer is C) 9%. According to WHO/UNICEF Joint Monitoring Programme (JMP) data, open defecation has been declining globally over the years. As of around 2020, approximately 673 million people still practiced open defecation, which corresponds to roughly 8-9% of the world population (approximately 7.8 billion in 2020). This represents significant progress from earlier decades when the percentage was much higher, but it remains a serious public health concern, particularly in parts of Sub-Saharan Africa and South Asia.",
+    "vote_counts": null,
+    "judge_reasoning": "# Analysis of Model Responses\n\n## 1. CORE CONCLUSIONS\n\n| Model | Core Conclusion |\n|-------|-----------------|\n| OPUS-FAST | Answer: C) 9% |\n| OPUS-THINKING | Answer: C) 9% |\n| SONNET-FAST | Answer: C) 9% |\n| SONNET-THINKING | Answer: C) 9% |\n| HAIKU-FAST | Answer: C) 9% |\n| HAIKU-THINKING | Answer: C) 9% |\n\n## 2. GROUPING BY AGREEMENT\n\n**Group 1 (Answer C - 9%):**\n- OPUS-FAST (0.65)\n- OPUS-THINKING (0.72)\n- SONNET-FAST (0.62)\n- SONNET-THINKING (0.62)\n- HAIKU-FAST (0.82)\n- HAIKU-THINKING (0.78)\n\n**Group 2 (Other answers):**\n- None\n\n## 3. CONFIDENCE WEIGHTING\n\n**Group 1 Total Weight:**\n0.65 + 0.72 + 0.62 + 0.62 + 0.82 + 0.78 = **4.21**\n\n## 4. WEIGHTED MAJORITY DETERMINATION\n\nAll six models unanimously agree on the same answer with no dissenting opinions.\n\n---\n\n**MAJORITY:** OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\n**CONFIDENCE_WEIGHTS:** 4.21\n\n**REASONING:** All six AI models reach complete semantic agreement on answer C) 9%. They all cite WHO/UNICEF Joint Monitoring Programme (JMP) data indicating that approximately 8-9% of the world population (roughly 670-700 million people out of ~7.8 billion) practiced open defecation as of 2020. The models provide consistent supporting evidence showing this represents a significant decline from 21% in 2000 and 12-13% in 2015, with the remaining prevalence concentrated in Sub-Saharan Africa and South Asia. The unanimous agreement across all models with a combined confidence weight of 4.21 provides strong validation for this answer.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0034472,
+    "judge_latency_ms": 4600
+  },
+  {
+    "prompt_id": "mmlu_019",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The answer is B) Bb \u00d7 Bb. Since both parents have black coats (black is dominant over white), they could be either BB or Bb. The fact that one quarter (25%) of the offspring have white coats (bb) tells us that both parents must be heterozygous (Bb). A cross of Bb \u00d7 Bb produces a 3:1 phenotypic ratio: 1 BB (black) : 2 Bb (black) : 1 bb (white), which matches the observed 3/4 black and 1/4 white offspring. If either parent were BB, no white offspring could be produced. If both were bb, they would have white coats themselves, contradicting the problem statement.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.93\n\nREASONING: All six models reach identical core conclusions:\n1. The correct answer is **B) Bb \u00d7 Bb**\n2. The 3:1 phenotypic ratio (3/4 black : 1/4 white) is the classic Mendelian monohybrid cross ratio\n3. Both parents must be heterozygous (Bb) to produce white offspring while displaying black phenotypes themselves\n4. All other options are systematically eliminated:\n   - A) bb \u00d7 bb would produce all white offspring (contradicts premise)\n   - C) Bb \u00d7 bb would produce 1:1 ratio, not 3:1 (and one parent would be white)\n   - D) BB \u00d7 Bb would produce all black offspring (no white offspring observed)\n\nThe responses differ only in presentation style and depth of explanation, but demonstrate complete semantic agreement on the answer and reasoning. With all six models at high confidence levels (0.98-0.99), the weighted majority confidence is 5.93, representing unanimous agreement.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0029992,
+    "judge_latency_ms": 3472
+  },
+  {
+    "prompt_id": "mmlu_020",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The correct answer is B) It contains 20 protons and 20 electrons.\n\nLet's analyze each option:\n\nA) 'It contains 20 protons and neutrons' \u2013 This is vague and misleading. A calcium atom does contain 20 protons and neutrons, but the statement seems to imply it contains only 20 protons and neutrons combined (total of 20 nucleons), which is incorrect. The most common isotope, Ca-40, has 20 protons and 20 neutrons (40 nucleons total). This statement is poorly worded and incorrect.\n\nB) 'It contains 20 protons and 20 electrons' \u2013 This is correct. Calcium has an atomic number of 20, meaning every calcium atom has exactly 20 protons. A neutral calcium atom also has 20 electrons to balance the charge. This is true for ALL calcium atoms regardless of isotope.\n\nC) 'It contains 20 protons, neutrons, and electrons' \u2013 This would mean it has 20 protons, 20 neutrons, AND 20 electrons. While this is true for Ca-40 (the most abundant isotope), it is NOT true for all calcium atoms. Other isotopes like Ca-42, Ca-44, Ca-48, etc., have different numbers of neutrons. So this statement is not universally correct for all calcium atoms.\n\nD) 'All atoms of calcium have a mass of 40.078 u' \u2013 This is incorrect. The value 40.078 u is the weighted average atomic mass of calcium, accounting for all naturally occurring isotopes. Individual calcium atoms have masses close to whole numbers (e.g., 40 u, 42 u, 44 u, etc.) depending on the isotope.\n\nTherefore, B is the correct answer because all neutral calcium atoms, regardless of isotope, contain exactly 20 protons and 20 electrons.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.77\n\nREASONING: All six models reach identical conclusions:\n\n**CORE CONCLUSION:** The correct answer is **B) It contains 20 protons and 20 electrons.**\n\nAll models agree on:\n1. **Option B is correct** - Calcium has atomic number 20, meaning every neutral calcium atom has exactly 20 protons and 20 electrons\n2. **Option A is incorrect** - The phrasing is ambiguous/misleading about the total number of nucleons\n3. **Option C is incorrect** - While Ca-40 has 20 neutrons, other isotopes have different neutron counts, so this cannot be universally true\n4. **Option D is incorrect** - 40.078 u is a weighted average atomic mass, not the mass of individual atoms\n\nThe reasoning across all models is consistent and scientifically sound. There is complete semantic agreement on the answer and the logic supporting it. The confidence scores are all very high (0.95-0.97), reflecting strong agreement among the models.\n\n**Confidence Weight Calculation:**\n- OPUS-FAST: 0.95\n- OPUS-THINKING: 0.97\n- SONNET-FAST: 0.97\n- SONNET-THINKING: 0.97\n- HAIKU-FAST: 0.95\n- HAIKU-THINKING: 0.96\n- **Total: 5.77**",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0038024,
+    "judge_latency_ms": 3975
+  }
+]

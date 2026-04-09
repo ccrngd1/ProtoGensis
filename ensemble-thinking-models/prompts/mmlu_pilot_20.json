@@ -1,0 +1,370 @@
+{
+  "benchmark": "mmlu",
+  "description": "Massive Multitask Language Understanding - Multiple choice across 57 subjects",
+  "source": "https://github.com/hendrycks/test",
+  "total_problems": 20,
+  "subjects": [
+    "astronomy",
+    "clinical_knowledge",
+    "computer_security",
+    "conceptual_physics",
+    "college_physics",
+    "econometrics",
+    "anatomy",
+    "electrical_engineering",
+    "college_chemistry",
+    "high_school_biology",
+    "abstract_algebra",
+    "college_biology",
+    "college_computer_science",
+    "college_medicine",
+    "elementary_mathematics",
+    "global_facts",
+    "college_mathematics",
+    "formal_logic",
+    "business_ethics",
+    "high_school_chemistry"
+  ],
+  "prompts": [
+    {
+      "id": "mmlu_001",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Statement 1 | Every nonzero free abelian group has an infinite number of bases. Statement 2 | Every free abelian group of rank at least 2 has an infinite number of bases.\n\nA) True, True\nB) False, False\nC) True, False\nD) False, True",
+      "ground_truth": "D",
+      "subject": "abstract_algebra",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU abstract_algebra question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_002",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which of the following cavities are separated by the diaphragm?\n\nA) Abdominal and pelvic\nB) Cranial and spinal\nC) Thoracic and abdominal\nD) Pericardial and pleural",
+      "ground_truth": "C",
+      "subject": "anatomy",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU anatomy question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_003",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "You've made a scientific theory that there is a force between all objects. This forcce has both a dark and light side. When will your theory be proven correct?\n\nA) When you and many other Jedi have tested the hypothesis\nB) Jean-Luc Skywalker drops Yoda during the day and he falls to the ground proving your theory.\nC) You can never prove your theory to be correct only \"yet to be proven wrong.\"\nD) After you've repeated your experiment many times",
+      "ground_truth": "C",
+      "subject": "astronomy",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU astronomy question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_004",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Businesses engage in social accounting due to demands from _________, in order to identify ________, to improve ___________ and to encourage _________ and ___________\n\nA) Stakeholders, Risks, Stakeholder management, Accountability, Transparency\nB) Stakeholders, Accountability, Transparency, Risks, Stakeholder Management\nC) Stakeholders, Accountability, Risks, Stakeholders, Stakeholder Management\nD) Stakeholders, Stakeholder Management, Transparency, Risks, Accountability",
+      "ground_truth": "A",
+      "subject": "business_ethics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU business_ethics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_005",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Prior to undergoing a painful procedure, a patient should be informed about what to expect and how their pain will be controlled, as this is associated with:\n\nA) a reduction in anxiety and perceived pain intensity.\nB) an increased use of analgesia.\nC) a decrease in the frequency of pain-related problems such as nausea and vomiting.\nD) an increased urine output.",
+      "ground_truth": "A",
+      "subject": "clinical_knowledge",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU clinical_knowledge question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_006",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which of the following statements about embryonic cleavage is NOT true?\n\nA) The presence of yolk inhibits cleavage.\nB) Telolecithal eggs undergo meroblastic cleavage.\nC) The vegetal pole undergoes cleavage more readily than does the animal pole\nD) The rapid mitotic divisions of cleavage directly give rise to blastomeres.",
+      "ground_truth": "C",
+      "subject": "college_biology",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU college_biology question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_007",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Calculate the Q-factor for an X-band EPR cavity with a resonator bandwidth of 1.58 MHz.\n\nA) Q = 1012\nB) Q = 2012\nC) Q = 3012\nD) Q = 6012",
+      "ground_truth": "D",
+      "subject": "college_chemistry",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU college_chemistry question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_008",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Function signatures describe the types of the arguments to a function as well as the return value of the function. For instance, the addition function on reals has a signature of\nadd : real x real -> real\nsince it takes two real numbers and returns a real number. But, for a language that allows functions as return values, addition could be considered to have the signature\nadd : real -> (real -> real)\nwhich means that add takes a single real (the first operand) and returns a new function that itself takes a single real (the second operand) and returns a real (the result). This process of reducing a function with multiple arguments to a function with fewer arguments is called currying. Which of the following is correct?\n\nA) Currying can be applied to any function to the point where it has exactly one input argument.\nB) Currying cannot be applied to functions of more than two arguments.\nC) Currying cannot be applied to functions that return functions as arguments.\nD) Currying cannot be applied w functions that haw arguments that are functions.",
+      "ground_truth": "A",
+      "subject": "college_computer_science",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU college_computer_science question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_009",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Statement 1 | Suppose {s_n} and {t_n} are sequences of complex numbers such that lim_n\u2192\u221e s_n = s and lim_n\u2192\u221e tn = t. lim_n\u2192\u221e s_nt_n = st. Statement 2 | There exists a bounded sequence of real numbers with no convergent subsequence.\n\nA) True, True\nB) True, False\nC) False, True\nD) False, False",
+      "ground_truth": "B",
+      "subject": "college_mathematics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU college_mathematics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_010",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Kinase reactions:\n\nA) inhibit ATP breakdown.\nB) involve the addition or removal of a phosphate group.\nC) involve the addition or removal of a ketone group.\nD) involve the addition or removal of an amino acid to a polypeptide chain.",
+      "ground_truth": "B",
+      "subject": "college_medicine",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU college_medicine question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_011",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "One end of a horizontal, massless spring is attached to a wall. A mass of 0.30 kg is attached to the other end of the spring and rests on a table. The mass is displaced 0.030 m from its equilibrium position and released. It has a speed of 0.040 m/s as it passes through its equilibrium position. In the absence of friction, what is the total mechanical energy of the system?\n\nA) 0.24 mJ\nB) 0.38 mJ\nC) 0.48 mJ\nD) 0.75 mJ",
+      "ground_truth": "A",
+      "subject": "college_physics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU college_physics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_012",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "How is IP address spoofing detected?\n\nA) Installing and configuring a IDS that can read the IP header\nB) Comparing the TTL values of the actual and spoofed addresses\nC) Implementing a firewall to the network\nD) Identify all TCP sessions that are initiated but does not complete successfully",
+      "ground_truth": "B",
+      "subject": "computer_security",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU computer_security question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_013",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Thermal convection involves mainly\n\nA) radiant energy\nB) fluids\nC) insulators\nD) All of these",
+      "ground_truth": "B",
+      "subject": "conceptual_physics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU conceptual_physics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_014",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which one of the following statements best describes a Type II error?\n\nA) It is the probability of incorrectly rejecting the null hypothesis\nB) It is equivalent to the power of the test\nC) It is equivalent to the size of the test\nD) It is the probability of failing to reject a null hypothesis that was wrong",
+      "ground_truth": "D",
+      "subject": "econometrics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU econometrics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_015",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "In binary number system the first digit (bit) from right to left is called as\n\nA) LSB, Least Significant Bit\nB) MSB, Most Significant Bit\nC) First Bit\nD) Last Bit",
+      "ground_truth": "A",
+      "subject": "electrical_engineering",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU electrical_engineering question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_016",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Kerri ran the same distance in four different races. Her times were 18.04 seconds, 21.39 seconds, 12.99 seconds, and 14.14 seconds. If the individual times are rounded to the nearest one-tenth of a second, what is the estimate of Kerri's total time for all four races?\n\nA) 66.6 seconds\nB) 66.5 seconds\nC) 66 seconds\nD) 65.5 seconds",
+      "ground_truth": "B",
+      "subject": "elementary_mathematics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU elementary_mathematics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_017",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which of the given formulas of PL is the best symbolization of the following sentence?\nDoctors are helpful unless their patients are rude.\n\nA) H \u2261 R\nB) H \u2022 R\nC) H \u2228 ~R\nD) H \u2228 R",
+      "ground_truth": "D",
+      "subject": "formal_logic",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU formal_logic question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_018",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "As of 2020, about what percentage of the world population practices open defecation?\n\nA) 2%\nB) 4%\nC) 9%\nD) 18%",
+      "ground_truth": "C",
+      "subject": "global_facts",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU global_facts question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_019",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "A scientist carries out a cross between two guinea pigs, both of which have black coats. Black hair coat is dominant over white hair coat. Three quarters of the offspring have black coats, and one quarter have white coats. The genotypes of the parents were most likely\n\nA) bb \u00d7 bb\nB) Bb \u00d7 Bb\nC) Bb \u00d7 bb\nD) BB \u00d7 Bb",
+      "ground_truth": "B",
+      "subject": "high_school_biology",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_biology question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_020",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which is correct about the calcium atom?\n\nA) It contains 20 protons and neutrons\nB) It contains 20 protons and 20 electrons\nC) It contains 20 protons, neutrons, and electrons\nD) All atoms of calcium have a mass of 40.078 u",
+      "ground_truth": "B",
+      "subject": "high_school_chemistry",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_chemistry question testing multitask language understanding"
+    }
+  ]
+}

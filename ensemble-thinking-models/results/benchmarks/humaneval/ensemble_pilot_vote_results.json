@@ -1,0 +1,341 @@
+[
+  {
+    "prompt_id": "humaneval_001",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "from typing import List\n\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\" Check if in given list of numbers, are any two numbers closer to each other than\n    given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    \"\"\"\n    for idx, elem in enumerate(numbers):\n        for idx2, elem2 in enumerate(numbers):\n            if idx != idx2:\n                distance = abs(elem - elem2)\n                if distance < threshold:\n                    return True\n    return False",
+    "vote_counts": null,
+    "judge_reasoning": "# Analysis of Responses\n\n## Core Conclusions Identified\n\n**Approach 1: Nested Loop with Index Comparison (O(n\u00b2))**\n- OPUS-FAST: Double loop comparing all pairs with `idx != idx2` check\n- OPUS-THINKING: Identical to OPUS-FAST\n- Confidence scores: 0.99 + 0.99 = 1.98\n\n**Approach 2: Nested Loop with Range Optimization (O(n\u00b2))**\n- SONNET-FAST: Double loop using `range(i+1, len(numbers))` to avoid redundant comparisons\n- SONNET-THINKING: Identical to SONNET-FAST\n- HAIKU-FAST: Identical to SONNET-FAST\n- Confidence scores: 0.99 + 0.99 + 0.98 = 2.96\n\n**Approach 3: Sorted + Adjacent Comparison (O(n log n))**\n- HAIKU-THINKING: Sort first, then check only adjacent elements\n- Confidence score: 0.95\n\n## Semantic Agreement Assessment\n\nWhile Approaches 1 and 2 both use nested loops, they differ in implementation efficiency:\n- **Approach 1** performs redundant comparisons (checking both (i,j) and (j,i))\n- **Approach 2** is algorithmically superior, checking each pair only once\n\nHowever, both produce **correct results** and solve the problem. The key distinction is:\n- Approaches 1 & 2 are both O(n\u00b2) brute force methods\n- Approach 3 is an optimized O(n log n) solution\n\nFor \"agreement,\" Approaches 1 and 2 represent the same algorithmic family (brute force comparison), despite implementation differences. Approach 3 is fundamentally different.\n\n## Weighted Majority Calculation\n\n**Brute Force Group (Approaches 1 & 2 combined philosophy):**\n- OPUS-FAST: 0.99\n- OPUS-THINKING: 0.99\n- SONNET-FAST: 0.99\n- SONNET-THINKING: 0.99\n- HAIKU-FAST: 0.98\n- **Total: 5.94**\n\n**Optimized Sort Group:**\n- HAIKU-THINKING: 0.95\n- **Total: 0.95**\n\n---\n\n**MAJORITY:** OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST\n\n**CONFIDENCE_WEIGHTS:** 5.94\n\n**REASONING:** Five out of six models agree on a brute-force nested-loop approach to solve the problem, with a combined confidence weight of 5.94 versus 0.95 for the optimized sorting approach. While the sorting approach (HAIKU-THINKING) is algorithmically more efficient (O(n log n) vs O(n\u00b2)), the overwhelming majority of models converge on the simpler nested-loop solution. The majority group includes both the less-optimized version (OPUS models checking all pairs redundantly) and the more-optimized version (SONNET and HAIKU-FAST using range optimization), both of which are fundamentally brute-force approaches that directly compare pairs of numbers.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast"
+    ],
+    "judge_cost_usd": 0.004720800000000001,
+    "judge_latency_ms": 7754
+  },
+  {
+    "prompt_id": "humaneval_002",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "from typing import List\n\n\ndef separate_paren_groups(paren_string: str) -> List[str]:\n    paren_string = paren_string.replace(' ', '')\n    result = []\n    current_group = ''\n    depth = 0\n    for char in paren_string:\n        if char == '(':\n            depth += 1\n            current_group += char\n        elif char == ')':\n            depth -= 1\n            current_group += char\n            if depth == 0:\n                result.append(current_group)\n                current_group = ''\n    return result",
+    "vote_counts": null,
+    "judge_reasoning": "Let me analyze the core conclusions of each response.\n\n**CORE CONCLUSIONS:**\n\n1. **OPUS-FAST** (0.99): Uses `replace(' ', '')` to remove spaces upfront, then iterates through characters tracking depth with a counter, appending complete groups when depth returns to 0.\n\n2. **OPUS-THINKING** (0.99): Identical algorithm to OPUS-FAST - removes spaces upfront, tracks depth, appends when depth == 0.\n\n3. **SONNET-FAST** (0.99): Uses `replace(' ', '')` to remove spaces upfront, then iterates tracking depth, appends when depth == 0. Includes docstring and explanation.\n\n4. **SONNET-THINKING** (0.99): Skips spaces during iteration with `if char == ' ': continue`, then tracks depth and appends when depth == 0.\n\n5. **HAIKU-FAST** (0.95): Uses `replace(' ', '')` to remove spaces upfront, tracks depth, appends when depth == 0.\n\n6. **HAIKU-THINKING** (0.95): Uses `replace(' ', '')` to remove spaces upfront, tracks depth (called `open_count`), appends when counter == 0.\n\n**SEMANTIC GROUPING:**\n\nAll six responses implement the **same core algorithm**:\n- Remove/skip spaces\n- Track nesting depth with a counter\n- Build current group character by character\n- Append to result when depth returns to 0\n\nThe only minor variation is:\n- **Group A** (OPUS-FAST, OPUS-THINKING, SONNET-FAST, HAIKU-FAST, HAIKU-THINKING): Remove spaces upfront with `replace(' ', '')`\n- **Group B** (SONNET-THINKING): Skip spaces during iteration with `continue`\n\nBoth approaches are functionally equivalent and produce identical results.\n\n**CONFIDENCE WEIGHTING:**\n\n- Group A (upfront removal): 0.99 + 0.99 + 0.99 + 0.95 + 0.95 = **4.87**\n- Group B (skip during iteration): 0.99 = **0.99**\n\nMAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, HAIKU-FAST, HAIKU-THINKING\nCONFIDENCE_WEIGHTS: 4.87\nREASONING: All six models agree on the core algorithm: track parenthesis nesting depth, build groups character-by-character, and append complete groups when depth returns to 0. The weighted majority (5 models totaling 4.87 confidence) uses the upfront space-removal approach via `replace(' ', '')`, which is slightly more common and efficient than skipping spaces during iteration. The algorithms are semantically identical and all produce correct results.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0042896,
+    "judge_latency_ms": 5094
+  },
+  {
+    "prompt_id": "humaneval_003",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "def truncate_number(number: float) -> float:\n    \"\"\" Given a positive floating point number, it can be decomposed into\n    and integer part (largest integer smaller than given number) and decimals\n    (leftover part always smaller than 1).\n\n    Return the decimal part of the number.\n    >>> truncate_number(3.5)\n    0.5\n    \"\"\"\n    return number % 1.0",
+    "vote_counts": null,
+    "judge_reasoning": "Let me analyze the core conclusions of each response:\n\n**CORE CONCLUSIONS:**\n\n1. **OPUS-FAST**: `return number % 1.0`\n2. **OPUS-THINKING**: `return number % 1.0`\n3. **SONNET-FAST**: `return number % 1.0`\n4. **SONNET-THINKING**: `return number % 1.0`\n5. **HAIKU-FAST**: `return number - int(number)`\n6. **HAIKU-THINKING**: `return number % 1`\n\n**GROUPING BY SEMANTIC AGREEMENT:**\n\n**Group A (Modulo approach):**\n- OPUS-FAST: `number % 1.0` (Confidence: 0.99)\n- OPUS-THINKING: `number % 1.0` (Confidence: 0.99)\n- SONNET-FAST: `number % 1.0` (Confidence: 0.99)\n- SONNET-THINKING: `number % 1.0` (Confidence: 0.99)\n- HAIKU-THINKING: `number % 1` (Confidence: 0.96)\n- **Total Weight: 0.99 + 0.99 + 0.99 + 0.99 + 0.96 = 4.92**\n\n**Group B (Subtraction approach):**\n- HAIKU-FAST: `number - int(number)` (Confidence: 0.95)\n- **Total Weight: 0.95**\n\nNote: `number % 1.0` and `number % 1` are semantically identical (both use modulo operator with divisor 1), just with different literal representations.\n\n---\n\n**MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-THINKING**\n\n**CONFIDENCE_WEIGHTS: 4.92**\n\n**REASONING:** Five out of six models agree on using the modulo operator (`%`) with divisor 1 to extract the decimal part. This approach is mathematically equivalent and semantically identical across all five models (whether written as `% 1.0` or `% 1`). The weighted confidence of 4.92 significantly exceeds the alternative subtraction approach (0.95). The modulo approach is elegant, concise, and handles the mathematical requirement correctly for positive floating-point numbers.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0033368,
+    "judge_latency_ms": 4192
+  },
+  {
+    "prompt_id": "humaneval_004",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "```python\nfrom typing import List\n\n\ndef below_zero(operations: List[int]) -> bool:\n    balance = 0\n    for op in operations:\n        balance += op\n        if balance < 0:\n            return True\n    return False\n```",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94\n\nREASONING: All six models agree on the core conclusion: implement a function that maintains a running balance starting at 0, iterates through operations, updates the balance after each operation, and returns True immediately if the balance ever falls below zero, otherwise returns False after all operations complete. \n\nThe implementations are semantically identical despite minor stylistic differences:\n- Some include the import statement and docstring, others omit them (per instructions to provide only implementation)\n- Variable naming differs slightly (op vs operation) but logic is identical\n- HAIKU-THINKING includes explanatory text after the function, but the function itself matches the others\n\nAll models correctly solve the problem with O(n) time complexity and O(1) space complexity. The weighted majority encompasses all responses with a combined confidence score of 5.94 (0.99 + 0.99 + 0.99 + 0.99 + 0.99 + 0.98).",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0021376,
+    "judge_latency_ms": 3164
+  },
+  {
+    "prompt_id": "humaneval_005",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "from typing import List\n\n\ndef mean_absolute_deviation(numbers: List[float]) -> float:\n    \"\"\" For a given list of input numbers, calculate Mean Absolute Deviation\n    around the mean of this dataset.\n    Mean Absolute Deviation is the average absolute difference between each\n    element and a centerpoint (mean in this case):\n    MAD = average | x - x_mean |\n    >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])\n    1.0\n    \"\"\"\n    mean = sum(numbers) / len(numbers)\n    return sum(abs(x - mean) for x in numbers) / len(numbers)",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\nCONFIDENCE_WEIGHTS: 5.90\nREASONING: All six models agree on the core implementation of the Mean Absolute Deviation function. Despite stylistic differences in presentation (some include comments, some use intermediate variables, some use markdown formatting), they all implement the identical algorithm:\n\n1. Calculate mean = sum(numbers) / len(numbers)\n2. Return sum(abs(x - mean) for x in numbers) / len(numbers)\n\nThe core logic is semantically identical across all responses. The differences are purely stylistic:\n- OPUS-FAST, SONNET-FAST, SONNET-THINKING present the code concisely\n- HAIKU-FAST and HAIKU-THINKING add explanatory comments\n- OPUS-THINKING uses markdown code blocks\n- HAIKU-THINKING uses an intermediate variable `mad`\n\nAll implementations correctly solve the problem and would produce the expected output (1.0 for the example [1.0, 2.0, 3.0, 4.0]). The weighted confidence sum of 5.90 (0.99 + 0.99 + 0.99 + 0.99 + 0.95 + 0.98) represents unanimous agreement on the solution approach.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0027288,
+    "judge_latency_ms": 3353
+  },
+  {
+    "prompt_id": "humaneval_006",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "```python\nfrom typing import List\n\n\ndef intersperse(numbers: List[int], delimeter: int) -> List[int]:\n    \"\"\" Insert a number 'delimeter' between every two consecutive elements of input list `numbers'\n    >>> intersperse([], 4)\n    []\n    >>> intersperse([1, 2, 3], 4)\n    [1, 4, 2, 4, 3]\n    \"\"\"\n    if not numbers:\n        return []\n    result = []\n    for i, num in enumerate(numbers):\n        result.append(num)\n        if i < len(numbers) - 1:\n            result.append(delimeter)\n    return result\n```",
+    "vote_counts": null,
+    "judge_reasoning": "## Analysis\n\n**CORE CONCLUSIONS:**\n\nAll responses implement the same algorithm with identical logic:\n1. Handle empty/single-element lists\n2. Iterate through the input list\n3. Append each number to the result\n4. Append the delimiter after each number EXCEPT the last one\n5. Return the result\n\n**SEMANTIC DIFFERENCES:**\n\nThe only substantive difference is in the base case:\n- **OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING**: Use `if not numbers: return []`\n- **HAIKU-FAST, HAIKU-THINKING**: Use `if len(numbers) <= 1: return numbers`\n\n**FUNCTIONAL EQUIVALENCE CHECK:**\n\nFor empty list `[]`:\n- Both approaches return `[]` \u2713\n\nFor single-element list `[5]`:\n- `if not numbers` approach: Returns `[5]` (goes through loop, appends 5, no delimiter added)\n- `if len(numbers) <= 1` approach: Returns `[5]` (early return)\n- Both produce identical output \u2713\n\nBoth implementations are functionally equivalent and produce correct results for all test cases.\n\n**CONFIDENCE WEIGHTING:**\n\n- OPUS-FAST: 0.99\n- OPUS-THINKING: 0.99\n- SONNET-FAST: 0.99\n- SONNET-THINKING: 0.99\n- HAIKU-FAST: 0.95\n- HAIKU-THINKING: 0.95\n\nSince all responses reach the same functional conclusion (correct algorithm), but OPUS and SONNET models have higher confidence scores:\n\n**Majority group (higher confidence):** OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING\n**Total confidence weight:** 0.99 + 0.99 + 0.99 + 0.99 = **3.96**\n\n---\n\n**MAJORITY:** OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING\n\n**CONFIDENCE_WEIGHTS:** 3.96\n\n**REASONING:** All six responses implement functionally identical and correct solutions. The weighted majority consists of the four models with the highest confidence scores (0.99 each). While HAIKU models use a slightly different base case check (`len(numbers) <= 1` vs `not numbers`), both approaches are semantically equivalent and produce identical results. The OPUS and SONNET models' higher confidence scores give them the weighted majority.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking"
+    ],
+    "judge_cost_usd": 0.0036048,
+    "judge_latency_ms": 4714
+  },
+  {
+    "prompt_id": "humaneval_007",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "from typing import List\n\n\ndef parse_nested_parens(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    groups = paren_string.split()\n    result = []\n    for group in groups:\n        depth = 0\n        max_depth = 0\n        for char in group:\n            if char == '(':\n                depth += 1\n                if depth > max_depth:\n                    max_depth = depth\n            elif char == ')':\n                depth -= 1\n        result.append(max_depth)\n    return result",
+    "vote_counts": null,
+    "judge_reasoning": "# Analysis of Responses\n\n## Core Conclusions\n\nAll six responses implement the same algorithm with identical logic:\n\n1. Split the input string by spaces into groups\n2. For each group, iterate through characters tracking current depth\n3. When encountering '(': increment depth and update max_depth\n4. When encountering ')': decrement depth\n5. Return list of max depths for each group\n\nThe implementations differ only in:\n- **Style variations**: Some use explicit `if` statements vs `max()` function\n- **Code organization**: Some use helper functions (SONNET models) vs inline loops (OPUS, HAIKU)\n- **Variable naming**: Minor naming differences (max_d vs max_depth, etc.)\n\n## Semantic Agreement\n\n**All six models reach identical conclusions** - they all implement the correct algorithm that produces `[2, 3, 1, 3]` for the given example.\n\n## Confidence Weighting\n\n- OPUS-FAST: 0.99\n- OPUS-THINKING: 0.99\n- SONNET-FAST: 0.99\n- SONNET-THINKING: 0.99\n- HAIKU-FAST: 0.95\n- HAIKU-THINKING: 0.95\n\n**Total weight (all agreeing)**: 0.99 + 0.99 + 0.99 + 0.99 + 0.95 + 0.95 = **5.86**\n\n---\n\n## Result\n\n**MAJORITY:** OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\n**CONFIDENCE_WEIGHTS:** 5.86\n\n**REASONING:** All six models unanimously agree on the same algorithmic approach: split input by spaces, track nesting depth for each group, and return the maximum depth reached. Despite stylistic differences in implementation (helper functions vs inline code, explicit conditionals vs max() function), they all produce identical correct results. The unanimous agreement with high confidence scores (0.95-0.99) indicates this is the correct solution.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0034568000000000003,
+    "judge_latency_ms": 4585
+  },
+  {
+    "prompt_id": "humaneval_008",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "from typing import List\n\n\ndef filter_by_substring(strings: List[str], substring: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that contain given substring\n    >>> filter_by_substring([], 'a')\n    []\n    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')\n    ['abc', 'bacd', 'array']\n    \"\"\"\n    return [s for s in strings if substring in s]",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94\n\nREASONING: All six models agree on the core conclusion: the function should use a list comprehension with the `in` operator to filter strings containing the substring. The implementation `[s for s in strings if substring in s]` is identical across all responses. The only stylistic differences are:\n- Some include the full function signature with type hints and docstring\n- OPUS-THINKING wraps the code in markdown backticks\n- HAIKU variants omit the `from typing import List` import line\n\nThese are purely formatting variations with no impact on the actual logic or correctness. All models achieve 100% semantic agreement on the solution, resulting in a combined confidence weight of 5.94 (6 \u00d7 0.99).",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0018768,
+    "judge_latency_ms": 2821
+  },
+  {
+    "prompt_id": "humaneval_009",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "from typing import List, Tuple\n\n\ndef sum_product(numbers: List[int]) -> Tuple[int, int]:\n    sum_value = 0\n    prod_value = 1\n    for n in numbers:\n        sum_value += n\n        prod_value *= n\n    return sum_value, prod_value",
+    "vote_counts": null,
+    "judge_reasoning": "Let me analyze the core conclusions of each response.\n\n**CORE CONCLUSIONS:**\n\n1. **OPUS-FAST** (0.99): Initialize sum=0, product=1, loop through numbers adding to sum and multiplying to product, return tuple.\n\n2. **OPUS-THINKING** (0.99): Initialize sum=0, product=1, loop through numbers adding to sum and multiplying to product, return tuple. (Identical to OPUS-FAST)\n\n3. **SONNET-FAST** (0.99): Initialize sum=0, product=1, loop through numbers adding to sum and multiplying to product, return tuple with docstring included. (Functionally identical)\n\n4. **SONNET-THINKING** (0.99): Initialize sum=0, product=1, loop through numbers adding to sum and multiplying to product, return tuple. (Functionally identical)\n\n5. **HAIKU-FAST** (0.95): Use built-in `sum(numbers)` for sum calculation, initialize product=1, loop for product calculation. Also provides alternative using `math.prod()`.\n\n6. **HAIKU-THINKING** (0.98): Use built-in `sum(numbers)` for sum calculation, initialize product=1, loop for product calculation. (Functionally identical to HAIKU-FAST primary solution)\n\n**GROUPING BY SEMANTIC AGREEMENT:**\n\n**GROUP A** (Manual loop for both sum and product):\n- OPUS-FAST (0.99)\n- OPUS-THINKING (0.99)\n- SONNET-FAST (0.99)\n- SONNET-THINKING (0.99)\n- **Total confidence: 3.96**\n\n**GROUP B** (Built-in `sum()` function + manual loop for product):\n- HAIKU-FAST (0.95)\n- HAIKU-THINKING (0.98)\n- **Total confidence: 1.93**\n\nBoth approaches are functionally correct and produce identical results. However, GROUP A represents the consensus of 4 models with very high confidence scores, while GROUP B represents 2 models with slightly lower confidence.\n\nMAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING\nCONFIDENCE_WEIGHTS: 3.96\nREASONING: Four models with consistently high confidence (0.99 each) agree on the same implementation approach: initializing sum to 0 and product to 1, then using a single loop to accumulate both values. While the HAIKU models' approach using Python's built-in `sum()` function is also valid and more Pythonic, the weighted majority consensus favors the explicit loop-based approach across all four high-confidence models.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking"
+    ],
+    "judge_cost_usd": 0.0038952000000000006,
+    "judge_latency_ms": 5182
+  },
+  {
+    "prompt_id": "humaneval_010",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "from typing import List\n\ndef rolling_max(numbers: List[int]) -> List[int]:\n    \"\"\" From a given list of integers, generate a list of rolling maximum element found until given moment\n    in the sequence.\n    >>> rolling_max([1, 2, 3, 2, 3, 4, 2])\n    [1, 2, 3, 3, 3, 4, 4]\n    \"\"\"\n    result = []\n    current_max = None\n    for n in numbers:\n        if current_max is None or n > current_max:\n            current_max = n\n        result.append(current_max)\n    return result",
+    "vote_counts": null,
+    "judge_reasoning": "# Analysis of Rolling Max Function Responses\n\n## Core Conclusions Identified\n\n**Group 1: Initialize with `None`, conditional update**\n- OPUS-FAST (0.99)\n- OPUS-THINKING (0.99)\n- SONNET-FAST (0.99)\n- SONNET-THINKING (0.99)\n\nLogic: `current_max = None` initially, then `if current_max is None or num > current_max: current_max = num`\n\n**Group 2: Initialize with `float('-inf')`, use `max()` function**\n- HAIKU-FAST (0.95)\n- HAIKU-THINKING (0.95)\n\nLogic: `current_max = float('-inf')` initially, then `current_max = max(current_max, num)`\n\n## Semantic Equivalence Check\n\nBoth approaches are **functionally equivalent** for the given problem:\n- Both correctly produce `[1, 2, 3, 3, 3, 4, 4]` for the test case\n- Both handle empty lists (Group 1 implicitly, Group 2 explicitly)\n- Both have O(n) time complexity\n\nHowever, they represent **different implementation strategies**:\n- Group 1: Manual conditional logic with `None` sentinel\n- Group 2: Built-in `max()` function with `-inf` sentinel\n\n## Confidence Weighting\n\n**Group 1 Total Weight:** 0.99 + 0.99 + 0.99 + 0.99 = **3.96**\n\n**Group 2 Total Weight:** 0.95 + 0.95 = **1.90**\n\n---\n\n**MAJORITY:** OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING\n\n**CONFIDENCE_WEIGHTS:** 3.96\n\n**REASONING:** The four models with the highest confidence (0.99 each) all converge on the same implementation approach: initializing `current_max` to `None` and using a conditional check to update it. While the HAIKU models provide an equally valid alternative using `float('-inf')` and the `max()` function, the weighted majority strongly favors the `None`-based approach with a combined confidence score of 3.96 versus 1.90. Both solutions are correct, but the majority consensus is clear.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking"
+    ],
+    "judge_cost_usd": 0.003576,
+    "judge_latency_ms": 5092
+  },
+  {
+    "prompt_id": "humaneval_011",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "def make_palindrome(string: str) -> str:\n    \"\"\" Find the shortest palindrome that begins with a supplied string.\n    Algorithm idea is simple:\n    - Find the longest postfix of supplied string that is a palindrome.\n    - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.\n    >>> make_palindrome('')\n    ''\n    >>> make_palindrome('cat')\n    'catac'\n    >>> make_palindrome('cata')\n    'catac'\n    \"\"\"\n    if is_palindrome(string):\n        return string\n    for i in range(len(string)):\n        if is_palindrome(string[i:]):\n            return string + string[:i][::-1]\n    return string",
+    "vote_counts": null,
+    "judge_reasoning": "Let me analyze the core conclusions of each response by examining their implementations.\n\n**OPUS-FAST:**\n```python\nif is_palindrome(string):\n    return string\nfor i in range(len(string)):\n    if is_palindrome(string[i:]):\n        return string + string[:i][::-1]\nreturn string\n```\n\n**OPUS-THINKING:**\n```python\nif not string:\n    return ''\nfor i in range(len(string)):\n    if is_palindrome(string[i:]):\n        return string + string[:i][::-1]\nreturn string\n```\n\n**SONNET-FAST:**\n```python\nif not string:\n    return ''\nfor i in range(len(string)):\n    suffix = string[i:]\n    if is_palindrome(suffix):\n        prefix = string[:i]\n        return string + prefix[::-1]\nreturn string + string[-2::-1]\n```\n\n**SONNET-THINKING:**\n```python\nif not string:\n    return ''\nfor i in range(len(string)):\n    suffix = string[i:]\n    if is_palindrome(suffix):\n        prefix = string[:i]\n        return string + prefix[::-1]\nreturn string + string[:-1][::-1]\n```\n\n**HAIKU-FAST:**\n```python\nif not string:\n    return string\nfor i in range(len(string)):\n    if is_palindrome(string[i:]):\n        prefix = string[:i]\n        return string + prefix[::-1]\nreturn string\n```\n\n**HAIKU-THINKING:**\n```python\nif not string:\n    return string\nfor i in range(len(string)):\n    suffix = string[i:]\n    if is_palindrome(suffix):\n        longest_palindrome_start = i\n        break\nprefix = string[:longest_palindrome_start]\nreturn string + prefix[::-1]\n```\n\n**Core Algorithm Analysis:**\n\nAll six responses implement the same core algorithm:\n1. Loop through indices from 0 to len(string)\n2. Find the first index i where string[i:] is a palindrome\n3. Return string + reverse of string[:i]\n\nThe differences are:\n- **Empty string handling:** OPUS-FAST checks `is_palindrome(string)` (returns True for empty), while others explicitly check `if not string`\n- **Variable naming:** Some use intermediate variables (suffix, prefix), others inline them\n- **Fallback return:** Different edge case handling (OPUS-FAST and HAIKU return `string`, SONNET variants have different fallbacks)\n\n**Semantic Agreement:**\n\nAll six implementations are **functionally equivalent** for the given test cases. They all:\n- Find the longest palindromic suffix\n- Append the reverse of the prefix before it\n- Handle empty strings correctly (all return '')\n\nThe core logic is identical across all responses.\n\nMAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\nCONFIDENCE_WEIGHTS: 0.99 + 0.99 + 0.97 + 0.99 + 0.92 + 0.92 = 5.78\nREASONING: All six models implement the same core algorithm with identical logic: iterate through string indices, find the first position where the suffix is a palindrome, and append the reverse of the prefix. Stylistic differences (variable naming, empty string checks, fallback returns) don't affect the semantic equivalence. All produce correct results for the test cases. This represents unanimous agreement on the solution approach.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0051920000000000004,
+    "judge_latency_ms": 6187
+  },
+  {
+    "prompt_id": "humaneval_012",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "from typing import List\n\n\ndef string_xor(a: str, b: str) -> str:\n    \"\"\" Input are two strings a and b consisting only of 1s and 0s.\n    Perform binary XOR on these inputs and return result also as a string.\n    >>> string_xor('010', '110')\n    '100'\n    \"\"\"\n    return ''.join(str(int(x) ^ int(y)) for x, y in zip(a, b))",
+    "vote_counts": null,
+    "judge_reasoning": "Let me analyze the core conclusions of each response.\n\n**CORE CONCLUSIONS:**\n\n1. **OPUS-FAST**: Uses `str(int(x) ^ int(y))` - converts chars to ints, applies XOR operator, converts back to string\n2. **OPUS-THINKING**: Uses `str(int(x) ^ int(y))` - identical approach to OPUS-FAST\n3. **SONNET-FAST**: Uses conditional logic `'0' if bit_a == bit_b else '1'` - returns '0' when bits match, '1' when different\n4. **SONNET-THINKING**: Uses conditional logic `'0' if bit_a == bit_b else '1'` - identical to SONNET-FAST\n5. **HAIKU-FAST**: Uses `str(int(x) ^ int(y))` - identical to OPUS models\n6. **HAIKU-THINKING**: Uses `str(int(x) ^ int(y))` - identical to OPUS models\n\n**GROUPING BY SEMANTIC AGREEMENT:**\n\n**Group A (XOR operator approach):**\n- OPUS-FAST (0.99)\n- OPUS-THINKING (0.99)\n- HAIKU-FAST (0.95)\n- HAIKU-THINKING (0.95)\n- Total confidence: 3.88\n\n**Group B (Conditional logic approach):**\n- SONNET-FAST (0.99)\n- SONNET-THINKING (0.99)\n- Total confidence: 1.98\n\nBoth approaches are functionally equivalent (they produce identical results), but they represent different implementation strategies. Group A uses the bitwise XOR operator directly, while Group B uses conditional logic to express the same XOR truth table.\n\n**WEIGHTED MAJORITY CALCULATION:**\n\nGroup A: 0.99 + 0.99 + 0.95 + 0.95 = 3.88\nGroup B: 0.99 + 0.99 = 1.98\n\nGroup A has significantly higher total confidence weight.\n\n---\n\n**MAJORITY:** OPUS-FAST, OPUS-THINKING, HAIKU-FAST, HAIKU-THINKING\n\n**CONFIDENCE_WEIGHTS:** 3.88\n\n**REASONING:** Four models agree on using the bitwise XOR operator approach (`str(int(x) ^ int(y))`), achieving a combined confidence weight of 3.88 versus 1.98 for the conditional logic approach. While both implementations are functionally equivalent and correct, the XOR operator approach is more direct and idiomatic for this problem. The majority group's higher combined confidence and larger number of agreeing models makes this the clear winner.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0037336,
+    "judge_latency_ms": 5568
+  },
+  {
+    "prompt_id": "humaneval_013",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "from typing import List, Optional\n\n\ndef longest(strings: List[str]) -> Optional[str]:\n    \"\"\" Out of list of strings, return the longest one. Return the first one in case of multiple\n    strings of the same length. Return None in case the input list is empty.\n    >>> longest([])\n\n    >>> longest(['a', 'b', 'c'])\n    'a'\n    >>> longest(['a', 'bb', 'ccc'])\n    'ccc'\n    \"\"\"\n    if not strings:\n        return None\n    return max(strings, key=len)",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.90\n\nREASONING: All six models reach the identical core conclusion: implement the function using a two-step approach:\n1. Check if the input list is empty with `if not strings:` and return `None`\n2. Use Python's built-in `max(strings, key=len)` to find and return the longest string\n\nThe implementation is semantically identical across all responses. The only stylistic differences are:\n- OPUS-THINKING wraps the code in markdown backticks (formatting only)\n- Some responses include the full docstring/type hints while others omit them (both are valid per the prompt)\n\nAll models correctly recognize that `max()` with `key=len` naturally returns the first element in case of ties, satisfying the requirement. The reasoning provided is consistent across all responses, and all verify against the three test cases correctly.\n\nThis represents unanimous agreement with a combined confidence weight of 0.99 + 0.99 + 0.99 + 0.99 + 0.95 + 0.98 = 5.90.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0023848000000000003,
+    "judge_latency_ms": 3729
+  },
+  {
+    "prompt_id": "humaneval_014",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "def greatest_common_divisor(a: int, b: int) -> int:\n    \"\"\" Return a greatest common divisor of two integers a and b\n    >>> greatest_common_divisor(3, 5)\n    1\n    >>> greatest_common_divisor(25, 15)\n    5\n    \"\"\"\n    while b:\n        a, b = b, a % b\n    return a",
+    "vote_counts": null,
+    "judge_reasoning": "# Analysis of GCD Function Implementations\n\n## Core Conclusions Identified\n\n**Group 1: Euclidean Algorithm (Standard)**\n- OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING\n- Implementation: `while b: a, b = b, a % b` then `return a`\n- Confidence scores: 0.99, 0.99, 0.99, 0.99\n- Total weight: 3.96\n\n**Group 2: Euclidean Algorithm with Absolute Value Handling**\n- HAIKU-FAST, HAIKU-THINKING\n- HAIKU-FAST: Returns `abs(a)` at the end\n- HAIKU-THINKING: Converts inputs to absolute values at start (`a = abs(a); b = abs(b)`)\n- Confidence scores: 0.95, 0.95\n- Total weight: 1.90\n\n## Semantic Difference\n\nThe key distinction is how negative numbers are handled:\n- **Group 1**: Returns the result of Euclidean algorithm directly (handles negative inputs naturally, returns negative GCD if input was negative)\n- **Group 2**: Ensures absolute values are used, guaranteeing a positive GCD result\n\nBoth approaches are mathematically valid for the given test cases (which use positive integers), but they differ in edge case handling.\n\n## Weighted Majority Calculation\n\n- Group 1 total: 3.96\n- Group 2 total: 1.90\n- **Winner: Group 1** (4.08x higher combined confidence)\n\n---\n\n**MAJORITY:** OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING\n\n**CONFIDENCE_WEIGHTS:** 3.96\n\n**REASONING:** All four models with the highest individual confidence scores (0.99 each) agree on the standard Euclidean algorithm implementation without explicit absolute value handling. This approach is simpler, more elegant, and sufficient for the provided test cases. The two HAIKU models add defensive absolute value handling, but their lower confidence scores (0.95) and minority position indicate less consensus on this variation. The majority implementation is the canonical iterative GCD algorithm.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking"
+    ],
+    "judge_cost_usd": 0.0029936,
+    "judge_latency_ms": 4744
+  },
+  {
+    "prompt_id": "humaneval_015",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "from typing import List\n\n\ndef all_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    return [string[:i+1] for i in range(len(string))]",
+    "vote_counts": null,
+    "judge_reasoning": "Let me analyze the core conclusions of each response.\n\n**Core Conclusions:**\n\n1. **OPUS-FAST**: `return [string[:i+1] for i in range(len(string))]`\n2. **OPUS-THINKING**: `return [string[:i+1] for i in range(len(string))]`\n3. **SONNET-FAST**: `return [string[:i+1] for i in range(len(string))]`\n4. **SONNET-THINKING**: `return [string[:i+1] for i in range(len(string))]`\n5. **HAIKU-FAST**: `return [string[:i] for i in range(1, len(string) + 1)]`\n6. **HAIKU-THINKING**: `return [string[:i] for i in range(1, len(string) + 1)]`\n\n**Semantic Equivalence Check:**\n\nBoth approaches are mathematically equivalent:\n- Approach A: `string[:i+1] for i in range(len(string))` \u2192 iterates i from 0 to len(string)-1, slicing up to i+1\n- Approach B: `string[:i] for i in range(1, len(string) + 1)` \u2192 iterates i from 1 to len(string), slicing up to i\n\nBoth produce identical results for the same input.\n\n**Grouping:**\n\n- **Group 1** (Approach A): OPUS-FAST (0.99), OPUS-THINKING (0.99), SONNET-FAST (0.99), SONNET-THINKING (0.99)\n  - Total confidence: 3.96\n\n- **Group 2** (Approach B): HAIKU-FAST (0.95), HAIKU-THINKING (0.99)\n  - Total confidence: 1.94\n\n**Weighted Majority:**\n\nGroup 1 has significantly higher total confidence (3.96 vs 1.94).\n\nMAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING\nCONFIDENCE_WEIGHTS: 3.96\nREASONING: Four models with high confidence (0.99 each) agree on the implementation `[string[:i+1] for i in range(len(string))]`. While both approaches are semantically equivalent and produce correct results, the weighted majority strongly favors this particular formulation. The HAIKU models use an equivalent but differently-structured approach, but are outweighed by the consensus of the other four models.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking"
+    ],
+    "judge_cost_usd": 0.0034328,
+    "judge_latency_ms": 4313
+  },
+  {
+    "prompt_id": "humaneval_016",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "def string_sequence(n: int) -> str:\n    \"\"\" Return a string containing space-delimited numbers starting from 0 upto n inclusive.\n    >>> string_sequence(0)\n    '0'\n    >>> string_sequence(5)\n    '0 1 2 3 4 5'\n    \"\"\"\n    return ' '.join(str(i) for i in range(n + 1))",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94\n\nREASONING: All six models agree on the identical core conclusion: the function should return `' '.join(str(i) for i in range(n + 1))`. This implementation correctly generates space-delimited numbers from 0 to n inclusive by:\n1. Using `range(n + 1)` to generate the sequence (0 through n)\n2. Converting each integer to a string\n3. Joining them with space delimiters\n\nThe only stylistic difference is HAIKU-THINKING uses double quotes `\" \".join()` while others use single quotes `' '.join()`, but this is semantically identical in Python. All models have very high confidence scores (0.98-0.99), and their combined weight of 5.94 represents unanimous agreement on the solution.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.002056,
+    "judge_latency_ms": 3439
+  },
+  {
+    "prompt_id": "humaneval_017",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "def count_distinct_characters(string: str) -> int:\n    \"\"\" Given a string, find out how many distinct characters (regardless of case) does it consist of\n    >>> count_distinct_characters('xyzXYZ')\n    3\n    >>> count_distinct_characters('Jerry')\n    4\n    \"\"\"\n    return len(set(string.lower()))",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.95\n\nREASONING: All six models reach the identical core conclusion: the function should return `len(set(string.lower()))`. This solution converts the input string to lowercase to handle case-insensitivity, creates a set to eliminate duplicates and retain only unique characters, and returns the length of that set to count distinct characters. While some responses include additional explanations or formatting variations (some wrapped in markdown code blocks, some with detailed walkthroughs), they all implement the exact same algorithm and produce the same correct results for both test cases ('xyzXYZ' \u2192 3, 'Jerry' \u2192 4). The confidence scores range from 0.50 to 0.99, but all models unanimously agree on the implementation, resulting in a combined confidence weight of 5.95 (0.99 + 0.99 + 0.99 + 0.99 + 0.99 + 0.99).",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0023384,
+    "judge_latency_ms": 3023
+  },
+  {
+    "prompt_id": "humaneval_018",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "{\n  \"answer\": \"from typing import List\\n\\n\\ndef parse_music(music_string: str) -> List[int]:\\n    note_map = {'o': 4, 'o|': 2, '.|': 1}\\n    if not music_string:\\n        return []\\n    return [note_map[note] for note in music_string.split(' ') if note]\",\n  \"confidence\": 0.98\n}",
+    "vote_counts": null,
+    "judge_reasoning": "Let me analyze each response's core conclusion:\n\n**OPUS-FAST:**\n- Creates note_map dictionary\n- Splits by spaces\n- Uses loop with conditional check `if note in note_map`\n- Returns result list\n- Confidence: 0.99\n\n**OPUS-THINKING:**\n- Creates note_map dictionary\n- Splits by spaces with `split(' ')` and filters with `if note`\n- Uses list comprehension\n- Returns result\n- Confidence: 0.98\n\n**SONNET-FAST:**\n- Creates note_map dictionary\n- Splits by spaces\n- Uses list comprehension with `if note in note_map` filter\n- Returns result\n- Confidence: 0.97\n\n**SONNET-THINKING:**\n- Creates note_map dictionary\n- Checks `if not music_string.strip()` for empty input\n- Splits by spaces\n- Uses list comprehension without filter\n- Returns result\n- Confidence: 0.98\n\n**HAIKU-FAST:**\n- Creates note_map dictionary\n- Splits by spaces\n- Uses list comprehension without filter\n- Returns result\n- Confidence: 0.95\n\n**HAIKU-THINKING:**\n- Creates note_map dictionary\n- Splits by spaces\n- Uses list comprehension without filter\n- Returns result\n- Confidence: 0.98\n\n**Core Differences:**\n\n1. **Filtering approach**: Some include `if note in note_map` or `if note` filters, others don't\n2. **Empty string handling**: SONNET-THINKING explicitly checks `if not music_string.strip()`\n3. **Split method**: OPUS-THINKING uses `split(' ')` vs others use `split()`\n\n**Semantic Agreement Analysis:**\n\nThe key question: Do the filters matter for the given problem?\n\nGiven the problem statement and example, the input is well-formed (space-separated valid notes). The filters are defensive but not necessary for correct operation on valid input.\n\n**Group 1 (No filter, no explicit empty check):** OPUS-THINKING, HAIKU-FAST, HAIKU-THINKING\n- Confidence: 0.98 + 0.95 + 0.98 = 2.91\n\n**Group 2 (With filter `if note in note_map`):** OPUS-FAST, SONNET-FAST\n- Confidence: 0.99 + 0.97 = 1.96\n\n**Group 3 (With empty check):** SONNET-THINKING\n- Confidence: 0.98\n\nGroups 1, 2, and 3 all produce the same functional result for valid input. However, Group 1 and Group 3 are most similar in their core logic (list comprehension without the `if note in note_map` filter), with Group 3 just adding defensive empty-string checking.\n\nThe most common approach across all models is the simple list comprehension without defensive filtering, which appears in 4 responses (OPUS-THINKING, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING).\n\nMAJORITY: OPUS-THINKING, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\nCONFIDENCE_WEIGHTS: 3.89\nREASONING: These four models agree on the core approach: create a note_map dictionary, split the input string by whitespace, and use a list comprehension to map each note to its beat count. While SONNET-THINKING adds explicit empty-string handling and OPUS-THINKING uses `split(' ')` instead of `split()`, the fundamental algorithm and logic are identical. This represents the most robust consensus with the highest combined confidence score.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-thinking",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0053064,
+    "judge_latency_ms": 7145
+  },
+  {
+    "prompt_id": "humaneval_019",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "def how_many_times(string: str, substring: str) -> int:\n    \"\"\" Find how many times a given substring can be found in the original string. Count overlaping cases.\n    >>> how_many_times('', 'a')\n    0\n    >>> how_many_times('aaa', 'a')\n    3\n    >>> how_many_times('aaaa', 'aa')\n    3\n    \"\"\"\n    count = 0\n    for i in range(len(string) - len(substring) + 1):\n        if string[i:i + len(substring)] == substring:\n            count += 1\n    return count",
+    "vote_counts": null,
+    "judge_reasoning": "Let me analyze the core conclusions of each response.\n\n**CORE CONCLUSIONS:**\n\n1. **OPUS-FAST** (0.99): Uses a for loop with range iteration, checking substring matches at each position. No explicit empty check.\n\n2. **OPUS-THINKING** (0.99): Identical to OPUS-FAST - for loop with range iteration, no explicit empty check.\n\n3. **SONNET-FAST** (0.99): Uses while loop with `string.find()` method, includes explicit empty checks (`if not string or not substring`), increments start by 1 for overlapping.\n\n4. **SONNET-THINKING** (0.99): Uses while loop with `string.find()` method, includes explicit empty checks, increments start by 1 for overlapping. Functionally identical to SONNET-FAST.\n\n5. **HAIKU-FAST** (0.95): Uses for loop with range iteration, includes explicit empty checks (`if not substring or not string`), checks substring matches at each position.\n\n6. **HAIKU-THINKING** (0.95): Uses while loop with `string.find()` method, NO explicit empty checks, increments start by 1 for overlapping.\n\n**GROUPING BY APPROACH:**\n\n**Group A - For Loop Approach (3 models):**\n- OPUS-FAST (0.99)\n- OPUS-THINKING (0.99)\n- HAIKU-FAST (0.95)\n- Total confidence: 2.93\n\n**Group B - While Loop with find() Approach (3 models):**\n- SONNET-FAST (0.99)\n- SONNET-THINKING (0.99)\n- HAIKU-THINKING (0.95)\n- Total confidence: 2.93\n\nBoth groups have identical total confidence weights. However, examining the implementations more carefully:\n\n- **Group A** relies on explicit range checking and substring comparison\n- **Group B** relies on Python's built-in `find()` method\n\nBoth approaches are functionally correct and produce the same results. The tie at 2.93 confidence requires examining which approach is more robust. Group A (for loop) is simpler and more explicit, while Group B (find method) is more Pythonic but requires understanding the find() behavior.\n\nSince both groups have equal confidence weight, I'll note that Group A has two models with 0.99 confidence (the highest tier) versus Group B which also has two 0.99 models. The deciding factor is that the for-loop approach (Group A) is more straightforward and explicit about the algorithm.\n\nMAJORITY: OPUS-FAST, OPUS-THINKING, HAIKU-FAST\nCONFIDENCE_WEIGHTS: 2.93\nREASONING: These three models agree on using a for loop with explicit range iteration to check each position in the string for substring matches. While Group B (SONNET-FAST, SONNET-THINKING, HAIKU-THINKING) also totals 2.93 confidence using the find() method, Group A's approach is more explicit and transparent about the overlapping logic. Both approaches are functionally equivalent and correct, but the for-loop method is more straightforward algorithmically.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "haiku-fast"
+    ],
+    "judge_cost_usd": 0.0045944,
+    "judge_latency_ms": 6254
+  },
+  {
+    "prompt_id": "humaneval_020",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "{\"answer\":\"from typing import List\\n\\n\\ndef sort_numbers(numbers: str) -> str:\\n    \\\"\\\"\\\" Input is a space-delimited string of numberals from 'zero' to 'nine'.\\n    Valid choices are 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight' and 'nine'.\\n    Return the string with numbers sorted from smallest to largest\\n    >>> sort_numbers('three one five')\\n    'one three five'\\n    \\\"\\\"\\\"\\n    value_map = {\\n        'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4,\\n        'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9\\n    }\\n    if not numbers.strip():\\n        return ''\\n    words = numbers.split()\\n    sorted_words = sorted(words, key=lambda w: value_map[w])\\n    return ' '.join(sorted_words)\",\"confidence\":0.99}",
+    "vote_counts": null,
+    "judge_reasoning": "Let me analyze each response's core conclusion:\n\n**[OPUS-FAST]:**\n- Creates `value_map` dictionary\n- Checks for empty string\n- Splits, sorts using lambda with dictionary lookup, joins\n- Confidence: 0.99\n\n**[OPUS-THINKING]:**\n- Creates `value_map` dictionary\n- Checks for empty string\n- Splits, sorts using lambda with dictionary lookup, joins\n- Confidence: 0.99\n- (Identical logic to OPUS-FAST, only formatting differs)\n\n**[SONNET-FAST]:**\n- Creates `word_to_num` dictionary\n- Creates unused `num_to_word` reverse mapping\n- Checks for empty string\n- Splits, sorts using lambda with dictionary lookup, joins\n- Confidence: 0.99\n\n**[SONNET-THINKING]:**\n- Creates `word_to_num` dictionary\n- Checks for empty string\n- Splits, sorts using lambda with dictionary lookup, joins\n- Confidence: 0.99\n- (No unused reverse mapping)\n\n**[HAIKU-FAST]:**\n- Creates `word_to_num` dictionary\n- Creates `num_to_word` reverse mapping\n- Converts words to numbers, sorts numbers, converts back to words\n- Confidence: 0.95\n\n**[HAIKU-THINKING]:**\n- Creates `word_to_num` dictionary\n- Splits, sorts using lambda with dictionary lookup, joins\n- Confidence: 0.95\n- (No reverse mapping needed)\n\n**Core Conclusions:**\n\nThere are essentially TWO different approaches:\n\n**Approach A (Direct Sort):** Map words to numbers, sort words directly using the mapping as a key\n- OPUS-FAST (0.99)\n- OPUS-THINKING (0.99)\n- SONNET-THINKING (0.99)\n- HAIKU-THINKING (0.95)\n- **Total confidence: 3.92**\n\n**Approach B (Convert-Sort-Convert):** Convert words to numbers, sort the numbers, convert back to words\n- SONNET-FAST (0.99) - creates unused reverse mapping but doesn't use it; actually uses direct sort\n- HAIKU-FAST (0.95) - actually implements the convert-sort-convert approach\n- **Total confidence: 1.94**\n\nWait, let me re-examine SONNET-FAST more carefully. It creates `num_to_word` but then uses `sorted(words, key=lambda w: word_to_num[w])` - this is the direct sort approach, not convert-sort-convert. The reverse mapping is unused.\n\n**Revised Approach A (Direct Sort):**\n- OPUS-FAST (0.99)\n- OPUS-THINKING (0.99)\n- SONNET-FAST (0.99)\n- SONNET-THINKING (0.99)\n- HAIKU-THINKING (0.95)\n- **Total confidence: 4.91**\n\n**Approach B (Convert-Sort-Convert):**\n- HAIKU-FAST (0.95)\n- **Total confidence: 0.95**\n\nMAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-THINKING\nCONFIDENCE_WEIGHTS: 4.91\nREASONING: Five models agree on the core approach: create a word-to-number mapping dictionary, split the input string, sort the words using the dictionary values as the sort key via a lambda function, and join them back. This direct sorting approach is more efficient and elegant than the convert-sort-convert method used by HAIKU-FAST. The weighted majority strongly favors this approach with a combined confidence of 4.91 versus 0.95.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.006157600000000001,
+    "judge_latency_ms": 6563
+  }
+]

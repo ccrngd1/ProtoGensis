@@ -1,0 +1,358 @@
+[
+  {
+    "prompt_id": "gsm8k_001",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Janet's ducks lay 16 eggs per day. She eats 3 for breakfast and uses 4 for baking muffins, so she uses 3 + 4 = 7 eggs per day. The remainder is 16 - 7 = 9 eggs. She sells these at $2 per egg, so she makes 9 \u00d7 $2 = $18 every day at the farmers' market.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94\n\nREASONING: All six models reach the identical core conclusion: Janet makes $18 every day at the farmers' market. They all follow the same logical steps:\n1. Start with 16 eggs per day\n2. Subtract 3 eggs for breakfast + 4 eggs for muffins = 7 eggs used\n3. Calculate remainder: 16 - 7 = 9 eggs available to sell\n4. Multiply by $2 per egg: 9 \u00d7 $2 = $18 daily revenue\n\nDespite varying presentation styles (some more concise, some more detailed with numbered steps), every model arrives at the same numerical answer of $18. With all models at 0.99 confidence and complete semantic agreement on the conclusion, this represents unanimous consensus with a combined confidence weight of 5.94 (6 \u00d7 0.99).",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0020376,
+    "judge_latency_ms": 2632
+  },
+  {
+    "prompt_id": "gsm8k_002",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "The robe takes 2 bolts of blue fiber. It takes half that much white fiber, which is half of 2 = 1 bolt of white fiber. So in total, it takes 2 + 1 = 3 bolts of fiber.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94 (0.99 + 0.99 + 0.99 + 0.99 + 0.99 + 0.99)\n\nREASONING: All six models reach identical core conclusions through the same logical steps:\n1. Blue fiber required: 2 bolts\n2. White fiber required: half of 2 = 1 bolt\n3. Total bolts needed: 2 + 1 = 3 bolts\n\nDespite minor stylistic variations in how they present the information, every model agrees on the final answer of 3 bolts total. All models carry the maximum confidence score of 0.99, resulting in unanimous agreement with perfect confidence weighting. There are no disagreeing responses to compare against.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0016128000000000002,
+    "judge_latency_ms": 2663
+  },
+  {
+    "prompt_id": "gsm8k_003",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Josh bought the house for $80,000 and spent $50,000 on repairs, so his total cost was $80,000 + $50,000 = $130,000.\n\nThe repairs increased the value of the house by 150%. The original value of the house was $80,000, so the increase in value is 150% \u00d7 $80,000 = $120,000.\n\nThe new value of the house is $80,000 + $120,000 = $200,000.\n\nHis profit is the selling price minus his total costs: $200,000 - $130,000 = $70,000.\n\nJosh made a profit of $70,000.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.74\n\nREASONING: All six models reach the identical core conclusion: Josh made a profit of $70,000. They all follow the same logical framework:\n1. Total investment = $80,000 (purchase) + $50,000 (repairs) = $130,000\n2. Value increase = 150% \u00d7 $80,000 = $120,000\n3. New house value = $80,000 + $120,000 = $200,000\n4. Profit = $200,000 - $130,000 = $70,000\n\nThere is complete semantic agreement across all responses. The minor stylistic differences (presentation format, level of detail, alternative explanations) do not affect the conclusion. With a combined confidence weight of 5.74 (0.97 + 0.97 + 0.85 + 0.95 + 0.95 + 0.95), this represents unanimous agreement among all models analyzed.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.002432,
+    "judge_latency_ms": 2583
+  },
+  {
+    "prompt_id": "gsm8k_004",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "James runs 3 sprints per session, each sprint is 60 meters, and he does this 3 times a week. So the total meters per week = 3 sprints \u00d7 60 meters \u00d7 3 times per week = 540 meters.",
+    "vote_counts": null,
+    "judge_reasoning": "# Analysis of AI Model Responses\n\n## 1. CORE CONCLUSIONS\n\nAll six models reach the identical conclusion:\n- **James runs 540 meters per week**\n\n## 2. GROUPING BY AGREEMENT\n\n**Group 1 (All Models):**\n- OPUS-FAST: 540 meters\n- OPUS-THINKING: 540 meters\n- SONNET-FAST: 540 meters\n- SONNET-THINKING: 540 meters\n- HAIKU-FAST: 540 meters\n- HAIKU-THINKING: 540 meters\n\n## 3. CONFIDENCE WEIGHTING\n\nAll models report identical confidence scores of 0.99\n\n**Calculation:**\n- Sum of all confidence scores: 0.99 + 0.99 + 0.99 + 0.99 + 0.99 + 0.99 = **5.94**\n\n## 4. WEIGHTED MAJORITY DETERMINATION\n\nSince all six models agree on the same answer with equal confidence, they form a unanimous consensus.\n\n---\n\n**MAJORITY:** OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\n**CONFIDENCE_WEIGHTS:** 5.94\n\n**REASONING:** All six models unanimously agree that James runs 540 meters per week. While they present the calculation in slightly different orders (some calculate sprints-per-session first, others use direct multiplication), they all correctly apply the formula: 3 sprints \u00d7 3 sessions \u00d7 60 meters = 540 meters. With perfect agreement across all models at identical high confidence (0.99), this represents a definitive consensus answer.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0024736000000000003,
+    "judge_latency_ms": 4967
+  },
+  {
+    "prompt_id": "gsm8k_005",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Wendi has 20 chickens, and each chicken needs 3 cups of feed per day. So the total feed needed per day is 20 \u00d7 3 = 60 cups. She has already given 15 cups in the morning and 25 cups in the afternoon, for a total of 15 + 25 = 40 cups. Therefore, she needs to give 60 - 40 = 20 cups of feed in the final meal of the day.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94 (0.99 + 0.99 + 0.99 + 0.99 + 0.99 + 0.99)\n\nREASONING: All six models reach the identical core conclusion: Wendi needs to give her chickens **20 cups of feed in the final meal of the day**. \n\nThe reasoning chain is consistent across all responses:\n1. Total daily feed needed = 20 chickens \u00d7 3 cups/chicken = 60 cups\n2. Feed already given = 15 cups (morning) + 25 cups (afternoon) = 40 cups\n3. Final meal = 60 - 40 = 20 cups\n\nWhile the responses vary in presentation style and level of detail (some include verification steps, some are more concise), they all employ the same mathematical approach and arrive at the same answer. All models have identical confidence scores of 0.99, so there is unanimous agreement with maximum confidence weighting.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0024552000000000003,
+    "judge_latency_ms": 2779
+  },
+  {
+    "prompt_id": "gsm8k_006",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Let's work through this step by step.\n\nOne glass costs $5. Every second glass (i.e., the 2nd, 4th, 6th, 8th, etc.) costs only 60% of the price.\n\n60% of $5 = $5 \u00d7 0.60 = $3\n\nKylar wants to buy 16 glasses. Since 16 is even, half of them (8 glasses) will be at full price and half (8 glasses) will be at the discounted price.\n\n- 8 glasses at full price: 8 \u00d7 $5 = $40\n- 8 glasses at 60% price: 8 \u00d7 $3 = $24\n\nTotal cost: $40 + $24 = $64\n\nKylar needs to pay $64 for 16 glasses.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.78\n\nREASONING: All six models reach the identical core conclusion: Kylar needs to pay $64 for 16 glasses. They all correctly interpret the pricing structure (odd-numbered glasses at $5, even-numbered glasses at $3), correctly calculate that 8 glasses are at full price ($40) and 8 glasses are at discounted price ($24), and arrive at the same total of $64. While the explanations vary slightly in presentation (some group by pairs, others list odd/even positions), the mathematical reasoning and final answer are completely aligned. With a combined confidence weight of 5.78 (0.97+0.97+0.97+0.97+0.95+0.95), this represents unanimous agreement across all models tested.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0022928000000000002,
+    "judge_latency_ms": 2925
+  },
+  {
+    "prompt_id": "gsm8k_007",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Seattle has 20 sheep. Charleston has 4 times as many sheep as Seattle, so Charleston has 4 \u00d7 20 = 80 sheep. Toulouse has twice as many sheep as Charleston, so Toulouse has 2 \u00d7 80 = 160 sheep. Together, they have 20 + 80 + 160 = 260 sheep.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94 (0.99 + 0.99 + 0.99 + 0.99 + 0.99 + 0.99)\n\nREASONING: All six models reach the identical core conclusion: the total number of sheep across all three locations is **260 sheep**. Each model follows the same logical progression:\n- Seattle: 20 sheep (given)\n- Charleston: 4 \u00d7 20 = 80 sheep\n- Toulouse: 2 \u00d7 80 = 160 sheep\n- Total: 20 + 80 + 160 = 260 sheep\n\nWhile the responses vary in presentation style and formatting (some use bullet points, some use numbered lists, some include bold formatting), they all arrive at the same final answer through identical mathematical reasoning. With all models reporting maximum confidence (0.99), there is complete semantic agreement with a combined confidence weight of 5.94.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0020968000000000002,
+    "judge_latency_ms": 2702
+  },
+  {
+    "prompt_id": "gsm8k_008",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Let's break this down step by step:\n\n1. **First download attempt (40% of the way):** Carla downloads 40% of 200 GB = 80 GB. At 2 GB/minute, this takes 80 / 2 = 40 minutes.\n\n2. **Windows restart:** This takes 20 minutes.\n\n3. **Second download attempt (full file from the beginning):** She has to restart the download from the beginning, so she downloads all 200 GB. At 2 GB/minute, this takes 200 / 2 = 100 minutes.\n\n**Total time:** 40 + 20 + 100 = **160 minutes**.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.78\n\nREASONING: All six models reach the identical core conclusion: **160 minutes total (or 2 hours and 40 minutes)**. \n\nThe calculation breakdown they all agree on:\n1. First partial download (40% of 200 GB = 80 GB): 40 minutes\n2. Windows restart: 20 minutes\n3. Second full download (200 GB from scratch): 100 minutes\n4. Total: 40 + 20 + 100 = 160 minutes\n\nDespite minor stylistic differences in presentation and explanation depth, every model interprets the problem identically and arrives at the same answer. The key insight all models correctly identify is that after the restart, Carla must download the entire 200 GB file again from the beginning (not resume from 60% remaining), which is why the total time is 160 minutes rather than 120 minutes.\n\nWith all models in agreement at high confidence levels (0.97, 0.97, 0.97, 0.97, 0.95, 0.95), the weighted majority is unanimous.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0027576,
+    "judge_latency_ms": 5563
+  },
+  {
+    "prompt_id": "gsm8k_009",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "First, let's calculate how far John drove away from home: 3 hours \u00d7 60 mph = 180 miles from home.\n\nThen he turns around and tries to get home in 4 hours. Let's calculate how far he drives back toward home:\n- First 2 hours: standstill traffic, so 0 miles.\n- Next half-hour: 30 mph \u00d7 0.5 hours = 15 miles.\n- Remaining time: 4 - 2 - 0.5 = 1.5 hours at 80 mph = 120 miles.\n\nTotal distance driven back toward home: 0 + 15 + 120 = 135 miles.\n\nDistance from home: 180 - 135 = 45 miles.\n\nJohn is 45 miles from home at the end of those 4 hours.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.88\n\nREASONING: All six models reach the identical core conclusion: **John is 45 miles from home at the end of the 4 hours.** \n\nThe calculation path is consistent across all responses:\n1. Initial distance from home: 3 hours \u00d7 60 mph = 180 miles\n2. Return trip distance covered: 0 miles (traffic) + 15 miles (30 mph for 0.5 hrs) + 120 miles (80 mph for 1.5 hrs) = 135 miles\n3. Final distance from home: 180 - 135 = 45 miles\n\nWhile the responses vary in presentation style and level of detail (some show intermediate calculations, others show cumulative tracking), they all arrive at the same answer with no disagreement. The combined confidence weight of all six agreeing models (0.97 + 0.99 + 0.97 + 0.97 + 0.98 + 0.98 = 5.88) represents unanimous agreement on the solution.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0030184,
+    "judge_latency_ms": 3193
+  },
+  {
+    "prompt_id": "gsm8k_010",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Eliza's regular hourly rate is $10. For the first 40 hours, she earns: 40 \u00d7 $10 = $400. She worked 45 hours total, so she has 45 - 40 = 5 overtime hours. Her overtime rate is 1.2 \u00d7 $10 = $12 per hour. Overtime earnings: 5 \u00d7 $12 = $60. Total earnings for the week: $400 + $60 = $460.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94 (0.99 + 0.99 + 0.99 + 0.99 + 0.99 + 0.99)\n\nREASONING: All six responses reach identical core conclusions through the same methodology:\n1. Regular pay for 40 hours at $10/hour = $400\n2. Overtime hours = 5 hours (45 - 40)\n3. Overtime rate = $12/hour (1.2 \u00d7 $10)\n4. Overtime pay = 5 \u00d7 $12 = $60\n5. **Total earnings = $460**\n\nDespite minor stylistic differences in presentation (some use bullet points, some use numbered steps, some use bold formatting), every model performs the exact same calculation and arrives at the identical final answer of $460. All models also share the same high confidence score of 0.99, resulting in a unanimous weighted majority with maximum combined confidence.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0023392,
+    "judge_latency_ms": 4215
+  },
+  {
+    "prompt_id": "gsm8k_011",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Let's solve this step by step:\n\n- First month: 60 downloads\n- Second month: 3 \u00d7 60 = 180 downloads\n- Third month: 180 reduced by 30% = 180 \u00d7 (1 - 0.30) = 180 \u00d7 0.70 = 126 downloads\n\nTotal over three months: 60 + 180 + 126 = 366 downloads\n\nThe program had a total of 366 downloads over the three months.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94 (0.99 + 0.99 + 0.99 + 0.99 + 0.99 + 0.99)\n\nREASONING: All six models reach the identical core conclusion: the program had **366 total downloads over the three months**. \n\nEach model correctly calculates:\n- Month 1: 60 downloads\n- Month 2: 180 downloads (3 \u00d7 60)\n- Month 3: 126 downloads (180 \u00d7 0.70, representing a 30% reduction)\n- Total: 366 downloads\n\nWhile the explanations vary slightly in presentation style (some show the reduction calculation as \"180 \u00d7 0.70\" while others show \"180 - 54\"), they all employ mathematically equivalent approaches and arrive at the same answer. With unanimous agreement across all models at maximum confidence (0.99 each), this represents a decisive weighted majority with a combined confidence weight of 5.94.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0021776,
+    "judge_latency_ms": 2950
+  },
+  {
+    "prompt_id": "gsm8k_012",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Let me calculate the cost for each type of pastry:\n\n1. Donuts: 3 dozen \u00d7 $68 per dozen = $204\n2. Mini cupcakes: 2 dozen \u00d7 $80 per dozen = $160\n3. Mini cheesecakes: 6 dozen \u00d7 $55 per dozen = $330\n\nTotal cost = $204 + $160 + $330 = $694\n\nThe total cost was $694.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94 (0.99 + 0.99 + 0.99 + 0.99 + 0.99 + 0.99)\n\nREASONING: All six models reach identical conclusions with identical calculations and final answers. Each model:\n1. Calculates donuts: 3 \u00d7 $68 = $204\n2. Calculates mini cupcakes: 2 \u00d7 $80 = $160\n3. Calculates mini cheesecakes: 6 \u00d7 $55 = $330\n4. Arrives at total cost: $694\n\nThe responses differ only in presentation style and formatting (some use bullet points, some use bold text, some use numbered lists), but the core mathematical conclusion is identical across all models. With all models at 0.99 confidence and unanimous agreement, this represents complete consensus on the correct answer of $694.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0020232,
+    "judge_latency_ms": 2922
+  },
+  {
+    "prompt_id": "gsm8k_013",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Each year, Carlos earns 7 lemons \u00d7 $1.50 = $10.50 from selling lemons. He spends $3 per year on water and feed, so his net annual profit is $10.50 - $3.00 = $7.50. He needs to recoup the $90 planting cost. After 12 years: 12 \u00d7 $7.50 = $90, which means he has just broken even. He starts earning money in year 13. Therefore, it will take 13 years before he starts earning money on the lemon tree.",
+    "vote_counts": null,
+    "judge_reasoning": "Let me analyze the core conclusions of each response:\n\n**OPUS-FAST**: Final answer = **13 years** (breaks even at 12 years, starts earning in year 13)\n- Confidence: 0.97\n\n**OPUS-THINKING**: Final answer = **13 years** (breaks even at 12 years, starts earning in year 13)\n- Confidence: 0.97\n\n**SONNET-FAST**: Final answer = **13 years** (breaks even at 12 years, starts earning in year 13)\n- Confidence: 0.92\n\n**SONNET-THINKING**: Final answer = **12 years** (breaks even at 12 years, which is when he \"starts earning money\")\n- Confidence: 0.97\n\n**HAIKU-FAST**: Final answer = **13 years** (breaks even at 12 years, starts earning money in year 13)\n- Confidence: 0.95\n\n**HAIKU-THINKING**: Final answer = **12 years** (breaks even at 12 years, which is when cumulative earnings equal initial investment)\n- Confidence: 0.92\n\n**Grouping by Core Conclusion:**\n\n**Group A (Answer = 13 years):**\n- OPUS-FAST (0.97)\n- OPUS-THINKING (0.97)\n- SONNET-FAST (0.92)\n- HAIKU-FAST (0.95)\n- Total confidence weight: 3.81\n\n**Group B (Answer = 12 years):**\n- SONNET-THINKING (0.97)\n- HAIKU-THINKING (0.92)\n- Total confidence weight: 1.89\n\nThe key semantic difference: Group A interprets \"starts earning money\" as when profit becomes positive (year 13), while Group B interprets it as when the break-even point is reached (year 12). The more natural interpretation of \"starts earning money\" is when actual profit (positive earnings) begins, not at break-even.\n\n---\n\n**MAJORITY:** OPUS-FAST, OPUS-THINKING, SONNET-FAST, HAIKU-FAST\n\n**CONFIDENCE_WEIGHTS:** 3.81\n\n**REASONING:** Four models with a combined confidence weight of 3.81 agree that the answer is 13 years. They consistently reason that Carlos breaks even after 12 years (when cumulative net profit equals the $90 initial investment), and therefore \"starts earning money\" (i.e., achieves positive profit) in year 13. This interpretation aligns with the natural meaning of \"earning money\" as generating profit beyond the initial cost, not merely recovering the investment. The two dissenting models (SONNET-THINKING and HAIKU-THINKING) conflate break-even with \"starting to earn,\" which is semantically less precise.",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "haiku-fast"
+    ],
+    "judge_cost_usd": 0.0043488,
+    "judge_latency_ms": 4994
+  },
+  {
+    "prompt_id": "gsm8k_014",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Let me work through this step-by-step.\n\nLet x = the number of vacuum cleaners Melanie started with.\n\n1) She sold a third at the green house: sold x/3, leaving x - x/3 = 2x/3\n\n2) She sold 2 more at the red house: leaving 2x/3 - 2\n\n3) She sold half of what was left at the orange house: sold (1/2)(2x/3 - 2), leaving (1/2)(2x/3 - 2)\n\n4) After all sales, she has 5 left:\n(1/2)(2x/3 - 2) = 5\n\nSolving:\n2x/3 - 2 = 10\n2x/3 = 12\n2x = 36\nx = 18\n\nVerification:\n- Start with 18\n- Sold 18/3 = 6 at green house \u2192 12 left\n- Sold 2 at red house \u2192 10 left\n- Sold half of 10 = 5 at orange house \u2192 5 left \u2713\n\nMelanie started with 18 vacuum cleaners.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.93\n\nREASONING: All six models reach the identical core conclusion: Melanie started with 18 vacuum cleaners. Each response:\n1. Sets up the same algebraic equation with x as the starting amount\n2. Follows the same logical sequence (1/3 sold at green house \u2192 2 sold at red house \u2192 1/2 of remainder sold at orange house \u2192 5 left)\n3. Solves to x = 18\n4. Verifies the answer with the same step-by-step breakdown (6 sold at green \u2192 12 left; 2 sold at red \u2192 10 left; 5 sold at orange \u2192 5 left)\n\nDespite minor stylistic differences in presentation (some work forward, some emphasize working backward), all models demonstrate identical mathematical reasoning and arrive at the same answer. The combined confidence weight of 5.93 (0.99 + 0.99 + 0.99 + 0.99 + 0.98 + 0.99) represents unanimous agreement across all models with very high confidence.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0030032,
+    "judge_latency_ms": 3337
+  },
+  {
+    "prompt_id": "gsm8k_015",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Let's solve this step by step:\n\n1. Total students = 20\n\n2. Students enrolled in contemporary dance = 20% of 20 = 4 students\n\n3. Remaining students = 20 - 4 = 16 students\n\n4. Students enrolled in jazz dance = 25% of 16 = 4 students\n\n5. Students enrolled in hip-hop dance = 16 - 4 = 12 students\n\n6. Percentage of entire students enrolled in hip-hop dance = (12/20) \u00d7 100 = 60%\n\nTherefore, 60% of the entire students enrolled in hip-hop dance.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94\n\nREASONING: All six models reach identical core conclusions:\n- Contemporary dance: 4 students (20% of 20)\n- Jazz dance: 4 students (25% of remaining 16)\n- Hip-hop dance: 12 students (the rest)\n- **Final answer: 60% of the entire class enrolled in hip-hop dance**\n\nThere is complete semantic agreement across all responses. The only differences are stylistic (presentation format, verification steps included or omitted), but the mathematical reasoning and final answer are identical. With all models at 0.99 confidence (except HAIKU-THINKING at 0.98), the combined confidence weight is 5.94, representing unanimous agreement on the correct solution.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0022384,
+    "judge_latency_ms": 3066
+  },
+  {
+    "prompt_id": "gsm8k_016",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "To determine which purchase maximizes profit, we calculate the expected profit for each option:\n\n1. **Jewelry:** $5,000 \u00d7 2.5% = $5,000 \u00d7 0.025 = $125\n2. **Electronic gadgets:** $8,000 \u00d7 1.2% = $8,000 \u00d7 0.012 = $96\n\nComparing the two profits:\n- Jewelry profit: $125\n- Electronic gadgets profit: $96\n\nSince $125 > $96, the merchant should choose to purchase the jewelry to maximize profit. The maximum profit at the end of the month would be **$125**.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.78\n\nREASONING: All six models reach identical core conclusions:\n1. Calculate profit for jewelry: $5,000 \u00d7 2.5% = $125\n2. Calculate profit for electronic gadgets: $8,000 \u00d7 1.2% = $96\n3. Compare the two profits: $125 > $96\n4. Final recommendation: Choose jewelry for maximum profit of $125\n\nWhile the responses vary in presentation style and depth of explanation (some include final values, difference calculations, or additional context), they all agree on the fundamental answer: the merchant should purchase the jewelry and will achieve a maximum profit of $125. There is no disagreement among any of the models on the core conclusion or the numerical answer.\n\nThe confidence scores are: 0.97 + 0.97 + 0.97 + 0.98 + 0.95 + 0.94 = 5.78",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0024712,
+    "judge_latency_ms": 3130
+  },
+  {
+    "prompt_id": "gsm8k_017",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Each train travels 80 miles westward on the first day and 150 miles northward on the second day. The total distance covered by each train is 80 + 150 = 230 miles.",
+    "vote_counts": null,
+    "judge_reasoning": "# Analysis of Model Responses\n\n## Step 1: Identify Core Conclusions\n\n| Model | Core Conclusion |\n|-------|-----------------|\n| OPUS-FAST | Distance covered = 230 miles (total path length) |\n| OPUS-THINKING | Distance covered = 230 miles (total path length) |\n| SONNET-FAST | Ambiguous - presents both 230 miles (distance traveled) and 170 miles (displacement) as possible answers |\n| SONNET-THINKING | Primary answer: 170 miles (displacement/straight-line distance); notes 230 miles as alternative |\n| HAIKU-FAST | Distance covered = 230 miles (total path length); acknowledges 170 miles as displacement alternative |\n| HAIKU-THINKING | Distance covered = 230 miles (total path length); acknowledges 170 miles as displacement alternative |\n\n## Step 2: Group by Agreement\n\n**GROUP A: \"Distance covered = 230 miles\"** (interpreting \"distance covered\" as total path length)\n- OPUS-FAST (0.97)\n- OPUS-THINKING (0.97)\n- HAIKU-FAST (0.95)\n- HAIKU-THINKING (0.95)\n- **Total confidence weight: 3.84**\n\n**GROUP B: \"Distance = 170 miles\"** (interpreting as displacement/straight-line distance)\n- SONNET-THINKING (0.92) - primary conclusion\n- **Total confidence weight: 0.92**\n\n**GROUP C: Ambiguous/Dual answer**\n- SONNET-FAST (0.72) - presents both without clear primary conclusion\n- **Total confidence weight: 0.72**\n\n## Step 3: Apply Confidence Weighting\n\nGroup A has the highest combined confidence score at 3.84, significantly outweighing the other groups.\n\n## Step 4: Determine Weighted Majority\n\n---\n\n**MAJORITY:** OPUS-FAST, OPUS-THINKING, HAIKU-FAST, HAIKU-THINKING\n\n**CONFIDENCE_WEIGHTS:** 3.84\n\n**REASONING:** Four models with high confidence (0.95-0.97) agree that the answer is **230 miles**, interpreting \"distance covered\" as the total path length traveled by each train (80 + 150 miles). These models correctly distinguish between \"distance covered\" (total path traveled) and \"displacement\" (straight-line distance). While some models acknowledge the Pythagorean theorem calculation (170 miles) as an alternative interpretation, the consensus interpretation of the question's wording favors the 230-mile answer. The weighted majority significantly outweighs the single model prioritizing displacement (0.92) and the ambiguous response (0.72).",
+    "convergence": false,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0039808000000000005,
+    "judge_latency_ms": 5171
+  },
+  {
+    "prompt_id": "gsm8k_018",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "To find Jill's annual salary, we need to calculate her earnings from both jobs separately and then add them together.\n\nTeaching earnings:\n- $20 per hour \u00d7 35 hours per week = $700 per week\n- $700 per week \u00d7 50 weeks per year = $35,000 per year\n\nCheerleading coach earnings:\n- $30 per hour \u00d7 15 hours per week = $450 per week\n- $450 per week \u00d7 50 weeks per year = $22,500 per year\n\nTotal annual salary:\n$35,000 + $22,500 = $57,500\n\nJill's annual salary is $57,500.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94\n\nREASONING: All six models reach the identical core conclusion: **Jill's annual salary is $57,500**. \n\nWhile the models use slightly different presentation approaches:\n- Some calculate teaching and coaching earnings separately then sum them ($35,000 + $22,500)\n- Others calculate total weekly earnings first ($1,150/week) then multiply by 50 weeks\n- One model calculates total annual hours first, then multiplies by hourly rates\n\nAll approaches are mathematically equivalent and arrive at the same final answer. Each model has a confidence score of 0.99, giving the majority group a combined confidence weight of 5.94 (6 \u00d7 0.99). There is complete semantic agreement with no dissenting responses.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0021552,
+    "judge_latency_ms": 2991
+  },
+  {
+    "prompt_id": "gsm8k_019",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "Claire eats 3 eggs every morning. In 4 weeks, there are 4 \u00d7 7 = 28 days. So she uses 3 \u00d7 28 = 84 eggs in 4 weeks. Since one dozen equals 12 eggs, she will eat 84 \u00f7 12 = 7 dozens of eggs in 4 weeks.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.94 (0.99 + 0.99 + 0.99 + 0.99 + 0.99 + 0.99)\n\nREASONING: All six models reach the identical core conclusion: Claire will eat 7 dozens of eggs in 4 weeks. While the explanations vary slightly in presentation style and order of steps, every response follows the same logical path:\n1. Calculate days in 4 weeks: 4 \u00d7 7 = 28 days\n2. Calculate total eggs: 3 eggs/day \u00d7 28 days = 84 eggs\n3. Convert to dozens: 84 \u00f7 12 = 7 dozens\n\nThere is complete semantic agreement across all models with uniform high confidence (0.99 each). This represents unanimous consensus on the correct answer.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0019720000000000002,
+    "judge_latency_ms": 3253
+  },
+  {
+    "prompt_id": "gsm8k_020",
+    "strategy": "semantic_majority_vote",
+    "selected_answer": "To find the required speed for the remaining distance, we first determine the total time Marissa should take to average 4 miles per hour over 12 miles.\n\nTotal time needed = Total distance / Average speed = 12 / 4 = 3 hours.\n\nShe has already spent 1 hour + 1 hour = 2 hours hiking.\n\nRemaining time = 3 - 2 = 1 hour.\n\nRemaining distance = 12 - 4 - 2 = 6 miles.\n\nRequired speed = Remaining distance / Remaining time = 6 / 1 = 6 miles per hour.",
+    "vote_counts": null,
+    "judge_reasoning": "MAJORITY: OPUS-FAST, OPUS-THINKING, SONNET-FAST, SONNET-THINKING, HAIKU-FAST, HAIKU-THINKING\n\nCONFIDENCE_WEIGHTS: 5.90\n\nREASONING: All six models reach the identical core conclusion: **Marissa needs to walk at 6 miles per hour for the remaining distance**. \n\nThe logic chain is consistent across all responses:\n1. Total time needed for 4 mph average over 12 miles = 3 hours\n2. Time already spent = 2 hours (1 hour + 1 hour)\n3. Remaining time = 1 hour\n4. Remaining distance = 6 miles (12 - 4 - 2)\n5. Required speed = 6 miles / 1 hour = **6 mph**\n\nAll models verify their answer by confirming that 12 miles \u00f7 3 hours = 4 mph average speed. There is complete semantic agreement on the final answer despite minor stylistic variations in presentation. The combined confidence weight of 5.90 (0.99 + 0.99 + 0.99 + 0.99 + 0.95 + 0.98) represents unanimous agreement across all models.",
+    "convergence": true,
+    "models_agreeing": [
+      "opus-fast",
+      "opus-thinking",
+      "sonnet-fast",
+      "sonnet-thinking",
+      "haiku-fast",
+      "haiku-thinking"
+    ],
+    "judge_cost_usd": 0.0029144,
+    "judge_latency_ms": 3119
+  }
+]
