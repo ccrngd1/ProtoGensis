@@ -1,6 +1,6 @@
 # I Proposed LLM-as-Judge for RAG Before It Had a Name. Here's What Comes Next.
 
-*A follow-up to "How to Measure the Success of Your RAG-based LLM System"*
+*A follow-up to ["How to Measure the Success of Your RAG-based LLM System"](https://towardsdatascience.com/how-to-measure-the-success-of-your-rag-based-llm-system-874a232b27eb)*
 
 ---
 
@@ -42,7 +42,7 @@ Provide your score and explanation."""
 
 This pattern works because LLMs are surprisingly good at evaluating their own kind. They can identify when a response makes claims not present in the source context, detect contradictions, and assess completeness. The approach is reference-free, interpretable (you get an explanation with the score), and captures semantic faithfulness rather than surface similarity.
 
-Within months, every major RAG evaluation framework adopted some version of this pattern. The term "LLM-as-judge" emerged to describe it. I'm proud of that — it's rare to see an idea go from blog post to industry standard so quickly.
+Within a year, every major RAG evaluation framework had adopted some version of this pattern. The term "LLM-as-judge" emerged to describe it. I'm proud of that — it's rare to see an idea go from blog post to industry standard so quickly.
 
 ---
 
@@ -58,9 +58,11 @@ Imagine a customer service chatbot that retrieves from a knowledge base and gene
 
 ### 2. Cost
 
-LLM inference isn't free. For Claude 4 Sonnet on Bedrock:
+LLM inference isn't free. For Claude Sonnet 4 on Bedrock:
 - Input tokens: $0.003 per 1K tokens
 - Output tokens: $0.015 per 1K tokens
+
+*(Verify against current [Bedrock pricing](https://aws.amazon.com/bedrock/pricing/) — rates change frequently.)*
 
 A typical LLM-as-judge evaluation uses ~1,500 input tokens (context + query + response + prompt) and ~100 output tokens. That's **$0.0060 per evaluation**.
 
@@ -237,7 +239,9 @@ print(f"Latency: {result.latency_ms}ms")
 
 ## Head-to-Head Comparison Results
 
-I ran all three evaluators on 30 test cases — mix of faithful responses, partial hallucinations, and full hallucinations. Here's what I found:
+> **Transparency note:** The numbers below come from the demo's **mock mode**, which simulates evaluator behavior using word-overlap heuristics rather than calling live models. Treat them as *expected performance based on published literature and simulated benchmarks*, not empirical lab results. The relative patterns (encoder faster and cheaper than LLM-as-judge) are well-supported by the Fast & Faithful paper and related research; the exact figures will shift when you deploy against real models on real data.
+
+I ran all three evaluators on 30 test cases — mix of faithful responses, partial hallucinations, and full hallucinations. Here's what the simulation produced:
 
 ### Accuracy
 
@@ -247,7 +251,7 @@ I ran all three evaluators on 30 test cases — mix of faithful responses, parti
 | NLI Claims | 80.0% | 85.0% | 73.3% |
 | Real-Time Encoder | 86.7% | 90.0% | 83.3% |
 
-All three approaches perform well. The real-time encoder edges ahead slightly on hallucination detection, likely because token-level analysis catches subtle fabrications that claim-level or response-level scoring might miss.
+All three approaches perform comparably. Research on token-level verification models suggests the real-time encoder *should* edge ahead on hallucination detection, because token-level analysis can catch subtle fabrications that claim-level or response-level scoring might miss. The Fast & Faithful paper reports similar patterns on their benchmark datasets.
 
 ### Latency
 
@@ -318,7 +322,7 @@ This is "defense in depth" for RAG. No single approach is perfect, but layered v
 All code for this comparison is available in the GitHub repository. The system is built on AWS, with clear separation between foundation models (Bedrock) and specialized verification models (SageMaker).
 
 **Architecture Stack:**
-- **RAG Pipeline**: Bedrock Knowledge Base + Claude 4 Sonnet for generation
+- **RAG Pipeline**: Bedrock Knowledge Base + Claude Sonnet 4 for generation
 - **LLM-as-Judge**: Claude on Bedrock (my original 2023 approach)
 - **NLI Claims**: DeBERTa-v3-large cross-encoder on SageMaker (ml.g5.xlarge instance)
 - **Real-Time Encoder**: Fast & Faithful model on SageMaker (ml.g5.2xlarge for 32K context)
@@ -328,7 +332,8 @@ All code for this comparison is available in the GitHub repository. The system i
 The repository includes a comprehensive mock mode that simulates AWS API calls with realistic latency and behavior. This lets you explore the comparison without AWS credentials or infrastructure:
 
 ```bash
-git clone <repo-url>
+# Replace with the actual repository URL once published
+git clone https://github.com/ccrngd1/rag-verification
 cd rag-verification
 pip install -r requirements.txt
 
@@ -344,7 +349,7 @@ python compare.py
 python report.py
 ```
 
-Mock mode is perfect for understanding the approaches before committing to AWS deployment. It produces the same result structures and metrics, just with simulated values.
+Mock mode is perfect for understanding the approaches before committing to AWS deployment. It produces the same result structures and metrics, just with simulated values based on word-overlap heuristics. The comparison numbers in this article come from mock mode — deploy with real models to get production-grade benchmarks.
 
 ### AWS Deployment
 
