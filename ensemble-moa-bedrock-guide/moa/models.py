@@ -138,6 +138,39 @@ def get_models_by_category(category: str) -> Dict[str, ModelPricing]:
     return {k: v for k, v in BEDROCK_MODELS.items() if v.category == category}
 
 
+# Persona definitions for diversity experiments
+PERSONAS = {
+    "critical-analyst": """You are a critical analyst. When answering questions:
+- Focus on identifying logical flaws and inconsistencies
+- Question assumptions and point out missing information
+- Be precise, rigorous, and cautious
+- Favor well-justified answers over speculation
+- Acknowledge uncertainty when appropriate""",
+
+    "creative-generalist": """You are a creative generalist. When answering questions:
+- Provide comprehensive, complete answers
+- Consider multiple perspectives and approaches
+- Make connections between different concepts
+- Be expansive and thorough in your response
+- Favor breadth and exploring possibilities""",
+
+    "domain-expert": """You are a domain expert. When answering questions:
+- Emphasize technical accuracy and precision
+- Draw on deep domain knowledge and best practices
+- Focus on practical implementation details
+- Favor depth and specificity over generality
+- Use precise terminology and standards""",
+
+    "neutral-synthesizer": """You are a neutral synthesizer. Your task is to:
+- Read multiple responses objectively
+- Identify the most accurate information across responses
+- Recognize and filter hallucinations or errors
+- Synthesize a balanced, accurate answer
+- Justify your reasoning for the final answer
+- Acknowledge when responses conflict and explain which is most credible"""
+}
+
+
 # Pre-defined ensemble recipes
 # UPDATED: Using only available models with documented substitutions
 RECIPES = {
@@ -181,6 +214,63 @@ RECIPES = {
         "aggregator": "nova-lite",
         "layers": 2,
         "use_case": "Ablation study - minimum cost same-model test",
+    },
+    "high-end-reasoning": {
+        "name": "High-End Reasoning Ensemble",
+        "description": "Premium models with extended thinking capability",
+        "proposers": ["opus", "sonnet", "haiku"],
+        "refiners": ["opus", "sonnet"],
+        "aggregator": "opus",
+        "layers": 3,
+        "use_case": "Complex reasoning requiring deep analysis",
+    },
+    "mixed-capability": {
+        "name": "Mixed Capability Ensemble",
+        "description": "Cheap proposers + premium aggregator (Wang et al. pattern)",
+        "proposers": ["nova-lite", "haiku", "llama-3.1-8b"],
+        "aggregator": "opus",
+        "layers": 2,
+        "use_case": "Budget proposers with strong synthesis",
+    },
+    "same-model-premium": {
+        "name": "Same-Model Premium Ensemble",
+        "description": "3x Opus proposers + Opus aggregator (ablation for premium tier)",
+        "proposers": ["opus", "opus", "opus"],
+        "aggregator": "opus",
+        "layers": 2,
+        "use_case": "Ablation - tests if diversity matters at premium tier",
+    },
+    "persona-diverse": {
+        "name": "Persona-Diverse Ensemble",
+        "description": "Same model (Opus) with different personas for diversity",
+        "proposers": [
+            ("opus", "critical-analyst"),
+            ("opus", "creative-generalist"),
+            ("opus", "domain-expert")
+        ],
+        "aggregator": ("opus", "neutral-synthesizer"),
+        "layers": 2,
+        "use_case": "Test if persona diversity creates meaningful ensemble benefit",
+    },
+    "reasoning-cross-vendor": {
+        "name": "Cross-Vendor Reasoning Ensemble",
+        "description": "Best reasoning models from different vendors",
+        "proposers": ["opus", "sonnet", "mistral-large"],
+        "aggregator": "opus",
+        "layers": 2,
+        "use_case": "Test vendor + reasoning diversity",
+    },
+    "reasoning-with-personas": {
+        "name": "Reasoning Models with Persona Diversity",
+        "description": "Different reasoning models, each with a specific persona",
+        "proposers": [
+            ("opus", "critical-analyst"),
+            ("sonnet", "creative-generalist"),
+            ("mistral-large", "domain-expert")
+        ],
+        "aggregator": ("opus", "neutral-synthesizer"),
+        "layers": 2,
+        "use_case": "Test if model + persona diversity compounds",
     },
 }
 

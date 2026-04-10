@@ -20,6 +20,7 @@ class ModelConfig:
     """Configuration for a single model in the ensemble."""
 
     model_key: str  # Key from models.py (e.g., 'nova-lite')
+    persona: Optional[str] = None  # Optional persona prefix to inject
     max_tokens: int = 2048
     temperature: float = 0.7
 
@@ -224,6 +225,10 @@ class MoA:
         else:  # proposer
             prompt = context
 
+        # Inject persona if specified
+        if model_config.persona:
+            prompt = f"{model_config.persona}\n\n{prompt}"
+
         # Track latency
         if self.latency_tracker:
             with self.latency_tracker.track_model(
@@ -300,30 +305,39 @@ def create_moa_from_recipe(recipe_name: str) -> MoA:
     Returns:
         Configured MoA instance
     """
-    from .models import get_recipe
+    from .models import get_recipe, PERSONAS
 
     recipe = get_recipe(recipe_name)
     layers = []
 
+    def _parse_model_spec(spec):
+        """Parse model spec which can be 'model_key' or ('model_key', 'persona_key')."""
+        if isinstance(spec, tuple):
+            model_key, persona_key = spec
+            persona = PERSONAS.get(persona_key, None)
+            return ModelConfig(model_key=model_key, persona=persona)
+        else:
+            return ModelConfig(model_key=spec)
+
     # Proposer layer
     if 'proposers' in recipe:
         proposer_models = [
-            ModelConfig(model_key=key)
-            for key in recipe['proposers']
+            _parse_model_spec(spec)
+            for spec in recipe['proposers']
         ]
         layers.append(Layer(models=proposer_models, layer_type='proposer'))
 
     # Refiner layer (optional)
     if 'refiners' in recipe:
         refiner_models = [
-            ModelConfig(model_key=key)
-            for key in recipe['refiners']
+            _parse_model_spec(spec)
+            for spec in recipe['refiners']
         ]
         layers.append(Layer(models=refiner_models, layer_type='refiner'))
 
     # Aggregator layer
     if 'aggregator' in recipe:
-        aggregator_model = ModelConfig(model_key=recipe['aggregator'])
+        aggregator_model = _parse_model_spec(recipe['aggregator'])
         layers.append(Layer(models=[aggregator_model], layer_type='aggregator'))
 
     return MoA(layers=layers)

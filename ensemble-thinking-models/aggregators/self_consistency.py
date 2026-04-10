@@ -217,23 +217,23 @@ def main():
     # Map model key to model ID and config
     model_configs = {
         'opus-fast': {
-            'model_id': 'us.anthropic.claude-opus-4-6',
+            'model_id': 'us.anthropic.claude-opus-4-6-v1',
             'extended_thinking': False,
             'max_tokens': 4096
         },
         'opus-thinking': {
-            'model_id': 'us.anthropic.claude-opus-4-6',
+            'model_id': 'us.anthropic.claude-opus-4-6-v1',
             'extended_thinking': True,
             'max_tokens': 16000,
             'thinking_budget': 10000
         },
         'sonnet-fast': {
-            'model_id': 'us.anthropic.claude-sonnet-4-6',
+            'model_id': 'us.anthropic.claude-sonnet-4-6-v1',
             'extended_thinking': False,
             'max_tokens': 4096
         },
         'sonnet-thinking': {
-            'model_id': 'us.anthropic.claude-sonnet-4-6',
+            'model_id': 'us.anthropic.claude-sonnet-4-6-v1',
             'extended_thinking': True,
             'max_tokens': 16000,
             'thinking_budget': 5000

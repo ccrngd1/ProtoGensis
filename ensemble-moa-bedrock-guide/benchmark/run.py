@@ -150,8 +150,9 @@ async def run_benchmark_suite(
     # NOTE: Mistral 7B and Llama 3.1 8B are not available on this Bedrock account
     # Using Nova Lite (which is the substitute) for cheap models
     cheap_models = ["nova-lite"]  # Single cheap model baseline
-    baseline_models = ["nova-lite", "haiku", "sonnet"]  # As per spec: Nova Lite alone, Haiku alone, Sonnet alone
-    ensemble_recipes = ["ultra-cheap", "code-generation", "reasoning", "same-model-baseline"]  # Added ablation test
+    baseline_models = ["nova-lite", "haiku", "sonnet", "opus"]  # Premium baselines (nova-premier removed - access denied)
+    ensemble_recipes = ["ultra-cheap", "code-generation", "reasoning", "same-model-baseline",
+                        "high-end-reasoning", "mixed-capability", "same-model-premium"]  # Added premium ensembles
 
     # Run single cheap models
     print("Testing individual cheap models...")
