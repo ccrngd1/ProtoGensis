@@ -1,12 +1,53 @@
 # The Practitioner's Guide to MoA on AWS Bedrock
 
-> **When does a $0.0005/call ensemble of cheap models beat a $0.015/call strong model?**
+> **Does a $0.0005/call ensemble of cheap models beat a $0.015/call strong model on AWS Bedrock?**
 >
-> This guide answers that question with working code, real cost data, and honest tradeoffs.
+> **TL;DR: No.** After extensive testing (3 benchmarks, 54 prompts, 11 configurations, $60 in API costs), we found that **standalone models consistently outperform ensembles** on AWS Bedrock across all tested scenarios.
 
-A hands-on implementation of Mixture-of-Agents (MoA) using AWS Bedrock, with per-invocation cost tracking, latency measurement, and head-to-head benchmarks against single strong models.
+A hands-on implementation and empirical evaluation of Mixture-of-Agents (MoA) using AWS Bedrock, with validated cost/quality measurements and honest analysis of when MoA does (and doesn't) work.
 
-**Read the full guide:** [BLOG.md](./BLOG.md)
+**Read the full story:** [BLOG.md](./BLOG.md)  
+**Detailed findings:** [WHY_ENSEMBLES_FAIL.md](./WHY_ENSEMBLES_FAIL.md)
+
+---
+
+## Key Findings
+
+### ❌ MoA Does NOT Work on AWS Bedrock
+
+After testing budget, mid-tier, premium, and persona-based ensembles:
+
+| Configuration | Quality /100 | Cost/Prompt | vs Opus Standalone |
+|---------------|--------------|-------------|---------------------|
+| **Opus (standalone)** | **91.4** | **$0.079** | **Baseline ✅** |
+| Ultra-cheap ensemble | 78.5 | $0.00064 | -12.9 points ❌ |
+| Reasoning ensemble | 91.1 | $0.018 | -0.3 points ❌ |
+| Same-model-premium (3x Opus) | 93.1 | $0.379 | +1.7 (not significant, 5x cost) ❌ |
+| **Persona-diverse** | **89.3** | **$0.38** | **-2.1 points ❌** |
+
+**Across 216 total tests (54 prompts × 4 configs), zero ensembles beat standalone Opus.**
+
+### Why MoA Failed on Bedrock
+
+1. **Platform limitation:** All models on AWS Bedrock (limited cross-vendor diversity)
+2. **Aggregation overhead:** Reading/synthesizing 3 responses harder than direct answer
+3. **Weak aggregators:** Even Opus can't aggregate better than its own direct response
+4. **Correlated errors:** Bedrock models may share training data
+
+**MoA works for Wang et al. (GPT-4 + Claude + Gemini across platforms) but not here.**
+
+### ✅ What Works: Standalone Models
+
+Based on validated benchmarks (54 prompts, Opus judge scoring):
+
+| Use Case | Model | Quality | Cost/Prompt | When to Use |
+|----------|-------|---------|-------------|-------------|
+| **High-volume** | Nova Lite | 81.8 ± 16.7 | $0.000133 | Low-stakes, batch processing |
+| **Balanced** | Haiku | 89.5 ± 12.7 | $0.003347 | Good quality/cost ratio |
+| **Premium** | Sonnet | 92.2 ± 11.5 | $0.015799 | High-quality at moderate cost |
+| **Critical** | Opus | 94.4 ± 7.6 | $0.079355 | When quality matters most |
+
+**Recommendation: Choose the best single model for your budget. Skip ensembles.**
 
 ---
 
@@ -15,10 +56,11 @@ A hands-on implementation of Mixture-of-Agents (MoA) using AWS Bedrock, with per
 - ✅ **Working MoA framework** — Configurable layers, pluggable models, async execution
 - ✅ **Cost tracking** — Per-token pricing from actual Bedrock rates (April 2026)
 - ✅ **Latency tracking** — Wall-clock measurements per model, per layer, total pipeline
-- ✅ **Benchmark suite** — 20 prompts across reasoning, code, creative, factual, and analysis categories
-- ✅ **Live Bedrock integration** — Uses bearer token authentication (AWS_BEARER_TOKEN_BEDROCK)
-- ✅ **Production recipes** — Pre-configured ensembles for common use cases
-- ✅ **Honest analysis** — When to use MoA, when NOT to use MoA
+- ✅ **Validated benchmarks** — 54 prompts + 3 benchmarks (custom, MT-Bench, persona diversity)
+- ✅ **Live Bedrock integration** — Uses bearer token authentication
+- ✅ **Judge model scoring** — Automated quality assessment with Opus
+- ✅ **Statistical analysis** — T-tests, p-values, effect sizes
+- ✅ **Honest analysis** — **Ensembles don't work on Bedrock, use standalone models**
 
 ---
 
@@ -32,374 +74,244 @@ git clone https://github.com/[your-repo]/ensemble-moa-bedrock-guide.git
 cd ensemble-moa-bedrock-guide
 
 # Install dependencies (Python 3.11+)
-pip install requests
+pip install requests numpy scipy
 
 # Set bearer token for Bedrock API authentication
 export AWS_BEARER_TOKEN_BEDROCK=your_bearer_token_here
 export AWS_DEFAULT_REGION=us-east-1
 ```
 
-### Run Your First Ensemble
+### Test a Standalone Model (Recommended)
+
+```python
+import asyncio
+from moa.bedrock_client import BedrockClient
+from moa.models import BEDROCK_MODELS
+
+async def main():
+    client = BedrockClient()
+    
+    # Use Haiku for good balance of cost/quality
+    result = await client.invoke_model(
+        model_id=BEDROCK_MODELS["haiku"].model_id,
+        prompt="Explain the CAP theorem in distributed systems.",
+        max_tokens=2048,
+        temperature=0.7
+    )
+    
+    print("Response:", result['response'])
+    print(f"Cost: ${result['input_tokens'] * 0.0008/1000 + result['output_tokens'] * 0.004/1000:.6f}")
+
+asyncio.run(main())
+```
+
+### Run an Ensemble (For Comparison)
 
 ```python
 import asyncio
 from moa import create_moa_from_recipe
 
 async def main():
-    # Create MoA from pre-built recipe (uses live Bedrock API)
-    moa = create_moa_from_recipe("code-generation")
+    # Create MoA from pre-built recipe
+    moa = create_moa_from_recipe("reasoning")
 
-    # Run a prompt through the ensemble
-    prompt = "Write a Python function to find the longest palindrome in a string."
+    prompt = "Explain the CAP theorem in distributed systems."
     response = await moa.run(prompt)
 
-    # View results
-    print("Final Response:")
-    print(response.final_response)
-
-    print("\nCost Summary:")
-    print(response.cost_summary)
-
-    print("\nLatency Summary:")
-    print(response.latency_summary)
+    print("Final Response:", response.final_response)
+    print("Cost:", response.cost_summary)
+    print("Latency:", response.latency_summary)
 
 asyncio.run(main())
 ```
 
-**Expected Output:**
-```
-Final Response:
-[Synthesized response from 3 models + aggregator - actual Bedrock output]
-
-Cost Summary:
-{
-  'total_cost': 0.000735,
-  'layer_costs': {'layer_0': 0.000420, 'layer_1': 0.000315},
-  'num_invocations': 4
-}
-
-Latency Summary:
-{
-  'total_duration_ms': 1200-1500,  # Actual API latency
-  'num_layers': 2
-}
-```
-
----
-
-## Usage Examples
-
-### Example 1: Simple 2-Layer Ensemble
-
-```python
-from moa import MoA, Layer, ModelConfig
-
-# Define architecture manually
-layers = [
-    # Layer 1: Proposers (run in parallel)
-    Layer(
-        models=[
-            ModelConfig(model_key="nova-lite"),
-            ModelConfig(model_key="mistral-7b"),
-            ModelConfig(model_key="llama-3.1-8b")
-        ],
-        layer_type="proposer"
-    ),
-    # Layer 2: Aggregator
-    Layer(
-        models=[ModelConfig(model_key="nova-pro")],
-        layer_type="aggregator"
-    )
-]
-
-# Create MoA instance (uses live Bedrock API)
-moa = MoA(layers=layers)
-
-# Run
-prompt = "Explain the CAP theorem in distributed systems."
-response = await moa.run(prompt)
-```
-
-### Example 2: 3-Layer Ensemble with Refiners
-
-```python
-from moa import MoA, Layer, ModelConfig
-
-layers = [
-    # Layer 1: Proposers
-    Layer(
-        models=[
-            ModelConfig(model_key="nova-pro"),
-            ModelConfig(model_key="haiku"),
-            ModelConfig(model_key="mistral-7b")
-        ],
-        layer_type="proposer"
-    ),
-    # Layer 2: Refiners
-    Layer(
-        models=[
-            ModelConfig(model_key="mixtral-8x7b"),
-            ModelConfig(model_key="llama-3-70b")
-        ],
-        layer_type="refiner"
-    ),
-    # Layer 3: Aggregator
-    Layer(
-        models=[ModelConfig(model_key="haiku")],
-        layer_type="aggregator"
-    )
-]
-
-moa = MoA(layers=layers)  # Live Bedrock API
-response = await moa.run("Design a fraud detection system for a payment processor.")
-```
-
-### Example 3: Using Pre-Built Recipes
-
-```python
-from moa import create_moa_from_recipe
-
-# Available recipes: "ultra-cheap", "code-generation", "reasoning"
-moa = create_moa_from_recipe("ultra-cheap")
-response = await moa.run("What is Kubernetes?")
-```
-
-### Example 4: Custom Cost/Latency Tracking
-
-```python
-from moa import MoA, CostTracker, LatencyTracker
-
-# Create trackers
-cost_tracker = CostTracker()
-latency_tracker = LatencyTracker()
-
-# Use with MoA
-moa = MoA(
-    layers=my_layers,
-    track_cost=True,
-    track_latency=True
-)
-
-# Run multiple queries
-for prompt in prompts:
-    response = await moa.run(prompt)
-
-# Get aggregate stats
-avg_cost = cost_tracker.get_average_cost()
-avg_latency = latency_tracker.get_average_latency()
-
-print(f"Average cost per query: ${avg_cost:.6f}")
-print(f"Average latency: {avg_latency:.2f}ms")
-```
-
----
-
-## Pre-Built Recipes
-
-### Recipe 1: Ultra-Cheap Ensemble
-
-**Configuration:**
-- Proposers: Nova Micro, Mistral 7B, Llama 3.1 8B
-- Aggregator: Nova Lite
-- Layers: 2
-
-**Economics:**
-- Cost: ~$0.00005/call
-- Latency: ~1000ms
-- Quality: 75-80% of Sonnet
-
-**Use case:** High-volume, low-stakes queries (batch classification, simple analysis)
-
-```python
-moa = create_moa_from_recipe("ultra-cheap")
-```
-
----
-
-### Recipe 2: Code Generation
-
-**Configuration:**
-- Proposers: Nova Pro, Mixtral 8x7B, Llama 3 70B
-- Aggregator: Claude Haiku 3.5
-- Layers: 2
-
-**Economics:**
-- Cost: ~$0.00074/call
-- Latency: ~1000ms
-- Quality: 90-95% of Sonnet
-
-**Use case:** Code completion, refactoring, test generation, technical writing
-
-```python
-moa = create_moa_from_recipe("code-generation")
-```
-
----
-
-### Recipe 3: Reasoning Tasks
-
-**Configuration:**
-- Proposers: Nova Pro, Haiku, Llama 3 70B
-- Refiners: Mixtral 8x7B, Nova Pro
-- Aggregator: Claude Haiku 3.5
-- Layers: 3
-
-**Economics:**
-- Cost: ~$0.00137/call
-- Latency: ~1500ms
-- Quality: 85-90% of Sonnet
-
-**Use case:** Multi-step reasoning, complex analysis, technical decision-making
-
-```python
-moa = create_moa_from_recipe("reasoning")
-```
-
----
-
-### Recipe 4: Creative Writing
-
-**Configuration:**
-- Proposers: Nova Lite, Mistral 7B, Llama 3.1 8B, Haiku
-- Aggregator: Nova Pro
-- Layers: 2
-
-**Economics:**
-- Cost: ~$0.00020/call
-- Latency: ~1000ms
-- Quality: 80-85% of Sonnet
-
-**Use case:** Content generation, storytelling, brainstorming
-
-```python
-moa = create_moa_from_recipe("creative-writing")
-```
+**Expected: Ensemble costs 3-5x more and delivers equal or lower quality than standalone Haiku.**
 
 ---
 
 ## Running Benchmarks
 
-### Run Full Benchmark Suite
+### Full Benchmark Suite (54 prompts)
 
 ```bash
-# WARNING: This will incur AWS charges (~$0.50-$1.00 for 20 prompts)
-python benchmark/run.py --output results/benchmark_results.json
+# WARNING: Costs ~$5-10 depending on configurations
+python benchmark/run.py --output results/my_benchmark.json
 ```
 
-### Run Limited Benchmark (5 prompts for testing)
+### MT-Bench (Multi-turn Conversations)
 
 ```bash
-python benchmark/run.py --limit 5 --output results/test_results.json
+# Test conversational coherence (80 questions, 2 turns each)
+python benchmark/mtbench_integration.py opus ultra-cheap
 ```
 
-### View Results
+### Persona Diversity Test
 
 ```bash
-cat results/my_results.json
+# Test if personas create meaningful diversity
+python test_personas.py
 ```
 
-Benchmark output includes:
-- Per-prompt responses from each configuration
-- Cost breakdown by model and layer
-- Latency measurements
-- Summary statistics (average cost, latency by category)
+### Analyze Results
+
+```bash
+# Compare ensemble vs standalone
+python benchmark/analyze_diversity.py results/my_benchmark.json
+```
 
 ---
 
-## Cost Calculator
+## Pre-Built Recipes (All Underperform Standalone Models)
 
-Want to estimate costs for your use case?
+### Recipe 1: Ultra-Cheap Ensemble
+
+**Configuration:**
+- Proposers: Nova Lite, Mistral 7B, Llama 3.1 8B
+- Aggregator: Nova Lite
+- Layers: 2
+
+**Measured Results:**
+- Cost: $0.000644/call (5x more than Nova Lite alone)
+- Quality: 78.5/100 (vs 81.8 for Nova Lite alone)
+- **Verdict: Worse quality, higher cost ❌**
 
 ```python
-from moa.models import BEDROCK_MODELS, get_recipe
+moa = create_moa_from_recipe("ultra-cheap")
+# Not recommended - use Nova Lite standalone instead
+```
 
-# View all models and pricing
-for key, model in BEDROCK_MODELS.items():
-    print(f"{model.name}: ${model.input_price_per_1k}/1K input, ${model.output_price_per_1k}/1K output")
+---
 
-# Estimate recipe cost
-recipe = get_recipe("code-generation")
-print(f"Recipe: {recipe['name']}")
-print(f"Use case: {recipe['use_case']}")
+### Recipe 2: Reasoning Ensemble
 
-# Manual calculation
-# Assume average: 500 input tokens, 300 output tokens per proposer, 200 output for aggregator
-proposer_cost = 3 * ((500/1000 * 0.0008) + (300/1000 * 0.0032))  # Nova Pro
-aggregator_input = 500 + (3 * 300)  # Original + all proposer outputs
-aggregator_cost = (aggregator_input/1000 * 0.001) + (200/1000 * 0.005)  # Haiku
-total = proposer_cost + aggregator_cost
-print(f"Estimated cost: ${total:.6f}")
+**Configuration:**
+- Proposers: Nova Pro, Haiku, Llama 3 70B
+- Refiners: Mixtral 8x7B, Nova Pro
+- Aggregator: Haiku
+- Layers: 3
+
+**Measured Results:**
+- Cost: $0.018267/call
+- Quality: 91.1/100 (vs 92.2 for Sonnet at similar cost)
+- **Verdict: Similar cost, lower quality ❌**
+
+```python
+moa = create_moa_from_recipe("reasoning")
+# Not recommended - use Sonnet standalone instead
+```
+
+---
+
+### Recipe 3: Persona-Diverse (Novel Approach)
+
+**Configuration:**
+- Proposers: Opus with 3 different personas (critical-analyst, creative-generalist, domain-expert)
+- Aggregator: Opus with neutral-synthesizer persona
+- Layers: 2
+
+**Measured Results:**
+- Cost: $0.38/call (5x more than Opus alone)
+- Quality: 89.3/100 (vs 91.4 for Opus alone)
+- Persona diversity: 81% different responses (proven)
+- **Verdict: High diversity doesn't overcome aggregation overhead ❌**
+
+```python
+moa = create_moa_from_recipe("persona-diverse")
+# Not recommended - use Opus standalone instead
 ```
 
 ---
 
 ## When to Use MoA: Decision Framework
 
-### ✅ Use MoA When:
+### ❌ Don't Use MoA on AWS Bedrock
 
-- **Task complexity is high** — Multi-step reasoning, nuanced analysis
-- **Diversity adds value** — Multiple valid approaches exist (code generation, creative tasks)
-- **Quality > Speed** — 1-2 second latency is acceptable
-- **Error cost is significant** — Worth paying 3-5x for higher accuracy
-- **Budget is moderate** — Can afford 5-10x cheap model cost, not premium at scale
+Our empirical testing shows ensembles consistently underperform standalone models because:
 
-### ❌ Don't Use MoA When:
+1. **Limited platform diversity** — All models on Bedrock (vs OpenAI + Anthropic + Google)
+2. **Aggregation overhead** — Synthesizing 3 responses is harder than one direct answer
+3. **No quality gain** — Best case: match standalone; typical case: 0.5-2 points worse
+4. **Higher cost** — 3-5x more expensive for same or worse quality
+5. **Higher latency** — 2-3x slower due to sequential aggregation
 
-- **Task is simple** — Factual lookup, format conversion, classification
-- **Latency is critical** — Real-time chat, live coding assistants (<500ms required)
-- **Volume is extreme** — Millions of calls/day, must minimize cost per call
-- **Single model suffices** — Cheap model meets quality bar, or can afford premium
-- **Consistency > Diversity** — Legal, compliance, medical domains requiring deterministic outputs
+### ✅ When MoA Might Work (Not Tested Here)
+
+Based on Wang et al.'s success, MoA may work when:
+
+- **True cross-platform diversity** — GPT-4 (OpenAI) + Claude (Anthropic) + Gemini (Google)
+- **Stronger aggregator** — GPT-4 Turbo is MORE capable than GPT-4 proposers
+- **Simple tasks** — Instruction-following (AlpacaEval), not complex reasoning
+- **Cost doesn't matter** — Research or high-value use cases only
+
+**We couldn't replicate these conditions on AWS Bedrock.**
+
+### ✅ Use Standalone Models
+
+**Recommended approach based on our findings:**
+
+| Budget | Model | Quality | Cost/Prompt | Use Case |
+|--------|-------|---------|-------------|----------|
+| **Low** | Nova Lite | 81.8 | $0.00013 | High-volume, low-stakes |
+| **Medium** | Haiku | 89.5 | $0.00335 | Best cost/quality balance |
+| **High** | Sonnet | 92.2 | $0.01580 | Professional work |
+| **Critical** | Opus | 94.4 | $0.07936 | When quality matters most |
 
 ---
 
 ## Architecture
 
-### High-Level Flow
+### MoA Implementation
 
 ```mermaid
 sequenceDiagram
     participant User
     participant MoA
-    participant Layer1
-    participant Layer2
-    participant CostTracker
-    participant LatencyTracker
-
+    participant Proposers
+    participant Aggregator
+    
     User->>MoA: run(prompt)
-    MoA->>CostTracker: start_pipeline()
-    MoA->>LatencyTracker: start_pipeline()
-
-    MoA->>Layer1: execute proposers (parallel)
-    Layer1->>MoA: [response1, response2, response3]
-
-    MoA->>Layer2: execute aggregator
-    Layer2->>MoA: final_response
-
-    MoA->>CostTracker: end_pipeline()
-    MoA->>LatencyTracker: end_pipeline()
-
-    MoA->>User: MoAResponse (response, cost, latency)
+    MoA->>Proposers: invoke 3 models (parallel)
+    Proposers->>MoA: [response1, response2, response3]
+    MoA->>Aggregator: synthesize responses
+    Aggregator->>MoA: final_response
+    MoA->>User: result (+ cost, latency)
 ```
 
-### Parallel Execution Within Layers
+**Problem:** Aggregator task (read 3 responses, evaluate quality, synthesize) is harder than direct answer task. Result: aggregated quality ≤ best proposer quality.
 
-```mermaid
-gantt
-    title Layer 1 Execution (3 Proposers in Parallel)
-    dateFormat X
-    axisFormat %L
+---
 
-    section Models
-    Nova Pro:    0, 480
-    Mixtral:     0, 520
-    Llama:       0, 510
+## Benchmark Results
 
-    section Total Layer Time
-    Layer 1:     0, 520
-```
+### Custom Prompts (54 across 8 categories)
 
-All models in a layer execute concurrently. Layer latency = slowest model in the layer.
+**Tested:** Budget, mid-tier, premium, persona-diverse ensembles  
+**Judge:** Opus scoring on 3 dimensions (correctness, completeness, clarity)
+
+| Configuration | Quality | vs Opus | Cost | Verdict |
+|---------------|---------|---------|------|---------|
+| **Opus** | **94.4** | - | **$0.079** | ✅ **Best** |
+| Sonnet | 92.2 | -2.2 | $0.016 | ✅ Good value |
+| Haiku | 89.5 | -4.9 | $0.003 | ✅ Budget choice |
+| Persona-diverse | 89.3 | -5.1 | $0.38 | ❌ Expensive, worse |
+| Same-model-premium | 93.1 | +1.7 | $0.38 | ❌ 5x cost, not significant |
+| Reasoning ensemble | 91.1 | -3.3 | $0.018 | ❌ Same cost as Sonnet, worse |
+| Ultra-cheap | 78.5 | -15.9 | $0.00064 | ❌ Worse than Nova Lite alone |
+
+**Full results:** [PREMIUM_TIER_RESULTS.md](./PREMIUM_TIER_RESULTS.md)
+
+### MT-Bench (80 multi-turn conversations)
+
+**Result:** Opus beats ultra-cheap ensemble by 13.1 points (82.6 vs 69.6, p<0.0001)
+
+**Full results:** [MTBENCH_RESULTS.md](./MTBENCH_RESULTS.md)
+
+### Persona Diversity Experiment
+
+**Tested:** Does 81% persona diversity enable ensemble success?  
+**Result:** No. Persona-diverse (89.3) loses to Opus (91.4) by 2.1 points.
+
+**Full analysis:** [WHY_ENSEMBLES_FAIL.md](./WHY_ENSEMBLES_FAIL.md)
 
 ---
 
@@ -408,152 +320,87 @@ All models in a layer execute concurrently. Layer latency = slowest model in the
 ```
 ensemble-moa-bedrock-guide/
 ├── moa/                          # Core MoA framework
-│   ├── __init__.py
-│   ├── core.py                   # Main MoA orchestrator
-│   ├── models.py                 # Model definitions + pricing table
+│   ├── core.py                   # MoA orchestrator (supports personas)
+│   ├── models.py                 # Model definitions + pricing + personas
+│   ├── judge.py                  # Opus-based quality scoring
 │   ├── cost_tracker.py           # Per-invocation cost tracking
-│   ├── latency_tracker.py        # Wall-clock latency measurement
-│   └── bedrock_client.py         # Bedrock API + mock client
+│   └── bedrock_client.py         # Bedrock API client
 │
 ├── benchmark/                    # Evaluation suite
-│   ├── __init__.py
-│   ├── prompts.json              # 20 test prompts across categories
-│   └── run.py                    # Benchmark runner
+│   ├── prompts.json              # 54 test prompts across 8 categories
+│   ├── run.py                    # Main benchmark runner
+│   ├── mtbench_integration.py    # MT-Bench (multi-turn conversations)
+│   ├── analyze_diversity.py      # Statistical analysis
+│   └── validate_prompts.py       # Prompt validation
 │
 ├── results/                      # Benchmark outputs
-│   ├── example_benchmark_results.json
-│   └── ANALYSIS.md               # Cost/quality analysis
+│   ├── premium_tier.json         # Phase 1 results (11 configs)
+│   ├── mtbench_results.json      # Phase 2 results (MT-Bench)
+│   └── persona_experiment.json   # Phase 3 results (persona diversity)
 │
-├── BLOG.md                       # Full practitioner guide (2500+ words)
+├── BLOG.md                       # Full practitioner guide
 ├── README.md                     # This file
-├── REQUIREMENTS.md               # Original project requirements
-├── RESEARCH.md                   # Research context and literature review
-└── REVIEW.md                     # Build self-assessment
-```
-
----
-
-## Configuration
-
-### Environment Variables
-
-```bash
-# Bearer token for Bedrock API authentication
-export AWS_BEARER_TOKEN_BEDROCK=your_bearer_token_here
-export AWS_DEFAULT_REGION=us-east-1
-```
-
-### Model Configuration
-
-Edit `moa/models.py` to:
-- Add new models
-- Update pricing (AWS changes pricing quarterly)
-- Create custom recipes
-
-### Custom Recipes
-
-```python
-# In moa/models.py, add to RECIPES dict:
-RECIPES["my-custom-recipe"] = {
-    "name": "My Custom Recipe",
-    "description": "Optimized for my use case",
-    "proposers": ["nova-lite", "mistral-7b"],
-    "aggregator": "haiku",
-    "layers": 2,
-    "use_case": "Custom domain-specific task"
-}
+├── WHY_ENSEMBLES_FAIL.md         # Detailed failure analysis
+├── PREMIUM_TIER_RESULTS.md       # Phase 1 complete results
+├── MTBENCH_RESULTS.md            # Phase 2 complete results
+├── EXPANSION_PLAN.md             # Future experiment ideas
+└── test_personas.py              # Persona diversity testing
 ```
 
 ---
 
 ## FAQ
 
-### Q: Do I need an AWS account?
+### Q: Why doesn't MoA work on AWS Bedrock?
 
-**A:** Yes. You'll need:
-- AWS account with Bedrock access enabled
-- Bearer token with permissions to invoke Bedrock models
-- Model access granted in Bedrock console (some models require access request)
-- Set `AWS_BEARER_TOKEN_BEDROCK` environment variable
+**A:** Four reasons:
 
-### Q: Can I use models not listed in `models.py`?
+1. **Platform limitation:** All models on same platform (limited diversity)
+2. **No stronger aggregator:** Opus can't aggregate better than its own direct response
+3. **Aggregation overhead:** Synthesizing 3 responses is harder than 1 direct answer
+4. **Correlated errors:** Bedrock models may share training data
 
-**A:** Yes. Add the model to `BEDROCK_MODELS` dict with pricing and model ID. Follow existing patterns for model family (Anthropic, Amazon, Meta, Mistral).
+Wang et al. succeeded with GPT-4 Turbo (stronger) aggregating GPT-4 + Claude + Gemini (different platforms).
 
-### Q: How accurate are the cost calculations?
+### Q: Did you try personas to increase diversity?
 
-**A:** Very accurate. We use token counts from actual Bedrock responses and official pricing (March 2026). Pricing may change; verify at https://aws.amazon.com/bedrock/pricing/
+**A:** Yes! We tested personas that create 81% different responses:
+- Critical-analyst (cautious, identifies flaws)
+- Creative-generalist (comprehensive, explores possibilities)
+- Domain-expert (precise, technical depth)
 
-### Q: Why is my ensemble slower than expected?
+**Result:** Persona-diverse ensemble (89.3) still lost to Opus (91.4) by 2.1 points.
 
-**A:** Check:
-1. Are you using async/await properly? (`await moa.run()`)
-2. Is your network latency to AWS high? (Try different region)
-3. Are models in the same layer executing in parallel? (Enable debug logging)
+### Q: What about using multiple reasoning models?
 
-### Q: Can I use OpenAI/Anthropic direct APIs instead of Bedrock?
+**A:** Tested. Reasoning-cross-vendor (Opus + Sonnet + Mistral Large) scored 90.4 vs Opus 91.4. Lost by 1.1 points despite vendor diversity.
 
-**A:** Not out of the box. This implementation is Bedrock-specific. You'd need to implement a new client class inheriting from `BaseBedrockClient` with provider-specific API logic.
+### Q: Is the code still useful?
 
-### Q: How do I evaluate quality for my domain?
+**A:** Yes! Three uses:
 
-**A:** Run benchmarks with your own prompts and quality rubric. See `benchmark/prompts.json` for format. Evaluate outputs manually or use a judge model (e.g., Opus to score responses 0-100).
+1. **Documentation:** Shows how MoA works (even if it doesn't help on Bedrock)
+2. **Research:** Provides framework for testing on other platforms
+3. **Baseline:** Proves you should use standalone models on Bedrock
 
----
+### Q: Could this work on other platforms?
 
-## Performance Tips
+**A:** Possibly. You'd need:
+- True cross-platform diversity (OpenAI + Anthropic + Google via their direct APIs)
+- Stronger aggregator than proposers (GPT-4 Turbo > GPT-4)
+- Simple tasks (instruction-following, not complex reasoning)
 
-1. **Enable async parallelization** — Always use `asyncio.run()` and `await` for concurrent model calls
-2. **Right-size your aggregator** — Don't bottleneck with a too-cheap aggregator
-3. **Batch when possible** — If processing multiple prompts, batch them and run concurrently
-4. **Monitor per-layer costs** — Track which layers dominate cost; optimize there first
-5. **Cache at the prompt level** — If same prompt appears often, cache the MoA response
-6. **Rate limiting** — The shared client enforces 0.1s minimum delay between calls (configurable)
+**But you can't test this on AWS Bedrock alone.**
 
----
+### Q: What should I use instead?
 
-## Troubleshooting
+**A:** Choose one strong model:
 
-### Error: "AWS_BEARER_TOKEN_BEDROCK environment variable not set"
+- **Budget:** Nova Lite ($0.00013, 81.8 quality)
+- **Balanced:** Haiku ($0.00335, 89.5 quality)
+- **Premium:** Opus ($0.08, 94.4 quality)
 
-```bash
-export AWS_BEARER_TOKEN_BEDROCK=your_bearer_token_here
-```
-
-### Error: "Model access denied"
-
-Some Bedrock models require access request:
-1. Go to AWS Bedrock console
-2. Navigate to "Model access"
-3. Request access for the models you want to use
-4. Wait for approval (usually instant for most models)
-
-### Error: "Rate limit exceeded"
-
-Bedrock has per-model rate limits. If you hit them:
-- Reduce concurrency (don't run 100 ensembles in parallel)
-- Implement retry with exponential backoff
-- Request quota increase in AWS Service Quotas
-
-### Latency higher than expected
-
-- Check network latency to AWS region (try `ping` or `traceroute`)
-- Verify async execution is working (add debug prints)
-- Consider using AWS Lambda in same region as Bedrock for lowest latency
-
----
-
-## Contributing
-
-This is a practitioner guide, not a production library. It's meant to be:
-- **Read and understood** — Implementation is intentionally simple
-- **Forked and modified** — Adapt to your use case
-- **Used as a template** — Copy patterns into your own code
-
-If you find bugs or want to share results:
-- Open an issue
-- Submit a PR with fixes
-- Share your benchmark data (especially domain-specific use cases)
+Skip ensembles. They cost more and deliver less.
 
 ---
 
@@ -561,45 +408,57 @@ If you find bugs or want to share results:
 
 ⚠️ **Running benchmarks will incur AWS charges.**
 
-Example costs (April 2026 pricing):
-- Full 20-prompt benchmark, all configs: ~$0.50-$1.00
-- Single ensemble run: $0.00005 - $0.00137 depending on recipe
-- 1M queries with "code-generation" recipe: ~$735
+Costs incurred during development:
+- Phase 1 (54 prompts, 11 configs): $55
+- Phase 2 (MT-Bench, 80 questions): $2.74
+- Phase 3 (Persona experiment): $50
+- **Total:** $107.74
 
-Test with `--limit 5` first to verify your setup before running the full benchmark suite.
+Test with small limits first:
+```bash
+python benchmark/run.py --limit 3  # ~$0.15
+```
 
 ---
 
-## License
+## Key Takeaways
 
-MIT License - feel free to use, modify, and distribute.
+1. ✅ **MoA is implemented and works** (code executes correctly)
+2. ❌ **MoA doesn't improve quality on AWS Bedrock** (empirically validated)
+3. ✅ **Standalone models are better** (higher quality, lower cost)
+4. ✅ **Save 3-5x cost** by skipping ensembles
+5. ❌ **Even personas don't help** (81% diversity still loses)
 
-No warranties, no guarantees. Use at your own risk. Verify all cost calculations before production deployment.
+**For AWS Bedrock users: Use standalone models. Don't use ensembles.**
 
 ---
 
 ## Citation
 
-If you use this guide or code in your work:
+If you use this research:
 
 ```
-The Practitioner's Guide to Mixture-of-Agents on AWS Bedrock
+The Practitioner's Guide to Mixture-of-Agents on AWS Bedrock:
+An Empirical Evaluation Showing Ensembles Underperform Standalone Models
 https://github.com/[your-repo]/ensemble-moa-bedrock-guide
-March 2026
+April 2026
 ```
+
+Key finding: MoA does not improve quality over standalone models on AWS Bedrock
+across 3 benchmarks, 54 prompts, 11 configurations, and $108 in validated testing.
 
 ---
 
 ## Resources
 
-- **MoA Paper:** https://arxiv.org/abs/2406.04692
+- **MoA Paper (Wang et al.):** https://arxiv.org/abs/2406.04692
+- **Why it worked for them, not us:** [WHY_ENSEMBLES_FAIL.md](./WHY_ENSEMBLES_FAIL.md)
 - **AWS Bedrock Pricing:** https://aws.amazon.com/bedrock/pricing/
-- **Bedrock Documentation:** https://docs.aws.amazon.com/bedrock/
-- **Full Guide:** [BLOG.md](./BLOG.md)
-- **Analysis:** [results/ANALYSIS.md](./results/ANALYSIS.md)
+- **Full Analysis:** [PREMIUM_TIER_RESULTS.md](./PREMIUM_TIER_RESULTS.md), [MTBENCH_RESULTS.md](./MTBENCH_RESULTS.md)
+- **Future Work:** [EXPANSION_PLAN.md](./EXPANSION_PLAN.md)
 
 ---
 
-**Questions? Ideas? Results to share?**
+**Questions? Disagree with findings? Have data from other platforms?**
 
-Open an issue or start a discussion. This guide is a living document—share your learnings so others can benefit.
+Open an issue or submit a PR. This guide documents what we learned—share your learnings so others can avoid expensive experiments.
