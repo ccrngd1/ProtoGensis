@@ -1,6 +1,6 @@
 # Ensemble Methods Comparison - Final Results
 
-**Date:** April 10, 2026  
+**Date:** April 10, 2026 (Updated April 11, 2026 with corrected self-consistency results)  
 **Dataset:** GSM8K-100 (grade school math)  
 **Runs:** 3 independent runs per configuration  
 **Total cost:** $46.94
@@ -9,16 +9,19 @@
 
 ## Executive Summary
 
-**Primary finding:** Ensemble methods consistently **WORSE** than individual baseline on GSM8K-100.
+**Primary finding:** Ensemble architecture determines outcome - weak judges fail, proven methods work.
 
 | Configuration | Mean Accuracy | vs Baseline | Cost (3 runs) |
 |---------------|---------------|-------------|---------------|
 | **Opus-fast (baseline)** | **89.7%** | -- | $4.48 |
 | Opus-thinking | 89.7% | **= SAME** | $6.08 |
-| Vote ensemble | 72.7% | **-17% ✗** | $15.45 |
-| Self-consistency | 86.7% | **-3% ✗** | $16.76 |
+| Vote ensemble | 72.7% | **-17.0% ✗** | $15.45 |
+| Self-consistency | **93.3%** | **+3.6% ✓** | $16.76 |
 
-**Key insight:** Even with proven ensemble architectures (Wang et al. 2023), ensembles hurt performance when models operate near capability limits.
+**Key insights:** 
+1. **Weak-judge ensembles fail catastrophically** - Using Haiku (40% GPQA) to judge stronger models → -17% penalty
+2. **Proven methods work** - Self-consistency (Wang et al. 2023) improves accuracy by 3.6% on math
+3. **Cost-benefit matters** - Self-consistency costs 3.7x more = $3.41 per percentage point gained
 
 ---
 
@@ -101,28 +104,37 @@
 **Setup:** Opus-fast run 5 times per prompt (temperature=0.7), take majority vote
 
 **Results across 3 runs:**
-- Run 1: 87/100 = 87.0%
-- Run 2: 87/100 = 87.0%
-- Run 3: 86/100 = 86.0%
+- Run 1: 93/100 = 93.0%
+- Run 2: 94/100 = 94.0%
+- Run 3: 93/100 = 93.0%
 
 **Statistics:**
-- Mean accuracy: **86.7%**
+- Mean accuracy: **93.3%**
 - Standard deviation: 0.58%
-- 95% CI: [86.0%, 87.0%] (1% width)
+- 95% CI: [93.0%, 94.0%] (1% width)
 - Cost: $16.76 total ($5.59 per run)
 
 **vs Baseline:**
-- Difference: -3.0% (WORSE)
+- Difference: +3.6% (BETTER)
 - Cost multiplier: 3.7x
-- **Verdict: Self-consistency underperforms individual**
+- **Verdict: Self-consistency improves accuracy**
 
-**Why it fails:**
-- Problems are at model's capability boundary
-- Systematic errors: model gets same problems wrong consistently
-- Majority vote converges on systematic misunderstanding
-- Individual's correct answers were rare "lucky" samples (1/5)
+**Why it works:**
+- Model generates 5 diverse samples with temperature=0.7
+- Correct reasoning appears more consistently than incorrect on math problems
+- Majority vote filters out occasional errors
+- No weak judge bottleneck (model evaluates itself)
 
-**Interpretation:** Costs 3.7x more for 3% worse accuracy. Even proven ensemble method (Wang et al. 2023) fails at capability limits.
+**Cost-benefit analysis:**
+- Improvement: +3.6 percentage points
+- Cost increase: 3.7x
+- **Value: $3.41 per percentage point gained**
+
+**Interpretation:** Proven method (Wang et al. 2023) works on frontier models for math tasks. Whether the 3.7x cost justifies 3.6% gain depends on use case:
+- High-stakes applications (medical, financial decisions): May justify cost
+- High-volume queries: Individual baseline more cost-effective
+
+**Data quality note:** Original calculation compared full-text responses to numeric ground truth, incorrectly marking many correct answers as wrong. Corrected calculation extracts numeric answers from vote counts, revealing true performance. Discovery and fix documented in CRITICAL_FINDING_SELFCONS.md.
 
 ---
 
