@@ -139,7 +139,7 @@ Wang et al. addressed this explicitly. It's not clear if this study did.
 
 ---
 
-## 🟠 Moderate Issues
+## 🟠 Moderate Issues (Thinking Models)
 
 ### 11. Two Projects Tell Overlapping But Inconsistent Stories
 
@@ -155,98 +155,252 @@ Phase 2 was explicitly done because Phase 1 methodology was weak. But the BLOG s
 
 ---
 
-## Required Experiment Matrix
+---
 
-The table below lists every experiment combination needed to close the gaps identified above. Organized by priority.
+# Part 2: MOA Bedrock Guide — Dedicated Review
 
-### Priority 1: Verify/Fix Existing Results (No New Runs Needed)
+The thinking-models project got the deep treatment in Part 1. The MOA project has its own distinct methodology, data, and gaps that deserve equal scrutiny. This section covers them.
 
-| # | Action | Purpose | Estimated Effort |
-|---|---|---|---|
-| V1 | Audit `selected_answer` fields in `gsm8k_100_selfcons_run*.json` | Verify self-consistency isn't miskeying numeric answers as letters (Issue #1) | 30 min |
-| V2 | Audit self-consistency sample counts per prompt | Confirm 5 samples actually ran per prompt per run (Issue #9) | 15 min |
-| V3 | Compare GSM8K-20 prompt IDs to GSM8K-100 prompt IDs | Determine if Phase 1's 20 prompts are a subset of Phase 2's 100 (Issue #4) | 15 min |
-| V4 | Check temperature settings: baseline vs self-consistency | Confirm what temp was used for individual runs vs self-consistency samples (Issue #10) | 10 min |
-| V5 | Fix MMLU loader to generate 100 prompts | Investigate and fix the 57-prompt bug (Issue #7) | 1-2 hr |
+---
 
-### Priority 2: Close Critical Evidence Gaps (New Runs Required)
+## 🔴 Critical Issues (MOA)
 
-These experiments directly address the critical issues. Without them, the core claims remain under-supported.
+### M1. Opus Baseline Score Is Inconsistent Across Documents (94.4 vs 82.7)
 
-| # | Experiment | Model(s) | Benchmark | N Prompts | Runs | Method | Purpose | Est. Cost |
+This is the most concerning data integrity issue in the project.
+
+| Document | Opus Baseline Score | Source |
+|---|---|---|
+| PREMIUM_TIER_RESULTS.md | **94.4 ± 7.6** | Phase 1 single models table |
+| RESULTS_AT_A_GLANCE.md | **82.7** | "Complete Results Table" |
+| BLOG.md | **82.7** | Used throughout as baseline for all deltas |
+| MTBENCH_RESULTS.md | **82.6 ± 20.3** | Phase 2 MT-Bench |
+
+The BLOG and RESULTS_AT_A_GLANCE report 82.7 as the universal Opus baseline. But PREMIUM_TIER_RESULTS reports Opus at 94.4 on the same Phase 1 data. The MT-Bench score is 82.6.
+
+**One of these is wrong, or they're from different scoring runs/methodologies.** If the BLOG's deltas ("-1.4", "-4.5", "-4.8") are computed against 82.7 but Phase 1's raw data shows Opus at 94.4, then:
+- The actual deltas are much larger (e.g., Same-Model-Premium at 92.4 vs 94.4 = -2.0, not vs 82.7 = +9.7)
+- Or the ensemble scores in the BLOG are also from a different scoring run than PREMIUM_TIER_RESULTS
+
+**This needs to be traced to the raw JSON files and reconciled before any publication.** Every delta, p-value, and effect size depends on the baseline number being correct.
+
+### M2. The Judge (Opus) Is Scoring Its Own Responses
+
+Opus is both the baseline model AND the judge evaluating all responses. The BLOG acknowledges this: "We used Opus to judge its own responses." The mitigation cited: "same-model-premium scored worse than standalone Opus, suggesting Opus doesn't favor more Opus."
+
+But that's not a controlled test of judge bias. Same-model-premium sends Opus 3 other Opus responses as context, fundamentally changing the task from "answer this question" to "synthesize these 3 answers." The lower score could be aggregation overhead, not evidence of fair judging.
+
+**Proper mitigation would include:**
+- Using a different judge model (Sonnet, or cross-provider like GPT-4)
+- Blind evaluation (judge doesn't know which response came from which config)
+- Inter-rater reliability (two judges, measure agreement)
+
+The 20-judgment manual validation (18/20 agreement) is a start but statistically thin for 592 judgments. That's a 3.5% sample.
+
+### M3. MT-Bench Phase 2 Only Tested ONE Ensemble Configuration
+
+MT-Bench (160 tests) only compared Opus vs ultra-cheap ensemble. That's the weakest possible ensemble (cheapest models as proposers). The interesting comparisons — premium ensembles, persona-diverse, cross-vendor — were never tested on MT-Bench.
+
+The 13.1-point gap (82.6 vs 69.6) is real but uninteresting. Of course the cheapest models lose to the most expensive model. The meaningful question — do premium/diverse ensembles beat standalone Opus on multi-turn? — is unanswered.
+
+**Phase 2 was 160 tests but tested only the least interesting comparison.**
+
+### M4. No Repeated Runs in the Entire MOA Project
+
+The thinking-models project ran Phase 2 with 3 independent runs per configuration. The MOA project ran every test exactly once. Zero variance estimates. Zero confidence intervals on the actual scores.
+
+The p-values reported (0.001 to 0.730) come from within-run variance across the 54 prompts — treating each prompt as an independent sample. This is a reasonable approach, but it conflates prompt difficulty variation with configuration quality difference. A harder prompt will score lower for ALL configurations, creating correlated errors.
+
+**Paired analysis** (comparing ensemble vs baseline on the same prompt) would be more appropriate and is the standard approach in ML evaluation. It's unclear whether the reported p-values use paired or unpaired tests.
+
+---
+
+## 🟡 Significant Concerns (MOA)
+
+### M5. "592 Tests" Overstates the Evidence Breadth
+
+592 sounds like a large study. But:
+- Phase 1: 54 prompts × 4 configs = 216 datapoints... but only 54 unique prompts
+- Phase 2: 80 questions × 2 turns = 160... but only 80 unique questions, tested on 2 configs
+- Phase 3: 54 prompts × 4 configs = 216... but the SAME 54 prompts as Phase 1
+
+The actual unique prompt count is ~134 (54 + 80). And only 54 of those were tested across multiple ensemble configurations. "592 test cases" is technically accurate but creates an impression of more evidence diversity than exists.
+
+### M6. Phase 3 Persona Diversity — Only the Pilot Measured Diversity
+
+The "81% diversity" finding comes from a pilot test (20 prompts × 3 personas). The full Phase 3 test used different configurations (4 configs, not 3 personas). Was diversity actually measured on the full test, or is the 81% figure from the pilot being applied to a different setup?
+
+If only the pilot measured diversity, the claim "even 81% diversity didn't help" is conflating pilot diversity measurements with full-test quality measurements from a different configuration.
+
+### M7. Ensemble Configurations Don't Match Wang et al.'s Architecture
+
+The paper positions itself against Wang et al. (2024), but the tested architectures differ significantly:
+
+| Factor | Wang et al. | This Study |
+|---|---|---|
+| Proposers | GPT-4, Claude, Gemini (cross-provider) | Bedrock-only models |
+| Aggregator | GPT-4 Turbo (stronger than proposers) | Opus (equal to best proposer) |
+| Benchmark | AlpacaEval, MT-Bench | Custom 54 prompts + partial MT-Bench |
+| Layers | Up to 3 | 2-3 |
+
+The study correctly identifies these differences as reasons for divergent results. But the BLOG title "Ensembles Don't Work on Bedrock" could be read as "MoA doesn't work" rather than "MoA doesn't work when your aggregator isn't stronger than your proposers." The latter is a platform constraint, not a method failure.
+
+**The actual finding is: "MoA requires a stronger aggregator than your best proposer, and Bedrock doesn't have one."** That's a useful finding but narrower than "ensembles don't work."
+
+### M8. Smart Routing Recommendation Is Untested
+
+The BLOG recommends "smart routing" (classify complexity → route to appropriate model tier) as a superior alternative. This recommendation includes code examples and cost projections.
+
+But smart routing was never tested. The quality claims ("Better than any ensemble") and cost projections ($0.00056/query blended) are hypothetical. Given how thoroughly the ensembles were tested, presenting an untested alternative as the recommended approach is inconsistent methodology.
+
+### M9. No Cross-Validation of Judge Scores
+
+The judge scored 592 responses with ~1% parse failure rate. But were the scores calibrated? Does Opus-as-judge give consistent scores when evaluating the same response twice? Is there score drift across a multi-hour judging session?
+
+Without intra-rater reliability testing (score the same 20 responses at the beginning and end of the session), we don't know if the judge was consistent. The 20-response manual validation checks accuracy but not consistency.
+
+---
+
+## 🟠 Moderate Issues (MOA)
+
+### M10. "3-6x" Cost Multiplier Range Is Imprecise
+
+EDITORIAL_REFERENCE.md flags this: "Blog says '3-6x' but minimum we tested was 4x." Minor but sloppy for a data-driven piece.
+
+### M11. Nova Premier Substitution May Have Changed Results
+
+High-end-reasoning was supposed to use Nova Premier (a strong proposer). When it went 404, Haiku was substituted. The substitution weakened the proposer tier, potentially changing the result. The original design — Opus + Sonnet + Nova Premier → Opus aggregator — was the closest match to Wang et al.'s architecture. We never saw those results.
+
+### M12. Adversarial Prompts Were Designed to Make Ensembles Fail
+
+5 of 54 prompts (9%) are explicitly adversarial — "designed to trigger hallucinations or expose model limitations." These prompts are specifically crafted for ensemble failure (hallucination amplification). While important to test, including them in the overall average skews the "2-5 point" penalty figure. The analysis should report results with and without adversarial prompts.
+
+### M13. Category Imbalance May Distort Averages
+
+The 54 prompts range from 4 (edge-cases) to 8 (code, creative, factual, analysis) per category. Categories with more prompts have more weight in the overall average. If ensembles happen to perform worse on the larger categories, the penalty is amplified. Weighted-by-category averages should be reported alongside raw averages.
+
+---
+
+## Combined Experiment Matrix: MOA + Thinking Models
+
+### All Verification Tasks (No New Runs)
+
+| # | Project | Action | Purpose | Effort |
+|---|---|---|---|---|
+| V1 | Thinking | Audit `selected_answer` in `gsm8k_100_selfcons_run*.json` | Self-consistency extraction bug check | 30 min |
+| V2 | Thinking | Audit self-consistency sample counts | Confirm 5 samples per prompt per run | 15 min |
+| V3 | Thinking | Compare GSM8K-20 vs GSM8K-100 prompt IDs | Explain Phase 1→2 thinking mode discrepancy | 15 min |
+| V4 | Thinking | Check temperature: baseline vs self-consistency | Confirm fair comparison | 10 min |
+| V5 | Thinking | Fix MMLU loader (57→100 prompts) | Pipeline bug | 1-2 hr |
+| V6 | **MOA** | **Reconcile Opus baseline: 94.4 vs 82.7** | **Data integrity — all deltas depend on this** | **1 hr** |
+| V7 | **MOA** | **Confirm paired vs unpaired t-tests** | **Statistical validity of all p-values** | **30 min** |
+| V8 | **MOA** | **Verify Phase 3 diversity was measured on full run (not just pilot)** | **"81% diversity" claim accuracy** | **30 min** |
+| V9 | **MOA** | **Report results with/without adversarial prompts** | **Check if adversarial skews average** | **1 hr** |
+
+### Priority 1: Critical Evidence Gaps (New Runs)
+
+#### Thinking Models
+
+| # | Experiment | Model(s) | Benchmark | N | Runs | Method | Purpose | Est. Cost |
 |---|---|---|---|---|---|---|---|---|
-| E1 | Strong-judge vote ensemble | Opus (judge) + Sonnet + Haiku + Nova-pro + Llama-70B + Nova-lite (proposers) | GSM8K-100 | 100 | 3 | Vote with Opus as judge | Test whether ensemble failure is architectural (Haiku judge) or fundamental (Issue #3) | ~$20 |
-| E2 | Best-of-N with Opus verifier | Opus (verifier) × 5 candidates from Opus-fast | GSM8K-100 | 100 | 3 | Generate 5 responses, Opus picks best | Strongest ensemble architecture available on Bedrock (Issue #3) | ~$25 |
-| E3 | Self-consistency (bug-fixed) | Opus-fast | GSM8K-100 | 100 | 3 | Same as before but with number-first extraction for GSM8K | Verify self-consistency finding isn't an extraction artifact (Issue #1) | ~$17 |
-| E4 | Nova-lite individual | Nova-lite | GSM8K-100 | 100 | 3 | Individual baseline | Validate the headline cost claim with statistical rigor (Issue #6) | ~$0.10 |
-| E5 | Nova-lite individual | Nova-lite | MMLU-100 | 100 | 3 | Individual baseline | Cross-benchmark Nova-lite validation (Issue #6) | ~$0.10 |
+| E1 | Strong-judge vote | Opus (judge) + Sonnet + Haiku + Nova-pro + Llama-70B + Nova-lite | GSM8K-100 | 100 | 3 | Vote, Opus judge | Is failure architectural (Haiku judge) or fundamental? | ~$20 |
+| E2 | Best-of-N + Opus verifier | Opus-fast × 5 candidates, Opus picks best | GSM8K-100 | 100 | 3 | Best-of-N | Strongest ensemble available on Bedrock | ~$25 |
+| E3 | Self-consistency (bug-fixed) | Opus-fast | GSM8K-100 | 100 | 3 | Number-first extraction | Verify finding isn't extraction artifact | ~$17 |
+| E4 | Nova-lite baseline | Nova-lite | GSM8K-100 | 100 | 3 | Individual | Validate headline cost claim | ~$0.10 |
+| E5 | Nova-lite baseline | Nova-lite | MMLU-100 | 100 | 3 | Individual | Cross-benchmark Nova-lite validation | ~$0.10 |
 
-### Priority 3: Broaden the Evidence Base
+#### MOA Bedrock Guide
 
-These experiments generalize the findings beyond GSM8K math. Needed to support the broad claims in the papers.
-
-| # | Experiment | Model(s) | Benchmark | N Prompts | Runs | Method | Purpose | Est. Cost |
+| # | Experiment | Model(s) | Benchmark | N | Runs | Method | Purpose | Est. Cost |
 |---|---|---|---|---|---|---|---|---|
-| E6 | Ensemble comparison (full suite) | Opus-fast, Opus-thinking, Vote (Opus judge), Self-consistency | MMLU-100 | 100 | 3 | All 4 configs | Validate ensemble findings on knowledge tasks (Issue #2) | ~$45 |
-| E7 | Ensemble comparison (full suite) | Opus-fast, Opus-thinking, Vote (Opus judge), Self-consistency | GPQA-50+ | 50+ | 3 | All 4 configs | Test "below capability limit" prediction — Opus ~70% on GPQA (Issue #5) | ~$30 |
-| E8 | Ensemble comparison (full suite) | Opus-fast, Opus-thinking, Vote (Opus judge), Self-consistency | HumanEval-50+ | 50+ | 3 | All 4 configs | Test at very low baseline (~30%) where ensembles "should" help (Issue #5) | ~$30 |
-| E9 | Opus-fast individual | Opus-fast | GPQA-50+ | 50+ | 3 | Individual baseline | Establish baseline for GPQA ensemble comparison | ~$3 |
-| E10 | Opus-fast individual | Opus-fast | HumanEval-50+ | 50+ | 3 | Individual baseline | Establish baseline for HumanEval ensemble comparison | ~$3 |
+| M-E1 | **Repeat Phase 1 with 3 runs** | All Phase 1 configs (4) | Custom-54 | 54 | 3 | Full Phase 1 rerun | Add variance estimates + CIs to MOA claims | ~$135 |
+| M-E2 | **Cross-judge validation** | Use Sonnet as judge (instead of Opus) on Phase 1 results | Custom-54 | 54 | 1 | Re-score existing responses | Test judge bias (Opus judging itself) | ~$5 |
+| M-E3 | **Premium ensembles on MT-Bench** | Mixed-capability, same-model-premium, persona-diverse, Opus baseline | MT-Bench-80 | 80 | 1 | Full ensemble comparison | Close the MT-Bench single-config gap | ~$25 |
+| M-E4 | **Smart routing validation** | Nova-lite + Haiku + Opus with classifier | Custom-54 | 54 | 3 | Route by complexity | Validate the recommended alternative | ~$15 |
 
-### Priority 4: Strengthen Thinking Mode Claims
+### Priority 2: Broaden Evidence Base (New Runs)
 
-| # | Experiment | Model(s) | Benchmark | N Prompts | Runs | Method | Purpose | Est. Cost |
+#### Thinking Models
+
+| # | Experiment | Model(s) | Benchmark | N | Runs | Method | Purpose | Est. Cost |
 |---|---|---|---|---|---|---|---|---|
-| E11 | Thinking vs fast comparison | Opus-thinking | MMLU-100 | 100 | 3 | Individual (thinking) | Does thinking help on knowledge tasks? | ~$6 |
-| E12 | Thinking vs fast comparison | Opus-thinking | GPQA-50+ | 50+ | 3 | Individual (thinking) | Does thinking help on hard science? | ~$4 |
-| E13 | Thinking vs fast comparison | Opus-thinking | HumanEval-50+ | 50+ | 3 | Individual (thinking) | Does thinking help on code? | ~$4 |
-| E14 | Budget model baselines | Nova-lite, Haiku-fast, Sonnet-fast | GSM8K-100 | 100 | 3 | Individual baselines | Establish capability spectrum for "systematic error threshold" theory | ~$2 |
+| E6 | Full ensemble comparison | Opus-fast, Opus-thinking, Vote (Opus judge), Self-consistency | MMLU-100 | 100 | 3 | All 4 configs | Knowledge task validation | ~$45 |
+| E7 | Full ensemble comparison | Same as E6 | GPQA-50+ | 50+ | 3 | All 4 configs | Below-capability test (~70% baseline) | ~$30 |
+| E8 | Full ensemble comparison | Same as E6 | HumanEval-50+ | 50+ | 3 | All 4 configs | Very low baseline (~30%) | ~$30 |
+| E9 | Opus-fast baseline | Opus-fast | GPQA-50+ | 50+ | 3 | Individual | GPQA baseline for comparison | ~$3 |
+| E10 | Opus-fast baseline | Opus-fast | HumanEval-50+ | 50+ | 3 | Individual | HumanEval baseline for comparison | ~$3 |
 
-### Priority 5: Test the Systematic Error Theory (Issue #5)
+#### MOA Bedrock Guide
 
-| # | Experiment | Model(s) | Benchmark | N Prompts | Runs | Method | Purpose | Est. Cost |
+| # | Experiment | Model(s) | Benchmark | N | Runs | Method | Purpose | Est. Cost |
 |---|---|---|---|---|---|---|---|---|
-| E15 | Self-consistency at LOW baseline | Haiku-fast (expected ~60-70%) | GSM8K-100 | 100 | 3 | Self-consistency (5 samples) | If systematic error theory is right, self-consistency should HELP here | ~$3 |
-| E16 | Self-consistency at LOW baseline | Nova-lite | GPQA-50+ | 50+ | 3 | Self-consistency (5 samples) | Test on hard domain where budget models struggle | ~$0.50 |
-| E17 | Self-consistency at MID baseline | Sonnet-fast | GSM8K-100 | 100 | 3 | Self-consistency (5 samples) | Map the threshold where ensembles flip from helping to hurting | ~$6 |
+| M-E5 | **Test with external benchmark** | All Phase 1 configs | AlpacaEval subset (50 prompts) | 50 | 1 | Match Wang et al. benchmark | Directly comparable to Wang et al. | ~$20 |
+
+### Priority 3: Thinking Mode + Theory Testing
+
+| # | Experiment | Model(s) | Benchmark | N | Runs | Method | Purpose | Est. Cost |
+|---|---|---|---|---|---|---|---|---|
+| E11 | Thinking vs fast | Opus-thinking | MMLU-100 | 100 | 3 | Individual | Thinking on knowledge tasks | ~$6 |
+| E12 | Thinking vs fast | Opus-thinking | GPQA-50+ | 50+ | 3 | Individual | Thinking on hard science | ~$4 |
+| E13 | Thinking vs fast | Opus-thinking | HumanEval-50+ | 50+ | 3 | Individual | Thinking on code | ~$4 |
+| E14 | Budget baselines | Nova-lite, Haiku-fast, Sonnet-fast | GSM8K-100 | 100 | 3 | Individual | Capability spectrum mapping | ~$2 |
+| E15 | Self-consistency LOW baseline | Haiku-fast (~60-70%) | GSM8K-100 | 100 | 3 | Self-consistency (5 samples) | Test if ensembles help below capability limit | ~$3 |
+| E16 | Self-consistency LOW baseline | Nova-lite | GPQA-50+ | 50+ | 3 | Self-consistency (5 samples) | Budget model on hard domain | ~$0.50 |
+| E17 | Self-consistency MID baseline | Sonnet-fast | GSM8K-100 | 100 | 3 | Self-consistency (5 samples) | Map the help→hurt threshold | ~$6 |
 
 ---
 
 ## Consolidated Cost Summary
 
-| Priority | Experiments | Purpose | Total Est. Cost |
+| Priority | Experiments | Purpose | Est. Cost |
 |---|---|---|---|
-| P1 (Verify) | V1-V5 | Audit existing results, fix bugs | $0 (time only) |
-| P2 (Critical) | E1-E5 | Close critical evidence gaps | ~$62 |
-| P3 (Broaden) | E6-E10 | Multi-benchmark validation | ~$111 |
-| P4 (Thinking) | E11-E14 | Thinking mode claims | ~$16 |
-| P5 (Theory) | E15-E17 | Systematic error threshold | ~$10 |
-| **Total** | **V1-V5 + E1-E17** | **Complete gap closure** | **~$199** |
+| Verify (P0) | V1-V9 | Audit existing data, reconcile inconsistencies | $0 (time) |
+| P1 Critical — Thinking | E1-E5 | Close thinking-models critical gaps | ~$62 |
+| P1 Critical — MOA | M-E1 to M-E4 | Close MOA critical gaps | ~$180 |
+| P2 Broaden — Thinking | E6-E10 | Multi-benchmark validation | ~$111 |
+| P2 Broaden — MOA | M-E5 | Direct Wang et al. comparison | ~$20 |
+| P3 Theory | E11-E17 | Thinking mode + systematic error theory | ~$26 |
+| **Total** | **All** | **Complete gap closure** | **~$399** |
 
-### Recommended Minimum (Closes Critical Issues Only)
+### Recommended Minimum — Both Projects
 
 | Experiments | Purpose | Cost |
 |---|---|---|
-| V1-V4 | Audit existing data for bugs | $0 |
-| E3 | Bug-fixed self-consistency | ~$17 |
-| E1 | Strong-judge ensemble (Opus) | ~$20 |
-| E4 | Nova-lite on GSM8K-100 | ~$0.10 |
-| **Minimum total** | **Closes Issues #1, #3, #6** | **~$37** |
+| **V1-V4, V6-V8** | Audit existing data for bugs + score reconciliation | $0 |
+| **E3** | Bug-fixed self-consistency | ~$17 |
+| **E1** | Strong-judge ensemble (Opus as judge) | ~$20 |
+| **E4** | Nova-lite on GSM8K-100 | ~$0.10 |
+| **M-E2** | Cross-judge validation (Sonnet judges MOA Phase 1) | ~$5 |
+| **M-E1** | Phase 1 rerun with 3 runs (variance estimates) | ~$135 |
+| **Minimum total** | **Closes critical issues both projects** | **~$177** |
 
-If the bug-fixed self-consistency (E3) still shows -3%, and the Opus-judge ensemble (E1) still underperforms, the "ensembles fail" conclusion becomes much more defensible. If Nova-lite validates at 85%+ on GSM8K-100, the cost narrative holds.
+If budget is tight, **V6 (score reconciliation) and M-E2 (cross-judge) are the highest-value MOA items at near-zero cost** — V6 is just tracing numbers, and M-E2 re-scores existing responses with a different judge.
 
-If either E1 or E3 *reverses* the finding, the papers need significant revision before publication.
+---
+
+## Decision Points
+
+### Thinking Models (unchanged from Part 1)
+
+- **If self-consistency extraction was bugged (V1):** Re-run E3. If finding reverses, revise "proven methods fail" claims.
+- **If Opus-judge ensemble (E1) outperforms baseline:** Finding becomes "weak-judge ensembles fail," not "ensembles fail." Major revision.
+- **If Nova-lite (E4) scores <80% on GSM8K-100:** Remove or heavily caveat all cost projections.
+
+### MOA Bedrock Guide (new)
+
+- **If V6 shows 94.4 is the correct Opus baseline (not 82.7):** All deltas in BLOG and RESULTS_AT_A_GLANCE are wrong. Every comparison needs recalculation. Publication blocker.
+- **If M-E2 (Sonnet judge) produces significantly different rankings:** Opus judge bias is real. All 592 judgments are suspect. Need independent judge for key comparisons.
+- **If M-E1 (repeated runs) shows high variance:** The single-run p-values are unreliable. Reported significance levels may not hold.
+- **If adversarial prompts (V9) are driving the penalty:** Report with/without. The "2-5 point penalty" headline may become "0-3 points without adversarial prompts."
 
 ---
 
 ## Model Reference
 
-Models available on AWS Bedrock for experiments:
-
 | Model | Key | Tier | Input $/1K | Output $/1K | Notes |
 |---|---|---|---|---|---|
 | Claude Opus 4.6 (fast) | opus-fast | Premium | $0.015 | $0.075 | Primary baseline |
-| Claude Opus 4.6 (thinking) | opus-thinking | Premium | $0.015 | $0.075 + thinking tokens | 10K thinking budget |
+| Claude Opus 4.6 (thinking) | opus-thinking | Premium | $0.015 | $0.075 + thinking | 10K thinking budget |
 | Claude Sonnet 4.6 (fast) | sonnet-fast | Mid | $0.003 | $0.015 | |
 | Claude Sonnet 4.6 (thinking) | sonnet-thinking | Mid | $0.003 | $0.015 + thinking | 5K thinking budget |
 | Claude Haiku 4.5 (fast) | haiku-fast | Budget-Claude | $0.001 | $0.005 | |
@@ -255,40 +409,20 @@ Models available on AWS Bedrock for experiments:
 | Amazon Nova Lite | nova-lite | Ultra-budget | $0.00006 | $0.00024 | Headline cost claim |
 | Meta Llama 3.1 70B | llama-70b | Budget | $0.00072 | $0.00072 | |
 
----
-
 ## Benchmark Reference
 
-| Benchmark | Type | Available N | Evaluation Method | Baseline Range (Opus-fast) |
+| Benchmark | Type | Available N | Evaluation | Baseline (Opus-fast) |
 |---|---|---|---|---|
-| GSM8K | Grade school math | 100 (validated) | Numeric extraction + comparison | ~89-91% |
-| MMLU | Multi-choice knowledge | 57 (bugged) / 100 (target) | Letter extraction + comparison | ~89-93% |
-| GPQA | PhD-level science | 50+ (needs validation) | Letter extraction + comparison | ~60-70% (Phase 1) |
-| HumanEval | Code generation | 50+ (needs validation) | Code execution + test cases | ~25-30% (Phase 1) |
-
----
-
-## Decision Points
-
-After running the minimum experiments (V1-V4, E1, E3, E4):
-
-**If self-consistency extraction was bugged (V1 confirms):**
-→ Re-run E3 with fix. If finding reverses, revise all "proven methods fail" claims.
-
-**If Opus-judge ensemble (E1) outperforms baseline:**
-→ The "ensembles fail" conclusion is wrong. The finding is "weak-judge ensembles fail." Major paper revision needed.
-
-**If Opus-judge ensemble (E1) still underperforms:**
-→ Strong evidence for fundamental failure. Paper claims become defensible.
-
-**If Nova-lite (E4) scores <80% on GSM8K-100:**
-→ Remove or heavily caveat all cost projections. The value narrative collapses.
-
-**If Nova-lite (E4) scores >85% on GSM8K-100:**
-→ Cost narrative validated. Can make projections with confidence intervals.
+| GSM8K | Grade school math | 100 (validated) | Numeric extraction | ~89-91% |
+| MMLU | Multi-choice knowledge | 57 (bugged) / 100 target | Letter extraction | ~89-93% |
+| GPQA | PhD-level science | 50+ (needs validation) | Letter extraction | ~60-70% |
+| HumanEval | Code generation | 50+ (needs validation) | Code execution | ~25-30% |
+| Custom-54 | Mixed (8 categories) | 54 (validated) | Opus judge (100-pt) | 82.7 or 94.4 ⚠️ |
+| MT-Bench | Multi-turn dialogue | 80 (validated) | Opus judge (100-pt) | 82.6 |
+| AlpacaEval | Instruction following | 50+ (not yet used) | TBD | Not tested |
 
 ---
 
 *Review completed: April 10, 2026*
 *Previous review: REVIEW.md (April 9, 2026) — methodology critique that prompted Phase 2*
-*This review: Post-Phase 2 gap analysis with specific experiment prescriptions*
+*This review: Post-Phase 2 gap analysis with specific experiment prescriptions across both projects*
