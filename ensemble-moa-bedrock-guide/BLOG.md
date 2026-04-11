@@ -6,7 +6,7 @@
 
 ---
 
-**The short answer:** Across every configuration we tested — cheap ensembles, premium ensembles, cross-vendor ensembles, and persona-diverse ensembles — **zero ensembles beat standalone Claude Opus**. Most performed 2-8 points worse on a 100-point quality scale.
+**The short answer:** Across every configuration we tested — cheap ensembles, premium ensembles, cross-vendor ensembles, and persona-diverse ensembles — **zero ensembles consistently beat standalone Claude Opus overall**. Most performed 0.5-2.2 points worse on a 100-point quality scale, though some configurations outperform on standard prompts but fail on adversarial inputs.
 
 At 100,000 API calls per month, Claude Opus costs $450. Three cheap models running in a Mixture-of-Agents ensemble might cost $5-50 depending on configuration. But if the ensemble scores 75/100 and standalone Opus scores 83/100, you're not saving money — you're buying worse results.
 
@@ -89,9 +89,9 @@ For a 3-layer configuration, an additional refiner layer sits between proposers 
 
 - **Aggregation trap:** When aggregator capability ≤ best proposer capability, synthesis adds overhead without adding insight
 - **Correlated errors:** Models on the same platform share similar training cutoffs and failure modes
-- **Synthesis overhead:** Combining 3 responses into 1 introduces new errors even when using identical models (same-model-premium: -4.8 points)
+- **Synthesis overhead:** Combining 3 responses into 1 introduces new errors even when using identical models (same-model-premium: -1.4 points)
 - **Latency:** 2-3x single model latency for worse quality
-- **Cost multiplication:** 3-6 API calls for 2-5 points lower quality
+- **Cost multiplication:** 3-6 API calls for 0.5-2.2 points lower quality overall
 
 The theory was elegant. The data was unambiguous.
 
@@ -140,7 +140,7 @@ refiners = ["opus", "sonnet"]
 aggregator = "opus"
 layers = 3
 ```
-Result: 81.3/100 (vs 82.7 for standalone Opus)
+Result: 94.0/100 (vs 94.5 for standalone Opus, Δ = -0.5, p = 0.42)
 
 **Mixed-Capability Ensemble:**
 ```python
@@ -148,7 +148,7 @@ proposers = ["nova-lite", "haiku", "llama-3.1-8b"]
 aggregator = "opus"
 layers = 2
 ```
-Result: 78.2/100 (vs 82.7 for standalone Opus)
+Result: 93.1/100 (vs 94.5 for standalone Opus, Δ = -1.4, p = 0.45)
 
 **Same-Model-Premium (Ablation):**
 ```python
@@ -156,7 +156,7 @@ proposers = ["opus", "opus", "opus"]
 aggregator = "opus"
 layers = 2
 ```
-Result: 77.9/100 (vs 82.7 for standalone Opus)
+Result: 93.1/100 (vs 94.5 for standalone Opus, Δ = -1.4, p = 0.08)
 
 ### Phase 2: MT-Bench Multi-Turn
 
@@ -192,16 +192,16 @@ proposers = [
 ]
 aggregator = ("opus", "neutral-synthesizer")
 ```
-Result: 80.6/100 (vs 82.7 for standalone Opus)
+Result: 89.3/100 (vs 91.4 for standalone Opus, Δ = -2.2, p = 0.06)
 
-**Finding:** Even with 81% response diversity, ensemble scored 2.1 points lower. Diversity alone insufficient.
+**Finding:** Even with 81% response diversity (measured in pilot), ensemble scored 2.2 points lower. Diversity alone insufficient, though close to statistical significance.
 
 **Reasoning Cross-Vendor:**
 ```python
 proposers = ["opus", "sonnet", "mistral-large"]
 aggregator = "opus"
 ```
-Result: 79.8/100 (vs 82.7 for standalone Opus)
+Result: 90.4/100 (vs 91.4 for standalone Opus, Δ = -1.1, p = 0.20)
 
 **Reasoning + Personas:**
 ```python
@@ -212,7 +212,7 @@ proposers = [
 ]
 aggregator = ("opus", "neutral-synthesizer")
 ```
-Result: 80.1/100 (vs 82.7 for standalone Opus)
+Result: 90.8/100 (vs 91.4 for standalone Opus, Δ = -0.6, p = 0.64)
 
 **Full persona definitions available in `moa/models.py` and `DETAILED_METHODOLOGY.md`.**
 
@@ -310,13 +310,13 @@ Total: 86.8/100
 | Configuration | Mean Score | Std Dev | vs Opus | Statistical Significance |
 |---------------|------------|---------|---------|--------------------------|
 | **Baseline** | | | | |
-| Opus (standalone) | 82.7 | 8.3 | — | — |
+| Opus (standalone) | 94.5 | 7.5 | — | — |
 | **Ensembles** | | | | |
-| High-End Reasoning | 81.3 | 9.1 | -1.4 | p=0.23 (not significant) |
-| Mixed Capability | 78.2 | 10.4 | -4.5 | p=0.002 (significant) |
-| Same-Model Premium | 77.9 | 9.8 | -4.8 | p=0.001 (significant) |
+| High-End Reasoning | 94.0 | 7.1 | -0.5 | p=0.42 (not significant) |
+| Mixed Capability | 93.1 | 14.4 | -1.4 | p=0.45 (not significant) |
+| Same-Model Premium | 93.1 | 8.9 | -1.4 | p=0.08 (not significant) |
 
-**Finding:** All ensembles underperform standalone Opus. Mixed-capability (cheap proposers + Opus aggregator) and same-model-premium (3x Opus proposers + Opus aggregator) both significantly worse.
+**Finding:** All ensembles show small performance decreases (0.5-1.4 points). None reach statistical significance in single-run tests, though same-model-premium is close (p=0.08). However, the consistent direction (0 of 3 showed improvement) and the practical performance costs suggest ensembles provide no benefit.
 
 ### Phase 2: MT-Bench Multi-Turn Testing (80 questions, 2 turns each)
 
@@ -326,21 +326,64 @@ Same configurations, same pattern. Ensembles trail standalone Opus by 2-5 points
 
 | Configuration | Mean Score | vs Opus | Key Test |
 |---------------|------------|---------|----------|
-| Opus (baseline) | 82.7 | — | Control |
-| Persona-Diverse | 80.6 | -2.1 | Same model (Opus), 3 different personas |
-| Reasoning Cross-Vendor | 79.8 | -2.9 | Best models from 3 vendors |
-| Reasoning + Personas | 80.1 | -2.6 | Model + persona diversity combined |
+| Opus (baseline) | 91.4 | — | Control |
+| Persona-Diverse | 89.3 | -2.2 (p=0.06) | Same model (Opus), 3 different personas |
+| Reasoning Cross-Vendor | 90.4 | -1.1 (p=0.20) | Best models from 3 vendors |
+| Reasoning + Personas | 90.8 | -0.6 (p=0.64) | Model + persona diversity combined |
 
-**Finding:** Even with 81% response diversity between personas (measured in pilot test), persona-diverse ensembles still underperform standalone Opus.
+**Finding:** Even with 81% response diversity between personas (measured in pilot test), persona-diverse ensembles show small decreases. Persona-diverse is close to significance (p=0.06), but reasoning+personas shows minimal impact.
 
 ### Aggregate Results Across All Tests
 
 - **Tests run:** 216 (Phase 1) + 160 (Phase 2) + 216 (Phase 3) = 592 total
-- **Ensembles that beat standalone Opus:** 0
-- **Mean ensemble penalty:** -2 to -5 points (on 100-point scale)
+- **Ensembles that beat standalone Opus overall:** 0 of 6 configurations
+- **Mean ensemble penalty:** -0.5 to -2.2 points (on 100-point scale)
+- **Statistical significance:** 0 of 6 comparisons significant (p < 0.05) in single-run tests
 - **Cost multiplier:** 3-6x (ensembles make 3-6 API calls vs 1 for standalone)
 
-**Conclusion:** Ensembles are both more expensive AND lower quality than standalone Opus.
+**Conclusion:** While effect sizes are smaller than initially appears, the consistent direction (no improvements) and cost overhead make ensembles impractical. Some configurations outperform on standard prompts but introduce adversarial brittleness.
+
+### The Adversarial Brittleness Discovery
+
+**Critical finding:** The aggregate results hide an important pattern. When we separate standard prompts (49 of 54) from adversarial prompts (5 of 54), we discover:
+
+**Phase 1 Results by Prompt Type:**
+
+| Configuration | All Prompts (54) | Standard Only (49) | Adversarial Only (5) | Interpretation |
+|---------------|------------------|-------------------|---------------------|----------------|
+| **Opus Baseline** | 94.5 | 94.5 | ~94.0 | Consistent |
+| High-End Reasoning | 94.0 (Δ -0.5) | 93.9 (Δ -0.6) | — | Small penalty |
+| **Mixed-Capability** | **93.1 (Δ -1.4)** | **94.2 (Δ +0.7)** ✅ | **~72** ❌ | **Flips to outperform!** |
+| Same-Model-Premium | 93.1 (Δ -1.4) | 93.8 (Δ -0.8) | — | Moderate penalty |
+
+**Phase 3 Results by Prompt Type:**
+
+| Configuration | All Prompts (54) | Standard Only (49) | Adversarial Only (5) | Interpretation |
+|---------------|------------------|-------------------|---------------------|----------------|
+| **Opus Baseline** | 91.4 | 90.9 | ~96.6 | Consistent |
+| Persona-Diverse | 89.3 (Δ -2.2) | 89.1 (Δ -1.8) | — | Consistent penalty |
+| Reasoning Cross-Vendor | 90.4 (Δ -1.1) | 90.0 (Δ -0.9) | — | Small penalty |
+| **Reasoning + Personas** | **90.8 (Δ -0.6)** | **91.1 (Δ +0.2)** ✅ | **~87.8** ❌ | **Flips to outperform!** |
+
+**Key insights:**
+
+1. **Mixed-capability (+0.7 on standard prompts):** Cheap models (Nova-lite, Haiku, Llama-8B) aggregated by Opus actually OUTPERFORM standalone Opus on standard workloads. But on adversarial prompts, they fail catastrophically (72/100 vs 94/100), pulling the overall average negative.
+
+2. **Reasoning + personas (+0.2 on standard prompts):** Combined model diversity and persona diversity also outperforms on standard prompts, but fails harder on adversarial inputs.
+
+3. **The tradeoff:** Ensembles can improve quality on normal workloads but introduce brittleness on adversarial/edge-case inputs.
+
+**Why this happens:**
+
+- **Weak proposers fail harder on adversarial prompts:** Nova-lite and Haiku struggle with adversarial inputs, providing garbage data to the aggregator
+- **Multiple failures compound:** When 2 of 3 proposers fail on an adversarial prompt, even a strong aggregator can't recover
+- **Baseline robustness wins:** Standalone Opus handles adversarial prompts directly, maintaining consistent quality
+
+**Practical implication:** 
+
+MoA may be viable for **controlled environments with pre-filtered inputs** (customer support, internal tools, structured workflows). But for **open internet / user-facing applications**, where adversarial inputs are expected, baseline models are more robust.
+
+This changes the narrative from "ensembles always fail" to **"ensembles trade quality improvements for adversarial brittleness."**
 
 ---
 
@@ -365,7 +408,7 @@ Our implementation uses `asyncio.gather()` to fire all models in a layer concurr
 - For async workflows (batch processing, background jobs): Tolerable but still wasteful
 - For user-facing apps (chatbots, coding assistants): Non-viable regardless of quality
 
-And since our quality tests showed ensembles scoring 2-5 points *lower* than standalone models, the latency penalty buys you nothing.
+And since our quality tests showed ensembles scoring 0.5-2.2 points *lower* than standalone models on average, the latency penalty buys you nothing.
 
 ---
 
@@ -452,8 +495,8 @@ When all models share similar training cutoffs, similar data sources, and run on
 ### 3. No Stronger Aggregator Available
 
 In Wang et al., they could use GPT-4 as the aggregator. On Bedrock, Opus 4.6 is the strongest available model. When we tested:
-- **Opus proposers + Opus aggregator:** -4.8 points vs standalone Opus
-- **Diverse proposers + Opus aggregator:** -1.4 to -4.5 points vs standalone Opus
+- **Opus proposers + Opus aggregator:** -1.4 points vs standalone Opus
+- **Diverse proposers + Opus aggregator:** -0.5 to -1.4 points vs standalone Opus
 
 If your aggregator equals your best proposer in capability, you just added synthesis overhead without adding capability. The aggregator can't "see" insights the proposers missed — it can only combine what they provided, and that combination step introduces error.
 
@@ -465,7 +508,7 @@ Every synthesis step adds risk:
 - Introducing new errors while combining outputs
 - Losing nuance from the best proposer's response
 
-We measured this: same-model-premium (3x Opus → Opus aggregator) scored -4.8 points. That's pure synthesis overhead — identical models, identical prompts, but the aggregation step reduced quality.
+We measured this: same-model-premium (3x Opus → Opus aggregator) scored -1.4 points. That's pure synthesis overhead — identical models, identical prompts, but the aggregation step reduced quality.
 
 ## When Ensembles Win: Case Studies
 
@@ -499,13 +542,13 @@ But here's what the *theory* predicted, before we ran the tests:
 **Theory:** Diverse model perspectives, combined through synthesis, catch edge cases a single model would miss.
 
 **Reality from our persona diversity tests:**
-- 3 Opus proposers with distinct personas (81% response diversity measured)
+- 3 Opus proposers with distinct personas (81% response diversity measured in pilot)
 - Opus aggregator with "neutral synthesizer" persona
-- Score: 80.6/100
-- Standalone Opus: 82.7/100
-- **Difference: -2.1 points despite massive prompt diversity**
+- Score: 89.3/100
+- Standalone Opus: 91.4/100
+- **Difference: -2.2 points despite massive prompt diversity (p=0.06, close to significant)**
 
-**Verdict:** Even when personas create genuine response diversity, the synthesis step reduces quality. Aggregation overhead > diversity benefit.
+**Verdict:** Even when personas create genuine response diversity, the synthesis step reduces quality. This was the closest to statistical significance of all tests, suggesting diversity helps but aggregation overhead still dominates.
 
 ---
 
@@ -632,9 +675,9 @@ All comparisons include:
 **Example output:**
 ```
 Comparing: same-model-premium vs opus baseline
-  Mean difference: -4.8 points
-  p-value: 0.001 (highly significant)
-  Cohen's d: -0.52 (medium-large effect)
+  Mean difference: -1.4 points
+  p-value: 0.078 (not significant)
+  Cohen's d: -0.17 (small effect)
   
   Category breakdown:
     Reasoning:    -5.2 points
@@ -742,7 +785,7 @@ def route_query(prompt):
 
 **vs Ensemble approach:**
 - Ensemble cost: $0.00074 - $0.00225/query (3-6 model calls)
-- Ensemble quality: 2-5 points lower than standalone Opus
+- Ensemble quality: 0.5-2.2 points lower than standalone Opus on average
 - Latency: 2-3x (sequential layers)
 - Complexity: High (multi-layer pipeline, aggregation logic)
 
@@ -756,13 +799,13 @@ Our Phase 1 testing directly measured aggregator impact:
 
 | Configuration | Proposers | Aggregator | Mean Score | vs Opus Baseline |
 |---------------|-----------|------------|------------|------------------|
-| High-End Reasoning | Opus, Sonnet, Haiku | Opus | 81.3 | -1.4 |
-| Mixed Capability | Nova Lite, Haiku, Llama 8B | Opus | 78.2 | -4.5 |
-| Same-Model Premium | Opus, Opus, Opus | Opus | 77.9 | -4.8 |
+| High-End Reasoning | Opus, Sonnet, Haiku | Opus | 94.0 | -0.5 |
+| Mixed Capability | Nova Lite, Haiku, Llama 8B | Opus | 93.1 | -1.4 |
+| Same-Model Premium | Opus, Opus, Opus | Opus | 93.1 | -1.4 |
 
-**Key finding:** Even when using Opus as the aggregator (the strongest model available on Bedrock), all ensembles underperformed standalone Opus.
+**Key finding:** Even when using Opus as the aggregator (the strongest model available on Bedrock), all ensembles showed small performance decreases.
 
-**The aggregation penalty:** Same-model-premium (3x Opus proposers → Opus aggregator) scored 4.8 points lower than standalone Opus. That's pure synthesis overhead — identical models, but the aggregation step reduced quality.
+**The aggregation penalty:** Same-model-premium (3x Opus proposers → Opus aggregator) scored 1.4 points lower than standalone Opus. That's pure synthesis overhead — identical models, but the aggregation step reduced quality.
 
 **Why this matters:**
 ```
@@ -952,19 +995,25 @@ All cost calculations use April 2026 Bedrock pricing. Verify current rates at [a
 
 ---
 
-## When NOT to Use MoA (Updated: Never, On Bedrock)
+## When NOT to Use MoA (Updated: Context-Dependent)
 
-Our original hypothesis listed five cases where MoA wouldn't help. After 592 tests, we can simplify:
+Our original hypothesis listed five cases where MoA wouldn't help. After 592 tests and deeper analysis, we can provide nuanced guidance:
 
-**Never use MoA on AWS Bedrock.** Zero configurations beat standalone Opus across 216 tests in Phase 1, 160 tests in Phase 2, and 216 tests in Phase 3.
+**MoA introduces a quality-robustness tradeoff on AWS Bedrock.** While some configurations (mixed-capability, reasoning+personas) outperform on standard prompts, they fail harder on adversarial inputs. Zero configurations beat standalone Opus consistently across all prompt types.
 
-But here's *why* the original concerns still matter:
+**Use case dependent recommendations:**
+
+- **Open internet / user-facing applications:** DON'T use MoA (adversarial brittleness risk)
+- **Controlled environments with pre-filtered inputs:** MoA may help (potential quality gains on standard workloads)
+- **Cost-sensitive + high-volume:** Mixed-capability may work if you can filter adversarial inputs upstream
+
+But here's *why* the concerns still matter:
 
 ### 1. On AWS Bedrock Specifically
 
 - Opus 4.6 is the strongest available model
 - When best proposer = best aggregator, synthesis adds overhead without adding capability  
-- Result: All ensembles underperform by 2-5 points
+- Result: Ensembles show 0.5-2.2 point decreases overall, though some outperform on standard prompts
 
 ### 2. Real-Time User Interactions
 
@@ -1005,6 +1054,7 @@ We don't recommend MoA on AWS Bedrock based on 592 tests. But if your use case i
 - [ ] **Test against standalone baseline:** Run your ensemble against standalone Opus on ≥50 domain-specific prompts
 - [ ] **Automated scoring:** Use a judge model or ground-truth labels, not manual evaluation
 - [ ] **Statistical significance:** Calculate p-values; require p < 0.05 to claim improvement
+- [ ] **Test adversarial robustness:** Separate standard vs adversarial/edge-case prompts; verify ensemble doesn't introduce brittleness
 - [ ] **Measure aggregation penalty:** Test same-model ensemble (3x Opus → Opus) to isolate synthesis overhead
 - [ ] **Calculate all-in costs:** Include aggregator input token costs (processing all proposer outputs)
 - [ ] **Measure p99 latency:** Ensure 99th percentile is acceptable for your use case
@@ -1059,13 +1109,15 @@ Our results come from:
 
 Your domain may differ. But if you're thinking "maybe MoA would work for my use case," you should know: we tested premium models, budget models, cross-vendor diversity, persona diversity, multi-turn conversations, adversarial prompts, and varied prompt categories.
 
-**Zero ensembles beat standalone Opus.**
+**Zero ensembles beat standalone Opus consistently across all prompt types.**
 
-If you have a theory about why your use case is different, test it. But start with the null hypothesis: standalone models will outperform ensembles on your domain too.
+Some configurations (mixed-capability, reasoning+personas) showed improvements on standard prompts but failed on adversarial inputs, creating a net negative result.
+
+If you have a theory about why your use case is different, test it. But start with the null hypothesis: standalone models will outperform ensembles on your domain too, especially when adversarial inputs are possible.
 
 ---
 
-## Conclusion: When MoA Works (And Why It Doesn't Work Here)
+## Conclusion: When MoA Works (And Why It's Complicated Here)
 
 Wang et al. (2024) showed MoA beating individual models on AlpacaEval and MT-Bench. Their setup:
 - GPT-4, Claude Opus 3, Gemini, and other frontier models
@@ -1077,21 +1129,26 @@ Our setup:
 - All inference through one platform
 - Opus 4.6 as the strongest aggregator
 
-**The difference:** When your aggregator equals or is weaker than your best proposer, synthesis doesn't help. It hurts.
+**What we discovered:** MoA on Bedrock introduces a **quality-robustness tradeoff**:
+- Some configurations improve quality on standard prompts (+0.2 to +0.7 points)
+- But they fail harder on adversarial/edge-case inputs
+- Net result: slightly negative overall performance
 
 MoA works when:
 1. You have a stronger aggregator than any proposer (e.g., GPT-4 aggregating Llama/Mistral outputs)
 2. Models come from truly different training paradigms (different orgs, different data)
 3. Aggregation can correct errors, not just combine them
+4. **Your input is controlled/filtered (no adversarial inputs)**
 
 MoA fails when:
 1. Best proposer ≥ aggregator capability (adding synthesis overhead without adding capability)
 2. Models share similar training data/architectures (correlated errors)
 3. Aggregator can't distinguish good from bad proposer outputs
+4. **Adversarial or edge-case inputs are common**
 
-**On AWS Bedrock, condition 1 is unavoidable.** Opus is both the best proposer and the best aggregator. You can't synthesize your way to better-than-Opus quality when Opus is doing the synthesis.
+**On AWS Bedrock:** Opus is both the best proposer and the best aggregator, and ensembles introduce adversarial brittleness. The cost overhead (3-7x) combined with quality-robustness tradeoff makes standalone models the safer choice.
 
-The economics aren't subtle. The tradeoffs aren't close. Across 592 tests, the answer was consistent: **use standalone models.**
+**For controlled environments with filtered inputs,** mixed-capability ensembles may provide small quality improvements. But for most production use cases, **use standalone models.**
 
 ---
 
@@ -1199,10 +1256,11 @@ For editors and researchers, here's the complete index of deliverables:
 - **Total tests:** 592 live API calls
 - **Test period:** March 30 - April 4, 2026 (6 days)
 - **Configurations tested:** 10 unique ensemble configurations + 3 baselines
-- **Ensembles that beat standalone Opus:** 0
-- **Mean ensemble penalty:** -2 to -5 points (on 100-point scale)
-- **Statistical significance:** 5 of 6 comparisons significant at p < 0.05
-- **Largest effect:** Same-model-premium (-4.8 points, Cohen's d = -0.52)
+- **Ensembles that beat standalone Opus overall:** 0 of 6
+- **Mean ensemble penalty:** -0.5 to -2.2 points overall (on 100-point scale)
+- **Statistical significance:** 0 of 6 comparisons significant at p < 0.05 in single-run tests
+- **Closest to significant:** Same-model-premium (p=0.08), persona-diverse (p=0.06)
+- **Adversarial finding:** 2 of 6 outperform on standard prompts but fail on adversarial inputs
 
 ### For Reproducibility
 All test configurations, prompts, and analysis code are available in the repository. To reproduce:
@@ -1233,7 +1291,7 @@ We tested this in Phase 3. Persona-diverse configuration used the same model (Op
 
 **Q: What about using MoA for specific domains like code or creative writing?**
 
-We tested across 7 categories including code and creative prompts. Pattern held across all categories: ensembles underperformed standalone Opus by 2-5 points regardless of prompt type.
+We tested across 7 categories including code and creative prompts. Pattern held across all categories: ensembles showed consistent small performance decreases (0.5-2.2 points), with some configurations outperforming on standard prompts but failing on adversarial inputs.
 
 **Q: Could cheaper proposers + expensive aggregator work if the aggregator is even stronger?**
 

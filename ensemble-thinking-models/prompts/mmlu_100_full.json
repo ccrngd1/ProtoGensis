@@ -1,0 +1,1036 @@
+{
+  "benchmark": "mmlu",
+  "description": "Massive Multitask Language Understanding - Multiple choice across 57 subjects",
+  "source": "https://github.com/hendrycks/test",
+  "total_problems": 57,
+  "subjects": [
+    "professional_medicine",
+    "clinical_knowledge",
+    "college_medicine",
+    "high_school_computer_science",
+    "formal_logic",
+    "nutrition",
+    "high_school_physics",
+    "high_school_statistics",
+    "us_foreign_policy",
+    "electrical_engineering",
+    "miscellaneous",
+    "world_religions",
+    "econometrics",
+    "business_ethics",
+    "high_school_chemistry",
+    "college_physics",
+    "security_studies",
+    "high_school_mathematics",
+    "high_school_microeconomics",
+    "management",
+    "human_aging",
+    "college_mathematics",
+    "computer_security",
+    "jurisprudence",
+    "high_school_biology",
+    "high_school_psychology",
+    "high_school_geography",
+    "virology",
+    "high_school_macroeconomics",
+    "high_school_european_history",
+    "public_relations",
+    "prehistory",
+    "sociology",
+    "moral_disputes",
+    "logical_fallacies",
+    "high_school_government_and_politics",
+    "global_facts",
+    "high_school_world_history",
+    "human_sexuality",
+    "moral_scenarios",
+    "college_computer_science",
+    "high_school_us_history",
+    "anatomy",
+    "professional_law",
+    "astronomy",
+    "elementary_mathematics",
+    "conceptual_physics",
+    "machine_learning",
+    "philosophy",
+    "abstract_algebra",
+    "college_biology",
+    "college_chemistry",
+    "professional_accounting",
+    "international_law",
+    "marketing",
+    "professional_psychology",
+    "medical_genetics"
+  ],
+  "prompts": [
+    {
+      "id": "mmlu_001",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Find all zeros in the indicated finite field of the given polynomial with coefficients in that field. x^5 + 3x^3 + x^2 + 2x in Z_5\n\nA) 0\nB) 1\nC) 0,1\nD) 0,4",
+      "ground_truth": "D",
+      "subject": "abstract_algebra",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU abstract_algebra question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_002",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which of the following conditions is characterized by the presence of kidney stones (renal calculi)?\n\nA) Glomerulonephritis\nB) Interstitial nephritis\nC) Nephrolithiasis\nD) Polycystic kidney",
+      "ground_truth": "C",
+      "subject": "anatomy",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU anatomy question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_003",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "What defines the habitable zone around a star?\n\nA) the region around a star where liquid water can potentially exist on planetary surfaces\nB) the region around a star where humans can survive\nC) the region around a star where the ultraviolet radiation does not destroy organisms on a planetary surface\nD) the region around a star where life exists",
+      "ground_truth": "A",
+      "subject": "astronomy",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU astronomy question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_004",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "The purposes for which the information is used is in the public's interest.\n\nA) 1,2\nB) 1,3\nC) 2,3\nD) 1,2,3",
+      "ground_truth": "A",
+      "subject": "business_ethics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU business_ethics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_005",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which one of the following statements is true with regard to intravenous drug administration?\n\nA) IV administration of a drug will delay its action.\nB) IV administration carries low risk of bacteraemia.\nC) IV administration allows titration of a drug with its desired effect.\nD) An intravenous cannula should never be used for both drug and fluid administration.",
+      "ground_truth": "C",
+      "subject": "clinical_knowledge",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU clinical_knowledge question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_006",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Cancer cells grown in culture are similar to normal cells grown in culture in that they\n\nA) divide an indefinite number of times\nB) do not display contact inhibition\nC) require a surface for attachment in order to grow\nD) proliferate to the same cell density",
+      "ground_truth": "C",
+      "subject": "college_biology",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU college_biology question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_007",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "The equilibrium populations of the 1H energy levels of a molecule are n\u03b1 = n\u03b1eq and n\u03b2 = n\u03b2eq. What are the populations after a 5.0 \u03bcs pulse when B1 = 4.697 mT?\n\nA) n\u03b1 = n\u03b2eq and n\u03b2 = n\u03b1eq\nB) n\u03b1 = n\u03b1eq and n\u03b2 = n\u03b2eq\nC) n\u03b1 = \u00bd(n\u03b1eq + n\u03b2eq) and n\u03b2 = \u00bd(n\u03b1eq + n\u03b2eq)\nD) n\u03b1 = n\u03b1eq + n\u03b2eq and n\u03b2 = n\u03b1eq + n\u03b2eq",
+      "ground_truth": "A",
+      "subject": "college_chemistry",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU college_chemistry question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_008",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "In the NoNicks operating system, the time required by a single file-read operation has four nonoverlapping components:\ndisk seek time-25 msec\ndisk latency time-8 msec\ndisk transfer time- 1 msec per 1,000 bytes\noperating system overhead-1 msec per 1,000 bytes + 10 msec\nIn version 1 of the system, the file read retrieved blocks of 1,000 bytes. In version 2, the file read (along with the underlying layout on disk) was modified to retrieve blocks of 4,000 bytes. The ratio of-the time required to read a large file under version 2 to the time required to read the same large file under version 1 is approximately\n\nA) 1:4\nB) 1:3.5\nC) 1:1\nD) 1.1:1",
+      "ground_truth": "B",
+      "subject": "college_computer_science",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU college_computer_science question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_009",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Let R be a ring with a multiplicative identity. If U is an additive subgroup of R such that ur in U for all u in U and for all r in R, then U is said to be a right ideal of R. If R has exactly two right ideals, which of the following must be true?\nI. R is commutative.\nII. R is a division ring (that is, all elements except the additive identity have multiplicative inverses).\nIII. R is infinite.\n\nA) I only\nB) II only\nC) III only\nD) I and II only",
+      "ground_truth": "B",
+      "subject": "college_mathematics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU college_mathematics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_010",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which of the following nucleotide bases is not found in RNA?\n\nA) Thymine\nB) Adenine\nC) Uracil\nD) Guanine",
+      "ground_truth": "A",
+      "subject": "college_medicine",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU college_medicine question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_011",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "A magnetic field is directed perpendicular to the plane of a circular coil of area 0.2 m^2 and 250 turns. If the magnetic field is increased from 0.01 T to 0.06 T during a time interval of 0.25 s, the average induced EMF in the coil is\n\nA) 0.04 V\nB) 0.1 V\nC) 2.5 V\nD) 10 V",
+      "ground_truth": "D",
+      "subject": "college_physics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU college_physics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_012",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Buffer-overflow may remain as a bug in apps if __________ are not done fully.\n\nA) boundary hacks\nB) memory checks\nC) boundary checks\nD) buffer checks",
+      "ground_truth": "C",
+      "subject": "computer_security",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU computer_security question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_013",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Consider two mercury barometers, one having a cross-sectional area of 1 cm2 and the other 2 cm2. The height of mercury in the narrower tube is\n\nA) half\nB) twice\nC) the same\nD) None of these",
+      "ground_truth": "C",
+      "subject": "conceptual_physics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU conceptual_physics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_014",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which of the following are plausible approaches to dealing with a model that exhibits heteroscedasticity?\n\ni) Take logarithms of each of the variables\n\nii) Use suitably modified standard errors\n\niii) Use a generalised least squares procedure\n\niv) Add lagged values of the variables to the regression equation.\n\nA) (ii) and (iv) only\nB) (i) and (iii) only\nC) (i), (ii), and (iii) only\nD) (i), (ii), (iii), and (iv)",
+      "ground_truth": "C",
+      "subject": "econometrics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU econometrics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_015",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Speed of data transmission in 4-G network of telecom is\n\nA) 386 kbps - 2 mbps.\nB) 2 mbps.\nC) 2 mbps \u2013 1 gbps.\nD) 100 mbps - 1 gbps.",
+      "ground_truth": "D",
+      "subject": "electrical_engineering",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU electrical_engineering question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_016",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Identify a solution for the equation 5x \u2212 5 = \u221210 from the given numbers.\n\nA) \u22121\nB) \u22126\nC) \u22124\nD) \u22123",
+      "ground_truth": "A",
+      "subject": "elementary_mathematics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU elementary_mathematics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_017",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Construct a complete truth table for the following argument. Then, using the truth table, determine whether the argument is valid or invalid. If the argument is invalid, choose an option which presents a counterexample. (There may be other counterexamples as well.)\nT \u2228 U\nW \u00b7 T / U\n\nA) Valid\nB) Invalid. Counterexample when T and W are true and U is false\nC) Invalid. Counterexample when T is true and W and U are false\nD) Invalid. Counterexample when W is true and T and U are false",
+      "ground_truth": "B",
+      "subject": "formal_logic",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU formal_logic question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_018",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Different less developed countries have different levels of secondary school enrollment. Some countries with high secondary-school enrollment are, as of 2020,\n\nA) Colombia, Peru, Uruguay, and Costa Rica.\nB) Bhutan, Niger, Cambodia, and Costa Rica.\nC) Uruguay, Costa Rica, Timor-Leste, and Pakistan.\nD) Bhutan, Cambodia, Uruguay and Costa Rica.",
+      "ground_truth": "A",
+      "subject": "global_facts",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU global_facts question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_019",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "During the period when life is believed to have begun, the atmosphere on primitive Earth contained abundant amounts of all the following gases EXCEPT\n\nA) oxygen\nB) hydrogen\nC) ammonia\nD) methane",
+      "ground_truth": "A",
+      "subject": "high_school_biology",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_biology question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_020",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "A proposed mechanism for a reaction is as follows: NO2 + F2 \u2192NO2F + F Slow step. F + NO2 \u2192 NO2F Fast step. What is the order of the overall reaction?\n\nA) Zero order\nB) First order\nC) Second order\nD) Third order",
+      "ground_truth": "C",
+      "subject": "high_school_chemistry",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_chemistry question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_021",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "What is the value of this python expression: 4 + 3 % 2?\n\nA) 1\nB) 6\nC) 4\nD) 5",
+      "ground_truth": "D",
+      "subject": "high_school_computer_science",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_computer_science question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_022",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "This question refers to the following information.\nRead the following letter.\nIt happened . . . that a Spaniard saw an Indian . . . eating a piece of flesh taken from the body of an Indian who had been killed. . . . I had the culprit burned, explaining that the cause was his having killed that Indian and eaten him[,] which was prohibited by Your Majesty, and by me in Your Royal name. I further made the chief understand that all the people . . . must abstain from this custom. . . . I came . . . to protect their lives as well as their property, and to teach them that they were to adore but one God[,] . . . that they must turn from their idols, and the rites they had practiced until then, for these were lies and deceptions which the devil . . . had invented. . . . I, likewise, had come to teach them that Your Majesty, by the will of Divine Providence, rules the universe, and that they also must submit themselves to the imperial yoke, and do all that we who are Your Majesty's ministers here might order them.\n\u2014Hernan Cortez, Fifth Letter to Holy Roman Emperor Charles V, 1521\nWhich of the following superior technologies was most crucial to the Europeans' success in the New World?\n\nA) New sailing technologies like the compass and the astrolabe\nB) New ships like the carrack and caravel\nC) Weapons like cannon and war horses\nD) Better educational systems that taught navigation and warfare",
+      "ground_truth": "C",
+      "subject": "high_school_european_history",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_european_history question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_023",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "A large node of office and commercial land use outside the central city with more jobs than residents is a(n)\n\nA) suburb.\nB) primate city.\nC) town.\nD) edge city.",
+      "ground_truth": "D",
+      "subject": "high_school_geography",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_geography question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_024",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which of the following best describes a block grant?\n\nA) Money provided to individuals to fund research projects\nB) Funds with few restrictions that are provided to state or local governments for general purpose use\nC) Funds distributed among states according to a set formula\nD) Money that can only be used for a specific purpose",
+      "ground_truth": "B",
+      "subject": "high_school_government_and_politics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_government_and_politics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_025",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "If Real GDP = $200 billion and the price index = 200 Nominal GDP is\n\nA) $4 billion\nB) $400 billion\nC) $200 billion\nD) $2 billion",
+      "ground_truth": "B",
+      "subject": "high_school_macroeconomics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_macroeconomics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_026",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "To place the first paving stone in a path, Alex starts at the crate of stones, walks three feet, places the stone, and returns to the crate. For each subsequent stone, Alex walks two feet farther each way. Alex will place the first 50 stones in a path. After returning to the crate from placing the $50^\\text{th}$ stone, what is the total distance Alex walked, in feet?\n\nA) 100\nB) 90950\nC) 5200\nD) 50",
+      "ground_truth": "C",
+      "subject": "high_school_mathematics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_mathematics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_027",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "If, for each additional unit of a variable input, the increases in output become smaller, which of the following correctly identifies the concept?\n\nA) Diminishing marginal productivity.\nB) Diminishing marginal utility.\nC) Increasing marginal utility.\nD) Increasing marginal productivity.",
+      "ground_truth": "A",
+      "subject": "high_school_microeconomics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_microeconomics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_028",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which of the following statements about electric and magnetic fields is FALSE:\n\nA) A charge moving along the direction of an electric field will experience a force, but a charge moving along the direction of a magnetic field will not experience a force.\nB) All charges experience a force in an electric field, but only moving charges can experience a force in a magnetic field.\nC) A positive charge moves in the direction of an electric field; a positive charge moves perpendicular to a magnetic field.\nD) All moving charges experience a force parallel to an electric field and perpendicular to a magnetic field.",
+      "ground_truth": "C",
+      "subject": "high_school_physics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_physics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_029",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "What type of psychologist would assert that a key motivation for people is the desire to spread their genetic material?\n\nA) cognitive\nB) evolutionary\nC) humanistic\nD) psychodynamic",
+      "ground_truth": "B",
+      "subject": "high_school_psychology",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_psychology question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_030",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Define a new measurement as the difference between the 60th and 40th percentile scores in a population. This measurement will give information concerning\n\nA) central tendency.\nB) variability.\nC) symmetry.\nD) skewness.",
+      "ground_truth": "B",
+      "subject": "high_school_statistics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_statistics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_031",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "This question refers to the following information.\nThe man who mounted the steps of the Capitol, March 4, 1801, to claim the place of an equal between Pitt and Bonaparte, possessed a character which showed itself in acts; but person and manner can be known only by contemporaries, and the liveliest description was worth less than a moment of personal contact. Jefferson was very tall, six feet two-and-a-half inches in height; sandy-complexioned; shy in manner, seeming cold; awkward in attitude, and with little in his bearing that suggested command.\u2026 His skin was thin, peeling from his face on exposure to the sun, giving it a tettered appearance. This sandy face, with hazel eyes and sunny aspect; this loose, shackling person; this rambling and often brilliant conversation, belonged to the controlling influences of American history, more necessary to the story than three-fourths of the official papers, which only hid the truth. Jefferson's personality during these eight years appeared to be the government, and impressed itself, like that of Bonaparte, although by a different process, on the mind of the nation. In the village simplicity of Washington, he was more than a king, for he was alone in social as well as in political pre-eminence. Except the British Legation, no house in Washington was open to general society; the whole mass of politicians, even the Federalists, were dependent on Jefferson and \"The Palace\" for amusement; and if they refused to go there, they \"lived like bears, brutalized and stupefied.\"\n\u2014Henry Adams, History of the United States During the Administration of Thomas Jefferson, 1889\nAccording to Henry Adams, the city of Washington in 1801 was\n\nA) the hub of American economic power\nB) rapidly turning into the \"Paris\" of North America\nC) still an underdeveloped cultural backwater\nD) still under the control of the British",
+      "ground_truth": "C",
+      "subject": "high_school_us_history",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_us_history question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_032",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "This question refers to the following information.\n\"Let a woman retire late to bed, but rise early to duties; let her nor dread tasks by day or by night. Let her not refuse to perform domestic duties whether easy or difficult. That which must be done, let her finish completely, tidily, and systematically, When a woman follows such rules as these, then she may be said to be industrious.\nLet a woman be correct in manner and upright in character in order to serve her husband. Let her live in purity and quietness of spirit, and attend to her own affairs. Let her love not gossip and silly laughter. Let her cleanse and purify and arrange in order the wine and the food for the offerings to the ancestors. When a woman observes such principles as these, then she may be said to continue ancestral worship.\nNo woman who observes these three fundamentals of life has ever had a bad reputation or has fallen into disgrace. If a woman fail to observe them, how can her name be honored; how can she but bring disgrace upon herself?\"\n\u00a9 The East Asian Library and the Gest Collection, Princeton University.\nBan Zhao, Lessons for a Woman, ca. 80 C.E.\nIn what way were women's lives in the period 600 B.C.E. to 600 C.E. generally more restricted than women's lives had been globally before the advent of sedentary societies?\n\nA) Women were increasingly thought of as primary earners for the family.\nB) Women were increasingly responsible for the care of their children.\nC) Women's power increasingly fell within the private sphere.\nD) Women's power increasingly fell within the public sphere.",
+      "ground_truth": "C",
+      "subject": "high_school_world_history",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU high_school_world_history question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_033",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "The first person to measure and compare the response times of young and old was\n\nA) Francis Galton\nB) William James\nC) Michelle Meer\nD) Tom Penge",
+      "ground_truth": "A",
+      "subject": "human_aging",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU human_aging question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_034",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which of the following events INITIATES puberty?\n\nA) pituitary gland releases FSH\nB) pituitary gland releases growth hormone\nC) hypothalamus releases GNRS\nD) hypothalamus releases LH",
+      "ground_truth": "C",
+      "subject": "human_sexuality",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU human_sexuality question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_035",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "What is the ordinary geographical scope of jurisdiction?\n\nA) Jurisdiction is ordinarily extra-territorial\nB) Jurisdiction is ordinarily on the high seas\nC) Jurisdiction is ordinarily territorial\nD) Jurisdiction is determined by the location of the offender.",
+      "ground_truth": "C",
+      "subject": "international_law",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU international_law question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_036",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which proposition below is the most consistent with what Rawls claims the POP would opt for in respect of 'social primary goods'?\n\nA) The POP will choose wealth over a compassionate society.\nB) The POP will choose equality over power.\nC) The POP will be unselfish.\nD) The POP will choose to protect the disabled.",
+      "ground_truth": "A",
+      "subject": "jurisprudence",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU jurisprudence question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_037",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which of the following fallacies happen if someone argues that you are a reasonable and intelligent person, so of course you understand his claim is true?\n\nA) significance\nB) argument from authority\nC) appeal to pride\nD) slippery slope",
+      "ground_truth": "C",
+      "subject": "logical_fallacies",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU logical_fallacies question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_038",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Suppose you are given an EM algorithm that finds maximum likelihood estimates for a model with latent variables. You are asked to modify the algorithm so that it finds MAP estimates instead. Which step or steps do you need to modify?\n\nA) Expectation\nB) Maximization\nC) No modification necessary\nD) Both",
+      "ground_truth": "B",
+      "subject": "machine_learning",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU machine_learning question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_039",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which one is not an element in the primary activities of a value chain?\n\nA) Procurement\nB) Inbound logistics\nC) Outbound logistics\nD) Service",
+      "ground_truth": "A",
+      "subject": "management",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU management question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_040",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Organizational characteristics, such as organizational size and location, are sometimes referred to as___________.\n\nA) DMU.\nB) Firmographics.\nC) ACORN\nD) Product usage.",
+      "ground_truth": "B",
+      "subject": "marketing",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU marketing question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_041",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Enzyme assay can be used to identify carriers of:\n\nA) Cystic fibrosis.\nB) Fragile X syndrome.\nC) Oculocutaneous albinism.\nD) Tay-Sachs disease.",
+      "ground_truth": "D",
+      "subject": "medical_genetics",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU medical_genetics question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_042",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which of the following protocols is used to transport HTML pages from Web servers to Web browsers?\n\nA) BOOTP\nB) HTTP\nC) SNMP\nD) SMTP",
+      "ground_truth": "B",
+      "subject": "miscellaneous",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU miscellaneous question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_043",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Marquis argues that abortion is morally wrong by\n\nA) showing that a fetus is a person with full moral rights, including the right to life.\nB) appealing to the fact that a fetus is biologically human and arguing that it is presumptively morally wrong to kill biologically human beings.\nC) showing that a fetus is sentient and that it is morally wrong to harm and kill sentient creatures.\nD) none of the above",
+      "ground_truth": "D",
+      "subject": "moral_disputes",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU moral_disputes question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_044",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "For which of these two scenarios does the main character (who uses I/me/my) do something clearly morally wrong, according to ordinary moral standards in the US as of 2020? Scenario 1 | I scored a goal in my soccer game, so the team's goalie punched me. Scenario 2 | I put a leash around a dragon and taught it to roll over and blow fire at peasants.\n\nA) Wrong, Wrong\nB) Wrong, Not wrong\nC) Not wrong, Wrong\nD) Not wrong, Not wrong",
+      "ground_truth": "C",
+      "subject": "moral_scenarios",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU moral_scenarios question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_045",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "What is meant by the term 'functional isolation'?\n\n\nA) A child that is only developing one single function at the time\nB) A child that is isolated from proper nutrition and therefore not developing adequately\nC) A malnourished, apathetic child that is not receiving the same stimulation from the environment affecting his/her development negatively\nD) None of the above",
+      "ground_truth": "C",
+      "subject": "nutrition",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU nutrition question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_046",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "For Socrates, the soul is harmed by lack of _____.\n\nA) knowledge\nB) wealth\nC) community\nD) courage",
+      "ground_truth": "A",
+      "subject": "philosophy",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU philosophy question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_047",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "The 30 upright stones at Stonehenge are called _______; the horizontal stones are _________.\n\nA) legumes, sarsens\nB) lintels, stelae\nC) sarsens, lintels\nD) trilithon, tholoi",
+      "ground_truth": "C",
+      "subject": "prehistory",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU prehistory question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_048",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which of the following is considered part of the required supplementary information for general purpose external financial reporting of a local government?\n\nA) Fund financial statement.\nB) Combining nonmajor fund statement.\nC) Notes to the financial statements.\nD) Management discussion and analysis.",
+      "ground_truth": "D",
+      "subject": "professional_accounting",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU professional_accounting question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_049",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "A landlord was the owner of a vacant warehouse. On May 1, the landlord leased the warehouse to the tenant for a term of five years with a renewable option. The leasehold agreement provided in part:\"The tenant hereby acknowledges that certain areas of the leased premises are in a state of disrepair and unsafe for the conduct of business. Nonetheless, the tenant agrees to assume full responsibility for the necessary repairs. Furthermore, the tenant agrees to indemnify the landlord for any loss resulting from the condition of the said premises. \"Under the terms of the lease, the landlord delivered possession of the warehouse to the tenant on May 2. On that date, an employee of the tenant was working in the warehouse. He was moving some equipment into the warehouse when a section of the ceiling collapsed and fell on him. At the time the landlord and the tenant entered into their lease, only the landlord was aware that the ceiling was defective and needed to be repaired. Although the landlord could have remedied the defect before delivering possession to the tenant, the landlord didn't perform any repair work on the ceiling. The employee initiated suit against the landlord to recover damages resulting from his injury. There are no applicable statutes. If the employee prevails it will be because a\n\nA) landowner is strictly liable for injuries occurring on his property.\nB) landowner's duty of care to third parties cannot be shifted to a tenant by the tenns of a lease.\nC) tenant cannot waive the implied warranty of commercial habitability.\nD) covenant to indemnify by a tenant in favor of a land owner is against public policy.",
+      "ground_truth": "B",
+      "subject": "professional_law",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU professional_law question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_050",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "A 31-year-old woman, gravida 3, para 2, who is at 32 weeks' gestation, is admitted to the hospital because of a 1-week history of progressive dyspnea and wheezing. She says her heart is \"racing\" and she is coughing up a small amount of bloodstreaked sputum. Medical history is significant for hypothyroidism, for which she takes levothyroxine. An intravenous catheter is placed. Vital signs are temperature 36.9\u00b0C (98.4\u00b0F), pulse 132/min, respirations 32/min, and blood pressure 135/78 mm Hg. Pulse oximetry on 100% oxygen via nasal cannula shows an oxygen saturation of 92%. Auscultation of the lungs discloses decreased breath sounds at the bases with expiratory crackles bilaterally. Cardiac examination discloses an irregularly irregular rhythm, an indistinct point of maximal impulse, and a loud S1. A grade 3/6, low-pitched, diastolic, rumbling murmur is audible at the apex; a distinct snapping sound precedes the murmur. Fetal heart rate is 144/min. Which of the following is the most likely cause of the findings in this patient?\n\nA) Chronic mitral regurgitation secondary to rheumatic heart disease\nB) Coarctation of the aorta\nC) Congenital aortic stenosis\nD) Mitral stenosis complicated by atrial fibrillation",
+      "ground_truth": "D",
+      "subject": "professional_medicine",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU professional_medicine question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_051",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "According to HERSEY and BLANCHARD\u2019S SITUATIONAL LEADERSHIP MODEL, leader style is described in terms of task and relationship orientation and optimal style depends on job maturity and subordinates. How is it the Delegating Style?\n\nA) high task-orientation and low relationship orientation\nB) high task-orientation and high relationship orientation\nC) low task orientation and high relationship orientation\nD) low task orientation and low relationship orientation",
+      "ground_truth": "D",
+      "subject": "professional_psychology",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU professional_psychology question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_052",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Which phase of public relations audience research is associated with summative evaluation?\n\nA) Implementation\nB) Impact\nC) Attitude change\nD) Preparation",
+      "ground_truth": "B",
+      "subject": "public_relations",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU public_relations question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_053",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "In terms of cyber-security, what is meant by 'resilience' and why is it important?\n\nA) Resilience refers to the ability of an IT system to identify and defend against a cyber-security threat.\nB) The only way to build a truly resilient IT system is to ensure that it can repel all types of threat and remain and avoid attack.\nC) Resilience in an IT system refers to its ability to function when there are no threats to its security.\nD) Resilience refers to the ability of IT systems to recover from attack.",
+      "ground_truth": "D",
+      "subject": "security_studies",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU security_studies question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_054",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "Socialization is:\n\nA) the formation of an attachment bond between an infant and its carer\nB) a tendency of social theorists to explain everything in terms of social causes\nC) the process of becoming part of a society by learning its norms and values\nD) the historical process by which societies change from traditional to modern",
+      "ground_truth": "C",
+      "subject": "sociology",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU sociology question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_055",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "What, according to Systemic theories, is the primary determinant of a state's foreign policy?\n\nA) The character of a state's leader\nB) The distribution of power in the international system\nC) The distribution of power within a state's governmental system\nD) A state's political ideology",
+      "ground_truth": "B",
+      "subject": "us_foreign_policy",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU us_foreign_policy question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_056",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "What disease do herpes viruses not cause?\n\nA) Infantile paralysis\nB) Encephalitis\nC) Sexually transmitted disease\nD) Cancer",
+      "ground_truth": "A",
+      "subject": "virology",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU virology question testing multitask language understanding"
+    },
+    {
+      "id": "mmlu_057",
+      "category": "multiple_choice",
+      "difficulty": "college_level",
+      "text": "What is the meaning ofsamyak jnanawithin the Jaina traditions?\n\nA) Correct knowledge\nB) Correct practice\nC) Correct intiution\nD) Correct belief",
+      "ground_truth": "C",
+      "subject": "world_religions",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "evaluation_criteria": "multiple_choice",
+      "benchmark": "mmlu",
+      "rationale": "MMLU world_religions question testing multitask language understanding"
+    }
+  ]
+}

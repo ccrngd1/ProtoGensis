@@ -309,14 +309,6 @@ The 54 prompts range from 4 (edge-cases) to 8 (code, creative, factual, analysis
 | E4 | Nova-lite baseline | Nova-lite | GSM8K-100 | 100 | 3 | Individual | Validate headline cost claim | ~$0.10 |
 | E5 | Nova-lite baseline | Nova-lite | MMLU-100 | 100 | 3 | Individual | Cross-benchmark Nova-lite validation | ~$0.10 |
 
-#### MOA Bedrock Guide
-
-| # | Experiment | Model(s) | Benchmark | N | Runs | Method | Purpose | Est. Cost |
-|---|---|---|---|---|---|---|---|---|
-| M-E1 | **Repeat Phase 1 with 3 runs** | All Phase 1 configs (4) | Custom-54 | 54 | 3 | Full Phase 1 rerun | Add variance estimates + CIs to MOA claims | ~$135 |
-| M-E2 | **Cross-judge validation** | Use Sonnet as judge (instead of Opus) on Phase 1 results | Custom-54 | 54 | 1 | Re-score existing responses | Test judge bias (Opus judging itself) | ~$5 |
-| M-E3 | **Premium ensembles on MT-Bench** | Mixed-capability, same-model-premium, persona-diverse, Opus baseline | MT-Bench-80 | 80 | 1 | Full ensemble comparison | Close the MT-Bench single-config gap | ~$25 |
-| M-E4 | **Smart routing validation** | Nova-lite + Haiku + Opus with classifier | Custom-54 | 54 | 3 | Route by complexity | Validate the recommended alternative | ~$15 |
 
 ### Priority 2: Broaden Evidence Base (New Runs)
 

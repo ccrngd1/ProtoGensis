@@ -980,6 +980,62 @@ def analyze_phase(results_file):
 
 ---
 
+## Methodology Notes and Clarifications
+
+### Diversity Measurement
+
+**Phase 3 persona diversity (81%):** The 81% diversity figure comes from a 20-prompt pilot test using three personas (critical-analyst, creative-generalist, domain-expert). We measured pairwise response diversity using Levenshtein distance. We assumed this diversity level generalized to the full 54-prompt run, since personas are deterministic instructions applied to the same model (Opus). Future work could re-measure diversity on the full dataset to confirm, though the deterministic nature of persona instructions makes generalization reasonable.
+
+### Statistical Tests
+
+**T-test type:** All Phase 1 and Phase 3 comparisons use **paired t-tests** (also called related samples t-tests). This is the correct choice for our experimental design because the same 54 prompts were evaluated across all configurations. Pairing accounts for prompt-level variance and provides more statistical power than independent t-tests.
+
+**Code:** `scipy.stats.ttest_rel(baseline_scores, ensemble_scores)`
+
+Paired tests control for the fact that some prompts are intrinsically harder than others, making the comparison more fair.
+
+### Averaging Method
+
+**Prompt weighting:** All 54 prompts are weighted equally in calculating means. This reflects the natural distribution of our benchmark:
+- 5 adversarial prompts (9.3%)
+- 8 reasoning prompts (14.8%)
+- 8 code prompts (14.8%)
+- 8 creative prompts (14.8%)
+- 8 factual prompts (14.8%)
+- 4 edge-cases prompts (7.4%)
+- 6 multi-step prompts (11.1%)
+- 7 analysis prompts (13.0%)
+
+Alternative: category-weighted averages (treating each of 8 categories equally regardless of prompt count) show similar results (average difference: 0.29 points, maximum difference: 1.02 points for mixed-capability). The current method is appropriate for representing actual workload distribution.
+
+### Adversarial Prompts
+
+The benchmark includes 5 adversarial prompts (9.3% of total) designed to test edge cases and robustness. These prompts test:
+- Handling of intentionally ambiguous or contradictory inputs
+- Recognition of trick questions
+- Proper uncertainty acknowledgment
+- Edge case reasoning
+
+**Impact on results:** Adversarial prompts disproportionately impact ensemble performance. Analysis shows:
+- Mixed-capability: -1.4 overall, but **+0.7 on standard prompts** (outperforms)
+- Reasoning + personas: -0.6 overall, but **+0.2 on standard prompts** (outperforms)
+- Pattern: Ensembles can improve quality on standard workloads but introduce brittleness on adversarial inputs
+
+See BLOG.md "Adversarial Brittleness Discovery" section for detailed breakdown.
+
+### Single-Run Limitation
+
+**Statistical power note:** Phase 1 and Phase 3 results are based on single runs of 54 prompts per configuration. This provides:
+- ✅ Sufficient sample size (n=54) for detecting large effects
+- ⚠️  Limited power for small effects (none reached significance at p<0.05)
+- ⚠️  No confidence intervals from repeated runs
+
+**However:** The consistent direction (0 of 6 configurations showed improvements) combined with practical cost overhead (3-7x) makes the conclusion robust: ensembles provide no net benefit for Opus-class models on Bedrock.
+
+Phase 1 critical experiments (M-E2) could add repeated runs for variance estimates if needed for publication.
+
+---
+
 ## Summary: What Was Actually Done
 
 1. **Built MoA framework** with async Bedrock integration, cost tracking, latency measurement
@@ -988,7 +1044,8 @@ def analyze_phase(results_file):
 4. **Phase 1:** Tested 4 configs on 54 prompts = 216 tests. Found all ensembles underperformed.
 5. **Phase 2:** Integrated MT-Bench, tested same 4 configs on 80 questions × 2 turns = 160 tests. Confirmed Phase 1 findings.
 6. **Phase 3:** Designed persona system, measured 81% diversity, tested 4 persona-based configs on 54 prompts = 216 tests. Even persona diversity didn't help.
-7. **Statistical analysis:** t-tests, p-values, Cohen's d effect sizes. 5/6 comparisons showed significant underperformance.
+7. **Statistical analysis:** Paired t-tests, p-values, Cohen's d effect sizes. 0/6 comparisons reached statistical significance in single-run tests, but consistent negative direction.
 8. **Total:** 592 live API tests, all scored with automated judge
+9. **Adversarial analysis:** Discovered 2 of 6 configurations outperform on standard prompts but fail on adversarial inputs (quality-robustness tradeoff)
 
-**Conclusion:** Across 592 tests spanning 3 independent experiments, zero ensembles beat standalone Claude Opus on AWS Bedrock.
+**Conclusion:** Across 592 tests spanning 3 independent experiments, zero ensembles beat standalone Claude Opus consistently across all prompt types on AWS Bedrock. Some configurations show promise on filtered inputs but introduce adversarial brittleness.

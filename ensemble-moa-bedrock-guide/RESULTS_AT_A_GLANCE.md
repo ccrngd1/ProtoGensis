@@ -12,7 +12,7 @@ One-page visual summary of all testing phases and results.
 
 ## The Answer
 
-**No. Zero ensembles beat standalone Claude Opus across 592 tests.**
+**No. Zero ensembles consistently beat standalone Claude Opus across all prompt types (592 tests).** Some configurations outperform on standard prompts but introduce adversarial brittleness.
 
 ---
 
@@ -42,15 +42,15 @@ Result:                                Result:                            Result
 | Configuration | Mean Score | vs Opus Baseline | p-value | Significant? | Effect Size (d) |
 |--------------|------------|------------------|---------|--------------|-----------------|
 | **Baseline** | | | | | |
-| Opus (standalone) | 82.7 | — | — | — | — |
+| Opus (standalone) | 94.5 | — | — | — | — |
 | **Phase 1 Ensembles** | | | | | |
-| High-End Reasoning | 81.3 | -1.4 | 0.23 | No | -0.16 (small) |
-| Mixed Capability | 78.2 | -4.5 | 0.002** | Yes | -0.47 (medium) |
-| Same-Model Premium | 77.9 | -4.8 | 0.001** | Yes | -0.52 (medium-large) |
-| **Phase 3 Ensembles** | | | | | |
-| Persona-Diverse | 80.6 | -2.1 | 0.04* | Yes | -0.24 (small) |
-| Reasoning Cross-Vendor | 79.8 | -2.9 | 0.01* | Yes | -0.32 (medium) |
-| Reasoning + Personas | 80.1 | -2.6 | 0.03* | Yes | -0.28 (small) |
+| High-End Reasoning | 94.0 | -0.5 | 0.42 | No | -0.07 (small) |
+| Mixed Capability | 93.1 | -1.4 | 0.45 | No | -0.12 (small) |
+| Same-Model Premium | 93.1 | -1.4 | 0.08 | No (close) | -0.17 (small) |
+| **Phase 3 Ensembles (baseline: 91.4)** | | | | | |
+| Persona-Diverse | 89.3 | -2.2 | 0.06 | No (close) | -0.20 (small) |
+| Reasoning Cross-Vendor | 90.4 | -1.1 | 0.20 | No | -0.10 (small) |
+| Reasoning + Personas | 90.8 | -0.6 | 0.64 | No | -0.06 (small) |
 
 **Legend:**
 - *p < 0.05 (significant)
@@ -60,15 +60,22 @@ Result:                                Result:                            Result
 
 ---
 
-## Key Finding: 5 of 6 Comparisons Statistically Significant
+## Key Finding: 0 of 6 Comparisons Statistically Significant (But Consistent Direction)
 
 ```
-Ensembles significantly worse than Opus baseline: 5 / 6 = 83%
+Ensembles significantly worse than Opus baseline: 0 / 6 (single-run tests)
+Ensembles that improved over baseline: 0 / 6 (consistent negative direction)
 
-Only "high-end reasoning" not significant (p=0.23)
-All others: p < 0.05
-Two highly significant: p < 0.01
+Two close to significance (but not significant):
+  - Same-Model Premium: p=0.08
+  - Persona-Diverse: p=0.06
+
+All others: p > 0.20
+
+Effect sizes: All small (Cohen's d < 0.2)
 ```
+
+**Note:** While individual comparisons don't reach statistical significance in single-run tests, the consistent direction (0 of 6 showed improvements) and the practical cost overhead (3-7x) support the conclusion that ensembles provide no benefit.
 
 ---
 
@@ -79,9 +86,9 @@ Two highly significant: p < 0.01
 | **Cost** | $0.00225/query | ~$0.00450 (2x) | ~$0.00675 (3x) |
 | **API calls** | 1 | 4 | 6 |
 | **Latency** | ~700ms | ~1400ms (2x) | ~2100ms (3x) |
-| **Quality** | 82.7/100 | -2 to -5 points | -1 to -5 points |
+| **Quality** | 94.5/100 (Phase 1) | -0.5 to -1.4 points | -0.5 to -1.4 points |
 
-**Verdict:** Ensembles cost more, take longer, and score lower.
+**Verdict:** Ensembles cost more, take longer, and show small quality decreases (some outperform on standard prompts but fail on adversarial).
 
 ---
 
@@ -155,7 +162,7 @@ Result: Correlated errors → aggregation can't correct them
 ### 4. Aggregation Overhead
 ```
 Same-model-premium (3x Opus → Opus):
-  Score: -4.8 points vs standalone Opus
+  Score: -1.4 points vs standalone Opus (p=0.08)
   
 This is pure synthesis overhead.
 Models identical, prompts identical.
@@ -236,12 +243,14 @@ python benchmark/analyze_results.py results/premium_tier_results.json  # Verify 
 ║                                                                      ║
 ║  Across 592 tests spanning 3 independent experiments:               ║
 ║                                                                      ║
-║      Zero ensembles beat standalone Claude Opus on AWS Bedrock      ║
+║      Zero ensembles beat standalone Claude Opus consistently        ║
 ║                                                                      ║
-║  5 of 6 comparisons: statistically significant underperformance     ║
-║  Mean penalty: -2 to -5 points on 100-point scale                   ║
-║  Cost: 2-3x more expensive                                          ║
+║  0 of 6 comparisons: statistically significant (single-run tests)   ║
+║  Mean penalty: -0.5 to -2.2 points on 100-point scale              ║
+║  Cost: 2-7x more expensive                                          ║
 ║  Latency: 2-3x slower                                               ║
+║  Quality-robustness tradeoff: some improve on standard, fail on     ║
+║  adversarial inputs                                                  ║
 ║                                                                      ║
 ║  Recommendation: Use standalone models or smart routing             ║
 ║                                                                      ║

@@ -160,47 +160,47 @@ With 3 runs on 100 prompts, our statistical power allows detecting:
 
 | Configuration | Accuracy | Cost | Cost/Correct | Value |
 |---------------|----------|------|--------------|-------|
-| **Opus-fast** | **89.7%** | **$4.48** | **$0.050** | **✓ Best** |
-| Opus-thinking | 89.7% | $6.08 | $0.068 | ✗ 36% more expensive, same accuracy |
+| **Self-consistency** | **93.3%** | **$16.76** | **$0.180** | **✓ Best accuracy** ($3.41/point) |
+| **Opus-fast** | **89.7%** | **$4.48** | **$0.050** | **✓ Best value** |
+| Opus-thinking | 89.7% | $6.08 | $0.068 | = Same accuracy, 36% more expensive |
 | Vote ensemble | 72.7% | $15.45 | $0.212 | ✗ 4.2x more expensive, 17% worse |
-| Self-consistency | 86.7% | $16.76 | $0.193 | ✗ 3.9x more expensive, 3% worse |
 
-**Clear winner:** Opus-fast (individual baseline)
-- Best accuracy (tied with thinking)
-- Lowest cost
-- Best value (cost per correct answer)
+**Trade-off:**
+- **Self-consistency:** Best accuracy (93.3%) but costs 3.7x more = $3.41 per percentage point gained
+- **Opus-fast:** Best value ($0.050/correct) at good accuracy (89.7%)
+- **Choice depends on use case:** High-stakes applications may justify SC cost; high-volume should use opus-fast
 
 ---
 
-## Why Ensembles Fail at Capability Limits
+## Why Architecture Determines Ensemble Success
 
-### The Systematic Error Problem
+### Weak-Judge Ensembles Fail
 
-**Assumption behind ensembles:**
-- Models make **random** errors
-- Different samples/models get different problems wrong
-- Majority vote cancels out random mistakes
+**Vote ensemble with Haiku judge:**
+- Haiku scores 40% on GPQA (weakest model)
+- Must judge responses from Opus/Sonnet (70-90% accuracy)
+- **Problem:** Weak arbiter lacks domain knowledge to evaluate correct answers
+- **Result:** -17% penalty (72.7% vs 89.7% baseline)
+- **Analogy:** Intern grading senior engineer work
 
-**Reality at capability limits (GSM8K hard problems):**
-- Models make **systematic** errors (don't understand concept)
-- All samples/models get same problems wrong the same way
-- Majority vote **amplifies** the systematic error
+### Self-Consistency Works
 
-### Example: Problem at Capability Boundary
+**How it differs from weak-judge approach:**
+- No judge bottleneck: Same model (Opus) evaluates its own samples
+- Model generates 5 diverse samples with temperature=0.7
+- Majority vote among model's own reasoning patterns
+- Model understands its own domain knowledge
 
-**Problem:** Complex multi-step word problem
+**Why it improves accuracy:**
+- On math problems, correct reasoning appears more consistently than incorrect
+- Sampling diversity helps model find correct path more reliably
+- +3.6% improvement (93.3% vs 89.7%)
+- Validates Wang et al. (2023) findings on frontier models
 
-**Individual (1 sample):**
-- Sometimes gets lucky with correct reasoning (1/5 chance)
-- Result: 89.7% accuracy (includes some lucky samples)
-
-**Self-consistency (5 samples):**
-- 4/5 samples use flawed reasoning → wrong answer
-- 1/5 samples use correct reasoning → right answer
-- Majority vote: Picks the flawed reasoning (4 vs 1)
-- Result: 86.7% accuracy (systematic error wins)
-
-**Insight:** Individual's "lucky" correct samples get voted out by systematic errors.
+**Cost-benefit:**
+- Improvement: +3.6 percentage points
+- Cost: 3.7x baseline = $3.41 per point
+- Trade-off: High-stakes applications may justify; high-volume may not
 
 ---
 
@@ -220,7 +220,7 @@ With 3 runs on 100 prompts, our statistical power allows detecting:
 **GSM8K-100 validated results:**
 - Opus-thinking: 89.7% (= baseline)
 - Vote ensemble: 72.7% (MUCH worse, -17%)
-- Self-consistency: 86.7% (worse, -3%)
+- Self-consistency: 93.3% (better, +3.6%)
 
 **Finding:** Phase 1 patterns confirmed and quantified with statistical rigor
 
@@ -345,23 +345,27 @@ With 3 runs on 100 prompts, our statistical power allows detecting:
 
 ### The Answer to "Do Ensemble Methods Help Thinking Models?"
 
-**NO.** Emphatically, no.
+**It depends on architecture.**
 
 **On GSM8K-100 with statistical rigor:**
 - Extended thinking provides no advantage (89.7% vs 89.7%)
-- Vote ensemble dramatically worse (72.7% vs 89.7%, -17%)
-- Self-consistency slightly worse (86.7% vs 89.7%, -3%)
+- **Self-consistency improves accuracy** (93.3% vs 89.7%, +3.6%) ✓
+- Vote ensemble dramatically worse (72.7% vs 89.7%, -17%) ✗
 
-**Why not:**
-- Models at capability limits make systematic errors
-- Ensembles amplify systematic errors rather than correcting random errors
-- Individual baseline provides best accuracy at lowest cost
+**Key findings:**
+1. **Architecture matters:** Weak-judge ensembles fail catastrophically; proven self-consistency works
+2. **Proven methods validated:** Wang et al. (2023) self-consistency improves accuracy on frontier models
+3. **Cost-benefit trade-off:** Self-consistency costs 3.7x more for 3.6% gain = $3.41 per percentage point
 
-**Recommendation:** Use simple individual models (opus-fast). Skip expensive ensemble methods that hurt performance.
+**Recommendations:**
+- **High-stakes applications** (medical, financial): Self-consistency may justify 3.7x cost for +3.6% accuracy
+- **High-volume applications:** Use individual opus-fast for best value ($0.050 per correct)
+- **Never use weak-judge ensembles:** Architectural bottleneck causes -17% penalty
 
 ---
 
 *Completed: April 10, 2026*  
-*Status: Phase 2 COMPLETE - Ensemble methods definitively tested and rejected*  
+*Updated: April 11, 2026 (corrected self-consistency results after extraction bug fix)*  
+*Status: Phase 2 COMPLETE - Ensemble methods definitively tested*  
 *Total cost: $42.77*  
 *Total runs: 12 (opus-fast baseline: 3, opus-thinking: 3, ensemble: 3, self-consistency: 3)*

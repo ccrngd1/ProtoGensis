@@ -40,17 +40,18 @@ class VoteResult:
 class VoteAggregator:
     """Aggregates model responses via voting or judge selection"""
 
-    def __init__(self, mock_mode: bool = True, use_semantic_vote: bool = True):
+    def __init__(self, mock_mode: bool = True, use_semantic_vote: bool = True, judge_model: str = "haiku-fast"):
         self.mock_mode = mock_mode
         self.use_semantic_vote = use_semantic_vote  # True = majority vote, False = judge selection
+        self.judge_model = judge_model  # Which model to use as judge (haiku-fast, opus-fast, sonnet-fast)
 
         if not mock_mode:
             try:
                 self.client = BedrockClient()
                 if use_semantic_vote:
-                    print("✓ Semantic majority vote (Haiku) initialized")
+                    print(f"✓ Semantic majority vote ({judge_model} judge) initialized")
                 else:
-                    print("✓ Judge selection (Haiku) initialized")
+                    print(f"✓ Judge selection ({judge_model} judge) initialized")
             except ValueError as e:
                 print(f"ERROR: {e}")
                 raise
@@ -248,16 +249,24 @@ MAJORITY: [list of model names that form the weighted majority, e.g., "NOVA, MIS
 CONFIDENCE_WEIGHTS: [sum of confidence scores for majority group]
 REASONING: [brief explanation of what they agree on and why this group won]"""
 
+        # Map judge model key to Bedrock model ID
+        judge_model_ids = {
+            "haiku-fast": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+            "sonnet-fast": "us.anthropic.claude-sonnet-4-6-20250929-v1:0",
+            "opus-fast": "us.anthropic.claude-opus-4-6-20250929-v1:0"
+        }
+        judge_model_id = judge_model_ids.get(self.judge_model, judge_model_ids["haiku-fast"])
+
         try:
             vote_response, input_tokens, output_tokens, latency_ms = self.client.call_model(
-                model_id="us.anthropic.claude-haiku-4-5-20251001-v1:0",
+                model_id=judge_model_id,
                 prompt=semantic_vote_prompt,
                 max_tokens=1000,
                 temperature=0.3  # Lower temp for more deterministic grouping
             )
 
             vote_cost = calculate_cost(
-                "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+                judge_model_id,
                 input_tokens,
                 output_tokens
             )
