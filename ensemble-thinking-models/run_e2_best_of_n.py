@@ -24,9 +24,9 @@ from aggregators.best_of_n import BestOfNAggregator
 from ensemble_shared.bedrock_client import BedrockClient, calculate_cost
 
 MODEL_KEY = 'opus-fast'
-MODEL_ID = 'us.anthropic.claude-opus-4-6-20250929-v1:0'
+MODEL_ID = 'us.anthropic.claude-opus-4-6-v1'
 JUDGE_KEY = 'opus-fast'
-JUDGE_ID = 'us.anthropic.claude-opus-4-6-20250929-v1:0'
+JUDGE_ID = 'us.anthropic.claude-opus-4-6-v1'
 NUM_SAMPLES = 5
 TEMPERATURE = 0.7
 

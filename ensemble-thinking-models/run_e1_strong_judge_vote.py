@@ -21,18 +21,18 @@ import os
 from aggregators.vote import VoteAggregator
 from ensemble_shared.bedrock_client import BedrockClient
 
-# Model configurations
+# Model configurations (match harness.py)
 PROPOSER_MODELS = {
-    'opus-fast': 'us.anthropic.claude-opus-4-6-20250929-v1:0',
-    'sonnet-fast': 'us.anthropic.claude-sonnet-4-6-20250929-v1:0',
+    'opus-fast': 'us.anthropic.claude-opus-4-6-v1',
+    'sonnet-fast': 'us.anthropic.claude-sonnet-4-6',
     'haiku-fast': 'us.anthropic.claude-haiku-4-5-20251001-v1:0',
-    'opus-thinking': 'us.anthropic.claude-opus-4-6-20250929-v1:0',
-    'sonnet-thinking': 'us.anthropic.claude-sonnet-4-6-20250929-v1:0',
+    'opus-thinking': 'us.anthropic.claude-opus-4-6-v1',
+    'sonnet-thinking': 'us.anthropic.claude-sonnet-4-6',
     'haiku-thinking': 'us.anthropic.claude-haiku-4-5-20251001-v1:0'
 }
 
 JUDGE_MODEL = 'opus-fast'
-JUDGE_MODEL_ID = 'us.anthropic.claude-opus-4-6-20250929-v1:0'
+JUDGE_MODEL_ID = 'us.anthropic.claude-opus-4-6-v1'
 
 
 def run_single_experiment(prompts_file: str, run_number: int, output_file: str):

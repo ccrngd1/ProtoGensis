@@ -249,11 +249,11 @@ MAJORITY: [list of model names that form the weighted majority, e.g., "NOVA, MIS
 CONFIDENCE_WEIGHTS: [sum of confidence scores for majority group]
 REASONING: [brief explanation of what they agree on and why this group won]"""
 
-        # Map judge model key to Bedrock model ID
+        # Map judge model key to Bedrock model ID (match harness.py)
         judge_model_ids = {
             "haiku-fast": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
-            "sonnet-fast": "us.anthropic.claude-sonnet-4-6-20250929-v1:0",
-            "opus-fast": "us.anthropic.claude-opus-4-6-20250929-v1:0"
+            "sonnet-fast": "us.anthropic.claude-sonnet-4-6",
+            "opus-fast": "us.anthropic.claude-opus-4-6-v1"
         }
         judge_model_id = judge_model_ids.get(self.judge_model, judge_model_ids["haiku-fast"])
 
