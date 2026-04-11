@@ -53,34 +53,57 @@ class SelfConsistencyAggregator:
         else:
             self.client = None
 
-    def _extract_answer_key(self, answer: str) -> str:
+    def _extract_answer_key(self, answer: str, benchmark: str = "auto") -> str:
         """
         Extract the core answer for comparison.
 
-        For multiple choice: extract letter (check FIRST to avoid extracting numbers from reasoning)
-        For numeric answers: extract numbers
+        Args:
+            answer: Model response text
+            benchmark: "numeric" (GSM8K), "mc" (MMLU/GPQA), or "auto" (try both)
+
+        For numeric benchmarks: extract numbers ONLY (avoids article "a" → 'A' bug)
+        For multiple choice: extract letter
         For text: normalize and take key phrases
         """
         if not answer:
             return ""
 
-        # Try to extract multiple choice letter FIRST (for MMLU, GPQA)
-        # Must check before numbers to avoid extracting "1,2,3,4" from reasoning
-        mc_match = re.search(r'\b([A-D])\b', answer.upper())
-        if mc_match:
-            return mc_match.group(1)
+        # For numeric benchmarks (GSM8K), extract numbers ONLY
+        if benchmark == "numeric":
+            numbers = re.findall(r'-?\d+(?:,\d+)*(?:\.\d+)?', answer)
+            if numbers:
+                # Use last number as answer key
+                return numbers[-1].replace(',', '')
+            # No number found, return normalized text
+            normalized = answer.lower().strip()
+            return normalized[:50]
 
-        # Try to extract number (for GSM8K, numeric answers)
-        numbers = re.findall(r'-?\d+(?:,\d+)*(?:\.\d+)?', answer)
-        if numbers:
-            # Use last number as answer key
-            return numbers[-1].replace(',', '')
+        # For multiple choice benchmarks (MMLU, GPQA), extract letter
+        elif benchmark == "mc":
+            mc_match = re.search(r'\b([A-D])\b', answer.upper())
+            if mc_match:
+                return mc_match.group(1)
+            # No letter found, return normalized text
+            normalized = answer.lower().strip()
+            return normalized[:50]
 
-        # Fallback: normalize text and take first 50 chars
-        normalized = answer.lower().strip()
-        # Remove common filler words
-        normalized = re.sub(r'\b(the|a|an|is|are|was|were|to|of|and|or|but)\b', '', normalized)
-        return normalized[:50]
+        # Auto mode: try MC first, then numbers (original buggy behavior)
+        # Deprecated: Only use for backwards compatibility
+        else:
+            # Try to extract multiple choice letter FIRST
+            mc_match = re.search(r'\b([A-D])\b', answer.upper())
+            if mc_match:
+                return mc_match.group(1)
+
+            # Try to extract number
+            numbers = re.findall(r'-?\d+(?:,\d+)*(?:\.\d+)?', answer)
+            if numbers:
+                return numbers[-1].replace(',', '')
+
+            # Fallback: normalize text and take first 50 chars
+            normalized = answer.lower().strip()
+            normalized = re.sub(r'\b(the|a|an|is|are|was|were|to|of|and|or|but)\b', '', normalized)
+            return normalized[:50]
 
     def aggregate(
         self,
@@ -91,7 +114,8 @@ class SelfConsistencyAggregator:
         temperature: float = 0.7,
         max_tokens: int = 2048,
         extended_thinking: bool = False,
-        thinking_budget: int = 10000
+        thinking_budget: int = 10000,
+        benchmark: str = "numeric"
     ) -> SelfConsistencyResult:
         """
         Run same model multiple times and take majority vote.
@@ -105,6 +129,7 @@ class SelfConsistencyAggregator:
             max_tokens: Max output tokens
             extended_thinking: Use extended thinking mode
             thinking_budget: Thinking token budget
+            benchmark: Answer type - "numeric" (GSM8K), "mc" (MMLU/GPQA), "auto"
 
         Returns:
             SelfConsistencyResult with majority answer
@@ -159,7 +184,7 @@ class SelfConsistencyAggregator:
                 answers.append(f"ERROR: {e}")
 
         # Extract answer keys for voting
-        answer_keys = [self._extract_answer_key(ans) for ans in answers]
+        answer_keys = [self._extract_answer_key(ans, benchmark=benchmark) for ans in answers]
 
         # Count votes
         vote_counts = Counter(answer_keys)
@@ -203,6 +228,9 @@ def main():
                        help='Use live API calls (default: mock mode)')
     parser.add_argument('--max-prompts', type=int, default=None,
                        help='Limit number of prompts to process (for testing)')
+    parser.add_argument('--benchmark', default='numeric',
+                       choices=['numeric', 'mc', 'auto'],
+                       help='Benchmark type: numeric (GSM8K), mc (MMLU/GPQA), auto (default: numeric)')
 
     args = parser.parse_args()
 
@@ -289,7 +317,8 @@ def main():
             temperature=0.7,
             max_tokens=config['max_tokens'],
             extended_thinking=config['extended_thinking'],
-            thinking_budget=config.get('thinking_budget', 10000)
+            thinking_budget=config.get('thinking_budget', 10000),
+            benchmark=args.benchmark
         )
 
         result.prompt_id = prompt_id
