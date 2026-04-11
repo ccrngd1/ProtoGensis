@@ -1,13 +1,36 @@
 # Phase 2: Statistical Rigor - Results
 
-**Date:** April 9, 2026  
+**Date:** April 9-10, 2026 (Updated April 11, 2026 with ensemble comparison results)  
 **Status:** ✅ COMPLETE  
-**Cost:** $8.64  
-**Time:** ~12 minutes (wall clock)
+**Total Cost:** $42.77 (baseline: $8.64, expansion: $34.13)  
+**Time:** ~2 days (baseline + ensemble comparison)
 
 ---
 
-## Executive Summary
+## ⚠️ UPDATE: Phase 2 Expansion Completed (April 10, 2026)
+
+**Phase 2 expansion tested all planned configurations with statistical rigor:**
+
+| Configuration | Mean Accuracy | vs Baseline | Finding |
+|---------------|---------------|-------------|---------|
+| Opus-fast (baseline) | 89.7% | -- | Baseline |
+| Opus-thinking | 89.7% | = Same | No advantage |
+| Vote ensemble | 72.7% | -17.0% ✗ | Catastrophic failure |
+| Self-consistency | **93.3%** | **+3.6%** ✓ | Works but expensive |
+
+**Key insights from expansion:**
+- ✅ Self-consistency (proven method) improves accuracy by 3.6%
+- ✗ Weak-judge ensembles fail dramatically (-17%)  
+- = Extended thinking provides no advantage on math
+- 💰 Self-consistency costs 3.7x more = $3.41 per percentage point
+
+**Complete analysis:** See ENSEMBLE_COMPARISON_RESULTS.md
+
+**Data quality note:** Original calculation showed SC at 86.7% due to extraction bug (compared full-text to numbers). Corrected calculation reveals 93.3%. Bug discovery documented in CRITICAL_FINDING_SELFCONS.md.
+
+---
+
+## Executive Summary (Original Baseline Runs)
 
 Phase 2 successfully validated model performance with statistical rigor across two major benchmarks. **Key finding:** Opus-fast shows highly consistent performance with tight confidence intervals.
 
@@ -266,7 +289,7 @@ With current results, we can detect:
 
 After Phase 2 expansion:
 1. Re-run original 10 hard prompts with LLM judge + 600s timeout
-2. Test Nova-lite on benchmarks
+2. Test strong-judge vote ensemble (Opus as judge)
 3. Human validation of judge decisions
 
 ---

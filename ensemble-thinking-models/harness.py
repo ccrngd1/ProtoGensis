@@ -134,14 +134,14 @@ MODELS = {
     #     cost_per_1k_output=0.00024,
     #     extended_thinking_multiplier=1.0
     # ),  # Available but disabled for this run
-    "nova-lite": ModelConfig(
-        name="Amazon Nova Lite",
-        model_id="us.amazon.nova-lite-v1:0",
-        supports_thinking=False,
-        cost_per_1k_input=0.00006,
-        cost_per_1k_output=0.00024,
-        extended_thinking_multiplier=1.0
-    ),
+    # "nova-lite": ModelConfig(
+    #     name="Amazon Nova Lite",
+    #     model_id="us.amazon.nova-lite-v1:0",
+    #     supports_thinking=False,
+    #     cost_per_1k_input=0.00006,
+    #     cost_per_1k_output=0.00024,
+    #     extended_thinking_multiplier=1.0
+    # ),  # Removed: Phase 1 only, not validated in Phase 2
     "nova-micro": ModelConfig(
         name="Amazon Nova Micro",
         model_id="us.amazon.nova-micro-v1:0",

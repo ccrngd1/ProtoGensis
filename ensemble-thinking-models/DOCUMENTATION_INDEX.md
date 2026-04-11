@@ -126,9 +126,9 @@
 - Lines 270-296 (BLOG.md): Why ensembles fail (accessible)
 
 **Data to cite:**
-- Vote ensemble: -17% (highly significant)
-- Self-consistency: -3% (borderline significant)
-- Nova-lite: 1100x cheaper than Opus-thinking
+- Vote ensemble: -17% (highly significant failure due to weak judge)
+- Self-consistency: +3.6% (works but 3.7x more expensive)
+- Cost-benefit: $3.41 per percentage point for self-consistency
 
 ### For a Research Paper
 
@@ -270,15 +270,15 @@
 
 | Metric | Value | Source |
 |--------|-------|--------|
-| **Vote ensemble accuracy** | 72.7% | ENSEMBLE_COMPARISON_RESULTS.md:34 |
-| **Self-consistency accuracy** | 86.7% | ENSEMBLE_COMPARISON_RESULTS.md:109 |
-| **Baseline accuracy** | 89.7% | ENSEMBLE_COMPARISON_RESULTS.md:32 |
-| **Vote ensemble failure** | -17.0% | ENSEMBLE_COMPARISON_RESULTS.md:86 |
-| **SC failure** | -3.0% | ENSEMBLE_COMPARISON_RESULTS.md:114 |
-| **Phase 1 cost** | $12.00 | RESEARCH_COMPENDIUM.md:408 |
-| **Phase 2 cost** | $42.77 | RESEARCH_COMPENDIUM.md:423 |
-| **Total cost** | $54.77 | RESEARCH_COMPENDIUM.md:453 |
-| **Nova-lite cost advantage** | 1100x cheaper | BLOG.md:155 |
+| **Vote ensemble accuracy** | 72.7% | ENSEMBLE_COMPARISON_RESULTS.md:18 |
+| **Self-consistency accuracy** | **93.3%** | ENSEMBLE_COMPARISON_RESULTS.md:108 |
+| **Baseline accuracy** | 89.7% | ENSEMBLE_COMPARISON_RESULTS.md:16 |
+| **Vote ensemble failure** | -17.0% | ENSEMBLE_COMPARISON_RESULTS.md:18 |
+| **SC improvement** | **+3.6%** | ENSEMBLE_COMPARISON_RESULTS.md:19 |
+| **SC cost per point** | **$3.41** | ENSEMBLE_COMPARISON_RESULTS.md:126 |
+| **Phase 1 cost** | $12.00 | RESEARCH_COMPENDIUM.md:243 |
+| **Phase 2 cost** | $42.77 | RESEARCH_COMPENDIUM.md:257 |
+| **Total cost** | $54.77 | RESEARCH_COMPENDIUM.md:272 |
 | **Statistical threshold** | ≥5% | ENSEMBLE_COMPARISON_RESULTS.md:135 |
 
 ### Key Quotes
@@ -288,20 +288,20 @@
 - **BLOG.md lines 7-9**
 
 **Main finding:**
-> "Ensemble methods consistently WORSE than individual baseline on GSM8K-100."
+> "Ensemble architecture determines outcome - weak judges fail, proven methods work."
 - **ENSEMBLE_COMPARISON_RESULTS.md line 12**
 
-**Why ensembles fail:**
-> "At capability limits (GSM8K hard problems), models make systematic errors (don't understand concept). All samples/models get same problems wrong the same way. Majority vote amplifies the systematic error."
-- **ENSEMBLE_COMPARISON_RESULTS.md lines 172-176**
+**Self-consistency works:**
+> "Self-consistency (Wang et al. 2023) improves accuracy by 3.6% on math. Cost: 3.7x baseline = $3.41 per percentage point gained."
+- **ENSEMBLE_COMPARISON_RESULTS.md lines 125-127**
 
-**Clear winner:**
-> "Opus-fast (individual baseline): Best accuracy (tied with thinking), Lowest cost, Best value (cost per correct answer)"
-- **ENSEMBLE_COMPARISON_RESULTS.md lines 156-160**
+**Weak-judge failure:**
+> "Using Haiku (40% GPQA) to judge stronger models → -17% penalty. Architectural flaw: Weak arbiter can't evaluate strong responses."
+- **ENSEMBLE_COMPARISON_RESULTS.md lines 15-16**
 
-**Recommendation:**
-> "Use simple individual models (opus-fast). Skip expensive ensemble methods that hurt performance."
-- **ENSEMBLE_COMPARISON_RESULTS.md line 348**
+**Cost-benefit trade-off:**
+> "Whether the 3.7x cost justifies 3.6% gain depends on use case: High-stakes applications (medical, financial) may justify cost; high-volume queries should use individual baseline."
+- **ENSEMBLE_COMPARISON_RESULTS.md lines 134-137**
 
 ### Common Questions and Where to Find Answers
 
@@ -323,39 +323,44 @@
 - **LLM_JUDGE_IMPLEMENTATION.md** (complete guide)
 - **RESEARCH_COMPENDIUM.md lines 655-675**
 
-**Q: Why did ensembles fail?**
-- A: Systematic errors at capability limits
-- **README.md lines 195-212** (concise)
-- **BLOG.md lines 270-296** (accessible)
-- **ENSEMBLE_COMPARISON_RESULTS.md lines 163-193** (technical)
+**Q: Do ensemble methods help?**
+- A: Depends on architecture - weak judges fail (-17%), self-consistency works (+3.6%)
+- **README.md lines 79-92** (overview)
+- **BLOG.md lines 279-304** (detailed)
+- **ENSEMBLE_COMPARISON_RESULTS.md lines 12-21** (summary)
 
 **Q: Did you test proven methods?**
-- A: Yes, self-consistency (Wang et al. 2023), still failed
-- **ENSEMBLE_COMPARISON_RESULTS.md lines 218-234**
+- A: Yes, self-consistency (Wang et al. 2023) improves accuracy by 3.6%
+- **ENSEMBLE_COMPARISON_RESULTS.md lines 99-137**
 - **SELF_CONSISTENCY_GUIDE.md** (implementation)
 
 **Q: What about GPT-3 results showing ensembles help?**
-- A: GPT-3 below capability limit (inconsistent), Opus at limit (systematic)
-- **ENSEMBLE_COMPARISON_RESULTS.md lines 218-234**
+- A: Our findings validate Wang et al. - self-consistency works on both GPT-3 and Opus 4.6
+- **ENSEMBLE_COMPARISON_RESULTS.md lines 99-137**
+
+**Q: Why did vote ensemble fail?**
+- A: Haiku judge (40% GPQA) judging stronger models (70%+) - architectural bottleneck
+- **README.md lines 39-42**
+- **BLOG.md lines 279-290**
 
 **Q: Can I replicate this?**
 - A: Yes, full instructions in RESEARCH_COMPENDIUM.md lines 805-907
 
 **Q: Where's the raw data?**
 - A: `results/phase2/*.json`
-- **RESEARCH_COMPENDIUM.md lines 255-336** (inventory)
+- **RESEARCH_COMPENDIUM.md lines 204-237** (inventory)
 
 **Q: What models did you test?**
 - A: Opus, Sonnet, Haiku (fast & thinking)
-- **RESEARCH_COMPENDIUM.md lines 579-607** (complete configs)
+- **RESEARCH_COMPENDIUM.md lines 394-416** (complete configs)
 
 **Q: What about extended thinking?**
 - A: Opus-thinking = Opus-fast on GSM8K-100 (89.7% both)
 - **ENSEMBLE_COMPARISON_RESULTS.md lines 46-67**
 
 **Q: Should I use ensembles in production?**
-- A: No, use best individual model
-- **RESEARCH_COMPENDIUM.md lines 921-971** (recommendations)
+- A: Self-consistency for high-stakes applications if +3.6% justifies 3.7x cost; otherwise use individual
+- **README.md lines 82-92** (recommendations)
 
 ---
 

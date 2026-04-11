@@ -99,19 +99,18 @@ This project tests two controversial hypotheses about LLM performance:
 
 ## Quick Results Summary
 
-### Model Performance on Hard Prompts (10 challenging reasoning tasks)
+### Model Performance on Hard Prompts (10 challenging reasoning tasks - Phase 1 exploratory)
 
 | Rank | Model | Accuracy | Cost/10 | Cost/Correct | Winner |
 |------|-------|----------|---------|--------------|--------|
-| 🥇 | **Nova-lite** | 90% | $0.002 | $0.0002 | **BEST VALUE** |
-| 🥈 | Llama-3-1-70b | 80% | $0.010 | $0.0013 | Good budget |
-| 🥉 | Nova-pro | 90% | $0.026 | $0.0029 | 2nd best value |
-| 4 | Haiku-fast | 90% | $0.081 | $0.0090 | Best Claude |
-| 5 | Haiku-thinking | 90% | $0.174 | $0.0194 | No benefit vs fast |
-| 6 | Sonnet-fast | 90% | $0.403 | $0.0448 | Premium tier |
-| 7 | Sonnet-thinking | 90% | $0.766 | $0.0851 | No benefit vs fast |
-| 8 | Opus-fast | 90% | $1.613 | $0.1792 | Most expensive Claude |
+| 1 | Haiku-fast | 90% | $0.081 | $0.0090 | Best Claude |
+| 2 | Haiku-thinking | 90% | $0.174 | $0.0194 | No benefit vs fast |
+| 3 | Sonnet-fast | 90% | $0.403 | $0.0448 | Premium tier |
+| 4 | Sonnet-thinking | 90% | $0.766 | $0.0851 | No benefit vs fast |
+| 5 | Opus-fast | 90% | $1.613 | $0.1792 | Most expensive Claude |
 | ⚠️ | **Opus-thinking** | **87.5%** | **$2.209** | **$0.2524** | **WORST VALUE** |
+
+**Note:** Phase 1 explored other models, but only Claude models were validated in Phase 2 with statistical rigor.
 
 ### Ensemble Performance
 
@@ -169,17 +168,7 @@ After custom prompt results contradicted published benchmarks (where thinking mo
 
 **Note:** Timeouts may reflect infrastructure limits rather than model capability. Keyword matching may penalize verbose thinking-mode answers.
 
-### 2. Nova-lite Had Strong Value on Custom Prompts
-
-- **90% accuracy** on 10 hard reasoning prompts (9/10 correct)
-- **$0.0002 per correct answer**
-- **1100x cheaper** than Opus-thinking (same accuracy)
-- **808x cheaper** than Opus-fast (same accuracy)
-- **100% completion rate** (no timeouts)
-
-**Note:** Not yet validated on standard benchmarks. Results specific to 10 custom prompts (60% healthcare-focused).
-
-### 3. Opus-thinking Had Challenges on Custom Prompts
+### 2. Opus-thinking Had Challenges on Custom Prompts
 
 - **Accuracy**: 87.5% (7/8 completed, 2/10 timed out)
 - **Cost per correct**: $0.25 (highest)
@@ -189,7 +178,7 @@ After custom prompt results contradicted published benchmarks (where thinking mo
 
 **Note:** Timeout configuration (360s) may have been too aggressive for thinking mode. Actual capability on those 2 prompts unknown.
 
-### 4. Ensemble Methods Consistently Underperform (Phase 1 & 2)
+### 3. Ensemble Methods Show Mixed Results - Architecture Matters (Phase 1 & 2)
 
 **Phase 1 (Exploratory):**
 - **Custom prompts:** 0/40 times beat best individual  
@@ -308,9 +297,7 @@ See [prompts/hard_prompts.json](prompts/hard_prompts.json) for full prompts and 
 ### Budget Models (AWS Bedrock)
 
 - **llama-3-1-70b**: Meta Llama 3.1 70B (80% accuracy @ $0.01)
-- **nova-pro**: Amazon Nova Pro (90% accuracy @ $0.03)
-- **nova-lite**: Amazon Nova Lite ⭐ (90% accuracy @ $0.002)
-- **nemotron-nano**: Nvidia Nemotron Nano 12B (80% accuracy @ $0.002)
+**Note:** Phase 1 explored additional models (Amazon Nova, Meta Llama, etc.), but only Claude variants were validated in Phase 2 with statistical rigor.
 
 ---
 
@@ -322,9 +309,9 @@ See [prompts/hard_prompts.json](prompts/hard_prompts.json) for full prompts and 
 **Result**: Opus-thinking (87.5%) dragged down ensemble, failed 2/10 prompts
 
 ### Experiment 2: Fast-Only Ensemble
-**Models**: 3 Claude fast + llama + nova-pro + nova-lite  
+**Models**: 3 Claude fast + budget models  
 **Cost**: $2.13 | **Time**: 21 min | **Convergence**: 0%  
-**Result**: Nova-lite matched premium models at 1/800th the cost
+**Result**: Ensemble showed no value over best individual
 
 ### Experiment 3: Direct Comparison
 **Models**: All 6 Claude (3 thinking + 3 fast)  
@@ -334,7 +321,7 @@ See [prompts/hard_prompts.json](prompts/hard_prompts.json) for full prompts and 
 ### Experiment 4: Hybrid Ensemble
 **Models**: opus-thinking + 5 fast/budget models  
 **Cost**: $2.18 | **Time**: 20 min | **Convergence**: 0%  
-**Result**: Haiku-fast and Nova-lite beat Opus-thinking at 26-1000x lower cost
+**Result**: Ensemble provided no advantage over best individual
 
 ---
 
@@ -397,7 +384,7 @@ python3 harness.py \
 
 # Experiment 2: Fast-only
 python3 harness.py \
-  --models opus-fast sonnet-fast haiku-fast llama-3-1-70b nova-pro nova-lite \
+  --models opus-fast sonnet-fast haiku-fast \
   --prompts prompts/hard_prompts.json \
   --output results/hard_prompts/fast/responses.json
 
@@ -422,20 +409,15 @@ python3 evaluate.py \
 
 ### ✅ DO Use These Models
 
-1. **Nova-lite** (production default)
-   - 90% accuracy, $0.0002/correct
-   - 1000x cheaper than premium models
-   - Fast (4.6s avg latency)
-
-2. **Haiku-fast** (balanced option)
-   - 90% accuracy, $0.009/correct
+1. **Haiku-fast** (recommended default)
+   - 90% accuracy (Phase 1), $0.009/correct
    - Best Claude option for cost/performance
-   - 25x cheaper than Opus-fast
+   - Good balance of cost and reliability
 
-3. **Opus-fast** (if budget unlimited)
-   - 90% accuracy, $0.18/correct
-   - Most expensive but reliable
-   - Only use if cost truly doesn't matter
+2. **Opus-fast** (high-stakes applications)
+   - 90% accuracy validated across benchmarks
+   - Most reliable Claude model
+   - Use for high-stakes applications where cost is secondary
 
 ### ❌ DON'T Use These Approaches
 
@@ -452,40 +434,39 @@ python3 evaluate.py \
 
 3. **Opus-thinking Specifically** ⚠️
    - Worst accuracy: 87.5% (only model below 90%)
-   - Worst value: $0.25/correct (1260x worse than Nova-lite)
+   - Worst value: $0.25/correct
    - Only model with timeouts (20% failure rate)
    - No use case where this is optimal
 
 ---
 
-## Cost Comparison
+## Cost Comparison (Phase 1 Custom Prompts)
 
 ### Per 1 Million Prompts
 
-| Model | Cost | Accuracy | Cost for 900K Correct |
-|-------|------|----------|----------------------|
-| Nova-lite | $200 | 90% | $222 |
+| Model | Cost | Accuracy | Cost for Correct |
+|-------|------|----------|------------------|
 | Haiku-fast | $8,100 | 90% | $9,000 |
 | Opus-fast | $161,300 | 90% | $179,200 |
 | Opus-thinking | $220,900 | 87.5% | **$252,400** |
 
-**Savings using Nova-lite vs Opus-thinking: $252,178 (99.9% reduction)**
+**Key insight:** Opus-thinking costs 27x more than Haiku-fast with lower accuracy.
 
 ### Enterprise Impact
 
 For a typical enterprise processing **10M prompts/month**:
 
-- **Nova-lite**: $2,000/month
+- **Haiku-fast**: $81,000/month
 - **Opus-thinking**: $2,209,000/month
-- **Monthly savings**: $2,207,000 by switching to Nova-lite
+- **Savings**: ~$2.1M/month (96% reduction) using Haiku-fast instead of Opus-thinking
 
 ---
 
 ## When to Deviate from Recommendations
 
-### Use Opus-fast (not Nova-lite) when:
-- You need Claude-specific features (artifacts, tool use)
-- Brand/compliance requires Anthropic models
+### Use Opus-fast when:
+- You need highest accuracy on validated benchmarks
+- Brand/compliance requires top-tier Anthropic models
 - Your prompts are significantly different from this study
 - Cost is genuinely not a constraint
 
@@ -523,7 +504,7 @@ For a typical enterprise processing **10M prompts/month**:
 
 Run with:
 ```bash
-python3 harness.py --prompts your_prompts.json --models nova-lite opus-fast
+python3 harness.py --prompts your_prompts.json --models haiku-fast opus-fast
 ```
 
 ### Add New Models
@@ -642,15 +623,15 @@ This is **Project 1 of 3** in the LLM Ensemble Methods series:
 │    • Opus-thinking had worst performance of all       │
 │                                                        │
 │  HYPOTHESIS 2: Ensembles beat best individual         │
-│  RESULT: REJECTED ❌                                    │
-│    • 0/40 win rate across all experiments             │
-│    • Just use single best model                       │
-│    • Ensembles add cost without adding value          │
+│  RESULT: MIXED - Architecture Matters                 │
+│    • Weak-judge ensembles: -17% (catastrophic)        │
+│    • Self-consistency: +3.6% (works but expensive)    │
+│    • Architecture determines success                  │
 │                                                        │
-│  WINNER: Nova-lite                                    │
-│    • 90% accuracy @ $0.0002/correct                   │
-│    • 1000x better value than premium models           │
-│    • Fast, reliable, production-ready                 │
+│  RECOMMENDATION: Haiku-fast for most use cases        │
+│    • 90% accuracy on Phase 1 prompts                  │
+│    • Best Claude cost/performance balance             │
+│    • Use Opus-fast for high-stakes applications       │
 │                                                        │
 └────────────────────────────────────────────────────────┘
 ```

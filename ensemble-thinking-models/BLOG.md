@@ -146,30 +146,7 @@ Both failures were on complex healthcare data conversion tasks. **Opus-fast hand
 
 Opus-thinking is the only model that failed to complete the study. Every other model—fast variants, budget models, everything—completed all 10 prompts successfully.
 
-### Finding 3: Nova-lite Wins Everything
-
-The dark horse. Amazon Nova Lite. A budget model priced at $0.002 per 10 prompts.
-
-**Performance:**
-- **Accuracy**: 90% (9/10 correct)
-- **Cost**: $0.0002 per correct answer
-- **Speed**: 4.6 seconds average
-- **Reliability**: 100% completion rate
-
-**Value comparison:**
-- **1100x cheaper** than Opus-thinking (same or better accuracy)
-- **808x cheaper** than Opus-fast (equal accuracy)
-- **383x cheaper** than Sonnet-thinking (equal accuracy)
-- **87x cheaper** than Haiku-thinking (equal accuracy)
-
-For 1 million prompts:
-- Nova-lite: $200
-- Opus-thinking: $220,900
-- **Savings: $220,700 (99.9% cost reduction)**
-
-This wasn't supposed to happen. Nova-lite isn't marketed as a reasoning model. It doesn't have extended thinking. It's just fast, cheap inference. And it matched or beat every premium model tested.
-
-### Finding 4: Ensemble Methods Show Mixed Results - Architecture Matters (Phase 1 & 2)
+### Finding 3: Ensemble Methods Show Mixed Results - Architecture Matters (Phase 1 & 2)
 
 **Hypothesis**: When models diverge on hard prompts, ensemble aggregation should produce better answers.
 
@@ -267,14 +244,7 @@ Fair point. So we validated against 4 standard benchmarks:
 
 ### The Cost of Extended Thinking
 
-If our 10-prompt findings generalize, deploying Opus-thinking for production reasoning tasks could be expensive:
-
-**Hypothetical monthly cost for 10M prompts:**
-- Opus-thinking: ~$2,209,000
-- Nova-lite: ~$2,000
-- **Potential cost difference: ~$2,207,000**
-
-**But:** Nova-lite not yet validated on standard benchmarks. Results based on 10 custom prompts (60% healthcare-focused). Task-specific performance may vary significantly.
+Extended thinking modes consistently cost more while providing inconsistent benefits. On custom prompts, Opus-thinking failed to complete 2/10 prompts due to timeouts, while cheaper fast modes succeeded.
 
 ### Architecture Matters: Weak Judges Fail, Proven Methods Work
 
@@ -334,8 +304,6 @@ Three approaches, same answer. That diversity was interesting.
 
 **Did it matter?** No. All three models got it right independently. The ensemble didn't improve on the individual answers. It just confirmed what any single model already knew.
 
-And Nova-lite got it right too, without any extended reasoning, at 1/1000th the cost.
-
 ---
 
 ## The Numbers
@@ -356,7 +324,7 @@ And Nova-lite got it right too, without any extended reasoning, at 1/1000th the 
 
 | Metric | Value |
 |--------|-------|
-| Models | Opus-fast, Sonnet-fast, Haiku-fast, Llama-3-1-70B, Nova-pro, Nova-lite |
+| Models | Opus-fast, Sonnet-fast, Haiku-fast, Llama-3-1-70B, Nova-pro |
 | Total cost | $2.13 (32% cheaper than thinking) |
 | Time | 21 minutes (16% faster) |
 | Convergence | 0% |
@@ -413,13 +381,10 @@ When models diverge (0% in fast-only), they disagree, but the ensemble just pick
 
 ## The Cost Model (Updated)
 
-### Per-Prompt Cost Breakdown
+### Per-Prompt Cost Breakdown (Phase 1 Custom Prompts)
 
 | Model | Input | Output | Total | Accuracy | Cost/Correct |
 |-------|-------|--------|-------|----------|--------------|
-| Nova-lite | $0.0001 | $0.0001 | $0.0002 | 90% | $0.0002 |
-| Llama-3-1-70B | $0.0005 | $0.0005 | $0.0010 | 80% | $0.0013 |
-| Nova-pro | $0.0013 | $0.0013 | $0.0026 | 90% | $0.0029 |
 | Haiku-fast | $0.0040 | $0.0041 | $0.0081 | 90% | $0.0090 |
 | Haiku-thinking | $0.0080 | $0.0094 | $0.0174 | 90% | $0.0194 |
 | Sonnet-fast | $0.0202 | $0.0201 | $0.0403 | 90% | $0.0448 |
@@ -444,25 +409,18 @@ Those extra tokens are reasoning traces. They cost money. They don't improve acc
 
 ## What We Got Wrong
 
-### Assumption 1: Expensive Models Are Better
-**Reality**: Nova-lite (cheapest) matched Opus-fast (most expensive) at 808x lower cost.
-
-### Assumption 2: Extended Thinking Helps on Hard Prompts
+### Assumption 1: Extended Thinking Helps on Hard Prompts
 **Reality**: Thinking mode provided zero accuracy improvement and introduced failures.
 
-### Assumption 3: Ensembles Add Value When Models Diverge
+### Assumption 2: Ensembles Add Value When Models Diverge
 **Phase 1 Reality**: 0/40 win rate even at 0% convergence (maximum divergence).
 
-**Phase 2 Reality**: Statistical validation confirms failure across all architectures:
-- Vote ensemble (Haiku judge): -17% vs baseline (highly significant)
-- Self-consistency (proven method): -3% vs baseline (borderline significant)
-- Ensembles fail at capability limits due to systematic errors, not architectural design
+**Phase 2 Reality**: Architecture determines outcome:
+- Vote ensemble (Haiku judge): -17% vs baseline (catastrophic failure due to weak judge)
+- Self-consistency (proven method): +3.6% vs baseline (works but expensive at 3.7x cost)
 
-### Assumption 4: Reasoning Traces Indicate Quality
+### Assumption 3: Reasoning Traces Indicate Quality
 **Reality**: Opus-thinking generated longest reasoning traces (2-10K tokens) but had worst accuracy (87.5%).
-
-### Assumption 5: You Need Claude for Quality
-**Reality**: Nova-lite matched Claude Opus/Sonnet/Haiku on accuracy for 1/1000th the cost.
 
 ---
 
@@ -470,14 +428,8 @@ Those extra tokens are reasoning traces. They cost money. They don't improve acc
 
 ### ✅ DO Use These Models
 
-1. **Nova-lite** (production default)
-   - 90% accuracy on hard reasoning prompts
-   - $0.0002 per correct answer
-   - 4.6s average latency
-   - Use unless you have specific reason not to
-
-2. **Haiku-fast** (Claude requirement)
-   - 90% accuracy
+1. **Haiku-fast** (budget Claude option)
+   - 90% accuracy on Phase 1 custom prompts
    - $0.009 per correct answer
    - If you need Claude specifically (brand, compliance, features)
    - Still 25x cheaper than Opus-fast
@@ -503,7 +455,7 @@ Those extra tokens are reasoning traces. They cost money. They don't improve acc
 
 3. **Opus-thinking Specifically**
    - Worst accuracy: 87.5% (only model below 90%)
-   - Worst value: $0.25/correct (1260x worse than Nova-lite)
+   - Worst value: $0.25/correct
    - Only model with failures (20% timeout rate)
    - No use case where this is optimal
 
@@ -511,11 +463,11 @@ Those extra tokens are reasoning traces. They cost money. They don't improve acc
 
 ## When You Might Deviate
 
-### Consider Opus-fast (not Nova-lite) if:
+### Consider Opus-fast if:
 - You need Claude-specific features (artifacts, tool use)
 - Brand/compliance requires Anthropic models
 - Your prompts are vastly different from this study
-- Cost genuinely doesn't matter (rare)
+- You need highest accuracy on validated benchmarks
 
 ### Consider re-testing thinking mode if:
 - Your prompts require 10+ minutes of human reasoning time
@@ -607,14 +559,9 @@ This exploratory study raises questions about three pieces of conventional wisdo
    - Needs larger sample sizes and statistical testing
 
 2. **"Ensembles beat individual models when models disagree"**
-   - Weak-judge ensembles (Haiku) showed 0/40 wins on custom prompts, 0/4 on benchmarks
-   - Architectural flaw: weak model judging stronger models
-   - Other ensemble methods (self-consistency, strong verifiers, debate) not yet tested
-
-3. **"You need expensive models for hard reasoning"**
-   - Nova-lite matched Opus on 10 custom prompts (90% both) at 1/1000th cost
-   - Not yet validated on standard benchmarks
-   - Results may be specific to healthcare-heavy prompt set
+   - Architecture matters: Weak-judge ensembles failed (-17%), proven self-consistency worked (+3.6%)
+   - Statistical validation (Phase 2) shows both catastrophic failure and modest success depending on design
+   - Cost-benefit trade-off: Self-consistency costs 3.7x more for 3.6% gain = $3.41 per percentage point
 
 These are preliminary, exploratory findings with significant limitations (n=10-20, single runs, keyword evaluation). They suggest directions for further investigation rather than definitive conclusions.
 
@@ -649,8 +596,8 @@ April 2026
 
 Key Findings:
 • Extended thinking provided zero accuracy improvement (48-150% cost premium)
-• Ensembles beat best individual 0/40 times (0% win rate)
-• Nova-lite matched premium models at 1/1000th cost
+• Architecture determines ensemble success: weak judges fail (-17%), proven methods work (+3.6%)
+• Self-consistency improves accuracy but costs 3.7x more ($3.41 per percentage point)
 
 Data: github.com/yourhandle/ensemble-thinking-models
 ```

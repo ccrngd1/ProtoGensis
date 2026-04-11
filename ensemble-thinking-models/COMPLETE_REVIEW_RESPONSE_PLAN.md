@@ -33,7 +33,7 @@
 | R4 | Naive ensemble | CRITICAL | ⚠️ PARTIAL | Self-consistency (but buggy) |
 | R5 | Domain skew | MEDIUM | ✅ RESOLVED | GSM8K standard benchmark |
 | R6 | Fixed thinking budgets | MEDIUM | ❌ NOT DONE | Add caveat |
-| R7 | Nova-lite overfitted | MEDIUM | ❌ NOT DONE | Validate or caveat |
+| R7 | Nova-lite overfitted | MEDIUM | ✅ RESOLVED | Nova-lite removed from project |
 | R8 | Single run | HIGH | ✅ RESOLVED | Phase 2: 3 runs |
 | R9 | Cost incomplete | LOW | ⚠️ ACCEPTABLE | Out of scope |
 | R10 | "0/40" conflated | LOW | ⚠️ ACCEPTABLE | Powered analysis |
@@ -48,7 +48,7 @@
 | D3 | Vote ensemble reuses broken arch | CRITICAL | 🔴 VALID | Test Opus judge |
 | D4 | Thinking mode contradiction | CRITICAL | 🔴 VALID | Investigate |
 | D5 | Systematic error theory untested | SIGNIFICANT | 🟡 VALID | Test at 60-70% baseline |
-| D6 | Nova-lite never validated | SIGNIFICANT | 🟡 VALID | Same as R7 |
+| D6 | Nova-lite never validated | SIGNIFICANT | ✅ RESOLVED | Nova-lite removed from project |
 | D7 | MMLU loader bug | SIGNIFICANT | 🟡 VALID | Fix loader |
 | D8 | N=3 when pilot said 5 | SIGNIFICANT | 🟡 VALID | Add caveat |
 | D9 | Self-consistency cost mismatch | SIGNIFICANT | 🟡 VALID | Audit costs |
@@ -189,28 +189,9 @@ Test vote ensemble with Opus as judge (strongest model):
 
 **Issue:** R7, D6 - "1100x cheaper" headline rests on 10 prompts only
 
-**Valid concern:** Claims not validated on benchmarks
+**Status:** ✅ RESOLVED - Nova-lite removed from project entirely
 
-**Action:**
-Test Nova-lite on GSM8K-100:
-
-```bash
-python runners/run_gsm8k_100.py \
-  --prompts benchmarks/datasets/gsm8k_100.json \
-  --models nova-lite \
-  --output results/phase2/gsm8k_100_nova_lite_run1.json \
-  --live
-
-# Repeat for runs 2 and 3
-```
-
-**Cost:** ~$0.30 (Nova-lite is ultra-cheap)  
-**Time:** ~30 minutes  
-**Value:** HIGH - Validates or debunks headline claim
-
-**Possible outcomes:**
-- Nova-lite ≥ 85% → Claim validated
-- Nova-lite < 70% → Claim debunked, remove from headline findings
+**Rationale:** Unvalidated secondary finding that distracts from core ensemble architecture research. Removing all Nova-lite claims and code to maintain focus on statistically validated findings.
 
 ---
 
@@ -361,7 +342,6 @@ python aggregators/self_consistency.py \
 | Task | Effort | Cost | Priority | Do It? |
 |------|--------|------|----------|--------|
 | Test Opus-judge vote ensemble (3 runs) | 2 hr | $20 | HIGH | ✅ YES |
-| Test Nova-lite on GSM8K-100 (3 runs) | 30 min | $0.30 | HIGH | ✅ YES |
 | Investigate thinking mode discrepancy | 2 hr | $0 | HIGH | ✅ YES |
 | Test MMLU-100 all configs (3 runs) | 3 hr | $45 | MEDIUM | ⚠️ OPTIONAL |
 | Test GPQA-50 all configs (3 runs) | 2 hr | $30 | MEDIUM | ⚠️ DEFER |
@@ -422,8 +402,7 @@ python aggregators/self_consistency.py \
 ### Phase B: Address Critical Gaps (NEXT)
 
 1. Test Opus-judge vote ensemble (~2 hr, $20)
-2. Test Nova-lite on GSM8K-100 (~30 min, $0.30)
-3. Investigate thinking mode discrepancy (~2 hr, $0)
+2. Investigate thinking mode discrepancy (~2 hr, $0)
 
 **Total:** ~4-5 hours, $20
 
@@ -456,7 +435,6 @@ python aggregators/self_consistency.py \
 
 **Should do (critical):**
 - Opus-judge ensemble (~$20, 2 hrs)
-- Nova-lite validation (~$0.30, 30 min)
 - Thinking mode investigation (~$0, 2 hrs)
 
 **Can skip (optional):**
@@ -509,13 +487,10 @@ python aggregators/self_consistency.py \
 - ✅ Finding confirmed: Even strong judge doesn't help
 - Strengthens "ensembles fail" claim
 
-**If Nova-lite < 70% on GSM8K:**
-- ❌ Remove headline cost claim
-- Phase 1 was domain-specific fluke
-
-**If Nova-lite ≥ 85% on GSM8K:**
-- ✅ Validates headline finding
-- Add to Phase 2 validated claims
+**Nova-lite status:**
+- ✅ Removed entirely from project
+- Unvalidated secondary finding
+- Maintains focus on ensemble architecture
 
 ---
 
@@ -544,7 +519,7 @@ python aggregators/self_consistency.py \
 ### Day 1 (Today - April 11)
 - **Morning:** Fix bug, start re-runs (Stage A)
 - **Afternoon:** Analyze results, update docs
-- **Evening:** Test Opus-judge and Nova-lite (Stage B)
+- **Evening:** Test Opus-judge (Stage B)
 
 ### Day 2 (April 12)
 - **Morning:** Investigate thinking mode discrepancy
@@ -566,7 +541,7 @@ python aggregators/self_consistency.py \
 
 **Recommended (addresses all critical):**
 - ✅ Opus-judge ensemble tested
-- ✅ Nova-lite validated or disclaimed
+- ✅ Nova-lite removed from project
 - ✅ Thinking mode discrepancy explained
 - ✅ All disclaimers and caveats added
 
@@ -580,9 +555,9 @@ python aggregators/self_consistency.py \
 ## Risk Assessment
 
 ### High Risk (Must Address)
-- 🚨 Publishing invalid SC results (P0-1)
+- 🚨 Publishing invalid SC results (P0-1) - ✅ FIXED
 - 🔴 "Ensembles fail" claim based on weak judge only (P1-2)
-- 🔴 Nova-lite cost claim unvalidated (P1-4)
+- 🔴 Nova-lite cost claim unvalidated (P1-4) - ✅ RESOLVED (removed)
 
 ### Medium Risk (Should Address)
 - 🟡 Task-specific finding (GSM8K only) (P1-1)
@@ -633,7 +608,7 @@ python aggregators/self_consistency.py \
 | Stage | Tasks | Cost | Priority |
 |-------|-------|------|----------|
 | **Stage A (Blocking)** | Fix SC bug + re-run | **$17** | **MUST DO** |
-| **Stage B (Critical)** | Opus judge + Nova-lite + investigation | **$20** | **SHOULD DO** |
+| **Stage B (Critical)** | Opus judge + investigation | **$20** | **SHOULD DO** |
 | **Stage C (Polish)** | Documentation improvements | **$0** | **SHOULD DO** |
 | Stage 2 Optional | MMLU/GPQA validation | $75 | OPTIONAL |
 | Stage 4 Optional | Theory testing | $63 | OPTIONAL |

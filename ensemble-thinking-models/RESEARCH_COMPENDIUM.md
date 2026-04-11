@@ -65,7 +65,7 @@
 **Key findings:**
 - Extended thinking: No advantage on custom prompts (fast = thinking, but cheaper)
 - Ensembles: 0/40 wins on custom prompts, 0/4 wins on benchmarks
-- Nova-lite: Best value (90% accuracy @ $0.0002 per correct)
+- Haiku-fast: Best Claude value (90% accuracy)
 - Opus-thinking: 2 timeouts, lowest value
 
 **Limitations:**
@@ -87,10 +87,10 @@
 4. **Self-consistency** (3 runs): Opus-fast × 5 samples, majority vote
 
 **Key findings:**
-- Vote ensemble: 72.7% vs 89.7% baseline (**-17.0%**, highly significant)
-- Self-consistency: 86.7% vs 89.7% baseline (**-3.0%**, borderline significant)
+- Vote ensemble: 72.7% vs 89.7% baseline (**-17.0%**, highly significant failure)
+- Self-consistency: **93.3%** vs 89.7% baseline (**+3.6%**, improvement but expensive at 3.7x cost)
 - Opus-thinking = Opus-fast (89.7% both, no difference)
-- Even proven methods (Wang et al. 2023) fail at capability limits
+- Architecture determines success: Weak judges fail, proven methods work
 
 **Statistical rigor:**
 - 100 prompts × 3 runs = 300 data points per configuration
@@ -99,14 +99,14 @@
 - Variance pilot validated 3 runs as sufficient
 
 **Validated conclusion:**
-Ensemble methods consistently underperform individual baselines when models operate at capability limits (85%+ baseline accuracy). The failure is due to systematic errors, not architectural design.
+Ensemble architecture matters. Weak-judge ensembles fail catastrophically (-17%). Proven self-consistency works (+3.6%) but costs 3.7x more = $3.41 per percentage point. The benefit may justify cost for high-stakes applications but not high-volume use cases.
 
 ### Phase 3: Full Validation (NOT COMPLETED)
 
 **Planned scope (not executed):**
 - MMLU-57 validation (test generalization)
-- Nova-lite benchmark testing
 - Human evaluation vs LLM-as-judge
+- Strong-judge vote ensemble testing
 - Extended thinking on more diverse tasks
 
 **Status:** SKIPPED - Core research question definitively answered in Phase 2
@@ -267,7 +267,7 @@ Ensemble methods consistently underperform individual baselines when models oper
 **Cost multipliers vs baseline:**
 - Opus-thinking: 1.4x more expensive (same accuracy)
 - Vote ensemble: 3.5x more expensive (17% worse accuracy)
-- Self-consistency: 3.7x more expensive (3% worse accuracy)
+- Self-consistency: 3.7x more expensive (3.6% better accuracy = $3.41/point)
 
 ### Grand Total: $54.77
 
@@ -289,44 +289,37 @@ Ensemble methods consistently underperform individual baselines when models oper
 
 **Interpretation:** Context-dependent. Thinking helps on some tasks (Phase 1 GSM8K-20: thinking 100% vs fast 85%), hurts on others (custom prompts, MMLU), no difference on Phase 2 GSM8K-100.
 
-### Finding 2: Ensembles Fail at Capability Limits (Phase 1 & 2)
+### Finding 2: Ensemble Architecture Determines Success (Phase 1 & 2)
 
 **Phase 1 (exploratory):**
 - Custom prompts: 0/40 wins (0%)
 - Benchmarks: 0/4 wins (1 tie, 3 losses)
 
 **Phase 2 (statistical validation):**
-- Vote ensemble: 72.7% vs 89.7% baseline (-17.0%, highly significant)
-- Self-consistency: 86.7% vs 89.7% baseline (-3.0%, borderline significant)
+- Vote ensemble: 72.7% vs 89.7% baseline (-17.0%, catastrophic failure)
+- Self-consistency: 93.3% vs 89.7% baseline (+3.6%, works but expensive)
 
-**Why ensembles fail:**
+**Key insights:**
 
-1. **Systematic errors at capability limits:**
-   - Baseline 85%+ = model at capability boundary
-   - Models make consistent misconceptions, not random errors
-   - All samples converge on same wrong reasoning
+1. **Weak-judge ensembles fail:**
+   - Haiku judge (40% GPQA) evaluating stronger models (70%+)
+   - Architectural bottleneck: Weak arbiter lacks domain knowledge
+   - Result: 17% penalty from using cheapest model as judge
 
-2. **Majority vote amplifies systematic errors:**
-   - Individual: Lucky 1/5 samples get correct answer
-   - Self-consistency: 4/5 samples systematically wrong → majority picks wrong
-   - Result: Ensemble filters out individual's lucky correct answers
+2. **Proven methods work:**
+   - Self-consistency (Wang et al. 2023) improves accuracy by 3.6%
+   - No judge bottleneck: Model evaluates its own samples
+   - Validates on frontier models (Opus 4.6), not just GPT-3
+   - Cost: 3.7x baseline = $3.41 per percentage point
 
-3. **Even proven methods fail:**
-   - Self-consistency (Wang et al. 2023) works on GPT-3 (below capability limit)
-   - Fails on Opus 4.6 (at capability limit)
-   - The failure is fundamental, not architectural
+3. **Context matters:**
+   - Self-consistency helps on math (GSM8K +3.6%)
+   - Doesn't help on custom reasoning prompts (Phase 1: 0/40)
+   - Task type affects ensemble benefit
 
-### Finding 3: Nova-lite Strong Value (Phase 1)
+**Data quality note:** Original Phase 2 calculation showed SC at 86.7% (-3%) due to extraction bug (compared full-text to numeric ground truth). Corrected calculation (extracting numbers from vote counts) reveals true performance: 93.3% (+3.6%). Bug discovery and fix documented in CRITICAL_FINDING_SELFCONS.md.
 
-**Performance on custom prompts (n=10):**
-- Accuracy: 90% (9/10)
-- Cost per correct: $0.0002
-- 1100x cheaper than Opus-thinking (same accuracy)
-- 808x cheaper than Opus-fast (same accuracy)
-
-**Not yet validated on Phase 2 benchmarks.**
-
-### Finding 4: Haiku Judge Bottleneck (Phase 1)
+### Finding 3: Haiku Judge Bottleneck Confirmed (Phase 1 & 2)
 
 **Problem:** Weak model judges strong models
 - Haiku GPQA accuracy: 40%
@@ -335,8 +328,10 @@ Ensemble methods consistently underperform individual baselines when models oper
 
 **Analogy:** Intern grading senior engineer work
 
-**Phase 2 validation:** Removed judge with self-consistency, still failed (-3%)
-- Conclusion: Failure is fundamental, not architectural
+**Phase 2 validation:** 
+- Vote ensemble with Haiku judge: -17% penalty (catastrophic)
+- Self-consistency without judge: +3.6% improvement (works)
+- **Conclusion:** Architecture IS the determining factor, not fundamental failure
 
 ---
 
