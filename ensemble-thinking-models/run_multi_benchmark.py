@@ -22,6 +22,10 @@ import json
 import sys
 import os
 import argparse
+
+# Add parent directory to path to import ensemble_shared
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
 from ensemble_shared.bedrock_client import BedrockClient, calculate_cost
 from aggregators.vote import VoteAggregator
 from aggregators.self_consistency import SelfConsistencyAggregator
