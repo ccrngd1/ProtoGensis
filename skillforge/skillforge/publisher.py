@@ -2,6 +2,7 @@
 Stage 5: Publisher - Write skills, commit to git, create PRs.
 """
 import subprocess
+import os
 from pathlib import Path
 from typing import Dict, Any, Optional
 from datetime import datetime
@@ -22,7 +23,8 @@ class SkillWriter:
         if self.config.output_skills_dir:
             skills_dir = Path(self.config.output_skills_dir)
         else:
-            skills_dir = Path(self.config.skills_dir)
+            # Default to user-level ~/.openclaw/skills/
+            skills_dir = Path(os.path.expanduser("~/.openclaw/skills/"))
 
         # Create skill directory
         skill_dir = skills_dir / package.skill_name

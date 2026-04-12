@@ -234,6 +234,11 @@ class PipelineConfig:
     max_skills_per_domain: int = 50
     enable_merge_suggestions: bool = True
 
+    # Success metrics defaults
+    failure_reduction_target: float = 0.40  # 40% failure reduction target
+    tracking_window_days: int = 30  # 30 days rolling window
+    min_sample_size: int = 10  # Minimum 10 failures before measuring
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
@@ -253,5 +258,8 @@ class PipelineConfig:
             'create_pr': self.create_pr,
             'pr_base_branch': self.pr_base_branch,
             'max_skills_per_domain': self.max_skills_per_domain,
-            'enable_merge_suggestions': self.enable_merge_suggestions
+            'enable_merge_suggestions': self.enable_merge_suggestions,
+            'failure_reduction_target': self.failure_reduction_target,
+            'tracking_window_days': self.tracking_window_days,
+            'min_sample_size': self.min_sample_size
         }

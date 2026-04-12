@@ -1,51 +1,34 @@
 """
 Stage 1: Monitor - Parse PreCog logs, cluster failures, check skill inventory.
 """
-import re
 import json
+import re
 from pathlib import Path
 from typing import List, Dict, Optional
 from datetime import datetime
 from collections import defaultdict
 import hashlib
 
+try:
+    import boto3
+except ImportError:
+    boto3 = None
+
 from .models import SkillGap, FailureType, PipelineConfig
 
 
 class PreCogLogParser:
-    """Parse structured PreCog session output for failure signals."""
-
-    FAILURE_PATTERNS = {
-        FailureType.ERROR: [
-            r"ERROR:",
-            r"Exception",
-            r"Traceback",
-            r"failed with error",
-        ],
-        FailureType.RETRY_EXCEEDED: [
-            r"retry.*exceeded",
-            r"max.*retries",
-            r"too many attempts",
-        ],
-        FailureType.USER_CORRECTION: [
-            r"user corrected",
-            r"user override",
-            r"manual intervention",
-        ],
-        FailureType.TIMEOUT: [
-            r"timeout",
-            r"timed out",
-            r"deadline exceeded",
-        ],
-        FailureType.INVALID_OUTPUT: [
-            r"invalid.*output",
-            r"malformed.*response",
-            r"parse.*failed",
-        ],
-    }
+    """Parse structured PreCog session output for failure signals using LLM."""
 
     def __init__(self, config: PipelineConfig):
         self.config = config
+        if not config.mock_mode and boto3:
+            self.bedrock = boto3.client(
+                'bedrock-runtime',
+                region_name=config.bedrock_region
+            )
+        else:
+            self.bedrock = None
 
     def parse_log_file(self, log_path: Path) -> List[Dict]:
         """Parse a PreCog log file and extract failure events."""
@@ -70,15 +53,18 @@ class PreCogLogParser:
                             'raw_line': line
                         })
                 except json.JSONDecodeError:
-                    # Try pattern matching on raw text
-                    failure_type = self._detect_failure_type(line)
-                    if failure_type:
+                    # Use LLM to analyze raw text
+                    failure_info = self._analyze_failure_with_llm(line)
+                    if failure_info:
                         failures.append({
                             'line_num': line_num,
                             'event': {
                                 'type': 'failure',
-                                'failure_type': failure_type.value,
-                                'message': line,
+                                'failure_type': failure_info.get('failure_type', 'unknown'),
+                                'agent': failure_info.get('affected_agent', 'unknown'),
+                                'task_type': failure_info.get('task_context', 'unknown'),
+                                'message': failure_info.get('normalized_description', line),
+                                'severity': failure_info.get('severity', 'medium'),
                                 'timestamp': datetime.now().isoformat()
                             },
                             'raw_line': line
@@ -96,13 +82,75 @@ class PreCogLogParser:
             return True
         return False
 
-    def _detect_failure_type(self, line: str) -> Optional[FailureType]:
-        """Detect failure type from raw log line."""
-        for failure_type, patterns in self.FAILURE_PATTERNS.items():
-            for pattern in patterns:
-                if re.search(pattern, line, re.IGNORECASE):
-                    return failure_type
-        return None
+    def _analyze_failure_with_llm(self, log_chunk: str) -> Optional[Dict]:
+        """Analyze log chunk using LLM to extract failure information."""
+        if self.config.mock_mode or self.bedrock is None:
+            return self._mock_failure_analysis(log_chunk)
+
+        try:
+            prompt = f"""Analyze this log line and extract failure information. Return ONLY valid JSON.
+
+Log: {log_chunk[:500]}
+
+Extract:
+- failure_type: one of [error, retry_exceeded, user_correction, timeout, invalid_output, unknown]
+- affected_agent: name of agent or component
+- task_context: brief description of what was being attempted
+- severity: one of [low, medium, high, critical]
+- normalized_description: concise summary of the failure
+
+Return JSON only, no explanation."""
+
+            response = self.bedrock.invoke_model(
+                modelId="us.amazon.nova-lite-v1:0",
+                body=json.dumps({
+                    "messages": [{"role": "user", "content": prompt}],
+                    "inferenceConfig": {
+                        "temperature": 0.0,
+                        "maxTokens": 300
+                    }
+                })
+            )
+
+            result = json.loads(response['body'].read())
+            content = result.get('output', {}).get('message', {}).get('content', [{}])[0].get('text', '{}')
+
+            # Parse JSON from response
+            failure_info = json.loads(content.strip())
+            return failure_info
+
+        except Exception as e:
+            # Fall back to mock on error
+            return self._mock_failure_analysis(log_chunk)
+
+    def _mock_failure_analysis(self, log_chunk: str) -> Dict:
+        """Generate synthetic failure analysis for mock mode."""
+        # Simple heuristic-based mock that doesn't use regex patterns
+        lower_log = log_chunk.lower()
+
+        if 'error' in lower_log or 'exception' in lower_log:
+            failure_type = 'error'
+            severity = 'high'
+        elif 'timeout' in lower_log or 'timed out' in lower_log:
+            failure_type = 'timeout'
+            severity = 'medium'
+        elif 'retry' in lower_log or 'retries' in lower_log:
+            failure_type = 'retry_exceeded'
+            severity = 'medium'
+        elif 'invalid' in lower_log or 'malformed' in lower_log:
+            failure_type = 'invalid_output'
+            severity = 'medium'
+        else:
+            failure_type = 'unknown'
+            severity = 'low'
+
+        return {
+            'failure_type': failure_type,
+            'affected_agent': 'PreCog',
+            'task_context': 'automated_task',
+            'severity': severity,
+            'normalized_description': log_chunk[:200]
+        }
 
     def extract_context(self, failure: Dict) -> str:
         """Extract meaningful context from a failure event."""
@@ -121,10 +169,18 @@ class PreCogLogParser:
 
 
 class FailureClusterer:
-    """Group similar failures by task type using keyword similarity."""
+    """Group similar failures using LLM semantic similarity."""
 
-    def __init__(self, similarity_threshold: float = 0.6):
+    def __init__(self, config: PipelineConfig, similarity_threshold: float = 0.6):
+        self.config = config
         self.similarity_threshold = similarity_threshold
+        if not config.mock_mode and boto3:
+            self.bedrock = boto3.client(
+                'bedrock-runtime',
+                region_name=config.bedrock_region
+            )
+        else:
+            self.bedrock = None
 
     def cluster_failures(self, failures: List[Dict]) -> Dict[str, List[Dict]]:
         """Cluster failures by similarity."""
@@ -137,7 +193,59 @@ class FailureClusterer:
         return dict(clusters)
 
     def _compute_cluster_id(self, failure: Dict) -> str:
-        """Compute a cluster ID based on failure characteristics."""
+        """Compute a cluster ID using LLM semantic similarity."""
+        if self.config.mock_mode or self.bedrock is None:
+            return self._compute_cluster_id_mock(failure)
+
+        event = failure.get('event', {})
+        message = event.get('message', failure.get('raw_line', ''))
+        task_type = event.get('task_type', 'unknown')
+        failure_type = event.get('failure_type', 'unknown')
+        agent = event.get('agent', 'unknown')
+
+        # Use LLM to generate semantic cluster key
+        try:
+            prompt = f"""Analyze this failure and assign it to a semantic cluster. Return a short cluster key (2-4 words, lowercase, underscore-separated) that captures the root cause category.
+
+Failure type: {failure_type}
+Task: {task_type}
+Agent: {agent}
+Message: {message[:200]}
+
+Examples of good cluster keys: "api_timeout", "json_parse_error", "dependency_conflict", "syntax_error", "permission_denied"
+
+Return ONLY the cluster key, no explanation."""
+
+            response = self.bedrock.invoke_model(
+                modelId="us.amazon.nova-lite-v1:0",
+                body=json.dumps({
+                    "messages": [{"role": "user", "content": prompt}],
+                    "inferenceConfig": {
+                        "temperature": 0.0,
+                        "maxTokens": 50
+                    }
+                })
+            )
+
+            result = json.loads(response['body'].read())
+            cluster_key = result.get('output', {}).get('message', {}).get('content', [{}])[0].get('text', '').strip().lower()
+
+            # Clean and validate cluster key
+            cluster_key = cluster_key.replace(' ', '_')
+            cluster_key = ''.join(c for c in cluster_key if c.isalnum() or c == '_')
+
+            if cluster_key and len(cluster_key) > 0:
+                return cluster_key[:50]  # Limit length
+            else:
+                # Fallback to hash-based ID
+                return self._compute_cluster_id_mock(failure)
+
+        except Exception:
+            # Fall back to mock on error
+            return self._compute_cluster_id_mock(failure)
+
+    def _compute_cluster_id_mock(self, failure: Dict) -> str:
+        """Compute cluster ID in mock mode using simple hashing."""
         event = failure.get('event', {})
 
         # Extract key features for clustering
@@ -145,29 +253,12 @@ class FailureClusterer:
         failure_type = event.get('failure_type', 'unknown')
         agent = event.get('agent', 'unknown')
 
-        # Extract key words from message
+        # Create cluster signature (no keyword extraction, simpler)
         message = event.get('message', failure.get('raw_line', ''))
-        keywords = self._extract_keywords(message)
-
-        # Create cluster signature
-        signature = f"{agent}_{task_type}_{failure_type}_{keywords}"
+        signature = f"{agent}_{task_type}_{failure_type}_{message[:50]}"
 
         # Hash to create stable cluster ID
         return hashlib.md5(signature.encode()).hexdigest()[:8]
-
-    def _extract_keywords(self, text: str) -> str:
-        """Extract key words from text for clustering."""
-        # Remove common words and extract meaningful terms
-        words = re.findall(r'\b\w+\b', text.lower())
-
-        # Filter out common words
-        stopwords = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for'}
-        keywords = [w for w in words if w not in stopwords and len(w) > 3]
-
-        # Take top 3 keywords by length (rough importance metric)
-        keywords = sorted(keywords, key=len, reverse=True)[:3]
-
-        return '_'.join(keywords)
 
 
 class SkillInventoryChecker:
@@ -343,7 +434,7 @@ class Monitor:
     def __init__(self, config: PipelineConfig):
         self.config = config
         self.parser = PreCogLogParser(config)
-        self.clusterer = FailureClusterer()
+        self.clusterer = FailureClusterer(config)
         self.inventory_checker = SkillInventoryChecker(config)
 
     def run(self, log_path: Optional[Path] = None) -> List[SkillGap]:
