@@ -4,94 +4,67 @@
 
 *April 11, 2026*
 
-## The Problem: When AI Agents Generate Their Own Skills
+## The Counter-Intuitive Finding That Started This
 
-Imagine an AI agent that can write its own instruction manual. When it encounters a task it doesn't know how to handle, it drafts a new "skill" — a structured set of instructions for handling similar situations in the future. It sounds like the holy grail of AI autonomy: systems that can continuously improve themselves by learning from failures.
+When AI systems try to write their own instruction manuals, they usually make things worse. That's the uncomfortable finding from SkillsBench research on self-generated agent skills. Not marginally worse. Consistently, measurably worse.
 
-There's just one problem: **it doesn't work**.
+The failure modes are specific and repeatable: skills too broad to trigger correctly, skills with contradictory instructions, skills that nail the example that created them but completely miss adjacent cases. Naive self-generation without verification produces a growing library of unreliable skills that degrades overall system performance. It's self-sabotage dressed up as self-improvement.
 
-Recent research from the SkillsBench benchmark revealed a sobering truth about self-generated agent skills. When AI systems create their own skills without proper validation, those skills fail more often than they succeed. The failure modes are varied: skills that are too broad and trigger incorrectly, skills with contradictory instructions, skills that miss edge cases, and skills so verbose they become unusable.
+Here's the meta-recursive twist we arrived at: to fix this, we built SkillForge, a system that generates skills automatically. But the core tool it uses internally is `skill-creator`, an existing skill that codifies our best practices for writing skills. So we have an agent skill that teaches the system how to create new agent skills. An agent that uses instructions about instructions to write new instructions.
 
-The naive approach — let an agent detect its failures, generate a skill to fix them, and move on — produces a growing library of unreliable skills that actually degrade system performance over time. What starts as an attempt at self-improvement becomes a form of self-sabotage.
+That's either deeply elegant or slightly unhinged. Probably both. Either way, it shipped yesterday, and here's how it works.
 
-## The SkillsBench Finding: Self-Generation Needs Verification
+## Why We Built This
 
-The SkillsBench research team conducted systematic experiments with self-generated agent skills across diverse task domains. Their key finding: **skill self-generation without co-evolutionary verification leads to cascading failures**.
+CABAL is our production multi-agent system. It coordinates a set of specialized agents: PreCog handles research, DAEDALUS does technical content, REHOBOAM handles creative work, LEGION runs enhancement passes, MasterControl owns engineering tasks, TheMatrix runs simulations, TACITUS manages homelab ops, and HAL9000 handles home automation. Each agent is guided by "skills" -- structured SKILL.md files that tell it how to handle specific situations.
 
-The pattern was consistent across different agent architectures and task types:
+These skills are human-authored. They work well. But keeping them current is a bottleneck, and scaling that bottleneck linearly with agent complexity is a problem I wanted to avoid.
 
-1. **Initial optimism**: Agents successfully identify failure patterns and generate skills that seem reasonable
-2. **Hidden fragility**: Generated skills work on the specific examples that triggered them but fail to generalize
-3. **Interference effects**: New skills interfere with existing capabilities, creating new failure modes
-4. **Library bloat**: Accumulation of similar but slightly different skills makes skill selection unreliable
-5. **Performance degradation**: Overall system performance degrades as the skill library grows
+PreCog runs against a constant stream of research tasks, and its failure patterns are a natural signal for skill gaps. Something fails, the session logs capture it, and if that failure pattern recurs, it probably means there's a missing or outdated skill. The question was: can we automate skill creation from those failures? And more importantly, can we trust the output?
 
-The researchers found two critical insights:
+The SkillsBench answer was clear: not without verification. So we built verification in from the start.
 
-**Insight 1: Compact > Comprehensive**. Counterintuitively, shorter, more focused skills outperformed longer, more detailed ones. Skills that tried to be comprehensive guides often included contradictory advice or triggered in inappropriate contexts. The best-performing skills were narrow in scope and explicit about their activation conditions.
+## The Research Foundation
 
-**Insight 2: Verification is essential**. Skills that went through validation — including format checking, test scenario execution, and regression testing — had dramatically higher success rates than skills that were deployed immediately after generation.
+Three papers shaped the design. Worth knowing what they actually found before getting into implementation.
 
-## The EvoSkills Solution: Co-evolutionary Verification
+**SkillsBench** ran systematic experiments on self-generated skills across different agent architectures and task types. Two findings mattered most for our design.
 
-Enter EvoSkills, a framework that treats skill generation and skill validation as co-evolving processes. Instead of generating skills in isolation, EvoSkills proposes a closed loop:
+First: compact beats comprehensive. Counterintuitively, shorter and more narrowly scoped skills outperformed longer, more detailed ones. Skills that tried to cover everything included contradictory advice and triggered in the wrong contexts. The best performers were laser-focused on a specific situation.
 
-1. **Detect**: Identify failure patterns from production usage
-2. **Generate**: Create skills to address those patterns
-3. **Validate**: Test skills against both new scenarios and existing capabilities
-4. **Deploy**: Only promote validated skills to production
-5. **Monitor**: Track post-deployment performance
-6. **Refine**: Update or retire skills based on real-world results
+Second: verification is not optional. Skills that went through format checking, test scenario execution, and regression testing had dramatically higher success rates than skills deployed immediately after generation. The verification step isn't administrative overhead. It's load-bearing.
 
-The "co-evolutionary" aspect is crucial. As skills evolve to cover more scenarios, the validation criteria evolve to catch more failure modes. As the skill library grows, validation includes regression testing against adjacent skills. The system learns not just what skills to create, but what makes a good skill.
+**EvoSkills** proposed treating skill generation and validation as co-evolving processes rather than a one-shot pipeline. As skills grow more sophisticated, the validation criteria grow more sophisticated too. The loop: detect failures, generate skills, validate them, deploy only what passes, monitor post-deployment, refine or retire based on results. The "co-evolutionary" part means the validator learns what to look for as the skill library matures.
 
-EvoSkills demonstrated that with proper verification, self-generated skills can match or exceed the performance of human-authored skills — but only with rigorous validation at every step.
+**SkillFoundry** extended this to library-scale maintenance. They identified four operations needed to keep a healthy skill library: expand (add new skills), repair (update degraded ones), merge (combine overlapping skills), and prune (remove stale ones). The insight worth keeping: skill libraries are living systems that need continuous curation, not static collections you build once and forget.
 
-## SkillFoundry: Library Maintenance at Scale
+SkillForge is our production implementation of these ideas, wired to CABAL's real infrastructure.
 
-While EvoSkills focused on the generation-validation loop, the SkillFoundry research extended this to library-scale management. They identified four key operations for maintaining a healthy skill library:
+## Architecture: Decisions and Tradeoffs
 
-**Expand**: Add new skills for uncovered scenarios
-**Repair**: Update existing skills when performance degrades
-**Merge**: Combine similar skills to reduce interference
-**Prune**: Remove stale or redundant skills
+The pipeline has five stages. Here's what each does and why we made the choices we did.
 
-SkillFoundry showed that without active library maintenance, even well-validated skills accumulate problems over time. Skills that were perfect at deployment become outdated as the system evolves. Multiple teams generating skills create overlap. Old skills linger unused, cluttering the skill selection process.
+### Stage 1: Monitor
 
-The key insight: **skill libraries are living systems that require continuous curation**, not static collections.
+We parse PreCog's actual production session logs in structured JSONL format, not synthetic data. This distinction matters. Synthetic failure data teaches you to handle synthetic failures. Real logs capture the weird, contextual, edge-case failures that actually happen in production.
 
-## SkillForge: Production Implementation for CABAL
+The monitor clusters similar failures by signature (task type, failure type, key terms) and checks each cluster against the existing skill inventory. If no existing skill covers the pattern, it's a genuine gap worth addressing.
 
-This brings us to SkillForge, our implementation of these research ideas for the CABAL multi-agent system. CABAL is a production multi-agent system that orchestrates multiple specialized AI agents (PreCog for planning, Executor for actions, Verifier for validation, etc.) to accomplish complex software engineering tasks.
+One deliberate constraint: this is scoped to PreCog only for now. Starting narrow kept the build manageable. Adding more agents is possible but requires understanding their specific log formats and failure semantics first.
 
-We faced a concrete problem: our PreCog agent was encountering new failure patterns in production, and manually authoring skills for each pattern was becoming a bottleneck. We needed automated skill generation, but the SkillsBench findings made it clear we couldn't just turn on naive self-generation.
+### Stage 2: Analyzer
 
-SkillForge is our answer: a full implementation of the EvoSkills + SkillFoundry approach, with some unique twists from our production context.
+Not all gaps are equally important or equally fixable. The analyzer classifies each gap (missing skill, outdated skill, wrong skill being selected, or not actually a skill problem) and scores priority from three factors: failure frequency (40%), impact severity (40%), and feasibility of fixing it with a skill (20%). That last category -- "not a skill problem" -- is important. Some failures need code fixes or architectural changes, not a better instruction file. Routing those to a PR queue would be noise.
 
-### Design Requirements
+It also checks proposed skills against existing ones for overlap. High keyword overlap triggers a merge recommendation rather than creating a duplicate. Library bloat is a real problem; the SkillFoundry research was clear on that.
 
-We established several key requirements:
+### Stage 3: Drafter
 
-1. **Real production failures**: Use actual PreCog session logs, not synthetic data
-2. **Co-evolutionary validation**: Implement the full two-tier validation system
-3. **Human-in-the-loop**: Require human approval before deploying any skill (V1 safety constraint)
-4. **Library maintenance**: Active conflict detection, budget enforcement, drift monitoring
-5. **Mock mode**: Full pipeline should work without AWS credentials, LLM calls, or git operations (for testing)
-6. **Transparency**: Every generated skill gets a PR with full context and validation scores
-
-### The Meta-Recursive Angle
-
-Here's where it gets interesting: CABAL already has a skill called `skill-creator` that codifies our best practices for creating skills. It's a human-authored skill that knows the proper format, required sections, and quality criteria for agent skills.
-
-So SkillForge uses the `skill-creator` skill to generate new skills. It's meta-recursive: an agent skill that teaches the system how to create agent skills. This ensures that generated skills follow the same patterns and quality standards as human-authored ones.
-
-When SkillForge's Drafter stage generates a new SKILL.md file, it loads the skill-creator template and provides it as context to the LLM:
+This is where the meta-recursive part lives. The drafter loads our `skill-creator` skill as a meta-template and provides it to Claude as context when generating new skills:
 
 ```python
-# Load skill-creator as meta-template
 template = self.load_skill_creator_template()
 
-# Build prompt with template context
 prompt = f"""You are creating a new agent skill.
 Use this template as a guide for structure and style:
 
@@ -101,340 +74,74 @@ Now create a skill for: {spec.proposed_scope}
 """
 ```
 
-This meta-recursive approach grounds the generation process in proven patterns rather than starting from scratch each time.
+The `skill-creator` skill was hand-authored and captures years of accumulated lessons about what makes a good skill: required frontmatter fields, how to write trigger conditions, how to scope instructions without overreaching. Using it as a template grounds generation in proven patterns. Generated skills come out with the right structure instead of the LLM inventing its own format.
 
-## Architecture: The 5-Stage Pipeline
-
-SkillForge implements a 5-stage pipeline that processes production failures end-to-end:
-
-### Stage 1: Monitor
-
-The Monitor stage is responsible for detecting skill gaps from production logs.
-
-**PreCogLogParser** reads PreCog session output (structured JSONL logs) and identifies failure signals using pattern matching:
-- ERROR: Exception traces, error messages
-- RETRY_EXCEEDED: Max retries reached
-- USER_CORRECTION: Manual interventions
-- TIMEOUT: Deadline exceeded
-- INVALID_OUTPUT: Parse failures
-
-**FailureClusterer** groups similar failures using a simple but effective approach: extract task type, failure type, and key words from the failure message, then hash them to create a cluster ID. Failures with the same signature cluster together, letting us see patterns across multiple incidents.
-
-**SkillInventoryChecker** compares clusters against existing skills to identify gaps. It loads all SKILL.md files from the skills directory, extracts descriptions and keywords, then checks if any existing skill covers the failure cluster. If not, it's a genuine skill gap.
-
-**MockLogGenerator** provides deterministic mock failures for testing without production logs.
-
-The Monitor stage outputs a list of `SkillGap` objects, each representing a detected gap with context, frequency, and affected agents.
-
-### Stage 2: Analyzer
-
-The Analyzer stage takes skill gaps and produces specifications for skills to be created.
-
-**GapClassifier** categorizes each gap:
-- MISSING_SKILL: No related skill exists
-- OUTDATED_SKILL: Related skill exists but doesn't handle this case
-- WRONG_SELECTION: Agent is choosing the wrong skill
-- INSUFFICIENT: Related skill needs enhancement
-- NOT_A_SKILL_PROBLEM: Can't be solved with a skill
-
-**ScopeDefiner** creates narrow, focused scopes (following SkillsBench's "compact > comprehensive" finding). It limits scope descriptions to 150 characters maximum to force clarity and specificity.
-
-**PriorityScorer** calculates a priority score from three factors:
-- Frequency (40%): How often does this failure occur?
-- Impact (40%): How severe is the failure type?
-- Feasibility (20%): How easy is this to fix with a skill?
-
-This produces scores from 0.0 to 1.0, letting us tackle the most important gaps first.
-
-**ConflictChecker** compares the proposed scope against existing skills to detect overlap. If more than 60% of keywords match an existing skill, it flags a conflict and potentially recommends merging instead of creating a new skill.
-
-The Analyzer outputs `SkillSpec` objects with full classification, priority scores, conflict analysis, and recommended actions.
-
-### Stage 3: Drafter
-
-The Drafter stage generates actual SKILL.md files using AWS Bedrock.
-
-**SkillMdGenerator** is the core engine. It:
-1. Loads the skill-creator template
-2. Builds a prompt with gap context and requirements
-3. Calls Bedrock Claude (using boto3, not the Anthropic SDK)
-4. Returns the generated SKILL.md content
-
-The prompt emphasizes SkillsBench findings:
-```
-Requirements:
-- Create a SKILL.md with YAML frontmatter
-- Write focused instructions (compact > comprehensive)
-- Include specific trigger conditions
-- Provide concrete steps
-- Add test scenarios
-- NO executable code - markdown only
-- Keep under 300 lines
-```
-
-**Iterative refinement**: The Drafter can take feedback from the Validator and regenerate the skill up to 3 times. If validation fails, the issues are formatted as feedback:
-
-```
-Validation issues found:
-- [ERROR] format: Missing required field: version
-- [WARNING] quality: Skill instructions lack specificity
-```
-
-The Drafter regenerates with this feedback in the prompt, creating a refinement loop.
-
-**MockDrafter** provides deterministic skill generation for testing without LLM calls.
+The drafter can also iterate. If validation fails, the specific issues come back as feedback and it regenerates, up to three times. Refinement in a loop, not a single shot.
 
 ### Stage 4: Validator
 
-The Validator implements the two-tier validation system from EvoSkills.
+Two-tier validation, following the EvoSkills design.
 
-**Tier 1: Automated Checks** (must pass):
+Tier 1 is binary pass/fail. Does the skill have required frontmatter fields? Valid YAML? Sufficient content? No executable code blocks? The "no executable code" check is worth calling out: a SKILL.md with embedded Python or bash in code fences is a hallucination. Skills should be markdown instructions, not runnable scripts.
 
-1. **FormatValidator**: Checks YAML frontmatter schema
-   - Required fields: name, description, allowed-tools, version
-   - Valid YAML syntax
-   - Recommended sections present
+Tier 2 is scored. An LLM judge evaluates clarity, trigger specificity, and actionability on a 0-1 scale. A regression checker scans for anti-patterns like overly broad triggers or contradictory instructions ("always do X... never do X"). A compactness checker applies the SkillsBench compact-beats-comprehensive finding directly: skills under 100 lines score well, skills over 300 lines get penalized. Average score across Tier 2 must hit 0.6 to pass.
 
-2. **LoadValidator**: Verifies the skill can be parsed and loaded
-   - Frontmatter parses correctly
-   - Sufficient content (>100 chars)
-   - Name matches package
-
-3. **SmokeValidator**: Basic sanity checks
-   - No executable code (code fences with python/bash/etc. are rejected)
-   - Reasonable length (<300 lines recommended)
-   - Contains actionable instructions
-
-4. **ReplayValidator**: Simulates re-running the original failure
-   - Checks if skill mentions key concepts from the failure
-   - Validates coverage of failure scenario
-
-**Tier 2: Scored Checks** (threshold-based pass):
-
-1. **LLMJudge**: Uses Bedrock Claude to score quality (0.0-1.0)
-   - Clarity of instructions
-   - Specificity of triggers
-   - Actionability of steps
-   - Completeness of test scenarios
-
-2. **RegressionChecker**: Checks for anti-patterns (0.0-1.0)
-   - Overly broad triggers ("always handle all tasks")
-   - Conflicting guidance ("never... always...")
-   - Vague instructions
-
-3. **CompactnessChecker**: Scores brevity and focus (0.0-1.0)
-   - Length: <100 lines = 1.0, >300 lines = 0.4
-   - Section count: >10 sections = penalty
-   - Implements "compact > comprehensive"
-
-The Validator must pass Tier 1 (all checks) AND Tier 2 (average score >= 0.6) to proceed. This dual-gate system catches both structural errors and quality issues.
-
-If validation fails, the Validator generates feedback for the Drafter to use in the next iteration.
+If validation fails, the feedback goes back to the drafter for another attempt. The loop can run three times before the whole attempt is marked failed and logged for manual review.
 
 ### Stage 5: Publisher
 
-The Publisher stage handles deployment.
+Generated skills become pull requests. Every PR includes the skill file, validation scores, the original failure context that triggered generation, and an explicit note that human review is required before merging.
 
-**SkillWriter** writes the SKILL.md file and any supporting files to the skills directory, along with a `.skillforge_metadata.json` file containing generation details.
+This is non-negotiable for V1. The system generates; humans decide what goes to production.
 
-**GitCommitter** creates a structured git commit:
-```
-Add skill: handle-python-syntax-errors
+A `.skillforge_metadata.json` file accompanies each skill with generation details, priority score, and validation results. Git commits get structured messages with all the relevant context so the history is readable months later.
 
-Automatically generated by SkillForge
+### Monitoring and Drift Detection
 
-Details:
-  Root cause: Failed to generate valid Python code
-  Priority: 0.82
-  Classification: missing_skill
+The Tracker system closes the EvoSkills loop. After deployment, it logs skill usage events and tracks success rates over rolling windows. The drift detector compares a 7-day window against a 30-day baseline. If success rate drops more than 30%, it fires an alert.
 
-Validation scores:
-  quality: 0.85
-  regression: 0.92
-  compactness: 0.88
+This enables the SkillFoundry maintenance operations: repair skills where drift is detected, flag skills that haven't been triggered in 30+ days for pruning, identify overlapping skills for merge candidates.
 
-Generated: 2026-04-11T14:23:45Z
-```
+## What We Expect to Learn
 
-**PRCreator** creates a GitHub PR using the `gh` CLI:
+SkillForge shipped yesterday. We do not have production data yet. What follows are the hypotheses we designed around, stated honestly as hypotheses.
 
-```markdown
-## SkillForge Auto-Generated Skill
+**Validation will prove its worth early.** The SkillsBench research showed dramatic performance gaps between validated and unvalidated generation. We built our two-tier validator specifically to catch the failure modes they documented. If the research holds in our context, we should see a clear signal in validation scores correlating with actual deployment success.
 
-This skill was automatically generated to address detected skill gaps.
+**Compact skills will outperform comprehensive ones.** This was one of the clearest SkillsBench findings, and we embedded it in the compactness checker and the scope definer (maximum 150-character scope descriptions, forcing narrow framing). We'll track whether generated skills that score high on compactness actually outperform ones that scraped through at the 300-line boundary.
 
-### Details
-- **Root cause**: Failed to generate valid Python code
-- **Priority**: 0.82
-- **Classification**: missing_skill
+**Human review will catch things validation misses.** The PR review step is partly a safety net and partly a learning mechanism. Reviewers will see what the automated system passed that shouldn't have shipped. The patterns in their change requests should tell us where our validation is weakest. Our specific prediction: reviewers will most often flag overly broad trigger conditions -- the kind of thing that looks reasonable in isolation but would cause incorrect skill selection in practice.
 
-### Review Required
+**Drift detection will surface silent degradation.** Some skills will probably become stale as the underlying system evolves, without any obvious failure event to trigger manual review. APIs change, workflows shift, context drifts. Our hypothesis is that without drift detection, we'd only notice these failures after a cluster of unexplained agent behavior -- not proactively.
 
-⚠️ **Human review required before merging**
+**The meta-recursive template approach will produce better structural quality.** We haven't run a controlled comparison of skill-creator-templated generation versus unconstrained generation in our specific environment. The SkillsBench research suggests structural quality matters for downstream success rates. We're betting that grounding generation in an existing high-quality skill produces better results than prompting from scratch. We'll have a clearer picture after reviewing the first wave of generated skills through the PR queue.
 
-Please review the skill for:
-- Accuracy of instructions
-- Appropriateness of scope
-- No conflicts with existing skills
-- Proper validation scores
-```
+What we'll actually measure: skill success rates post-deployment, validation score distributions across generated skills, how often human reviewers request changes before merging, and how often drift detection fires in the first three months. After that data accumulates, there's a real follow-up post worth writing.
 
-This human-in-the-loop step is crucial for V1. We require explicit human approval before any generated skill reaches production.
+## What's Next
 
-### Feedback Loop: Tracker
+**V2 conditional auto-deploy.** For skills scoring above 0.90 across all Tier 2 metrics with no conflicts, we could enable auto-deployment with post-deployment review instead of blocking on pre-deployment approval. We need to earn trust in the validation system first. A few months of data showing which high-scoring skills reviewers wave through without changes will be the signal.
 
-The Tracker system monitors post-deployment performance, closing the EvoSkills loop.
+**Embedding-based conflict detection.** Current conflict detection uses keyword overlap, which is fast but shallow. Sentence transformer embeddings would catch semantic overlap that keyword matching misses -- skills covering the same ground with different vocabulary.
 
-**SkillTracker** logs all deployments to a JSONL database with metadata.
+**Cross-agent patterns.** SkillForge is wired to PreCog right now. If PreCog develops a skill for handling a certain class of research failures, MasterControl or TACITUS might benefit from a version tuned to their context. There's probably pattern transfer value to explore there.
 
-**SuccessRateTracker** records skill usage events (success/failure) and calculates success rates over rolling time windows.
+**Validation fine-tuning.** The LLM judge in Tier 2 is currently zero-shot. Once we accumulate human review decisions, we can use those as training signal to improve what the judge considers "quality." The closed loop tightens over time.
 
-**DriftDetector** compares recent performance (7-day window) against baseline (30-day window). If success rate drops by more than 30%, it triggers a drift alert.
+## The Honest Takeaway
 
-**LibraryHealthReporter** generates comprehensive reports:
-- Total active skills
-- Overall success rate
-- Top/bottom performers
-- Drift alerts
-- Stale skills (unused for 30+ days)
-- Coverage estimates
+The SkillsBench finding is real and worth taking seriously: naive self-generation doesn't work. The instinct to just let agents write their own skills and ship them is wrong. The verification step isn't overhead. It's the whole point.
 
-This monitoring enables the SkillFoundry operations: we can identify skills that need repair (drift detected), skills that should be merged (high overlap), and skills that should be pruned (stale).
+The meta-recursive angle felt right during design, but it's still unproven in our context. Using `skill-creator` as a template produced clean, well-structured output in testing. Whether it meaningfully outperforms a well-crafted prompt without the template is a question we'll answer with data.
 
-## Implementation Details
+Human review is the right call for V1. Not because we distrust the system, but because we haven't yet earned enough trust in it to remove humans from the loop. The PR review step is how we build the empirical basis for better automation later.
 
-### AWS Bedrock Integration
+And the compact-beats-comprehensive finding is probably the single most actionable insight from the underlying research. Most people's instinct when a skill fails is to make it more comprehensive, more detailed, more complete. The data says the opposite is usually true. That's the kind of counter-intuitive result that's actually useful once you internalize it.
 
-SkillForge uses AWS Bedrock (via boto3) rather than the Anthropic SDK directly:
-
-```python
-import boto3
-import json
-
-client = boto3.client('bedrock-runtime', region_name='us-east-1')
-
-request_body = {
-    "anthropic_version": "bedrock-2023-05-31",
-    "max_tokens": 4000,
-    "messages": [{"role": "user", "content": prompt}],
-    "temperature": 0.7
-}
-
-response = client.invoke_model(
-    modelId="us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-    body=json.dumps(request_body)
-)
-
-result = json.loads(response['body'].read())
-skill_content = result['content'][0]['text']
-```
-
-This integrates with existing AWS infrastructure and cost tracking.
-
-### Mock Mode for Testing
-
-A critical requirement was that the entire pipeline must work without external dependencies:
-
-```python
-config = PipelineConfig(
-    mock_mode=True,
-    dry_run=True
-)
-
-pipeline = SkillForgePipeline(config)
-results = pipeline.run()  # No AWS, no git, no LLM calls
-```
-
-Mock mode provides:
-- **MockLogGenerator**: Deterministic synthetic failures
-- **MockDrafter**: Template-based skill generation
-- **MockValidator**: Deterministic pass/fail scoring
-- **DryRunPublisher**: Logs actions without writing files
-
-This enables comprehensive testing in CI/CD without credentials and makes it easy to iterate on the pipeline logic.
-
-### Budget Enforcement
-
-To prevent library bloat, SkillForge enforces skill budgets:
-
-```python
-max_skills_per_domain = 50  # Configurable threshold
-
-if total_skills >= max_skills_per_domain:
-    # Only create skills with very high priority (>0.8)
-    # Or skills with merge recommendations
-    specs = [s for s in specs
-            if s.priority_score > 0.8 or
-               s.recommended_action == 'merge_similar']
-```
-
-When approaching the budget, the system becomes more selective and starts suggesting merges instead of new skill creation.
-
-### Rate Limiting
-
-To prevent runaway generation:
-
-```python
-max_skills_per_run = 3  # Generate at most 3 skills per pipeline run
-```
-
-This ensures humans can keep up with reviewing PRs and provides natural throttling.
-
-## Results and Learnings
-
-We've run SkillForge in production for two months on CABAL's PreCog agent. Key findings:
-
-**Success rates**: Skills generated by SkillForge have an 78% success rate after deployment, compared to 85% for human-authored skills. This is encouraging for V1 — we're within 7 percentage points of human performance with zero human authoring time.
-
-**Validation is essential**: We ran an experiment where we disabled Tier 2 validation. Success rates dropped to 52%. The SkillsBench findings hold: verification is not optional.
-
-**Compact really is better**: Average length of successful skills is 147 lines. Skills over 250 lines have 15% lower success rates. The CompactnessChecker penalty is justified.
-
-**Human review catches edge cases**: In 23% of generated skills, human reviewers requested changes before merging. Most common issues: overly broad triggers, missing edge cases, unclear phrasing. The human-in-the-loop step adds real value.
-
-**Drift detection works**: We caught two cases where skills degraded after deployment (one because the underlying code API changed, one because the skill was triggering in unintended contexts). Without drift detection, these would have gone unnoticed.
-
-**Meta-recursion helps**: Skills that used skill-creator as a template had better formatting and structure scores than early versions without the template. The meta-recursive approach works.
-
-## Future Directions
-
-### V2: Conditional Auto-Deploy
-
-For skills that pass validation with very high scores (>0.90 across all metrics) and have no conflicts, we could enable auto-deployment with a review-after model. Humans review after the fact but don't block deployment.
-
-### Enhanced Conflict Detection
-
-Current conflict detection is keyword-based. We could use embedding similarity with sentence transformers for more nuanced overlap detection.
-
-### Cross-Agent Skill Transfer
-
-Currently SkillForge only generates skills for PreCog. Could we transfer patterns from PreCog failures to other agents? If PreCog learns to handle Python syntax errors, could we automatically create similar skills for the Executor agent?
-
-### Skill Evolution Tracking
-
-Track lineage of skills: which skills were generated, updated, merged, pruned. Visualize the skill library as an evolving organism.
-
-### Active Learning for Validation
-
-The LLMJudge could be fine-tuned on human review decisions, learning what makes a good skill from human feedback.
-
-## Conclusion
-
-SkillForge demonstrates that AI agents can successfully generate their own skills — but only with proper verification, human oversight, and continuous monitoring. The SkillsBench and EvoSkills findings translate directly to production systems:
-
-1. **Self-generation without verification fails**
-2. **Compact, focused skills outperform comprehensive ones**
-3. **Co-evolutionary validation is essential**
-4. **Library maintenance matters as much as skill creation**
-
-By implementing these principles in a full production pipeline, SkillForge bridges the gap between research and practice. It shows that autonomous skill improvement is not just possible but practical — with the right guardrails in place.
-
-The future of AI agents isn't just systems that execute tasks, but systems that continuously improve at executing tasks. SkillForge is a step toward that future, proving that agents can teach themselves — as long as we teach them how to teach themselves properly.
+SkillForge is live as of yesterday. Check back in a few months when there's real data to report.
 
 ---
 
-**SkillForge** is open-source and available at [github.com/cabal/skillforge](https://github.com/cabal/skillforge). We welcome contributions and look forward to seeing how others adapt these ideas to their own multi-agent systems.
+**SkillForge** is part of the ProtoGensis monorepo: [https://github.com/ccrngd1/ProtoGensis](https://github.com/ccrngd1/ProtoGensis). See the README.md for setup instructions and configuration details.
 
-For more details on implementation, see the [README.md](README.md) and explore the codebase.
-
-*Words: ~3,200*
+*April 11, 2026*
