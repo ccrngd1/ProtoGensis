@@ -16,9 +16,11 @@ import sys
 import os
 from datetime import datetime
 import time
+import asyncio
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from moa.config import ModelConfig
+from moa.judge import QualityJudge
 
 def load_prompts():
     """Load Custom-54 prompts."""
@@ -26,7 +28,7 @@ def load_prompts():
         data = json.load(f)
         return data.get('prompts', data)
 
-def run_vote_ensemble_opus_judge(prompts):
+async def run_vote_ensemble_opus_judge(prompts, judge):
     """Run vote ensemble with Opus as judge."""
     print(f"\n{'='*80}")
     print("STRONG-JUDGE VOTE ENSEMBLE (Opus Judge)")
@@ -93,12 +95,12 @@ def run_vote_ensemble_opus_judge(prompts):
 
 Respond with ONLY the number of the best response (1-6)."""
 
-        judge_response = opus_judge.generate(judge_prompt)
-        total_cost += judge_response['cost']
+        judge_selection = opus_judge.generate(judge_prompt)
+        total_cost += judge_selection['cost']
 
         # Parse judge selection
         try:
-            selected_idx = int(judge_response['text'].strip()) - 1
+            selected_idx = int(judge_selection['text'].strip()) - 1
             if 0 <= selected_idx < len(proposer_responses):
                 selected_response = proposer_responses[selected_idx]
             else:
@@ -109,8 +111,11 @@ Respond with ONLY the number of the best response (1-6)."""
             selected_response = proposer_responses[0]
 
         # Judge the selected response for scoring
-        from moa.judge import judge_response
-        judge_score = judge_response(prompt_text, selected_response['text'], category, model_key='opus')
+        score = await judge.score_response(
+            prompt=prompt_text,
+            response=selected_response['text'],
+            expected_answer=None
+        )
 
         results.append({
             'prompt_id': prompt_id,
@@ -118,11 +123,17 @@ Respond with ONLY the number of the best response (1-6)."""
             'proposer_responses': [{'model': p['model'], 'text': p['text']} for p in proposer_responses],
             'selected_response': selected_response['text'],
             'selected_model': selected_response['model'],
-            'cost': sum(p['cost'] for p in proposer_responses) + judge_response['cost'],
-            'judge_score': judge_score
+            'cost': sum(p['cost'] for p in proposer_responses) + judge_selection['cost'],
+            'judge_score': {
+                'correctness': score.correctness,
+                'completeness': score.completeness,
+                'clarity': score.clarity,
+                'total': score.total,
+                'justification': score.justification
+            }
         })
 
-        print(f"Score: {judge_score.get('total', 0)} (selected: {selected_response['model_key']})")
+        print(f"Score: {score.total:.1f} (selected: {selected_response['model_key']})")
 
         # Rate limit
         if i % 3 == 0:
@@ -130,7 +141,7 @@ Respond with ONLY the number of the best response (1-6)."""
 
     return results, total_cost
 
-def main():
+async def main():
     print("=" * 80)
     print("E10: STRONG-JUDGE VOTE ENSEMBLE")
     print("Testing vote ensemble with Opus judge (vs Haiku in Phase 1)")
@@ -160,8 +171,11 @@ def main():
 
     print()
 
+    # Initialize judge
+    judge = QualityJudge(judge_model="opus")
+
     # Run vote ensemble with Opus judge
-    results, total_cost = run_vote_ensemble_opus_judge(prompts)
+    results, total_cost = await run_vote_ensemble_opus_judge(prompts, judge)
 
     print()
     print("=" * 80)
@@ -217,4 +231,4 @@ def main():
     print("=" * 80)
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

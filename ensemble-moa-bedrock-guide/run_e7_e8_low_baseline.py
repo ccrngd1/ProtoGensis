@@ -15,10 +15,11 @@ import sys
 import os
 from datetime import datetime
 import time
+import asyncio
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from moa.config import ModelConfig
-from moa.judge import judge_response
+from moa.judge import QualityJudge
 
 def load_prompts():
     """Load Custom-54 prompts."""
@@ -26,7 +27,7 @@ def load_prompts():
         data = json.load(f)
         return data.get('prompts', data)
 
-def run_low_baseline_ensemble(proposer_model, aggregator_model, prompts, experiment_name):
+async def run_low_baseline_ensemble(proposer_model, aggregator_model, prompts, experiment_name, judge):
     """
     Run a low-baseline ensemble.
 
@@ -35,6 +36,7 @@ def run_low_baseline_ensemble(proposer_model, aggregator_model, prompts, experim
         aggregator_model: Model key for aggregator (e.g., 'opus', 'haiku')
         prompts: List of prompt dicts
         experiment_name: E7 or E8
+        judge: QualityJudge instance
     """
     print(f"\n{'='*80}")
     print(f"{experiment_name}: {proposer_model.upper()} PROPOSERS → {aggregator_model.upper()} AGGREGATOR")
@@ -87,7 +89,11 @@ Provide your synthesized response below:"""
         total_cost += agg_response['cost']
 
         # Judge the aggregated response
-        judge_score = judge_response(prompt_text, agg_response['text'], category, model_key='opus')
+        score = await judge.score_response(
+            prompt=prompt_text,
+            response=agg_response['text'],
+            expected_answer=None
+        )
 
         results.append({
             'prompt_id': prompt_id,
@@ -97,10 +103,16 @@ Provide your synthesized response below:"""
             'proposer_responses': [p['text'] for p in proposer_responses],
             'aggregated_response': agg_response['text'],
             'cost': sum(p['cost'] for p in proposer_responses) + agg_response['cost'],
-            'judge_score': judge_score
+            'judge_score': {
+                'correctness': score.correctness,
+                'completeness': score.completeness,
+                'clarity': score.clarity,
+                'total': score.total,
+                'justification': score.justification
+            }
         })
 
-        print(f"Score: {judge_score.get('total', 0)}")
+        print(f"Score: {score.total:.1f}")
 
         # Rate limit
         if i % 5 == 0:
@@ -108,7 +120,7 @@ Provide your synthesized response below:"""
 
     return results, total_cost
 
-def run_baseline_comparison(model_key, prompts):
+async def run_baseline_comparison(model_key, prompts, judge):
     """Run individual baseline for comparison."""
     print(f"\n{'='*80}")
     print(f"{model_key.upper()} BASELINE (Individual)")
@@ -126,7 +138,11 @@ def run_baseline_comparison(model_key, prompts):
         print(f"[{i}/{len(prompts)}] {prompt_id}...", end=" ", flush=True)
 
         response = config.generate(prompt_text)
-        judge_score = judge_response(prompt_text, response['text'], category, model_key='opus')
+        score = await judge.score_response(
+            prompt=prompt_text,
+            response=response['text'],
+            expected_answer=None
+        )
 
         results.append({
             'prompt_id': prompt_id,
@@ -135,12 +151,18 @@ def run_baseline_comparison(model_key, prompts):
             'model_key': model_key,
             'response': response['text'],
             'cost': response['cost'],
-            'judge_score': judge_score
+            'judge_score': {
+                'correctness': score.correctness,
+                'completeness': score.completeness,
+                'clarity': score.clarity,
+                'total': score.total,
+                'justification': score.justification
+            }
         })
 
         total_cost += response['cost']
 
-        print(f"Score: {judge_score.get('total', 0)}")
+        print(f"Score: {score.total:.1f}")
 
         # Rate limit
         if i % 10 == 0:
@@ -148,7 +170,7 @@ def run_baseline_comparison(model_key, prompts):
 
     return results, total_cost
 
-def main():
+async def main():
     print("=" * 80)
     print("E7 & E8: LOW-BASELINE ENSEMBLE TESTS")
     print("Testing if MoA helps when proposers are weaker")
@@ -179,20 +201,23 @@ def main():
 
     print()
 
+    # Initialize judge
+    judge = QualityJudge(judge_model="opus")
+
     # Run E7: Haiku proposers → Opus aggregator
-    e7_results, e7_cost = run_low_baseline_ensemble('haiku', 'opus', prompts, 'E7')
+    e7_results, e7_cost = await run_low_baseline_ensemble('haiku', 'opus', prompts, 'E7', judge)
     print(f"\nE7 cost: ${e7_cost:.2f}")
 
     # Run Haiku baseline
-    haiku_baseline, haiku_cost = run_baseline_comparison('haiku', prompts)
+    haiku_baseline, haiku_cost = await run_baseline_comparison('haiku', prompts, judge)
     print(f"\nHaiku baseline cost: ${haiku_cost:.2f}")
 
     # Run E8: Nova-Lite proposers → Haiku aggregator
-    e8_results, e8_cost = run_low_baseline_ensemble('nova-lite', 'haiku', prompts, 'E8')
+    e8_results, e8_cost = await run_low_baseline_ensemble('nova-lite', 'haiku', prompts, 'E8', judge)
     print(f"\nE8 cost: ${e8_cost:.2f}")
 
     # Run Nova-Lite baseline
-    nova_baseline, nova_cost = run_baseline_comparison('nova-lite', prompts)
+    nova_baseline, nova_cost = await run_baseline_comparison('nova-lite', prompts, judge)
     print(f"\nNova-Lite baseline cost: ${nova_cost:.2f}")
 
     total_cost = e7_cost + haiku_cost + e8_cost + nova_cost
@@ -267,4 +292,4 @@ def main():
     print("=" * 80)
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

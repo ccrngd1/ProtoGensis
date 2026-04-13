@@ -19,10 +19,11 @@ import sys
 import os
 from datetime import datetime
 import time
+import asyncio
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from moa.ensemble import run_ensemble
-from moa.judge import judge_response
+from moa.judge import QualityJudge
 
 def load_mtbench_prompts():
     """Load MT-Bench prompts."""
@@ -52,7 +53,7 @@ def load_mtbench_prompts():
                     })
             return prompts
 
-def run_ensemble_on_mtbench(config_name, prompts):
+async def run_ensemble_on_mtbench(config_name, prompts, judge):
     """Run an ensemble configuration on MT-Bench."""
     print(f"\n{'='*80}")
     print(f"{config_name.upper()} on MT-Bench")
@@ -76,11 +77,10 @@ def run_ensemble_on_mtbench(config_name, prompts):
         )
 
         # Judge the aggregated response
-        judge_score = judge_response(
-            prompt_text,
-            ensemble_result['aggregated_response'],
-            category,
-            model_key='opus'
+        score = await judge.score_response(
+            prompt=prompt_text,
+            response=ensemble_result['aggregated_response'],
+            expected_answer=None
         )
 
         results.append({
@@ -90,13 +90,19 @@ def run_ensemble_on_mtbench(config_name, prompts):
             'prompt': prompt_text,
             'aggregated_response': ensemble_result['aggregated_response'],
             'cost': ensemble_result['total_cost'],
-            'judge_score': judge_score,
+            'judge_score': {
+                'correctness': score.correctness,
+                'completeness': score.completeness,
+                'clarity': score.clarity,
+                'total': score.total,
+                'justification': score.justification
+            },
             'turn': prompt_data.get('turn', 1)
         })
 
         total_cost += ensemble_result['total_cost']
 
-        print(f"Score: {judge_score.get('total', 0)}")
+        print(f"Score: {score.total:.1f}")
 
         # Rate limit
         if i % 5 == 0:
@@ -104,7 +110,7 @@ def run_ensemble_on_mtbench(config_name, prompts):
 
     return results, total_cost
 
-def main():
+async def main():
     print("=" * 80)
     print("E3: PREMIUM ENSEMBLES ON MT-BENCH")
     print("Testing premium ensemble configs on MT-Bench-80")
@@ -140,12 +146,15 @@ def main():
 
     print()
 
+    # Initialize judge
+    judge = QualityJudge(judge_model="opus")
+
     # Run all configs
     all_results = {}
     grand_total_cost = 0
 
     for config in configs:
-        results, cost = run_ensemble_on_mtbench(config, prompts)
+        results, cost = await run_ensemble_on_mtbench(config, prompts, judge)
         all_results[config] = results
         grand_total_cost += cost
         print(f"\n{config} cost: ${cost:.2f}")
@@ -207,4 +216,4 @@ def main():
     print("=" * 80)
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

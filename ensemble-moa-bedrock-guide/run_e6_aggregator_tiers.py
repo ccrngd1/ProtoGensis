@@ -18,10 +18,11 @@ import sys
 import os
 from datetime import datetime
 import time
+import asyncio
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from moa.config import ModelConfig
-from moa.judge import judge_response
+from moa.judge import QualityJudge
 
 def load_prompts():
     """Load Custom-54 prompts."""
@@ -29,7 +30,7 @@ def load_prompts():
         data = json.load(f)
         return data.get('prompts', data)
 
-def run_aggregator_tier_test(proposer_model, aggregator_model, prompts):
+async def run_aggregator_tier_test(proposer_model, aggregator_model, prompts, judge):
     """
     Run ensemble with specific aggregator tier.
 
@@ -37,6 +38,7 @@ def run_aggregator_tier_test(proposer_model, aggregator_model, prompts):
         proposer_model: Model key for proposers (e.g., 'nova-lite', 'haiku')
         aggregator_model: Model key for aggregator (e.g., 'sonnet', 'opus')
         prompts: List of prompt dicts
+        judge: QualityJudge instance
     """
     print(f"\n{'='*80}")
     print(f"PROPOSERS: 3×{proposer_model.upper()} → AGGREGATOR: {aggregator_model.upper()}")
@@ -89,7 +91,11 @@ Provide your synthesized response below:"""
         total_cost += agg_response['cost']
 
         # Judge the aggregated response
-        judge_score = judge_response(prompt_text, agg_response['text'], category, model_key='opus')
+        score = await judge.score_response(
+            prompt=prompt_text,
+            response=agg_response['text'],
+            expected_answer=None
+        )
 
         results.append({
             'prompt_id': prompt_id,
@@ -99,10 +105,16 @@ Provide your synthesized response below:"""
             'proposer_responses': [p['text'] for p in proposer_responses],
             'aggregated_response': agg_response['text'],
             'cost': sum(p['cost'] for p in proposer_responses) + agg_response['cost'],
-            'judge_score': judge_score
+            'judge_score': {
+                'correctness': score.correctness,
+                'completeness': score.completeness,
+                'clarity': score.clarity,
+                'total': score.total,
+                'justification': score.justification
+            }
         })
 
-        print(f"Score: {judge_score.get('total', 0)}")
+        print(f"Score: {score.total:.1f}")
 
         # Rate limit
         if i % 5 == 0:
@@ -110,7 +122,7 @@ Provide your synthesized response below:"""
 
     return results, total_cost
 
-def main():
+async def main():
     print("=" * 80)
     print("E6: AGGREGATOR TIERS TEST")
     print("Testing if aggregator capability matters")
@@ -142,8 +154,11 @@ def main():
 
     print()
 
+    # Initialize judge
+    judge = QualityJudge(judge_model="opus")
+
     # Run Sonnet aggregator test
-    results, total_cost = run_aggregator_tier_test('nova-lite', 'sonnet', prompts)
+    results, total_cost = await run_aggregator_tier_test('nova-lite', 'sonnet', prompts, judge)
 
     print()
     print("=" * 80)
@@ -206,4 +221,4 @@ def main():
     print("=" * 80)
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

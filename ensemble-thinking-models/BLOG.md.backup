@@ -60,134 +60,6 @@ After the exploratory study raised questions, we conducted Phase 2 with statisti
 
 ---
 
-## 🔥 April 13, 2026: The Judge Hypothesis - REJECTED
-
-**After Phase 2 showed weak judges fail, we asked: "Is the judge doing the wrong task?"**
-
-Maybe the problem wasn't judge capability, but judge **prompting**. Phase 2's judge asked:
-```
-"Which answers AGREE with each other?" (semantic majority voting)
-```
-
-What if we explicitly asked for **CORRECTNESS** instead?
-```
-"Which answer is MOST LIKELY CORRECT?" (verification-based evaluation)
-```
-
-**We tested three new architectures with correctness-based judging:**
-
-| Method | Accuracy | vs Baseline (84.7%) | vs Original | Cost |
-|--------|----------|---------------------|-------------|------|
-| **Baselines** |
-| Opus-fast (individual) | 84.7% | baseline | -- | $1.50 |
-| Self-consistency | **93.3%** | **+8.7%** ✓ | -- | $5.59 |
-| **Original (Agreement-Based)** |
-| E1: Vote + Opus (agreement) | 79.7% | -5.0% | baseline | $6.05 |
-| E2: Best-of-N + Opus (quality) | 78.1% | -6.6% | baseline | $7.57 |
-| **New (Correctness-Based)** |
-| **E18: Vote + Opus (correctness)** | **74.8%** | **-9.8%** ✗✗ | **-4.8% vs E1** | $3.60 |
-| **E19: Best-of-N + Opus (correctness)** | **79.1%** | **-5.6%** ✗ | **+1.0% vs E2** | $8.07 |
-| **E20: Two-Stage (both)** | **68.0%** | **-16.7%** ✗✗✗ | **worst** | $5.36 |
-
-### The Devastating Result
-
-**Correctness-based judging made things WORSE:**
-
-1. **E18 vs E1:** Asking judge to evaluate correctness instead of agreement **decreased accuracy by 4.8%** (79.7% → 74.8%)
-2. **E19 vs E2:** Correctness-based best-of-N showed marginal +1% improvement (not statistically meaningful)
-3. **E20 (two-stage):** Combining both approaches was **catastrophic** (68.0%, worst result ever)
-
-**What we explicitly asked judges to do:**
-- ✅ "Evaluate which answer is MOST LIKELY CORRECT"
-- ✅ "Verify calculations step-by-step"  
-- ✅ "Focus ONLY on correctness, not style"
-- ✅ "Think independently, ignore majority"
-
-**And it STILL failed.**
-
-### Why This Changes Everything
-
-**The hypothesis:** "Judges fail because they're doing semantic grouping instead of correctness evaluation."
-
-**The test:** Explicitly prompt judges to verify correctness, check calculations, evaluate accuracy.
-
-**The result:** Performance got WORSE. E18 dropped 4.8% vs E1. E20 catastrophically failed at 68%.
-
-**The conclusion:** 🔴 **The problem is NOT prompt engineering. The problem is ARCHITECTURAL.**
-
-### The Fundamental Limitation
-
-**Evaluation is harder than generation:**
-
-- **Generation task:** "Solve this math problem" → Opus achieves 84.7%
-- **Evaluation task:** "Which of these 3-5 solutions is correct?" → Judge achieves only 74.8%
-
-Even when the judge IS Opus (same model), it performs **10 percentage points worse** when evaluating than when generating.
-
-**Why judges fail:**
-
-1. **Cognitive overload:** Must understand ALL proposed solutions (3-5 different approaches)
-2. **Error identification:** Must spot subtle mistakes in each solution
-3. **Comparative evaluation:** Must rank relative correctness
-4. **Final judgment:** Must make definitive call
-
-This is fundamentally harder than just solving the problem once.
-
-### Why Self-Consistency Wins
-
-Self-consistency achieves **93.3%** without any judge:
-- Same model (Opus) generates 5 diverse samples
-- Simple **majority vote** among answers
-- No evaluation bottleneck
-- Errors cancel out through voting (wisdom of crowds)
-
-**Judge-based methods fail** because:
-- Single evaluator = single point of failure  
-- Judge errors compound proposer errors
-- No wisdom of crowds effect
-- Evaluation gap: 84.7% (generate) → 74.8% (evaluate)
-
-### Cost Analysis: Judge-Based Methods Lose
-
-| Method | Cost | Accuracy | $ per % vs Baseline | ROI |
-|--------|------|----------|---------------------|-----|
-| Self-consistency | $5.59 | 93.3% | $0.65/point gained | **Positive** ✓ |
-| E18 (correctness vote) | $3.60 | 74.8% | $-0.37/point LOST | **Negative** ✗ |
-| E19 (correctness best-of-N) | $8.07 | 79.1% | $-1.17/point LOST | **Negative** ✗ |
-| E20 (two-stage) | $5.36 | 68.0% | $-0.32/point LOST | **Negative** ✗ |
-
-**Only self-consistency has positive ROI.** All judge-based methods cost more AND perform worse.
-
-### The Judge Paradox (Final Form)
-
-**Phase 1:** Weak judges (Haiku 40%) drag down strong proposers → Use strong judges
-
-**Phase 2:** Strong judges (Opus) improve performance (+15% vs Haiku) BUT still underperform baseline (-5%)
-
-**Phase 3 (E18-E20):** Even with optimal prompts asking for correctness verification:
-- Judges still underperform baseline (-5% to -17%)
-- Judges underperform self-consistency (-14% to -25%)  
-- Two-stage made it worse (-16.7%, catastrophic failure)
-
-**Final Conclusion:** 🔴 **Judge-based ensembles are fundamentally limited. Not fixable by prompts or architecture.**
-
-### Practical Implications
-
-❌ **NEVER USE Judge-Based Ensembles For:**
-- Mathematical problems
-- Factual questions  
-- Tasks with objective answers
-
-They cost MORE and perform WORSE than alternatives.
-
-✅ **USE INSTEAD:**
-- **Self-consistency** for maximum accuracy (93.3%, proven method)
-- **Individual Opus** for cost/speed balance (84.7% at lower cost)
-
-**Full E18-E20 analysis:** [E18_E20_CRITICAL_FINDINGS.md](E18_E20_CRITICAL_FINDINGS.md)
-
----
-
 ## The Study Design
 
 **Initial Study (Custom Prompts):**
@@ -687,11 +559,9 @@ This exploratory study raises questions about three pieces of conventional wisdo
    - Needs larger sample sizes and statistical testing
 
 2. **"Ensembles beat individual models when models disagree"**
-   - DEFINITIVELY REJECTED for judge-based ensembles (Phase 3: E18-E20)
-   - Even optimal prompting (correctness verification) fails: E18 74.8% (-9.8%), E20 68.0% (-16.7%)
-   - Evaluation is fundamentally harder than generation (Opus: 84.7% generate, 74.8% evaluate)
-   - **Self-consistency WORKS** (93.3%, +8.7%) because it avoids judge bottleneck entirely
-   - Cost-benefit: Self-consistency $0.65/point gained; judge-based methods negative ROI
+   - Architecture matters: Weak-judge ensembles failed (-17%), proven self-consistency worked (+3.6%)
+   - Statistical validation (Phase 2) shows both catastrophic failure and modest success depending on design
+   - Cost-benefit trade-off: Self-consistency costs 3.7x more for 3.6% gain = $3.41 per percentage point
 
 These are preliminary, exploratory findings with significant limitations (n=10-20, single runs, keyword evaluation). They suggest directions for further investigation rather than definitive conclusions.
 
@@ -724,17 +594,10 @@ If you use these findings in research or make decisions based on this work:
 Ensemble Thinking Models Experiment
 April 2026
 
-Key Findings (Phase 1-3, n=10-100, 65 total experiments):
+Key Findings:
 • Extended thinking provided zero accuracy improvement (48-150% cost premium)
-• Judge-based ensembles FUNDAMENTALLY LIMITED - not fixable by prompts
-  - Weak judges fail: -17% (Haiku judging Opus)
-  - Strong judges fail: -5% (Opus judging Opus)
-  - Optimal prompts WORSE: -9.8% (correctness verification)
-• Self-consistency WORKS: +8.7% (no judge, majority vote, wisdom of crowds)
-• Evaluation harder than generation: Same model 84.7% → 74.8% when judging
-
-Practical: Use self-consistency for accuracy (93.3%), individual models for cost.
-         NEVER use judge-based ensembles for objective tasks.
+• Architecture determines ensemble success: weak judges fail (-17%), proven methods work (+3.6%)
+• Self-consistency improves accuracy but costs 3.7x more ($3.41 per percentage point)
 
 Data: github.com/yourhandle/ensemble-thinking-models
 ```
@@ -756,8 +619,6 @@ Special thanks to everyone who argued that thinking models "obviously" help on h
 ---
 
 **For full analysis**: [FINDINGS.md](FINDINGS.md)  
-**For Phase 2 results**: [ENSEMBLE_COMPARISON_RESULTS.md](ENSEMBLE_COMPARISON_RESULTS.md)  
-**For Phase 3 critical findings**: [E18_E20_CRITICAL_FINDINGS.md](E18_E20_CRITICAL_FINDINGS.md)  
 **For executive summary**: [HARD_PROMPTS_FINAL_ANALYSIS.md](HARD_PROMPTS_FINAL_ANALYSIS.md)  
 **For quick reference**: [README.md](README.md)
 

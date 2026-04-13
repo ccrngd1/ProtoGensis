@@ -20,10 +20,11 @@ import sys
 import os
 from datetime import datetime
 import time
+import asyncio
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from moa.config import ModelConfig
-from moa.judge import judge_response
+from moa.judge import QualityJudge
 
 def classify_complexity(prompt_text, category):
     """
@@ -56,7 +57,7 @@ Classification:"""
     else:
         return 'opus', response['cost']
 
-def run_smart_routing(prompts, num_runs=3):
+async def run_smart_routing(prompts, num_runs, judge):
     """Run smart routing across multiple runs for statistics."""
     print(f"\n{'='*80}")
     print("SMART ROUTING VALIDATION")
@@ -87,7 +88,11 @@ def run_smart_routing(prompts, num_runs=3):
             response = model_config.generate(prompt_text)
 
             # Judge the response
-            judge_score = judge_response(prompt_text, response['text'], category, model_key='opus')
+            score = await judge.score_response(
+                prompt=prompt_text,
+                response=response['text'],
+                expected_answer=None
+            )
 
             run_results.append({
                 'prompt_id': prompt_id,
@@ -95,13 +100,19 @@ def run_smart_routing(prompts, num_runs=3):
                 'selected_model': selected_model,
                 'response': response['text'],
                 'cost': response['cost'] + classify_cost,
-                'judge_score': judge_score,
+                'judge_score': {
+                    'correctness': score.correctness,
+                    'completeness': score.completeness,
+                    'clarity': score.clarity,
+                    'total': score.total,
+                    'justification': score.justification
+                },
                 'run': run_num
             })
 
             total_cost += response['cost'] + classify_cost
 
-            print(f"{selected_model:10s} Score: {judge_score.get('total', 0)}")
+            print(f"{selected_model:10s} Score: {score.total:.1f}")
 
             # Rate limit
             if i % 10 == 0:
@@ -116,7 +127,7 @@ def run_smart_routing(prompts, num_runs=3):
 
     return all_results, total_cost, classification_cost
 
-def main():
+async def main():
     print("=" * 80)
     print("E5: SMART ROUTING VALIDATION")
     print("Testing the recommended alternative to ensembles")
@@ -149,8 +160,11 @@ def main():
 
     print()
 
+    # Initialize judge
+    judge = QualityJudge(judge_model="opus")
+
     # Run smart routing
-    results, total_cost, classification_cost = run_smart_routing(prompts, num_runs)
+    results, total_cost, classification_cost = await run_smart_routing(prompts, num_runs, judge)
 
     print()
     print("=" * 80)
@@ -239,4 +253,4 @@ def main():
     print("=" * 80)
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

@@ -17,13 +17,14 @@ Estimated cost: ~$135
 import json
 import sys
 import os
+import asyncio
 
 # Import existing MOA modules
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from moa.config import ModelConfig
 from moa.ensemble import run_ensemble
-from moa.judge import judge_response
+from moa.judge import QualityJudge
 from datetime import datetime
 import time
 
@@ -33,7 +34,7 @@ def load_prompts():
         data = json.load(f)
         return data.get('prompts', data)
 
-def run_opus_baseline(prompts, run_num):
+async def run_opus_baseline(prompts, run_num, judge):
     """Run Opus baseline on all prompts."""
     print(f"\n{'='*80}")
     print(f"RUN {run_num}: OPUS BASELINE")
@@ -53,7 +54,11 @@ def run_opus_baseline(prompts, run_num):
         response = opus_config.generate(prompt_text)
 
         # Judge the response
-        judge_score = judge_response(prompt_text, response, category, model_key='opus')
+        score = await judge.score_response(
+            prompt=prompt_text,
+            response=response['text'],
+            expected_answer=None
+        )
 
         results.append({
             'prompt_id': prompt_id,
@@ -62,11 +67,17 @@ def run_opus_baseline(prompts, run_num):
             'model_key': 'opus',
             'response': response['text'],
             'cost': response['cost'],
-            'judge_score': judge_score,
+            'judge_score': {
+                'correctness': score.correctness,
+                'completeness': score.completeness,
+                'clarity': score.clarity,
+                'total': score.total,
+                'justification': score.justification
+            },
             'run': run_num
         })
 
-        print(f"Score: {judge_score.get('total', 0)}")
+        print(f"Score: {score.total:.1f}")
 
         # Rate limit
         if i % 10 == 0:
@@ -74,7 +85,7 @@ def run_opus_baseline(prompts, run_num):
 
     return results
 
-def run_ensemble_config(config_name, prompts, run_num):
+async def run_ensemble_config(config_name, prompts, run_num, judge):
     """Run a specific ensemble configuration."""
     print(f"\n{'='*80}")
     print(f"RUN {run_num}: {config_name.upper()}")
@@ -97,11 +108,10 @@ def run_ensemble_config(config_name, prompts, run_num):
         )
 
         # Judge the aggregated response
-        judge_score = judge_response(
-            prompt_text,
-            ensemble_result['aggregated_response'],
-            category,
-            model_key='opus'
+        score = await judge.score_response(
+            prompt=prompt_text,
+            response=ensemble_result['aggregated_response'],
+            expected_answer=None
         )
 
         results.append({
@@ -111,11 +121,17 @@ def run_ensemble_config(config_name, prompts, run_num):
             'proposer_responses': ensemble_result['proposer_responses'],
             'aggregated_response': ensemble_result['aggregated_response'],
             'cost': ensemble_result['total_cost'],
-            'judge_score': judge_score,
+            'judge_score': {
+                'correctness': score.correctness,
+                'completeness': score.completeness,
+                'clarity': score.clarity,
+                'total': score.total,
+                'justification': score.justification
+            },
             'run': run_num
         })
 
-        print(f"Score: {judge_score.get('total', 0)}")
+        print(f"Score: {score.total:.1f}")
 
         # Rate limit
         if i % 5 == 0:
@@ -123,7 +139,7 @@ def run_ensemble_config(config_name, prompts, run_num):
 
     return results
 
-def main():
+async def main():
     print("=" * 80)
     print("E2: PHASE 1 REPEATED RUNS")
     print("Adding confidence intervals and variance estimates")
@@ -154,6 +170,9 @@ def main():
 
     print()
 
+    # Initialize judge
+    judge = QualityJudge(judge_model="opus")
+
     # Run all configs × runs
     all_results = {}
     total_cost = 0
@@ -165,9 +184,9 @@ def main():
             print(f"{'='*80}")
 
             if config == 'opus':
-                results = run_opus_baseline(prompts, run_num)
+                results = await run_opus_baseline(prompts, run_num, judge)
             else:
-                results = run_ensemble_config(config, prompts, run_num)
+                results = await run_ensemble_config(config, prompts, run_num, judge)
 
             # Track results
             key = f"{config}_run{run_num}"
@@ -240,4 +259,4 @@ def main():
     print("=" * 80)
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

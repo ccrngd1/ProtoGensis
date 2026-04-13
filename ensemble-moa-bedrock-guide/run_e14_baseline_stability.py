@@ -13,10 +13,11 @@ import sys
 import os
 from datetime import datetime
 import time
+import asyncio
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from moa.config import ModelConfig
-from moa.judge import judge_response
+from moa.judge import QualityJudge
 
 def load_prompts():
     """Load Custom-54 prompts."""
@@ -34,7 +35,7 @@ def load_original_baseline():
         return original
     return None
 
-def main():
+async def main():
     print("=" * 80)
     print("E14: BASELINE STABILITY CHECK")
     print("Rerunning Opus baseline to verify measurement stability")
@@ -72,6 +73,9 @@ def main():
     print("Running Opus baseline...")
     print("-" * 80)
 
+    # Initialize judge
+    judge = QualityJudge(judge_model="opus")
+
     # Run Opus on all prompts
     opus_config = ModelConfig.get_config('opus')
     results = []
@@ -88,7 +92,11 @@ def main():
         response = opus_config.generate(prompt_text)
 
         # Judge the response
-        judge_score = judge_response(prompt_text, response['text'], category, model_key='opus')
+        score = await judge.score_response(
+            prompt=prompt_text,
+            response=response['text'],
+            expected_answer=None
+        )
 
         results.append({
             'prompt_id': prompt_id,
@@ -99,13 +107,19 @@ def main():
             'cost': response['cost'],
             'input_tokens': response['input_tokens'],
             'output_tokens': response['output_tokens'],
-            'judge_score': judge_score,
+            'judge_score': {
+                'correctness': score.correctness,
+                'completeness': score.completeness,
+                'clarity': score.clarity,
+                'total': score.total,
+                'justification': score.justification
+            },
             'timestamp': datetime.now().isoformat()
         })
 
         total_cost += response['cost']
 
-        print(f"Score: {judge_score.get('total', 0)}")
+        print(f"Score: {score.total:.1f}")
 
         # Rate limit
         if i % 10 == 0:
@@ -166,4 +180,4 @@ def main():
     print("=" * 80)
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

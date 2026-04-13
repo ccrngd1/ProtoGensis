@@ -1,0 +1,61 @@
+
+======================================================================
+ARCHITECTURE ANALYSIS: E1 & E2 Results
+======================================================================
+
+Loading prompts for ground truth...
+Loaded 100 ground truths
+
+BASELINES (Phase 2)
+----------------------------------------------------------------------
+Method                         Accuracy        Δ vs Baseline   Cost      
+----------------------------------------------------------------------
+Opus-fast (baseline)            84.7%  (3 runs)  baseline        $1.50
+Vote + Haiku judge              64.7%  (3 runs)  -20.0%          $0.29
+Self-consistency                93.3%  (3 runs)  +8.7%           $5.59
+
+======================================================================
+NEW EXPERIMENTS
+----------------------------------------------------------------------
+Method                         Accuracy        Δ vs Baseline   Cost      
+----------------------------------------------------------------------
+E1: Vote + Opus judge           79.7%  (3 runs)  -5.0%        $6.05
+E2: Best-of-N + Opus judge      78.1%  (3 runs)  -6.6%        $7.57
+
+======================================================================
+ANALYSIS
+======================================================================
+
+E1: Strong Judge Hypothesis
+  Vote + Haiku judge: 64.7%
+  Vote + Opus judge:  79.7%
+  Gain from strong judge: +15.0%
+  ✓ Strong judge IMPROVES performance significantly
+
+E2: Best-of-N Architecture
+  Opus-fast baseline:        84.7%
+  Best-of-N (Opus × 5 + judge): 78.1%
+  Gain from best-of-N: -6.6%
+  ✗ Best-of-N does NOT improve performance
+
+Comparison to Self-Consistency
+  Self-consistency:     93.3%
+  E1 (Vote + Opus):     79.7% (-13.7%)
+  E2 (Best-of-N):       78.1% (-15.2%)
+
+======================================================================
+CONCLUSIONS
+======================================================================
+
+✓ ARCHITECTURE MATTERS: Improved ensemble designs show gains
+
+  - Strong judge (Opus) beats weak judge (Haiku): +15.0%
+
+Cost Analysis:
+  Opus baseline:       $1.50
+  E1 (Vote + Opus):    $6.05 (4.0× baseline)
+  E2 (Best-of-N):      $7.57 (5.1× baseline)
+  Self-consistency:    $5.59 (3.7× baseline)
+
+======================================================================
+

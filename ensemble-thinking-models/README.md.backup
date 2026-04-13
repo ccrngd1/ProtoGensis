@@ -4,31 +4,23 @@
 
 An empirical experiment testing whether extended thinking and ensemble methods add value on hard reasoning tasks. Part of the protoGen LLM Ensemble Methods series.
 
-## ⚠️ Key Findings (Updated April 13, 2026 - Phase 3 Complete)
+## ⚠️ Preliminary Findings (Updated April 2026)
 
-**65 total experiments across 3 phases with statistical validation:**
+> **Note:** These are exploratory findings based on limited sample sizes (n=10 custom prompts, n=20 per benchmark) with single runs per prompt and no statistical significance testing. Conclusions should be considered preliminary pending replication with larger samples.
 
-**Definitive Conclusions:**
+**Key observations:**
 
-1. **Extended thinking showed no accuracy advantage** on custom prompts (fast matched/beat thinking)
-2. **Judge-based ensembles FUNDAMENTALLY FAIL** - not fixable by stronger judges or better prompts
-   - Weak judges (Haiku): -17% vs baseline
-   - Strong judges (Opus): -5% vs baseline
-   - Optimal prompts (correctness verification): -9.8% vs baseline (WORSE)
-   - Evaluation harder than generation: Opus 84.7% → 74.8% when judging
-3. **Self-consistency WORKS** (+8.7%, proven Wang et al. method)
-   - 93.3% accuracy (best of all methods)
-   - No judge needed (majority vote, wisdom of crowds)
-   - Positive ROI: $0.65 per percentage point gained
+1. **Extended thinking showed no accuracy advantage** on our test sets (fast mode matched or beat thinking mode)
+2. **Naive ensembles (Haiku as judge) did not improve accuracy** (0/40 wins on custom prompts, 0/4 wins on benchmarks)
 
-**Phase 3 Critical Result:** Explicitly asking judges to "verify correctness step-by-step" made performance WORSE (E18: 74.8%, E20: 68.0% catastrophic failure). Proves the problem is architectural, not prompt-related.
+**Benchmark validation** (GSM8K, MMLU, HumanEval, GPQA with n=20 each): Ensembles using Haiku as judge/orchestrator consistently underperformed or tied best individual models. Even when best model scored 70% (GPQA), ensembles scored 55-60%.
 
-**Practical recommendation:**
-- ✅ Use **self-consistency** for maximum accuracy (93.3%)
-- ✅ Use **individual Opus** for cost/speed balance (84.7%)
-- ❌ **NEVER use judge-based ensembles** for math/factual tasks (negative ROI)
+**Best value on custom prompts:** Amazon Nova Lite (90% accuracy @ $0.0002 per correct answer, n=10)  
+**Lowest performance:** Claude Opus Extended Thinking (87.5% accuracy @ $0.25 per correct answer, includes 2 timeouts)
 
-**Full analyses:** [Phase 3 Critical Findings](E18_E20_CRITICAL_FINDINGS.md) | [Phase 2 Results](ENSEMBLE_COMPARISON_RESULTS.md) | [Phase 1 Analysis](FINDINGS.md)
+**Important limitations:** Sample sizes small, single run per prompt, keyword matching evaluation (LLM-as-judge now available), timeout configuration may have penalized Opus-thinking.
+
+**Read the full analysis:** [FINDINGS.md](FINDINGS.md)
 
 ---
 
@@ -72,89 +64,6 @@ An empirical experiment testing whether extended thinking and ensemble methods a
 
 ---
 
-## 🔥 April 13, 2026: Phase 3 - The Judge Hypothesis REJECTED
-
-**Critical Question:** After Phase 2 showed weak judges fail, we asked: "Is the judge doing the wrong task?"
-
-Phase 2 judges asked: "Which answers AGREE?" (semantic grouping)  
-Phase 3 judges asked: "Which answer is MOST LIKELY CORRECT?" (verification)
-
-**We tested correctness-based judging with Opus judge + explicit verification prompts:**
-
-| Method | Accuracy | vs Baseline | vs Phase 2 | Finding |
-|--------|----------|-------------|------------|---------|
-| Opus baseline | 84.7% | baseline | -- | Individual |
-| Self-consistency | **93.3%** | **+8.7%** ✓ | -- | **Winner** |
-| E1 (vote + agreement judge) | 79.7% | -5.0% | baseline | Agreement-based |
-| **E18 (vote + correctness judge)** | **74.8%** | **-9.8%** ✗ | **-4.8%** | **WORSE** |
-| E2 (best-of-N + quality judge) | 78.1% | -6.6% | baseline | Quality-based |
-| **E19 (best-of-N + correctness)** | **79.1%** | **-5.6%** ✗ | **+1.0%** | Marginal |
-| **E20 (two-stage)** | **68.0%** | **-16.7%** ✗✗ | -- | **Catastrophic** |
-
-### The Devastating Result
-
-**Correctness-based prompting made performance WORSE:**
-- E18 dropped 4.8% vs E1 (79.7% → 74.8%)
-- E20 two-stage was the worst result ever (68.0%)
-- Only E19 showed marginal improvement (+1%), not meaningful
-
-**What we explicitly asked judges:**
-- ✅ "Evaluate which answer is MOST LIKELY CORRECT"
-- ✅ "Verify calculations step-by-step"
-- ✅ "Focus ONLY on mathematical accuracy"
-- ✅ "Think independently, ignore consensus"
-
-**Hypothesis: REJECTED** 🔴
-
-The problem is NOT prompt engineering. **The problem is ARCHITECTURAL.**
-
-### Why Judges Fundamentally Fail
-
-**Evaluation is harder than generation:**
-- Opus generating answers: 84.7% accuracy
-- Opus evaluating answers: 74.8% accuracy  
-- **10 percentage point penalty** from evaluation task
-
-**Why:**
-1. Must understand 3-5 different solution approaches
-2. Must identify subtle errors in each
-3. Must compare relative correctness
-4. Cognitive overload from evaluation task
-
-**Self-consistency wins (93.3%)** because it avoids judge evaluation entirely:
-- Same model × 5 samples
-- Simple majority vote
-- Wisdom of crowds (errors cancel out)
-- No single point of failure
-
-### Cost Analysis
-
-| Method | Cost | Accuracy | ROI |
-|--------|------|----------|-----|
-| Self-consistency | $5.59 | 93.3% | **+$0.65 per % gained** ✓ |
-| E18 (correctness vote) | $3.60 | 74.8% | **-$0.37 per % LOST** ✗ |
-| E19 (best-of-N) | $8.07 | 79.1% | **-$1.17 per % LOST** ✗ |
-| E20 (two-stage) | $5.36 | 68.0% | **-$0.32 per % LOST** ✗ |
-
-**Only self-consistency has positive ROI.** All judge-based methods lose money AND accuracy.
-
-### The Judge Paradox (Resolved)
-
-- **Phase 1:** Weak judges fail → "Use strong judges"
-- **Phase 2:** Strong judges better but still fail → "Fix the prompt"
-- **Phase 3:** Optimal prompts make it WORSE → 🔴 **ARCHITECTURAL LIMITATION**
-
-**Final Verdict:** Judge-based ensembles are fundamentally flawed for objective tasks. Not fixable.
-
-**Use instead:**
-- ✅ Self-consistency for accuracy (93.3%)
-- ✅ Individual Opus for cost/speed (84.7%)
-- ❌ NEVER judge-based ensembles for math/factual tasks
-
-**Full Phase 3 analysis:** [E18_E20_CRITICAL_FINDINGS.md](E18_E20_CRITICAL_FINDINGS.md)
-
----
-
 ## Overview
 
 This project tests two controversial hypotheses about LLM performance:
@@ -172,23 +81,19 @@ This project tests two controversial hypotheses about LLM performance:
 **Phase 1 result (0/40 custom, 0/4 benchmarks):** Naive ensembles using Haiku as judge/orchestrator did not beat best individual models.
 
 **Phase 2 result (Statistical validation, n=100 × 3 runs):** ⚠️ **MIXED - Architecture determines outcome**
+
 - **Vote ensemble (Haiku judge):** 72.7% vs 89.7% baseline (**-17.0%**, catastrophic failure)
 - **Self-consistency (Wang et al. 2023):** 93.3% vs 89.7% baseline (**+3.6%**, works but expensive)
 
-**Phase 3 result (E18-E20, n=100 × 3 runs):** 🔴 **DEFINITIVELY REJECTED for judge-based ensembles**
-- **E18 (correctness-based vote):** 74.8% vs 84.7% baseline (**-9.8%**, optimal prompts made it WORSE)
-- **E19 (correctness-based best-of-N):** 79.1% vs 84.7% baseline (**-5.6%**, marginal at best)
-- **E20 (two-stage):** 68.0% vs 84.7% baseline (**-16.7%**, catastrophic failure)
+**Key insights:**
 
-**DEFINITIVE CONCLUSION:**
+1. **Weak-judge ensembles fail dramatically:** Using the cheapest model (Haiku) to judge stronger models creates a bottleneck. The weak arbiter lacks domain knowledge to evaluate correct answers. 17% penalty confirms architectural flaw.
 
-1. **Judge-based ensembles FUNDAMENTALLY FAIL:** Cannot be fixed by stronger judges (Phase 2) OR better prompts (Phase 3). Evaluation is harder than generation - same model performs 10% worse when judging vs generating.
+2. **Proven methods work:** Self-consistency (model evaluates its own samples) improves accuracy by 3.6% on math tasks. Validates Wang et al. (2023) findings on frontier models. Cost: $3.41 per percentage point gained.
 
-2. **Self-consistency WORKS:** Avoids judge bottleneck entirely. Uses same model × 5 with majority vote. Achieves 93.3% (+8.7% vs baseline) through wisdom of crowds, not judge evaluation.
+3. **Context matters:** Self-consistency helps on math (GSM8K +3.6%) but not custom reasoning prompts (Phase 1: 0/40). Task type affects ensemble benefit.
 
-3. **Architecture determines success:** Judge-based designs have negative ROI (lose money AND accuracy). Self-consistency has positive ROI ($0.65 per % gained).
-
-**NEVER use judge-based ensembles for math/factual tasks.** Use self-consistency for accuracy or individual models for cost.
+**Validated conclusion:** Architecture and task type determine ensemble success. Weak-judge designs fail. Proven self-consistency works on math but costs 3.7x more. High-stakes applications may justify cost; high-volume applications should use individual models.
 
 ---
 
@@ -223,17 +128,10 @@ This project tests two controversial hypotheses about LLM performance:
 **Phase 2 (Statistical validation, n=100 × 3 runs):**
 | Method | Accuracy | vs Baseline | Cost Multiplier | Conclusion |
 |--------|----------|-------------|-----------------|------------|
-| Vote ensemble (Haiku judge) | 72.7% | -17.0% ✗ | 3.5x | **Highly significant failure** |
-| Self-consistency | **93.3%** | **+8.7%** ✓ | 3.7x | **Works** ($0.65/point) |
+| Vote ensemble | 72.7% | -17.0% ✗ | 3.5x | **Highly significant failure** |
+| Self-consistency | **93.3%** | **+3.6%** ✓ | 3.7x | **Works but expensive** ($3.41/point) |
 
-**Phase 3 (Correctness-based judging, n=100 × 3 runs):**
-| Method | Accuracy | vs Baseline | Cost Multiplier | Conclusion |
-|--------|----------|-------------|-----------------|------------|
-| E18: Vote + correctness judge | 74.8% | -9.8% ✗✗ | 2.4x | **Optimal prompts made it WORSE** |
-| E19: Best-of-N + correctness | 79.1% | -5.6% ✗ | 5.4x | Marginal improvement, still fails |
-| E20: Two-stage judging | **68.0%** | **-16.7%** ✗✗✗ | 3.6x | **Catastrophic failure** |
-
-**DEFINITIVE CONCLUSION:** Judge-based ensembles fundamentally flawed - not fixable by architecture or prompts. Self-consistency wins through wisdom of crowds (no judge needed). For objective tasks: use self-consistency for accuracy or individual models for cost. NEVER use judge-based ensembles.
+**Conclusion:** Ensemble architecture determines success. Weak-judge ensembles fail catastrophically (-17%). Proven self-consistency works (+3.6%) but costs 3.7x more. The benefit may justify cost for high-stakes applications but not high-volume use cases.
 
 ### Standard Benchmark Validation
 
@@ -529,13 +427,10 @@ python3 evaluate.py \
    - 2-3x slower inference
    - Opus-thinking has 20% failure rate
 
-2. **Judge-Based Ensemble Aggregation** 🔴 **DEFINITIVELY REJECTED**
-   - Phase 1-3: 0% win rate, all methods fail
-   - Even optimal prompts WORSE (E18: -9.8%, E20: -16.7%)
-   - Evaluation fundamentally harder than generation (10% penalty)
-   - Negative ROI: Costs more AND performs worse
-   - **PROVEN:** Not fixable by stronger judges or better prompts
-   - **USE INSTEAD:** Self-consistency (93.3%) or individual models (84.7%)
+2. **Ensemble Aggregation** ⛔
+   - 0/40 times beat best individual (0% win rate)
+   - Adds 6-45% cost overhead
+   - No accuracy benefit even when models diverge
 
 3. **Opus-thinking Specifically** ⚠️
    - Worst accuracy: 87.5% (only model below 90%)
@@ -642,22 +537,17 @@ MODELS = {
 
 ## Research Context
 
-This project extends and validates/contradicts findings from:
+This project extends and contradicts findings from:
 
-- **Self-Consistency**: Wang et al., ICLR 2023 ✅ **VALIDATED** - Works (+8.7%) for math tasks
-- **LLM-Blender**: Jiang et al., ACL 2023 ❌ **REJECTED** - Judge-based ensembles fundamentally fail
-- **Mixture-of-Agents**: Wang et al., 2024 ❌ **REJECTED** - Ensembles don't beat best individual
-- **Extended Thinking**: Anthropic, 2024 ⚠️ **CONTEXT-DEPENDENT** - Helps math, not custom prompts
+- **Self-Consistency**: Wang et al., ICLR 2023 (we found it doesn't help)
+- **LLM-Blender**: Jiang et al., ACL 2023 (we found ensembles add no value)
+- **Mixture-of-Agents**: Wang et al., 2024 (we found MoA doesn't beat best individual)
+- **Extended Thinking**: Anthropic, 2024 (we found no accuracy benefit)
 
-**Phase 3 (E18-E20) definitive findings:**
-1. Judge-based ensembles **architecturally limited** - not fixable by prompts or stronger judges
-2. Evaluation **fundamentally harder** than generation (10% performance penalty)
-3. Self-consistency **only ensemble method that works** (no judge, wisdom of crowds)
-
-Our findings definitively prove:
-1. Extended thinking is task-dependent (helps math, not all reasoning)
-2. Judge-based ensemble methods fundamentally fail on objective tasks
-3. Self-consistency wins through architecture (no judge bottleneck)
+Our findings challenge conventional wisdom about:
+1. The value of extended reasoning modes
+2. The benefit of ensemble methods on hard tasks
+3. The need for premium models on complex reasoning
 
 See [FINDINGS.md](FINDINGS.md) for full analysis and [BLOG.md](BLOG.md) for original hypothesis.
 
@@ -700,24 +590,13 @@ Pull requests welcome for:
 If you use this work in research or make decisions based on findings:
 
 ```
-"Do Thinking Models Think Better? (Context-Dependent)"
-"Are Judge-Based Ensembles Fixable? (No - Architecturally Limited)"
+"Do Thinking Models Think Better? (No)"
 Ensemble Thinking Models Experiment, April 2026
 https://github.com/yourhandle/ensemble-thinking-models
 
-Phase 1-3 Key Findings (65 experiments, n=10-100, statistical validation):
-
-1. Extended thinking: Context-dependent (helps math +15%, not custom prompts)
-2. Judge-based ensembles: DEFINITIVELY REJECTED
-   - Weak judges: -17% | Strong judges: -5% | Optimal prompts: -9.8%
-   - Evaluation fundamentally harder than generation (10% penalty)
-   - Not fixable by architecture or prompt engineering
-3. Self-consistency: WORKS (+8.7%, proven Wang et al. method)
-   - Only successful ensemble method (no judge, wisdom of crowds)
-   - 93.3% accuracy, positive ROI ($0.65 per % gained)
-
-Practical: Use self-consistency for accuracy, individual models for cost.
-          NEVER judge-based ensembles for objective tasks (negative ROI).
+Key Finding: Extended thinking provided zero accuracy improvement 
+while costing 48-150% more. Nova-lite (90% @ $0.0002/correct) beat 
+Opus-thinking (87.5% @ $0.25/correct) by 1260x on cost-per-correct.
 ```
 
 ---
@@ -738,37 +617,27 @@ This is **Project 1 of 3** in the LLM Ensemble Methods series:
 ┌────────────────────────────────────────────────────────┐
 │                                                        │
 │  HYPOTHESIS 1: Extended thinking helps on hard prompts│
-│  RESULT: CONTEXT-DEPENDENT ⚠️                          │
-│    • Helps math (GSM8K: +15%), not custom prompts     │
-│    • 48-150% cost premium, task-dependent benefit     │
+│  RESULT: REJECTED ❌                                    │
+│    • Fast mode matched or beat thinking mode          │
+│    • 48-150% cost premium for 0% accuracy gain        │
+│    • Opus-thinking had worst performance of all       │
 │                                                        │
 │  HYPOTHESIS 2: Ensembles beat best individual         │
-│  RESULT: DEFINITIVELY REJECTED for Judge-Based ❌      │
-│    Phase 1-2: Weak judges fail (-17%)                 │
-│    Phase 2: Strong judges fail (-5%)                  │
-│    Phase 3: Optimal prompts WORSE (-9.8%, -16.7%)     │
-│    ✅ EXCEPTION: Self-consistency works (+8.7%)        │
+│  RESULT: MIXED - Architecture Matters                 │
+│    • Weak-judge ensembles: -17% (catastrophic)        │
+│    • Self-consistency: +3.6% (works but expensive)    │
+│    • Architecture determines success                  │
 │                                                        │
-│  KEY INSIGHT: Evaluation harder than generation       │
-│    • Same model: 84.7% (generate) → 74.8% (evaluate)  │
-│    • Judge-based = architectural flaw, not fixable    │
-│    • Self-consistency wins: no judge, wisdom of crowds│
-│                                                        │
-│  RECOMMENDATION: Task-dependent strategy              │
-│    • High accuracy: Self-consistency (93.3%)          │
-│    • Cost/speed: Individual Opus (84.7%)              │
-│    • Budget: Haiku-fast (good performance, low cost)  │
-│    • NEVER: Judge-based ensembles (negative ROI)      │
+│  RECOMMENDATION: Haiku-fast for most use cases        │
+│    • 90% accuracy on Phase 1 prompts                  │
+│    • Best Claude cost/performance balance             │
+│    • Use Opus-fast for high-stakes applications       │
 │                                                        │
 └────────────────────────────────────────────────────────┘
 ```
 
-**For detailed analysis**:
-- [Phase 1: Custom Prompts](FINDINGS.md)
-- [Phase 2: Statistical Validation](ENSEMBLE_COMPARISON_RESULTS.md)
-- [Phase 3: Judge Hypothesis REJECTED](E18_E20_CRITICAL_FINDINGS.md)
-
-**For executive summary**: [HARD_PROMPTS_FINAL_ANALYSIS.md](HARD_PROMPTS_FINAL_ANALYSIS.md)  
+**For detailed analysis**: See [FINDINGS.md](FINDINGS.md)  
+**For executive summary**: See [HARD_PROMPTS_FINAL_ANALYSIS.md](HARD_PROMPTS_FINAL_ANALYSIS.md)  
 **For questions**: Open an issue with your findings/counter-evidence
 
 ---

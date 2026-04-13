@@ -13,11 +13,12 @@ import sys
 import os
 from datetime import datetime
 import time
+import asyncio
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from moa.config import ModelConfig
 from moa.ensemble import run_ensemble
-from moa.judge import judge_response
+from moa.judge import QualityJudge
 
 def load_adversarial_prompts():
     """Load only the adversarial prompts from Custom-54."""
@@ -37,7 +38,7 @@ def load_adversarial_prompts():
 
     return adversarial
 
-def run_config_on_prompts(config_name, prompts, repetition):
+async def run_config_on_prompts(config_name, prompts, repetition, judge):
     """Run a configuration on prompts."""
     results = []
 
@@ -52,7 +53,12 @@ def run_config_on_prompts(config_name, prompts, repetition):
             # Baseline
             opus_config = ModelConfig.get_config('opus')
             response = opus_config.generate(prompt_text)
-            judge_score = judge_response(prompt_text, response['text'], category, model_key='opus')
+
+            score = await judge.score_response(
+                prompt=prompt_text,
+                response=response['text'],
+                expected_answer=None
+            )
 
             results.append({
                 'prompt_id': prompt_id,
@@ -60,7 +66,13 @@ def run_config_on_prompts(config_name, prompts, repetition):
                 'config': 'opus-baseline',
                 'response': response['text'],
                 'cost': response['cost'],
-                'judge_score': judge_score,
+                'judge_score': {
+                    'correctness': score.correctness,
+                    'completeness': score.completeness,
+                    'clarity': score.clarity,
+                    'total': score.total,
+                    'justification': score.justification
+                },
                 'repetition': repetition
             })
         else:
@@ -71,11 +83,10 @@ def run_config_on_prompts(config_name, prompts, repetition):
                 category=category
             )
 
-            judge_score = judge_response(
-                prompt_text,
-                ensemble_result['aggregated_response'],
-                category,
-                model_key='opus'
+            score = await judge.score_response(
+                prompt=prompt_text,
+                response=ensemble_result['aggregated_response'],
+                expected_answer=None
             )
 
             results.append({
@@ -84,18 +95,24 @@ def run_config_on_prompts(config_name, prompts, repetition):
                 'config': config_name,
                 'aggregated_response': ensemble_result['aggregated_response'],
                 'cost': ensemble_result['total_cost'],
-                'judge_score': judge_score,
+                'judge_score': {
+                    'correctness': score.correctness,
+                    'completeness': score.completeness,
+                    'clarity': score.clarity,
+                    'total': score.total,
+                    'justification': score.justification
+                },
                 'repetition': repetition
             })
 
-        print(f"Score: {judge_score.get('total', 0)}")
+        print(f"Score: {score.total:.1f}")
 
         # Rate limit
         time.sleep(1)
 
     return results
 
-def main():
+async def main():
     print("=" * 80)
     print("E13: ADVERSARIAL-ONLY BENCHMARK")
     print("Testing ensemble adversarial brittleness")
@@ -128,6 +145,9 @@ def main():
 
     print()
 
+    # Initialize judge
+    judge = QualityJudge(judge_model="opus")
+
     # Run all configs × repetitions
     all_results = []
     total_cost = 0
@@ -137,7 +157,7 @@ def main():
             print(f"\n{config.upper()} - Repetition {rep}/{num_reps}")
             print("-" * 80)
 
-            results = run_config_on_prompts(config, adversarial_prompts, rep)
+            results = await run_config_on_prompts(config, adversarial_prompts, rep, judge)
             all_results.extend(results)
 
             rep_cost = sum(r['cost'] for r in results)
@@ -205,4 +225,4 @@ def main():
     print("=" * 80)
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
