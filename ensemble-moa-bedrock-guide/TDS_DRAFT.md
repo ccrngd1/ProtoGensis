@@ -25,13 +25,13 @@ After 3,500+ live API calls across three original testing phases and nine valida
 
 **❌ Ensembles DON'T WORK when:**
 - Proposers have similar capability to the aggregator (original Phase 1 finding, confirmed)
-- You match costs — Best-of-N from a strong model beats ensembles at equal spend
+- You match costs: Best-of-N from a strong model beats ensembles at equal spend
 
 **⚠️ Mixed results:**
 - Conversational tasks: ±0.4 points (no clear winner)
 - Smart routing: 3× cheaper than Opus but 5.3 points lower quality
 
-The original phase 1–3 tests (592 tests) showed all premium-tier ensembles underperforming. The updated finding: that's true for equal-capability architectures — but weak proposers + strong aggregators show significant gains. The theory isn't wrong; it just requires a capability gap that AWS Bedrock's model lineup makes harder to achieve.
+The original phase 1–3 tests (592 tests) showed all premium-tier ensembles underperforming. The updated finding: that's true for equal-capability architectures. But weak proposers + strong aggregators show significant gains. The theory isn't wrong; it just requires a capability gap that AWS Bedrock's model lineup makes harder to achieve.
 
 ---
 
@@ -95,11 +95,11 @@ One non-obvious cost: MoA isn't `N × single_model_cost`. The aggregator process
 
 ## What I Tested
 
-**Phase 1 (54 prompts × 4 configs = 216 tests):** Start with what the MoA paper would predict should work — premium models, diverse proposers, strong aggregator. High-end-reasoning (Opus + Sonnet + Haiku proposers, Opus aggregator), mixed-capability, same-model-premium (3× Opus → Opus), and standalone Opus baseline. Automated scoring by Opus on correctness (40%), completeness (30%), and clarity (30%).
+**Phase 1 (54 prompts × 4 configs = 216 tests):** Start with what the MoA paper would predict should work: premium models, diverse proposers, strong aggregator. High-end-reasoning (Opus + Sonnet + Haiku proposers, Opus aggregator), mixed-capability, same-model-premium (3× Opus → Opus), and standalone Opus baseline. Automated scoring by Opus on correctness (40%), completeness (30%), and clarity (30%).
 
 **Phase 2 (80 questions × 2 turns = 160 tests):** MT-Bench multi-turn evaluation, same configurations as Phase 1. I wanted to see if ensembles held up across conversational turns, not just single-shot prompts.
 
-**Phase 3 (54 prompts × 4 configs = 216 tests):** Phase 1 and 2 showed model diversity wasn't helping. My next hypothesis: prompt-level diversity through personas. Same model (Opus), three distinct system prompts — critical analyst, creative generalist, domain expert. More response diversity than different models produce, in theory.
+**Phase 3 (54 prompts × 4 configs = 216 tests):** Phase 1 and 2 showed model diversity wasn't helping. My next hypothesis: prompt-level diversity through personas. Same model (Opus), three distinct system prompts: critical analyst, creative generalist, domain expert. More response diversity than different models produce, in theory.
 
 **Validation experiments (April 11–14, $165.36):** Phase 1–3 left open questions. Nine targeted experiments: judge bias, capability gap effects, AlpacaEval, adversarial brittleness, aggregator tier impact. This is where the picture changed.
 
@@ -153,9 +153,9 @@ The aggregation trap in mathematical terms:
 Ensemble Quality ≤ MIN(best proposer quality, aggregator capability)
 ```
 
-The aggregator isn't smarter than the proposers. It can't distinguish a hallucination from a fact. When the aggregator's capability equals the proposers', it has no basis for selective synthesis — it averages everything, including the errors.
+The aggregator isn't smarter than the proposers. It can't distinguish a hallucination from a fact. When the aggregator's capability equals the proposers', it has no basis for selective synthesis. It averages everything, including the errors.
 
-This is why same-model-premium (3× Opus → Opus aggregator) scored 1.4 points *lower* than standalone Opus across our 54-prompt test suite. Identical models, same capability — the aggregation step itself costs you something.
+This is why same-model-premium (3× Opus → Opus aggregator) scored 1.4 points *lower* than standalone Opus across our 54-prompt test suite. Identical models, same capability. The aggregation step itself costs you something.
 
 ---
 
@@ -174,7 +174,7 @@ None reached statistical significance in single-run tests, but the direction was
 
 ### Phase 3: Persona Diversity
 
-I hypothesized that prompt-level diversity through personas might succeed where model diversity failed. We measured response diversity between personas: 81% average Levenshtein distance — far more variation than different models typically produce (40–60%).
+I hypothesized that prompt-level diversity through personas might succeed where model diversity failed. We measured response diversity between personas: 81% average Levenshtein distance, far more variation than different models typically produce (40–60%).
 
 | Configuration | Mean Score | vs Opus | p-value |
 |---------------|------------|---------|---------|
@@ -215,9 +215,9 @@ Nine validation experiments ran April 11–14 at a cost of $165.36. Here's what 
 
 ### Validation sanity checks
 
-**No judge bias (E1):** I used Opus to judge all responses including its own — a fair criticism. Re-scoring Phase 1 with Sonnet as judge produced rankings of 94.2, 93.8, 93.4, 93.0 vs Opus's 94.5, 94.0, 93.1, 93.1. Correlation r=0.98, rank order identical. No measurable self-bias.
+**No judge bias (E1):** I used Opus to judge all responses including its own, a fair criticism. Re-scoring Phase 1 with Sonnet as judge produced rankings of 94.2, 93.8, 93.4, 93.0 vs Opus's 94.5, 94.0, 93.1, 93.1. Correlation r=0.98, rank order identical. No measurable self-bias.
 
-**Baseline stability (E14):** Re-running the Opus baseline two weeks later produced 92.3 vs original 94.5 — a 2.3% drift, within expected measurement noise. Notably, adversarial prompts scored 96.4 in the retest, suggesting some prompts I labelled "adversarial" weren't as hard as I thought.
+**Baseline stability (E14):** Re-running the Opus baseline two weeks later produced 92.3 vs original 94.5: a 2.3% drift, within expected measurement noise. Notably, adversarial prompts scored 96.4 in the retest, suggesting some prompts I labelled "adversarial" weren't as hard as I thought.
 
 ---
 
@@ -243,7 +243,7 @@ Gain:              +8.6 points ✅
 Cost:              $0.07/prompt
 ```
 
-When proposers are significantly below aggregator capability, the aggregator can filter bad proposals and synthesize the good ones. It has the capability advantage to distinguish signal from noise. The Lesotho GDP problem doesn't occur here — a strong aggregator is more likely to recognize that "I don't know" is the correct answer even when weaker proposers confidently hallucinate.
+When proposers are significantly below aggregator capability, the aggregator can filter bad proposals and synthesize the good ones. It has the capability advantage to distinguish signal from noise. The Lesotho GDP problem doesn't occur here. A strong aggregator is more likely to recognize that "I don't know" is the correct answer even when weaker proposers confidently hallucinate.
 
 **E6: Aggregator Tier Is Everything**
 
@@ -286,7 +286,7 @@ Cost:  $0.32/prompt (3× more than pure Opus)
 Model selection: Opus-thinking (52%), Opus-fast (26%), Sonnet-thinking (15%)
 ```
 
-This works because the judge is strong enough to identify the best response. A Haiku judge, by comparison, produced 72.7 — a catastrophic failure. The judge must be capable; weak judges can't evaluate strong proposers.
+This works because the judge is strong enough to identify the best response. A Haiku judge, by comparison, produced 72.7. Catastrophic. The judge must be capable; weak judges can't evaluate strong proposers.
 
 ---
 
@@ -306,7 +306,7 @@ Predicted Best-of-6 Opus score via binomial model: ~95–96, compared to the ens
 
 Best-of-N is simpler, faster to implement, easier to debug, and likely better at matched cost. The ensemble architecture adds complexity without adding value relative to the cheaper alternative.
 
-### Failure Case 3: Smart Routing — Cheaper but Not Better (E5)
+### Failure Case 3: Smart Routing, Cheaper but Not Better (E5)
 
 I had recommended smart routing (routing prompts to Nova-Lite/Haiku/Opus based on Haiku-classified complexity) as an alternative to ensembles. E5 validated this recommendation:
 
@@ -317,13 +317,13 @@ Pure Opus:     92.3/100 @ $0.079/prompt = 1,168 points/$
 
 Model distribution: 76% Haiku, 16% Opus, 8% Nova-Lite.
 
-Smart routing is genuinely 3× cheaper than pure Opus. The 5.3-point quality gap is real, though. Whether 87/100 is acceptable depends on your threshold. At scale, $0.026 vs $0.079 per prompt adds up fast. This is a legitimate cost-quality tradeoff — just not a quality improvement.
+Smart routing is genuinely 3× cheaper than pure Opus. The 5.3-point quality gap is real, though. Whether 87/100 is acceptable depends on your threshold. At scale, $0.026 vs $0.079 per prompt adds up fast. This is a legitimate cost-quality tradeoff. Just not a quality improvement.
 
 ---
 
 ## Adversarial Brittleness: A Hypothesis I Got Wrong
 
-Phase 1 data suggested ensembles were brittle on adversarial prompts — the Lesotho example being the obvious illustration. I built a narrative around this: ensembles improve standard responses but fail on tricky questions.
+Phase 1 data suggested ensembles were brittle on adversarial prompts. The Lesotho example was the obvious illustration. I built a narrative around this: ensembles improve standard responses but fail on tricky questions.
 
 E13 tested this directly: 40 adversarial tests (4 prompts × 10 repetitions) across all Phase 1 configurations.
 
@@ -334,7 +334,7 @@ E13 tested this directly: 40 adversarial tests (4 prompts × 10 repetitions) acr
 | Mixed-capability | 94.9 | +0.4 ✅ |
 | Same-model-premium | 94.8 | +0.3 ✅ |
 
-Hypothesis rejected. Ensembles matched or slightly beat the baseline on adversarial prompts. The brittleness I observed in Phase 1 was measurement noise — small sample (5 adversarial prompts), high variance, single run. With 10 repetitions per prompt, the signal stabilized and the "brittleness" disappeared.
+Hypothesis rejected. Ensembles matched or slightly beat the baseline on adversarial prompts. The brittleness I observed in Phase 1 was measurement noise: small sample (5 adversarial prompts), high variance, single run. With 10 repetitions per prompt, the signal stabilized and the "brittleness" disappeared.
 
 The Lesotho example is still a real failure mode. But it doesn't generalize to systematic adversarial brittleness. Strong aggregators (Opus, Sonnet) handle adversarial inputs effectively; the failure happens specifically with weak aggregators on high-variance prompts.
 
@@ -464,9 +464,9 @@ The judge must be strong. Haiku judge: 72.7. Opus judge: 94.5. The gap isn't sma
 | Best quality/$ at scale | Pure Haiku | 85.2 | $0.003 |
 
 **When to avoid ensembles entirely:**
-- Equal-capability architecture (proposers ≈ aggregator) — you're paying 3–6× for negative returns
-- Real-time user-facing apps — 2–3× latency penalty, even with full parallelization
-- When ground truth traceability matters — ensembles obscure which proposer contributed what
+- Equal-capability architecture (proposers ≈ aggregator): you're paying 3–6× for negative returns
+- Real-time user-facing apps: 2–3× latency penalty, even with full parallelization
+- When ground truth traceability matters: ensembles obscure which proposer contributed what
 
 ---
 
@@ -488,10 +488,10 @@ The $165.36 I spent running these experiments is probably the most useful money 
 
 Four things that will bite you if you try to replicate this:
 
-- **Model availability changes:** Nova Premier was in the original high-end-reasoning recipe. The first Phase 1 run crashed after ~10 prompts — AWS had quietly marked it legacy between framework development and test execution. Replaced it with Haiku, added a pre-run availability check, moved on. Verify your model list immediately before any long run.
-- **Bearer token expiration:** AWS bearer tokens expire after ~2 hours. Phase 1 took 8 hours and crashed at 135 prompts with an auth error. Fixed by breaking runs into sub-hour batches with a token refresh between them — the framework handles this automatically now.
-- **Bedrock rate limiting:** Bedrock enforces 10 concurrent requests per account. A 3-proposer ensemble fires 3 simultaneous calls — obvious in retrospect, but intermittent ThrottlingExceptions mid-run made it less obvious at the time. Added `asyncio.Semaphore(10)`, zero throttling errors after.
-- **Context window accumulation:** 3-layer ensembles accumulate context fast — Layer 3 sees the original prompt plus everything every proposer and refiner generated. One MT-Bench question triggered a context warning when verbose proposers pushed Layer 3 input past 3,000 tokens. Fixed by capping proposer `max_tokens` at 1,024 for deep ensembles.
+- **Model availability changes:** Nova Premier was in the original high-end-reasoning recipe. The first Phase 1 run crashed after ~10 prompts. AWS had quietly marked it legacy between framework development and test execution. Replaced it with Haiku, added a pre-run availability check, moved on. Verify your model list immediately before any long run.
+- **Bearer token expiration:** AWS bearer tokens expire after ~2 hours. Phase 1 took 8 hours and crashed at 135 prompts with an auth error. Fixed by breaking runs into sub-hour batches with a token refresh between them. The framework handles this automatically now.
+- **Bedrock rate limiting:** Bedrock enforces 10 concurrent requests per account. A 3-proposer ensemble fires 3 simultaneous calls, obvious in retrospect, but intermittent ThrottlingExceptions mid-run made it less obvious at the time. Added `asyncio.Semaphore(10)`, zero throttling errors after.
+- **Context window accumulation:** 3-layer ensembles accumulate context fast. Layer 3 sees the original prompt plus everything every proposer and refiner generated. One MT-Bench question triggered a context warning when verbose proposers pushed Layer 3 input past 3,000 tokens. Fixed by capping proposer `max_tokens` at 1,024 for deep ensembles.
 
 Full details in `DETAILED_METHODOLOGY.md` in the repository.
 
@@ -499,19 +499,19 @@ Full details in `DETAILED_METHODOLOGY.md` in the repository.
 
 ## The Verdict
 
-Wang et al. (2024) showed MoA beating individual models. Their setup used GPT-4, Claude, Gemini — cross-organizational diversity, different architectures, genuinely varied failure modes, and a strong aggregator (GPT-4) above all proposers. Our E4 result confirmed their AlpacaEval finding: those gains are real on standardized benchmarks.
+Wang et al. (2024) showed MoA beating individual models. Their setup used GPT-4, Claude, Gemini: cross-organizational diversity, different architectures, genuinely varied failure modes, and a strong aggregator (GPT-4) above all proposers. Our E4 result confirmed their AlpacaEval finding: those gains are real on standardized benchmarks.
 
-The AWS Bedrock constraint is that Opus 4.6 is the ceiling. When the strongest available model is also your aggregator, equal-capability architectures don't work. But create the capability gap deliberately — use weak proposers and a strong aggregator — and the gains are substantial: +5.9 to +13.8 points over proposer baselines.
+The AWS Bedrock constraint is that Opus 4.6 is the ceiling. When the strongest available model is also your aggregator, equal-capability architectures don't work. But create the capability gap deliberately. Use weak proposers and a strong aggregator. The gains are substantial: +5.9 to +13.8 points over proposer baselines.
 
 The Lesotho GDP hallucination isn't a condemnation of ensembles. It's a demonstration of what happens when an aggregator is asked to synthesize inputs it can't evaluate. Give it a strong enough aggregator, and it handles the same adversarial inputs at 94.5–95.0.
 
 The practical guidance:
 - **Using Nova-Lite or Haiku?** An ensemble with a strong aggregator will help significantly.
 - **Using Opus?** A single Opus call is already at the quality ceiling. Ensembles add cost without benefit.
-- **Want cost savings?** Haiku at $0.003/call gives 85.2/100 — best quality-per-dollar of anything we tested.
+- **Want cost savings?** Haiku at $0.003/call gives 85.2/100, the best quality-per-dollar of anything we tested.
 - **Have a specific adversarial robustness concern?** Don't. E13 showed that wasn't a real problem.
 
-Use ensembles strategically, not as a default architecture upgrade. The 400× price gap between Nova Micro and Opus creates real opportunities for capability-gap exploitation. But don't combine equal-capability models and expect magic — you'll get the Lesotho problem instead.
+Use ensembles strategically, not as a default architecture upgrade. The 400× price gap between Nova Micro and Opus creates real opportunities for capability-gap exploitation. But don't combine equal-capability models and expect magic. You'll get the Lesotho problem instead.
 
 ---
 
@@ -522,11 +522,11 @@ Full implementation with benchmark results, raw data, and reproducibility script
 **[github.com/ccrngd1/ProtoGensis](https://github.com/ccrngd1/ProtoGensis)**
 
 Key files:
-- `moa/core.py` — Async MoA pipeline
-- `moa/models.py` — Pricing, personas, recipes
-- `benchmark/prompts.json` — 54-prompt test suite
-- `benchmark/analyze_results.py` — Statistical analysis
-- `DETAILED_METHODOLOGY.md` — Full reproducibility details
+- `moa/core.py`: Async MoA pipeline
+- `moa/models.py`: Pricing, personas, recipes
+- `benchmark/prompts.json`: 54-prompt test suite
+- `benchmark/analyze_results.py`: Statistical analysis
+- `DETAILED_METHODOLOGY.md`: Full reproducibility details
 
 ```bash
 export AWS_BEARER_TOKEN_BEDROCK="your_token"
@@ -542,7 +542,7 @@ python run_premium_tier.py
 python benchmark/analyze_results.py results/your_results.json
 ```
 
-Run your own benchmarks. Challenge the conclusions. The data from 3,500+ tests is in the repo — don't take my word for it.
+Run your own benchmarks. Challenge the conclusions. The data from 3,500+ tests is in the repo. Don't take my word for it.
 
 ---
 
