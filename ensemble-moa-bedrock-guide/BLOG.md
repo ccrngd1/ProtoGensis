@@ -2,7 +2,7 @@
 
 ## TL;DR: When Ensembles Work (And When They Don't)
 
-*A comprehensive investigation of Mixture-of-Agents on AWS Bedrock, backed by 3,000+ API calls across 14 experiments (9 complete). Investment: $165.36*
+*A comprehensive investigation of Mixture-of-Agents on AWS Bedrock, backed by 3,000+ API calls across 11 completed experiments. Investment: $165.36*
 
 ---
 
@@ -433,7 +433,7 @@ And since our quality tests showed ensembles scoring 0.5-2.2 points *lower* than
 
 ## When MoA Works (And When It Doesn't): The Complete Picture
 
-After 3,500+ tests across 14 experiments (9 complete), the pattern is nuanced. Here's what we learned:
+After 3,500+ tests across 11 completed experiments, the pattern is nuanced. Here's what we learned:
 
 ### Success Case 1: Weak Proposers + Strong Aggregator (E7/E8)
 
@@ -971,7 +971,7 @@ The aggregator processes all prior layer outputs as input context. With 3 propos
 | Strong-judge (Opus) | 94.5 | $0.32 | +2.2 | Diversity needed | E10 ✅ |
 | Weak-judge (Haiku) | 72.7 | $0.15 | -19.6 | None | Phase 1 ❌ |
 | **Other** |
-| Smart routing | 87.0 | $0.026 | -5.3 | None | E5 ❌ |
+| Smart routing | 87.0 | $0.026 | -5.3 | High-volume, cost-sensitive | E5 ⚠️ |
 | Adversarial-only (all configs) | 94.5-95.0 | Varies | ±0.5 | NOT brittle | E13 ✅ |
 
 **Key Insights:**
@@ -985,7 +985,7 @@ The aggregator processes all prior layer outputs as input context. With 3 propos
 
 ## Implementation Patterns: What Actually Works
 
-Based on 3,500+ tests across 14 experiments (9 complete), here are the validated patterns:
+Based on 3,500+ tests across 11 completed experiments, here are the validated patterns:
 
 ### Pattern 1: Pure Standalone Models (Simplest, Often Best)
 
@@ -1282,7 +1282,7 @@ All cost calculations use April 2026 Bedrock pricing. Verify current rates at [a
 
 ## When NOT to Use MoA (Updated After 9 Validation Experiments)
 
-After 3,500+ tests across 14 experiments (9 complete), here's the evidence-based guidance on when to avoid ensembles:
+After 3,500+ tests across 11 completed experiments, here's the evidence-based guidance on when to avoid ensembles:
 
 **Updated understanding:** The "adversarial brittleness" hypothesis from Phase 1 was REJECTED by E13. Ensembles are NOT systematically brittle. The decision is now about cost-efficiency and architecture, not robustness.
 
@@ -1370,7 +1370,7 @@ If your ensemble beats standalone Opus with statistical significance (p < 0.05) 
 
 ## What Should You Use: Updated Recommendations
 
-Based on 3,500+ tests across 14 experiments (9 complete), here's the evidence-based guidance:
+Based on 3,500+ tests across 11 completed experiments, here's the evidence-based guidance:
 
 ### Recommendation 1: For Maximum Quality — Use Pure Opus or Strong-Judge Vote
 
@@ -1461,7 +1461,7 @@ Our setup:
 - All inference through one platform
 - Opus 4.6 as the strongest aggregator
 
-**What we discovered after 14 experiments (9 complete):**
+**What we discovered after 11 completed experiments:**
 
 ### ✅ MoA WORKS When:
 
@@ -1493,10 +1493,6 @@ Our setup:
    - Best-of-N baseline beats ensemble at equal cost
    - Simpler architecture, likely better quality
 
-3. **Cost-matched comparisons favor simplicity** (E12)
-   - Best-of-N baseline beats ensemble at equal cost
-   - Simpler architecture, likely better quality
-
 ### The Updated Model
 
 **Original hypothesis (March 2026):** "Ensembles don't work on Bedrock because aggregator ≤ best proposer"
@@ -1524,6 +1520,20 @@ Ensembles are NOT brittle on adversarial prompts (E13 validated)
 - **Original "adversarial brittleness" finding:** REJECTED by E13 validation
 
 **On AWS Bedrock:** Use ensembles strategically when you have weak models that need help. Don't use ensembles for equal-capability architectures or cost optimization.
+
+---
+
+## What I Got Wrong (And What Surprised Me)
+
+I started this project expecting to confirm what the MoA paper claimed: ensembles beat single models. I'd read the Wang et al. results, seen the benchmarks, and figured the main challenge would be cost optimization, not whether it worked at all.
+
+Phase 1 data was a gut check. Every ensemble underperformed. Not by a lot — 0.5 to 1.4 points — but consistently in one direction across 216 tests. The same-model-premium result bothered me most: three Opus proposers feeding into an Opus aggregator, and it scored *worse* than a single Opus call. That's pure synthesis overhead. The aggregation step itself costs you something.
+
+What I didn't expect: the adversarial brittleness hypothesis I built up from Phase 1 was completely wrong. E13 ran 40 adversarial tests and ensembles matched or beat baseline. That finding from Phase 1 was measurement noise — small sample, high variance, single run. A useful reminder that small-N observations in high-variance domains will mislead you.
+
+What validated my instincts: the capability gap finding (E7/E8). When proposers are genuinely weaker than the aggregator, ensembles work well. The theory isn't wrong — it just requires a specific architecture that AWS Bedrock makes harder to achieve, since Opus is the ceiling and you're often comparing models that are closer in capability than the paper's GPT-4 + diverse-weaker-models setup.
+
+The $165.36 I spent running these experiments is probably the most useful money in this project. The answer wasn't in the paper — it was in the data.
 
 ---
 
@@ -1588,84 +1598,7 @@ Run your own benchmarks. Challenge the conclusions. But the data from 592 tests 
 
 ---
 
-## Complete Artifact Index
-
-For editors and researchers, here's the complete index of deliverables:
-
-### Primary Documentation
-- **README.md** — Updated with empirical findings, replaces speculative claims with measured data
-- **BLOG.md** (this file) — Complete practitioner's guide with detailed methodology
-- **DETAILED_METHODOLOGY.md** — Full experimental record with code examples, prompt design rationale, statistical methods
-
-### Code Implementation
-- **moa/core.py** (457 lines) — Async MoA pipeline, layer execution, context building
-- **moa/bedrock_client.py** (218 lines) — AWS Bedrock API wrapper with bearer token auth
-- **moa/models.py** (302 lines) — Model pricing table, persona definitions, 14 pre-defined recipes
-- **moa/judge.py** (187 lines) — Automated quality scoring system with 40/30/30 weighting
-
-### Benchmarking Infrastructure
-- **benchmark/prompts.json** (54 prompts) — Test suite across 7 categories with adversarial prompts
-- **benchmark/analyze_results.py** (347 lines) — Statistical analysis (t-tests, p-values, Cohen's d, per-category)
-- **benchmark/analyze_diversity.py** (208 lines) — Diversity analysis, same-model vs diverse comparison
-- **benchmark/mtbench_integration.py** (260 lines) — MT-Bench adapter for multi-turn testing
-
-### Experiment Runners
-- **run_premium_tier.py** (178 lines) — Phase 1 execution script
-- **run_persona_experiment.py** (194 lines) — Phase 3 execution script with persona injection
-- **test_personas.py** (125 lines) — Pilot test for measuring persona diversity
-
-### Raw Results (All JSON files with judge scores and justifications)
-
-**Original Phases:**
-- **results/premium_tier_results.json** (216 tests) — Phase 1: Premium configurations
-- **results/mtbench_results.json** (160 tests) — Phase 2: Multi-turn conversations
-- **results/persona_experiment.json** (216 tests) — Phase 3: Persona diversity
-
-**Validation Experiments:**
-- **results/cross_judge_validation_*.json** (E1) — Sonnet judge cross-validation
-- **results/e3_mtbench_premium_*.json** (E3) — Premium ensembles on MT-Bench
-- **results/e4_alpacaeval_*.json** (E4) — AlpacaEval comparison
-- **results/e5_smart_routing_*.json** (E5) — Smart routing validation
-- **results/e6_aggregator_tiers_*.json** (E6) — Aggregator capability testing
-- **results/e7_e8_low_baseline_*.json** (E7/E8) — Weak proposer ensembles
-- **results/e10_strong_judge_vote_*.json** (E10) — Strong-judge vote ensemble
-- **results/e12_cost_matched_analysis_*.json** (E12) — Cost-matched comparison
-- **results/e13_adversarial_only_*.json** (E13) — Adversarial brittleness test
-- **results/e14_baseline_stability_*.json** (E14) — Baseline stability check
-
-### Key Findings Summary
-
-**Original Phases (March 30 - April 4):**
-- **Total tests:** 592 live API calls
-- **Configurations tested:** 10 unique ensemble configurations + 3 baselines
-- **Equal-capability ensembles:** 0 of 6 beat standalone Opus overall
-- **Mean penalty:** -0.5 to -2.2 points for equal-capability architectures
-
-**Validation Experiments (April 11-14):**
-- **Total tests:** 3,000+ additional API calls across 9 experiments
-- **Investment:** $165.36
-- **Success rate:** 9/11 complete (E2 failed due to AWS API, E9/E11 dropped)
-
-**Updated Findings:**
-- **Weak proposer ensembles:** +5.9 to +13.8 points improvement ✅
-- **AlpacaEval gains:** +0.7 to +1.4 across all ensembles ✅
-- **Strong-judge vote:** 94.5 (matches baseline) ✅
-- **Adversarial brittleness:** HYPOTHESIS REJECTED (ensembles NOT brittle) ✅
-- **Judge bias:** No Opus self-bias found (r=0.98 correlation) ✅
-- **Baseline stability:** Within 3% over 2 weeks ✅
-- **Smart routing:** 3× cheaper than Opus (87.0 vs 92.3), viable at scale ⚠️
-- **Cost-matched:** Best-of-N beats ensemble ❌
-- **Best ensemble:** 3×Nova → Sonnet (92.4 @ $0.022, +13.8 gain)
-
-### For Reproducibility
-All test configurations, prompts, and analysis code are available in the repository. To reproduce:
-
-1. Install dependencies: `pip install -r requirements.txt`
-2. Set bearer token: `export AWS_BEARER_TOKEN_BEDROCK="..."`
-3. Run any phase: `python run_premium_tier.py`
-4. Analyze results: `python benchmark/analyze_results.py results/your_results.json`
-
-**Questions or need clarifications?** 
+**Questions or need clarifications?**
 
 - Full experimental details: [DETAILED_METHODOLOGY.md](DETAILED_METHODOLOGY.md)
 - Validation experiment findings: [EXPERIMENTS_RESULTS.md](EXPERIMENTS_RESULTS.md)
