@@ -35,6 +35,8 @@ The original phase 1–3 tests (592 tests) showed all premium-tier ensembles und
 
 ---
 
+Before I explain why, here's what MoA actually is.
+
 ## What is Mixture-of-Agents?
 
 Mixture-of-Agents (MoA) is a layered LLM architecture where multiple models collaborate on a final response. The key insight from [Wang et al. (2024)](https://arxiv.org/abs/2406.04692): weaker models, when given access to each other's outputs, can collectively produce responses that rival or exceed single strong models.
@@ -57,9 +59,9 @@ User Prompt
          Final Response
 ```
 
-The hypothesis is appealing: diverse models catch each other's errors, the aggregator synthesizes insights no single model generates alone, and you can put cheap models in the proposer layer to keep costs down.
+The hypothesis: cheap models in, quality response out. Use budget proposers, let a strong aggregator synthesize their outputs. Saves money, supposedly improves quality.
 
-The data is more complicated.
+It's not that simple.
 
 ---
 
@@ -85,23 +87,23 @@ Before results, some context on what we're working with. Current Bedrock pricing
 | Claude Sonnet 3.5 | $0.003 | $0.015 | 200K |
 | Claude Opus 4 | $0.015 | $0.075 | 200K |
 
-There's a 400× price difference between Nova Micro and Opus. The economic question MoA is supposed to answer: can smart ensembling deliver Opus-quality results at Nova-level costs? The short answer: not quite. But there's a genuinely useful middle ground, and I'll show you where it is.
+There's a 400× price difference between Nova Micro and Opus. The question MoA is supposed to answer: can smart ensembling deliver Opus-quality results at Nova-level costs? Not quite. But there's a genuinely useful middle ground.
 
-One thing the economics don't make obvious: MoA costs aren't just `N × single_model_cost`. The aggregator processes all proposer outputs as input context. With three proposers generating ~1,500 tokens total, the aggregator's input alone is ~1,700 tokens before adding the original prompt. A 4-model ensemble (3 proposers + 1 aggregator) costs 5–6× a single call, not 4×. Deep ensembles (3+ layers) compound this fast.
+One non-obvious cost: MoA isn't `N × single_model_cost`. The aggregator processes all proposer outputs as input context. With three proposers generating ~1,500 tokens total, the aggregator's input alone is ~1,700 tokens before adding the original prompt. A 4-model ensemble (3 proposers + 1 aggregator) costs 5–6× a single call, not 4×. Deep ensembles (3+ layers) compound this fast.
 
 ---
 
 ## What I Tested
 
-**Phase 1 (54 prompts × 4 configs = 216 tests):** Premium-tier configurations — high-end-reasoning (Opus + Sonnet + Haiku proposers, Opus aggregator), mixed-capability, same-model-premium (3× Opus → Opus), and standalone Opus baseline. Automated scoring by Opus on correctness (40%), completeness (30%), and clarity (30%).
+**Phase 1 (54 prompts × 4 configs = 216 tests):** Start with what the MoA paper would predict should work — premium models, diverse proposers, strong aggregator. High-end-reasoning (Opus + Sonnet + Haiku proposers, Opus aggregator), mixed-capability, same-model-premium (3× Opus → Opus), and standalone Opus baseline. Automated scoring by Opus on correctness (40%), completeness (30%), and clarity (30%).
 
-**Phase 2 (80 questions × 2 turns = 160 tests):** MT-Bench multi-turn evaluation, same configurations.
+**Phase 2 (80 questions × 2 turns = 160 tests):** MT-Bench multi-turn evaluation, same configurations as Phase 1. I wanted to see if ensembles held up across conversational turns, not just single-shot prompts.
 
-**Phase 3 (54 prompts × 4 configs = 216 tests):** Persona diversity testing — same model with different system prompts (critical analyst, creative generalist, domain expert).
+**Phase 3 (54 prompts × 4 configs = 216 tests):** Phase 1 and 2 showed model diversity wasn't helping. My next hypothesis: prompt-level diversity through personas. Same model (Opus), three distinct system prompts — critical analyst, creative generalist, domain expert. More response diversity than different models produce, in theory.
 
-**Validation experiments (April 11–14, $165.36):** 9 completed experiments targeting specific hypotheses — judge bias, capability gap effects, AlpacaEval, adversarial brittleness, aggregator tier impact.
+**Validation experiments (April 11–14, $165.36):** Phase 1–3 left open questions. Nine targeted experiments: judge bias, capability gap effects, AlpacaEval, adversarial brittleness, aggregator tier impact. This is where the picture changed.
 
-Benchmark prompts covered 8 categories: reasoning, code, creative, factual, analysis, multi-step, adversarial, and edge cases. Full methodology, prompt suite, and raw results are in the [code repository](https://github.com/nicklawson/ensemble-moa-bedrock-guide). For complete statistical methods and reproducibility details, see `DETAILED_METHODOLOGY.md`.
+Benchmark prompts covered 8 categories: reasoning, code, creative, factual, analysis, multi-step, adversarial, and edge cases. Full methodology, prompt suite, and raw results are in the [code repository](https://github.com/ccrngd1/ProtoGensis). For complete statistical methods and reproducibility details, see `DETAILED_METHODOLOGY.md`.
 
 All scoring used two-sample t-tests (Welch's), p-values, and Cohen's d effect sizes. Nothing is claimed significant without p < 0.05.
 
@@ -486,10 +488,10 @@ The $165.36 I spent running these experiments is probably the most useful money 
 
 Four things that will bite you if you try to replicate this:
 
-- **Model availability changes:** Nova Premier returned 404s mid-test because AWS marked it "legacy" between framework development and execution. Always verify model availability before a long run.
-- **Bearer token expiration:** AWS tokens expire after ~2 hours. Phase 1 took 8 hours and crashed at 135 prompts. Break long runs into <1-hour batches.
-- **Bedrock rate limiting:** 10 concurrent requests per account by default. A 3-proposer ensemble fires 3 simultaneous calls. Implement a semaphore.
-- **Context window accumulation:** 3-layer ensembles with verbose proposers pushed the aggregator toward context limits. Reduce max_tokens for proposers in deep ensembles.
+- **Model availability changes:** Nova Premier was in the original high-end-reasoning recipe. The first Phase 1 run crashed after ~10 prompts — AWS had quietly marked it legacy between framework development and test execution. Replaced it with Haiku, added a pre-run availability check, moved on. Verify your model list immediately before any long run.
+- **Bearer token expiration:** AWS bearer tokens expire after ~2 hours. Phase 1 took 8 hours and crashed at 135 prompts with an auth error. Fixed by breaking runs into sub-hour batches with a token refresh between them — the framework handles this automatically now.
+- **Bedrock rate limiting:** Bedrock enforces 10 concurrent requests per account. A 3-proposer ensemble fires 3 simultaneous calls — obvious in retrospect, but intermittent ThrottlingExceptions mid-run made it less obvious at the time. Added `asyncio.Semaphore(10)`, zero throttling errors after.
+- **Context window accumulation:** 3-layer ensembles accumulate context fast — Layer 3 sees the original prompt plus everything every proposer and refiner generated. One MT-Bench question triggered a context warning when verbose proposers pushed Layer 3 input past 3,000 tokens. Fixed by capping proposer `max_tokens` at 1,024 for deep ensembles.
 
 Full details in `DETAILED_METHODOLOGY.md` in the repository.
 
@@ -517,7 +519,7 @@ Use ensembles strategically, not as a default architecture upgrade. The 400× pr
 
 Full implementation with benchmark results, raw data, and reproducibility scripts:
 
-**[github.com/nicklawson/ensemble-moa-bedrock-guide](https://github.com/nicklawson/ensemble-moa-bedrock-guide)**
+**[github.com/ccrngd1/ProtoGensis](https://github.com/ccrngd1/ProtoGensis)**
 
 Key files:
 - `moa/core.py` — Async MoA pipeline
