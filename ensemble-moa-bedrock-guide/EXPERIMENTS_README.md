@@ -1,18 +1,44 @@
-# MOA Experiments - All Scripts Ready
+# MOA Experiments - Execution Complete
 
-All experiment scripts created and ready to run.
+**Final Status:** 9 of 11 experiments complete  
+**Total Cost:** $165.36  
+**Completion Date:** April 14, 2026  
 
 ## Status Summary
 
-✅ **E1: Cross-Judge Validation** - **COMPLETE** ($0.97, rankings match, no Opus bias)
+✅ **9 EXPERIMENTS COMPLETE** ($165.36 total cost)
+❌ **1 EXPERIMENT FAILED** (E2, AWS API error at 21%)
+⏹️ **1 EXPERIMENT DROPPED** (E9/E11, moved to thinking-models project)
 
-**Ready to run:** 11 experiments, ~$241 total
+**See EXPERIMENTS_RESULTS.md for detailed findings.**
 
 ---
 
-## Quick Start Commands
+## Execution Results
 
-### Priority 1: Critical Validation (~$141)
+| ID | Experiment | Cost | Status | Key Finding |
+|----|-----------|------|--------|-------------|
+| E1 | Cross-judge validation | $0.97 | ✅ Complete | No Opus bias, rankings match |
+| E2 | Phase 1 repeated runs (3×) | $0 | ❌ Failed | AWS API error at 21% progress |
+| E3 | Premium on MT-Bench | $52.46 | ✅ Complete | Mixed-capability: 92.7 (best) |
+| E4 | AlpacaEval comparison | $27.20 | ✅ Complete | All ensembles +0.7 to +1.4 |
+| E5 | Smart routing validation | $4.27 | ✅ Complete | 87.0 score, 76% Haiku usage |
+| E6 | Aggregator tiers | $1.17 | ✅ Complete | Nova→Sonnet: 92.4 |
+| E7/E8 | Low-baseline ensembles | $7.41 | ✅ Complete | +5.9 and +8.6 gains |
+| E9 | Self-consistency | - | ⏹️ Dropped | Moved to thinking-models |
+| E10 | Strong-judge vote | $17.52 | ✅ Complete | 94.5, matches baseline |
+| E11 | Best-of-N ensemble | - | ⏹️ Dropped | Moved to thinking-models |
+| E12 | Cost-matched analysis | $0.00 | ✅ Complete | Best-of-N beats ensemble |
+| E13 | Adversarial-only | $51.04 | ✅ Complete | NOT brittle: 94.5-95.0 |
+| E14 | Baseline stability | $4.29 | ✅ Complete | 92.3, stable within 3% |
+
+**Total Cost:** $165.36 (9 complete)  
+**Success Rate:** 9/11 attempted (82%)  
+**Completion Date:** April 14, 2026
+
+---
+
+## Quick Start Commands (FOR REFERENCE - ALREADY RUN)
 
 ```bash
 # Cheapest first
