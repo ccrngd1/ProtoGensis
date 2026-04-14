@@ -539,7 +539,7 @@ In this case:
 
 The aggregation step added negative value by legitimizing hallucinations.
 
-**Full example with judge justifications available in `WHY_ENSEMBLES_FAIL.md`.**
+**Full example with judge justifications available in the git history (`WHY_ENSEMBLES_FAIL.md`).**
 
 ### 2. Limited Platform Diversity
 
@@ -1550,10 +1550,7 @@ The full implementation with all benchmark results is available in this reposito
 - `results/premium_tier_results.json` — Phase 1 complete test data
 - `results/mtbench_results.json` — Phase 2 multi-turn test data
 - `results/persona_experiment.json` — Phase 3 persona diversity test data
-- `WHY_ENSEMBLES_FAIL.md` — Detailed explanation with the "smoking gun" GDP example
 - `DETAILED_METHODOLOGY.md` — Complete experimental methodology, prompt examples, code walkthrough
-- `PREMIUM_TIER_RESULTS.md` — Phase 1 detailed findings
-- `MTBENCH_RESULTS.md` — Phase 2 detailed findings
 
 ### Running Your Own Tests
 
@@ -1595,11 +1592,6 @@ For editors and researchers, here's the complete index of deliverables:
 - **README.md** — Updated with empirical findings, replaces speculative claims with measured data
 - **BLOG.md** (this file) — Complete practitioner's guide with detailed methodology
 - **DETAILED_METHODOLOGY.md** — Full experimental record with code examples, prompt design rationale, statistical methods
-
-### Analysis Documents
-- **WHY_ENSEMBLES_FAIL.md** — Deep dive on the aggregation trap with GDP of Lesotho example
-- **PREMIUM_TIER_RESULTS.md** — Phase 1 detailed findings
-- **MTBENCH_RESULTS.md** — Phase 2 multi-turn conversation findings
 
 ### Code Implementation
 - **moa/core.py** (457 lines) — Async MoA pipeline, layer execution, context building
@@ -1673,7 +1665,6 @@ All test configurations, prompts, and analysis code are available in the reposit
 
 - Full experimental details: [DETAILED_METHODOLOGY.md](DETAILED_METHODOLOGY.md)
 - Validation experiment findings: [EXPERIMENTS_RESULTS.md](EXPERIMENTS_RESULTS.md)
-- Quick reference: [RESULTS_AT_A_GLANCE.md](RESULTS_AT_A_GLANCE.md)
 - Experiment execution notes: [EXPERIMENTS_README.md](EXPERIMENTS_README.md)
 
 ---
