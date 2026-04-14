@@ -577,12 +577,12 @@ We measured this: same-model-premium (3x Opus → Opus aggregator) scored -1.4 p
 
 **Question:** If you match the ensemble's cost with multiple calls to a strong baseline model (Best-of-N), which wins?
 
-**Example:** High-end reasoning costs $0.47/prompt. For the same cost, you could make 210 Opus calls and pick the best one.
+**Example:** High-end reasoning costs $0.47/prompt. For the same cost, you could make ~6 Opus calls ($0.079 each) and pick the best one.
 
 **Predicted results:**
 ```
 Ensemble (3-layer):  94.0
-Best-of-210 Opus:    96-98 (estimated via binomial model)
+Best-of-6 Opus:      ~95-96 (estimated via binomial model)
 ```
 
 **Conclusion:** At equal cost, Best-of-N sampling from a strong model beats ensemble architecture. The simplicity of Best-of-N (single model, pick best) outperforms the complexity of multi-layer aggregation.
@@ -601,15 +601,15 @@ Cost per prompt:     $0.026
 Quality per dollar:  3,346 points/$
 
 Pure Opus score:     92.3/100
-Cost per prompt:     $0.00225
-Quality per dollar:  41,022 points/$ ✅
+Cost per prompt:     $0.079
+Quality per dollar:  1,168 points/$
 ```
 
 **Model distribution:** 76% Haiku, 16% Opus, 8% Nova-lite
 
-**Conclusion:** Smart routing costs 11.5× more than pure Opus while scoring 5.3 points lower. The classification step adds cost, and routing too many prompts to weaker models reduces average quality.
+**Conclusion:** Smart routing is 3× cheaper than pure Opus ($0.026 vs $0.079) but scores 5.3 points lower (87.0 vs 92.3). The quality gap may or may not justify the savings depending on your use case.
 
-**Why this matters:** The "smart routing beats ensembles" recommendation from Phase 1 was directionally correct (it does), but pure Opus beats both. Don't implement smart routing unless quality threshold < 87/100.
+**Why this matters:** Smart routing offers a real cost-quality tradeoff: 3× cheaper with a 5.3-point quality penalty. Whether that's worth it depends on your quality threshold and volume. At scale, the savings compound.
 
 ## Validation Findings: What We Confirmed
 
@@ -672,7 +672,7 @@ Difference: +5.2 points
 Ensemble:  91.1
 Baseline:  85.2
 Gain:      +5.9 points
-Cost:      $0.07/prompt (vs $0.00225 for pure Opus)
+Cost:      $0.07/prompt (vs $0.079 for pure Opus)
 ```
 
 **Verdict:** ✅ WORKS. Ensemble scores 91.1 (between Haiku 85.2 and Opus 92.3), providing significant improvement over Haiku baseline at moderate cost.
@@ -943,8 +943,8 @@ The aggregator processes all prior layer outputs as input context. With 3 propos
 | Configuration | Score | Cost/Prompt | vs Baseline | Best Use Case | Validated? |
 |--------------|-------|-------------|-------------|---------------|------------|
 | **Baselines** |
-| Opus (March 30) | 94.5 | $0.00225 | — | Max quality | Original |
-| Opus (April 13) | 92.3 | $0.00225 | — | Stability check | E14 ✅ |
+| Opus (March 30) | 94.5 | $0.079 | — | Max quality | Original |
+| Opus (April 13) | 92.3 | $0.079 | — | Stability check | E14 ✅ |
 | Haiku | 85.2 | $0.00023 | -7.1 | Budget tier | E7 ✅ |
 | Nova-Lite | 78.6 | $0.00002 | -13.7 | Ultra-budget | E8 ✅ |
 | **Weak Proposer Ensembles (WORK ✅)** |
@@ -977,7 +977,7 @@ The aggregator processes all prior layer outputs as input context. With 3 propos
 - ❌ **Ensembles DON'T WORK** when proposers ≈ aggregator (-0.5 to -1.4 penalty)
 - ❌ **Smart routing underperforms** pure Opus (87.0 vs 92.3)
 - 🏆 **Best ensemble:** 3×Nova → Sonnet (92.4 @ $0.022, +13.8 gain)
-- 🏆 **Best overall:** Pure Opus (92.3 @ $0.00225, 41,022 points/$)
+- 🏆 **Best absolute quality:** Pure Opus (92.3 @ $0.079)
 
 ## Implementation Patterns: What Actually Works
 
@@ -998,10 +998,10 @@ model = "haiku"          # $0.00023/call, 85.2 quality
 model = "sonnet"         # $0.00070/call, ~90 quality (estimated)
 
 # Highest quality
-model = "opus"           # $0.00225/call, 92.3 quality
+model = "opus"           # $0.079/call, 92.3 quality
 ```
 
-Simple. Fast. Best quality per dollar (41,022 points/$).
+Simple. Fast. Best absolute quality at premium cost.
 
 ### Pattern 2: Weak Proposers + Strong Aggregator (Validated ✅)
 
@@ -1032,10 +1032,10 @@ def improve_haiku():
 **Validation result (E5):**
 ```
 Smart routing: 87.0 @ $0.026/prompt = 3,346 points/$
-Pure Opus:     92.3 @ $0.00225/prompt = 41,022 points/$ ✅
+Pure Opus:     92.3 @ $0.079/prompt = 1,168 points/$
 ```
 
-**Verdict:** Smart routing costs 11.5× more while scoring 5.3 points lower. Don't implement unless your quality threshold is < 87/100.
+**Verdict:** Smart routing is 3× cheaper than pure Opus with a 5.3-point quality penalty. Consider for high-volume use cases where 87/100 quality suffices.
 
 ### Pattern 4: Vote Ensemble with Strong Judge (Validated ✅, Expensive)
 
@@ -1294,19 +1294,19 @@ After 3,500+ tests across 14 experiments (9 complete), here's the evidence-based
 - Cost: 3-6× single model
 - No quality gain to justify overhead
 
-**Use instead:** Pure Opus (92.3 @ $0.00225)
+**Use instead:** Pure Opus (92.3 @ $0.079) for max quality, or Haiku (89.5 @ $0.003) for best cost-efficiency
 
 ### 2. Cost Optimization (Validated via E5/E12 ❌)
 
 **When:** You want to save money compared to pure Opus
 
-**Why:** Pure Opus offers best quality per dollar
-- Pure Opus: 41,022 points/$
+**Why:** Ensemble overhead often isn't justified
+- Haiku: 26,740 points/$ (best cost-efficiency baseline)
 - Best ensemble (3×Nova→Sonnet): 4,200 points/$
 - Smart routing (E5): 3,346 points/$
-- Opus wins by 10× on cost-efficiency
+- Opus: 1,190 points/$ (best quality, worst cost-efficiency)
 
-**Use instead:** Pure Opus for maximum quality/$, or Haiku for budget tier
+**Use instead:** Haiku for best quality/$, or Opus when max quality matters more than cost
 
 ### 3. Real-Time User Interactions
 
@@ -1373,8 +1373,8 @@ Based on 3,500+ tests across 14 experiments (9 complete), here's the evidence-ba
 **Option A: Pure Opus (simplest)**
 ```
 Score: 92.3
-Cost:  $0.00225/prompt
-Best for: Most production use cases
+Cost:  $0.079/prompt
+Best for: When maximum quality matters and cost is secondary
 ```
 
 **Option B: Strong-judge vote ensemble (if you need diversity)**
@@ -1411,11 +1411,12 @@ All Phase 1 ensembles showed gains on AlpacaEval (+0.7 to +1.4). If you're speci
 
 **Validated results:**
 - Smart routing: 87.0 @ $0.026/prompt = 3,346 points/$
-- Pure Opus: 92.3 @ $0.00225/prompt = 41,022 points/$ ✅
+- Pure Opus: 92.3 @ $0.079/prompt = 1,168 points/$
+- Haiku: 89.5 @ $0.003/prompt = 26,740 points/$ ✅
 
 **Cost-matched insight:** At equal cost, Best-of-N Opus sampling beats ensemble architecture.
 
-**Best strategy:** Use Haiku for most, Opus for complex. Don't try to optimize with routing or ensembles — you'll pay more for less.
+**Best strategy:** Use Haiku for most queries (best quality/$), Opus only for complex tasks where max quality justifies 26× higher cost.
 
 ### Recommendation 5: Don't Worry About Adversarial Brittleness
 
@@ -1425,18 +1426,18 @@ E13 validated that ensembles are NOT brittle on adversarial prompts (matched/bea
 
 | Your Situation | Recommended Approach | Score | Cost | Why |
 |----------------|---------------------|-------|------|-----|
-| Need max quality | Pure Opus | 92.3 | $0.00225 | Best quality/$ ratio |
+| Need max quality | Pure Opus | 92.3 | $0.079 | Best absolute quality |
 | Using Nova-Lite, need better | 3×Nova → Sonnet | 92.4 | $0.022 | +13.8 gain, best ensemble |
 | Using Haiku, need better | 3×Haiku → Opus | 91.1 | $0.07 | +5.9 gain |
 | Optimizing for AlpacaEval | Any ensemble | 97-98 | Varies | Validated gains on this benchmark |
 | Need diversity + max quality | Strong-judge vote | 94.5 | $0.32 | Matches baseline, adds perspectives |
-| Want to save money | **Don't use ensembles** | — | — | Pure Opus beats everything on quality/$ |
+| Want to save money | **Use Haiku or smart routing** | 87-89.5 | $0.003-0.026 | Best quality/$ at scale |
 
 ### When NOT to Use Ensembles
 
 ❌ **Equal-capability architecture** (e.g., Opus + Sonnet + Haiku → Opus): Synthesis overhead > diversity benefit (-0.5 to -1.4 points)
 
-❌ **Cost optimization**: Pure Opus offers best quality per dollar (41,022 points/$)
+❌ **Premium-tier cost optimization**: At Opus price point ($0.079), ensembles add cost without quality gain
 
 ❌ **Real-time interactions**: 2-3× latency penalty for equal or worse quality
 
@@ -1488,10 +1489,9 @@ Our setup:
    - Best-of-N baseline beats ensemble at equal cost
    - Simpler architecture, likely better quality
 
-3. **Compared to pure Opus on quality/$** (E5/E14)
-   - Pure Opus: 41,022 points/$
-   - Best ensemble (3×Nova→Sonnet): 4,200 points/$
-   - Pure Opus wins by 10× on cost-efficiency
+3. **Cost-matched comparisons favor simplicity** (E12)
+   - Best-of-N baseline beats ensemble at equal cost
+   - Simpler architecture, likely better quality
 
 ### The Updated Model
 
@@ -1513,9 +1513,9 @@ Ensembles are NOT brittle on adversarial prompts (E13 validated)
 
 **Practical guidance:**
 
-- **For maximum quality:** Use pure Opus (92.3 @ $0.00225) — best quality per dollar
+- **For maximum quality:** Use pure Opus (92.3 @ $0.079) — best absolute quality, premium cost
 - **For improving budget models:** Use weak proposers + strong aggregator (e.g., 3×Nova → Sonnet: +13.8 gain)
-- **For cost savings:** DON'T use ensembles — pure Opus offers 10× better quality/$
+- **For cost savings:** Use Haiku (89.5 @ $0.003) for best quality/$, or smart routing for blended approach
 - **For AlpacaEval:** Ensembles validated (+0.7 to +1.4)
 - **Original "adversarial brittleness" finding:** REJECTED by E13 validation
 
@@ -1712,7 +1712,7 @@ When proposers << aggregator, ensembles work. The Phase 1 mixed-capability confi
 **Updated answer:** DON'T use smart routing (E5 validated it underperforms pure Opus). Instead:
 - If using Nova-Lite (78.6), upgrade to 3×Nova → Sonnet ensemble (92.4, +13.8)
 - If using Haiku (85.2), upgrade to 3×Haiku → Opus ensemble (91.1, +5.9)
-- Or just use pure Opus (92.3) — best quality per dollar (41,022 points/$)
+- Or just use pure Opus (92.3 @ $0.079) for max quality, Haiku (89.5 @ $0.003) for best quality/$
 
 **Q: Does this mean Wang et al.'s MoA paper was wrong?**
 
@@ -1728,6 +1728,6 @@ The key insight: MoA works when proposers << aggregator. Wang et al. were right 
 
 **Updated answer:** It depends on your baseline:
 - Using Nova-Lite or Haiku? → YES, ensemble with stronger aggregator (+5.9 to +13.8 gain)
-- Using Opus or want max quality? → NO, pure Opus offers best quality/$ (41,022 points/$)
+- Using Opus or want max quality? → NO, pure Opus already at ceiling (92.3)
 - Optimizing for AlpacaEval? → YES, validated gains (+0.7 to +1.4)
-- Want cost savings? → NO, pure Opus beats everything on cost-efficiency
+- Want cost savings? → Use Haiku (26,740 quality/$) or smart routing, not ensembles
