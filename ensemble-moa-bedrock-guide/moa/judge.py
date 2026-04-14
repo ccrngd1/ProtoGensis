@@ -128,19 +128,116 @@ SUMMARY: [1-2 sentence overall assessment]
         return base_prompt
 
     def _parse_judge_response(self, response: str) -> JudgeScore:
-        """Parse judge model output into structured score."""
+        """Parse judge model output into structured score.
 
-        # Extract scores using regex
-        correctness_match = re.search(r'CORRECTNESS:\s*(\d+(?:\.\d+)?)/40', response)
-        completeness_match = re.search(r'COMPLETENESS:\s*(\d+(?:\.\d+)?)/30', response)
-        clarity_match = re.search(r'CLARITY:\s*(\d+(?:\.\d+)?)/30', response)
-        total_match = re.search(r'TOTAL:\s*(\d+(?:\.\d+)?)/100', response)
+        Raises:
+            ValueError: If required scores cannot be parsed or are out of valid range
+        """
+
+        # Try multiple patterns for robustness (case-insensitive, flexible spacing)
+        # Note: Allow optional negative sign to parse negative scores (will validate range after)
+        correctness_patterns = [
+            r'CORRECTNESS:\s*(-?\d+(?:\.\d+)?)\s*/\s*40',  # Standard format
+            r'correctness:\s*(-?\d+(?:\.\d+)?)\s*/\s*40',  # Lowercase
+            r'CORRECTNESS\s*[:=-]\s*(-?\d+(?:\.\d+)?)',    # Flexible separator
+        ]
+        completeness_patterns = [
+            r'COMPLETENESS:\s*(-?\d+(?:\.\d+)?)\s*/\s*30',
+            r'completeness:\s*(-?\d+(?:\.\d+)?)\s*/\s*30',
+            r'COMPLETENESS\s*[:=-]\s*(-?\d+(?:\.\d+)?)',
+        ]
+        clarity_patterns = [
+            r'CLARITY:\s*(-?\d+(?:\.\d+)?)\s*/\s*30',
+            r'clarity:\s*(-?\d+(?:\.\d+)?)\s*/\s*30',
+            r'CLARITY\s*[:=-]\s*(-?\d+(?:\.\d+)?)',
+        ]
+        total_patterns = [
+            r'TOTAL:\s*(-?\d+(?:\.\d+)?)\s*/\s*100',
+            r'total:\s*(-?\d+(?:\.\d+)?)\s*/\s*100',
+            r'TOTAL\s*[:=-]\s*(-?\d+(?:\.\d+)?)',
+        ]
+
+        # Extract scores with fallback patterns
+        correctness_match = None
+        for pattern in correctness_patterns:
+            correctness_match = re.search(pattern, response, re.IGNORECASE)
+            if correctness_match:
+                break
+
+        completeness_match = None
+        for pattern in completeness_patterns:
+            completeness_match = re.search(pattern, response, re.IGNORECASE)
+            if completeness_match:
+                break
+
+        clarity_match = None
+        for pattern in clarity_patterns:
+            clarity_match = re.search(pattern, response, re.IGNORECASE)
+            if clarity_match:
+                break
+
+        # Validate all required fields are present
+        if not correctness_match:
+            raise ValueError(
+                f"Failed to parse CORRECTNESS from judge response. "
+                f"Response preview:\n{response[:300]}"
+            )
+        if not completeness_match:
+            raise ValueError(
+                f"Failed to parse COMPLETENESS from judge response. "
+                f"Response preview:\n{response[:300]}"
+            )
+        if not clarity_match:
+            raise ValueError(
+                f"Failed to parse CLARITY from judge response. "
+                f"Response preview:\n{response[:300]}"
+            )
+
+        # Parse numeric values
+        correctness = float(correctness_match.group(1))
+        completeness = float(completeness_match.group(1))
+        clarity = float(clarity_match.group(1))
+
+        # Validate score ranges
+        if not (0 <= correctness <= 40):
+            raise ValueError(
+                f"CORRECTNESS score {correctness} out of valid range [0, 40]. "
+                f"Response preview:\n{response[:300]}"
+            )
+        if not (0 <= completeness <= 30):
+            raise ValueError(
+                f"COMPLETENESS score {completeness} out of valid range [0, 30]. "
+                f"Response preview:\n{response[:300]}"
+            )
+        if not (0 <= clarity <= 30):
+            raise ValueError(
+                f"CLARITY score {clarity} out of valid range [0, 30]. "
+                f"Response preview:\n{response[:300]}"
+            )
+
+        # Parse total (optional, can be calculated)
+        total_match = None
+        for pattern in total_patterns:
+            total_match = re.search(pattern, response, re.IGNORECASE)
+            if total_match:
+                break
+
+        if total_match:
+            total = float(total_match.group(1))
+            # Validate total is reasonable (within ±2 of sum for rounding)
+            expected_total = correctness + completeness + clarity
+            if abs(total - expected_total) > 2:
+                raise ValueError(
+                    f"TOTAL score {total} doesn't match sum of components "
+                    f"({expected_total:.1f}). Difference: {abs(total - expected_total):.1f}. "
+                    f"Response preview:\n{response[:300]}"
+                )
+        else:
+            # Calculate from components if not provided
+            total = correctness + completeness + clarity
+
+        # Extract summary (optional, provide default if missing)
         summary_match = re.search(r'SUMMARY:\s*(.+?)(?:\n|$)', response, re.DOTALL)
-
-        correctness = float(correctness_match.group(1)) if correctness_match else 0.0
-        completeness = float(completeness_match.group(1)) if completeness_match else 0.0
-        clarity = float(clarity_match.group(1)) if clarity_match else 0.0
-        total = float(total_match.group(1)) if total_match else correctness + completeness + clarity
         summary = summary_match.group(1).strip() if summary_match else "No summary provided"
 
         return JudgeScore(
