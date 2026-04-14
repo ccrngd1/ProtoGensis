@@ -35,11 +35,9 @@ The original phase 1–3 tests (592 tests) showed all premium-tier ensembles und
 
 ---
 
-Before I explain why, here's what MoA actually is.
-
 ## What is Mixture-of-Agents?
 
-Mixture-of-Agents (MoA) is a layered LLM architecture where multiple models collaborate on a final response. The key insight from [Wang et al. (2024)](https://arxiv.org/abs/2406.04692): weaker models, when given access to each other's outputs, can collectively produce responses that rival or exceed single strong models.
+The premise sounds reasonable: run a few cheap models, have a strong one synthesize their outputs, get better-than-single-model quality for less money. That's Mixture-of-Agents (MoA). The key insight from [Wang et al. (2024)](https://arxiv.org/abs/2406.04692): weaker models, when given access to each other's outputs, can collectively produce responses that rival or exceed single strong models.
 
 The architecture works like this:
 
@@ -247,7 +245,7 @@ When proposers are significantly below aggregator capability, the aggregator can
 
 **E6: Aggregator Tier Is Everything**
 
-Same proposers (3× Nova-Lite), different aggregators:
+I kept tweaking the proposer layer. That was the wrong variable. Same proposers (3× Nova-Lite), different aggregators:
 
 ```
 3×Nova → Sonnet: 92.4  (+13.8 vs Nova baseline)
@@ -274,7 +272,7 @@ This aligns with Wang et al. (2024). Standardized instruction-following benchmar
 
 ### Success Case 3: Strong-Judge Vote Ensemble (E10)
 
-Generate multiple candidates, let a strong judge pick the best:
+This one I wasn't sure would work. Generate multiple candidates, let a strong judge pick the best:
 
 ```
 5 proposers (opus-thinking, opus-fast, sonnet-thinking, haiku, nova-pro)
@@ -499,7 +497,7 @@ Full details in `DETAILED_METHODOLOGY.md` in the repository.
 
 ## The Verdict
 
-Wang et al. (2024) showed MoA beating individual models. Their setup used GPT-4, Claude, Gemini: cross-organizational diversity, different architectures, genuinely varied failure modes, and a strong aggregator (GPT-4) above all proposers. Our E4 result confirmed their AlpacaEval finding: those gains are real on standardized benchmarks.
+Here's where I landed: the Wang et al. (2024) results are real, but they depend on conditions that AWS Bedrock makes harder to achieve. Their setup used GPT-4, Claude, Gemini: cross-organizational diversity, different architectures, genuinely varied failure modes, and a strong aggregator (GPT-4) above all proposers. Our E4 result confirmed their AlpacaEval finding: those gains are real on standardized benchmarks.
 
 The AWS Bedrock constraint is that Opus 4.6 is the ceiling. When the strongest available model is also your aggregator, equal-capability architectures don't work. But create the capability gap deliberately. Use weak proposers and a strong aggregator. The gains are substantial: +5.9 to +13.8 points over proposer baselines.
 
