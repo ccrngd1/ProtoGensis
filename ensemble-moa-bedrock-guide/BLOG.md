@@ -949,7 +949,7 @@ The aggregator processes all prior layer outputs as input context. With 3 propos
 | **Baselines** |
 | Opus (March 30) | 94.5 | $0.079 | — | Max quality | Original |
 | Opus (April 13) | 92.3 | $0.079 | — | Stability check | E14 ✅ |
-| Haiku | 85.2 | $0.00023 | -7.1 | Budget tier | E7 ✅ |
+| Haiku | 85.2 | $0.003 | -7.1 | Budget tier | E7 ✅ |
 | Nova-Lite | 78.6 | $0.00002 | -13.7 | Ultra-budget | E8 ✅ |
 | **Weak Proposer Ensembles (WORK ✅)** |
 | 3×Nova → Sonnet | 92.4 | $0.022 | +13.8 | **Best ensemble** | E6 ✅ |
@@ -1435,7 +1435,7 @@ E13 validated that ensembles are NOT brittle on adversarial prompts (matched/bea
 | Using Haiku, need better | 3×Haiku → Opus | 91.1 | $0.07 | +5.9 gain |
 | Optimizing for AlpacaEval | Any ensemble | 97-98 | Varies | Validated gains on this benchmark |
 | Need diversity + max quality | Strong-judge vote | 94.5 | $0.32 | Matches baseline, adds perspectives |
-| Want to save money | **Use Haiku or smart routing** | 87-89.5 | $0.003-0.026 | Best quality/$ at scale |
+| Want to save money | **Use Haiku or smart routing** | 85.2-87.0 | $0.003-0.026 | Best quality/$ at scale |
 
 ### When NOT to Use Ensembles
 

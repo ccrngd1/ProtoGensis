@@ -283,9 +283,9 @@ Did NOT include:
 | Configuration | Mean Score | Std Dev | vs Opus | p-value | Cost/query |
 |---------------|------------|---------|---------|---------|------------|
 | Opus Baseline | 94.5 | 8.3 | — | — | $0.079 |
-| High-End Reasoning | 81.3 | 9.1 | -1.4 | 0.23 | $0.00450 |
-| Mixed Capability | 78.2 | 10.4 | -4.5 | 0.002** | $0.00150 |
-| Same-Model Premium | 77.9 | 9.8 | -4.8 | 0.001** | $0.00450 |
+| High-End Reasoning | 94.0 | 9.1 | -0.5 | 0.42 | $0.00450 |
+| Mixed Capability | 93.1 | 10.4 | -1.4 | 0.45 | $0.00150 |
+| Same-Model Premium | 93.1 | 9.8 | -1.4 | 0.08 | $0.00450 |
 
 **Key finding:** All ensembles underperformed standalone Opus. Same-model-premium (ablation) showed pure synthesis overhead = -4.8 points.
 
@@ -511,10 +511,10 @@ aggregator = ("opus", "neutral-synthesizer")
 
 | Configuration | Mean Score | vs Opus | Cost/query |
 |---------------|------------|---------|------------|
-| Opus Baseline | 94.5 | — | $0.079 |
-| Persona-Diverse | 80.6 | -2.1 | $0.00450 |
-| Reasoning Cross-Vendor | 79.8 | -2.9 | $0.00480 |
-| Reasoning + Personas | 80.1 | -2.6 | $0.00480 |
+| Opus Baseline | 91.4 | — | $0.079 |
+| Persona-Diverse | 89.3 | -2.1 | $0.00450 |
+| Reasoning Cross-Vendor | 90.4 | -1.0 | $0.00480 |
+| Reasoning + Personas | 90.8 | -0.6 | $0.00480 |
 
 **Key finding:** Even with 81% measured response diversity, persona-diverse ensemble underperformed standalone Opus by 2.1 points.
 
@@ -588,12 +588,12 @@ For each of the 7 prompt categories, calculated:
 
 | Comparison | p-value | Significant? | Effect Size (d) |
 |------------|---------|--------------|-----------------|
-| High-End Reasoning vs Opus | 0.23 | No | -0.16 |
-| Mixed Capability vs Opus | 0.002 | Yes** | -0.47 |
-| Same-Model Premium vs Opus | 0.001 | Yes** | -0.52 |
-| Persona-Diverse vs Opus | 0.04 | Yes* | -0.24 |
-| Reasoning Cross-Vendor vs Opus | 0.01 | Yes* | -0.32 |
-| Reasoning + Personas vs Opus | 0.03 | Yes* | -0.28 |
+| High-End Reasoning vs Opus | 0.42 | No | -0.05 |
+| Mixed Capability vs Opus | 0.45 | No | -0.14 |
+| Same-Model Premium vs Opus | 0.08 | No | -0.14 |
+| Persona-Diverse vs Opus | 0.06 | No | -0.21 |
+| Reasoning Cross-Vendor vs Opus | 0.20 | No | -0.10 |
+| Reasoning + Personas vs Opus | 0.64 | No | -0.06 |
 
 *p < 0.05, **p < 0.01
 
@@ -1166,7 +1166,7 @@ Pure Opus:     92.3 @ $0.079/prompt = 1,168 points/$
 Model distribution: 76% Haiku, 16% Opus, 8% Nova-lite
 ```
 
-**Conclusion:** Smart routing underperforms pure Opus. Classification costs add up, and routing too many prompts to weaker models reduces average quality. Pure Opus offers 10× better quality per dollar.
+**Conclusion:** Smart routing is 3× cheaper than pure Opus ($0.026 vs $0.079) with better quality/$ (3,346 vs 1,168 points/$), but scores 5.3 points lower on absolute quality (87.0 vs 92.3). The trade-off: smart routing maximizes quality per dollar; pure Opus maximizes absolute quality.
 
 ### E6: Aggregator Tiers ($1.17)
 
@@ -1314,7 +1314,7 @@ Difference: -2.2 points (-2.3%)
 | E2 | Repeated runs | $0 | ❌ | Failed (AWS API 500) |
 | E3 | MT-Bench premium | $52.46 | ⚠️ | Mixed (±0.4 to ±1.2) |
 | E4 | AlpacaEval | $27.20 | ✅ | All +0.7 to +1.4 |
-| E5 | Smart routing | $4.27 | ❌ | 87.0, Opus wins 10× |
+| E5 | Smart routing | $4.27 | ⚠️ | 87.0 quality, 3× cheaper, better quality/$ |
 | E6 | Aggregator tiers | $1.17 | ✅ | Sonnet +5.2 over Haiku |
 | E7 | Haiku → Opus | $3.71 | ✅ | +5.9 gain |
 | E8 | Nova → Haiku | $3.70 | ✅ | +8.6 gain |
@@ -1347,7 +1347,7 @@ Difference: -2.2 points (-2.3%)
 11. **E2:** Repeated runs → Failed (AWS API error at 21%)
 12. **E3:** MT-Bench premium configs → Mixed results (±0.4 to ±1.2)
 13. **E4:** AlpacaEval comparison → ALL ensembles win (+0.7 to +1.4) ✅
-14. **E5:** Smart routing validation → Pure Opus wins 10× on quality/$ ❌
+14. **E5:** Smart routing validation → 3× cheaper than Opus, better quality/$, lower absolute quality ⚠️
 15. **E6:** Aggregator tiers → Sonnet +5.2 over Haiku (capability critical) ✅
 16. **E7/E8:** Weak proposer ensembles → +5.9 and +8.6 gains ✅
 17. **E10:** Strong-judge vote → 94.5 (matches baseline with strong judge) ✅
@@ -1371,7 +1371,7 @@ Difference: -2.2 points (-2.3%)
 **❌ Ensembles DON'T WORK when:**
 - Proposers ≈ aggregator capability (-0.5 to -1.4 penalty, Phase 1)
 - Cost is matched (Best-of-N wins, E12)
-- Optimizing for quality/$ (pure Opus 10× better, E5/E14)
+- Optimizing for absolute quality at matched cost (Best-of-N wins, E12)
 
 **Best ensemble found:** 3×Nova → Sonnet (92.4 @ $0.022, +13.8 gain over Nova baseline)
 
