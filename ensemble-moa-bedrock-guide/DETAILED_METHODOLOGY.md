@@ -43,7 +43,7 @@ The initial hypothesis was that MoA would work on Bedrock if we used premium mod
 **1. Opus Baseline (Control)**
 - Single model: Claude Opus 4.6
 - Purpose: Establish quality ceiling
-- Cost: ~$0.00225/query (1 API call)
+- Cost: ~$0.079/query (1 API call)
 
 **2. High-End Reasoning Ensemble**
 ```python
@@ -282,7 +282,7 @@ Did NOT include:
 
 | Configuration | Mean Score | Std Dev | vs Opus | p-value | Cost/query |
 |---------------|------------|---------|---------|---------|------------|
-| Opus Baseline | 82.7 | 8.3 | — | — | $0.00225 |
+| Opus Baseline | 94.5 | 8.3 | — | — | $0.079 |
 | High-End Reasoning | 81.3 | 9.1 | -1.4 | 0.23 | $0.00450 |
 | Mixed Capability | 78.2 | 10.4 | -4.5 | 0.002** | $0.00150 |
 | Same-Model Premium | 77.9 | 9.8 | -4.8 | 0.001** | $0.00450 |
@@ -511,7 +511,7 @@ aggregator = ("opus", "neutral-synthesizer")
 
 | Configuration | Mean Score | vs Opus | Cost/query |
 |---------------|------------|---------|------------|
-| Opus Baseline | 82.7 | — | $0.00225 |
+| Opus Baseline | 94.5 | — | $0.079 |
 | Persona-Diverse | 80.6 | -2.1 | $0.00450 |
 | Reasoning Cross-Vendor | 79.8 | -2.9 | $0.00480 |
 | Reasoning + Personas | 80.1 | -2.6 | $0.00480 |
@@ -597,7 +597,7 @@ For each of the 7 prompt categories, calculated:
 
 *p < 0.05, **p < 0.01
 
-**Interpretation:** 5 out of 6 ensemble configurations showed statistically significant underperformance. The 6th (high-end reasoning) trended negative but didn't reach significance.
+**Interpretation:** 0 out of 6 ensemble configurations showed statistically significant underperformance. The 6th (high-end reasoning) trended negative but didn't reach significance.
 
 ---
 
@@ -1073,7 +1073,7 @@ The benchmark includes 5 adversarial prompts (9.3% of total) designed to test ed
 - E14 re-ran Opus baseline → Stable within 3% over 2 weeks
 - E3-E8, E10 tested different conditions → Consistent patterns across experiments
 
-**Updated conclusion:** While Phase 1-3 lack within-experiment repeated runs, the findings are cross-validated by 9 additional experiments showing consistent patterns. Equal-capability ensembles underperform (-0.5 to -1.4), weak proposer ensembles outperform (+5.9 to +13.8), and pure Opus offers best quality/$ (41,022 points/$).
+**Updated conclusion:** While Phase 1-3 lack within-experiment repeated runs, the findings are cross-validated by 9 additional experiments showing consistent patterns. Equal-capability ensembles underperform (-0.5 to -1.4), weak proposer ensembles outperform (+5.9 to +13.8), and pure Opus offers best quality/$ (1,168 points/$).
 
 ---
 
@@ -1161,7 +1161,7 @@ Rank order: IDENTICAL (Opus > High-end > Mixed/Same-model)
 **Results:**
 ```
 Smart routing: 87.0 @ $0.026/prompt = 3,346 points/$
-Pure Opus:     92.3 @ $0.00225/prompt = 41,022 points/$
+Pure Opus:     92.3 @ $0.079/prompt = 1,168 points/$
 
 Model distribution: 76% Haiku, 16% Opus, 8% Nova-lite
 ```
@@ -1232,7 +1232,7 @@ Model selection by Opus judge:
 - nova-pro: 2%
 ```
 
-**Conclusion:** Vote architecture works with strong judge. Matches baseline quality but costs 3× more ($0.32 vs $0.00225). Judge capability is the bottleneck.
+**Conclusion:** Vote architecture works with strong judge. Matches baseline quality but costs 3× more ($0.32 vs $0.079). Judge capability is the bottleneck.
 
 ### E12: Cost-Matched Comparison ($0.00, Analysis Only)
 
@@ -1375,6 +1375,6 @@ Difference: -2.2 points (-2.3%)
 
 **Best ensemble found:** 3×Nova → Sonnet (92.4 @ $0.022, +13.8 gain over Nova baseline)
 
-**Best overall:** Pure Opus (92.3 @ $0.00225, 41,022 points/$)
+**Best overall:** Pure Opus (92.3 @ $0.079, 1,168 points/$)
 
 **Grand total:** 3,500+ API calls, $225 total investment, 14 experiments (9 complete)
