@@ -79,7 +79,15 @@ class LatencyTracker:
         self._layer_start: float | None = None
 
     def start_pipeline(self):
-        """Start tracking a new pipeline execution."""
+        """Start tracking a new pipeline execution.
+
+        Raises:
+            RuntimeError: If a pipeline is already in progress
+        """
+        if self.current_pipeline is not None:
+            raise RuntimeError(
+                "Pipeline already in progress. Call end_pipeline() first or use reset()."
+            )
         self.current_pipeline = PipelineLatency()
         self._pipeline_start = time.time()
 
@@ -98,7 +106,18 @@ class LatencyTracker:
         return pipeline
 
     def start_layer(self, layer_num: int):
-        """Start tracking a layer execution."""
+        """Start tracking a layer execution.
+
+        Args:
+            layer_num: Layer number to track
+
+        Raises:
+            RuntimeError: If a layer is already in progress
+        """
+        if self.current_layer is not None:
+            raise RuntimeError(
+                f"Layer already in progress. Call end_layer() first before starting layer {layer_num}."
+            )
         self.current_layer = LayerLatency(layer=layer_num, duration_ms=0.0)
         self._layer_start = time.time()
 

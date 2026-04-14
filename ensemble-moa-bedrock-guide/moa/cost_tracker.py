@@ -74,7 +74,15 @@ class CostTracker:
         self.current_pipeline: PipelineCost | None = None
 
     def start_pipeline(self):
-        """Start tracking a new pipeline execution."""
+        """Start tracking a new pipeline execution.
+
+        Raises:
+            RuntimeError: If a pipeline is already in progress
+        """
+        if self.current_pipeline is not None:
+            raise RuntimeError(
+                "Pipeline already in progress. Call end_pipeline() first or use reset()."
+            )
         self.current_pipeline = PipelineCost()
 
     def track_invocation(
