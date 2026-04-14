@@ -67,7 +67,7 @@ That's the question MoA papers partially answer: ensembles work when you have a 
 
 **Investment:** Original phases + $165.36 (validation)
 
-**Complete timeline and experimental details:** See [EXPERIMENTS_RESULTS.md](EXPERIMENTS_RESULTS.md) and [DETAILED_METHODOLOGY.md](DETAILED_METHODOLOGY.md)
+**Complete timeline and experimental details:** See [EXPERIMENTS_RESULTS.md](docs/EXPERIMENTS_RESULTS.md) and [DETAILED_METHODOLOGY.md](docs/DETAILED_METHODOLOGY.md)
 
 ---
 
@@ -244,7 +244,7 @@ Result: 90.8/100 (vs 91.4 for standalone Opus, Δ = -0.6, p = 0.64)
 
 ## Benchmark Methodology
 
-**For complete experimental details, see [DETAILED_METHODOLOGY.md](DETAILED_METHODOLOGY.md) which includes full prompt examples, code implementation, statistical analysis methods, and reproducibility information.**
+**For complete experimental details, see [DETAILED_METHODOLOGY.md](docs/DETAILED_METHODOLOGY.md) which includes full prompt examples, code implementation, statistical analysis methods, and reproducibility information.**
 
 ### Phase 1 & 3: 54-Prompt Suite
 
@@ -1224,7 +1224,7 @@ def parse_score_with_fallbacks(judge_response):
 
 **Insight:** A 4-model ensemble (3 proposers + 1 aggregator) costs ~5-6x a single model call, not 4x, due to aggregator input costs.
 
-These challenges are documented in detail in [DETAILED_METHODOLOGY.md](DETAILED_METHODOLOGY.md) for reproducibility.
+These challenges are documented in detail in [DETAILED_METHODOLOGY.md](docs/DETAILED_METHODOLOGY.md) for reproducibility.
 
 ---
 
@@ -1594,15 +1594,15 @@ python benchmark/analyze_results.py results/your_test_results.json
 
 Run your own benchmarks. Challenge the conclusions. But the data from 592 tests is hard to argue with.
 
-**Complete experimental timeline and methodology:** See [DETAILED_METHODOLOGY.md](DETAILED_METHODOLOGY.md) for full reproducibility details including prompt selection rationale, persona design process, statistical methods, implementation challenges, and solutions.
+**Complete experimental timeline and methodology:** See [DETAILED_METHODOLOGY.md](docs/DETAILED_METHODOLOGY.md) for full reproducibility details including prompt selection rationale, persona design process, statistical methods, implementation challenges, and solutions.
 
 ---
 
 **Questions or need clarifications?**
 
-- Full experimental details: [DETAILED_METHODOLOGY.md](DETAILED_METHODOLOGY.md)
-- Validation experiment findings: [EXPERIMENTS_RESULTS.md](EXPERIMENTS_RESULTS.md)
-- Experiment execution notes: [EXPERIMENTS_README.md](EXPERIMENTS_README.md)
+- Full experimental details: [DETAILED_METHODOLOGY.md](docs/DETAILED_METHODOLOGY.md)
+- Validation experiment findings: [EXPERIMENTS_RESULTS.md](docs/EXPERIMENTS_RESULTS.md)
+- Experiment execution notes: [EXPERIMENTS_README.md](docs/EXPERIMENTS_README.md)
 
 ---
 
