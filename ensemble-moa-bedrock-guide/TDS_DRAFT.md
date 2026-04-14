@@ -4,13 +4,19 @@
 
 ---
 
-I asked an ensemble of three cheap models a simple question: "What is the GDP of Lesotho?"
+I asked an ensemble of three cheap models: "What is the GDP of Lesotho?"
 
-Nova Lite alone got it right: *"I don't have current data. Check the World Bank."*
+It told me $2.4–3.1 billion. Confident. Wrong.
 
-The ensemble confidently told me Lesotho's GDP is $2.4–3.1 billion. Wrong. That figure appears in none of the reliable sources. Nova Lite alone scored 84/100. The ensemble scored 36/100.
+Here's what happened inside the ensemble. Three proposers, one aggregator:
 
-This is the aggregation trap. And it's why I spent $165.36 running 11 experiments to figure out when ensembles actually work on AWS Bedrock.
+- Proposer 1 (Nova Lite): "I don't have current data. Check the World Bank."
+- Proposer 2 (Mistral 7B): "Lesotho's GDP is approximately $2.4 billion (2023 estimate)."
+- Proposer 3 (Llama 3.1 8B): "Around $3.1 billion, driven by textiles and diamonds."
+
+One proposer got it right. Two hallucinated. The aggregator — also Nova Lite — had no way to tell which was which. So it synthesized all three equally, laundering two hallucinations into a confident, specific, wrong answer.
+
+That's the aggregation trap. And it's why I spent $165.36 running 11 experiments to figure out when ensembles actually work on AWS Bedrock.
 
 ---
 
@@ -113,7 +119,7 @@ Let me walk through what actually happened with that Lesotho question, because i
 
 The prompt was from the adversarial category, designed to test hallucination resistance. Most models lack current GDP data for smaller African nations.
 
-**Nova Lite (standalone):**
+**What Proposer 1 (Nova Lite) sent to the aggregator:**
 > "I don't have current GDP figures for Lesotho in my knowledge base. For accurate current data, I'd recommend checking: World Bank Open Data (data.worldbank.org), the IMF World Economic Outlook database, or Lesotho's Central Bank website. These sources are updated regularly and will have the most recent official figures."
 
 **Judge score: 84/100**
@@ -139,7 +145,7 @@ Now the ensemble. Three proposers (Nova Lite, Mistral 7B, Llama 3.1 8B) fed into
 
 What went wrong, step by step:
 
-1. Nova Lite alone correctly said "I don't know"
+1. One proposer correctly said "I don't know"
 2. Two weaker proposers hallucinated different numbers
 3. The aggregator (also Nova Lite) **couldn't identify which proposers were hallucinating**
 4. It synthesized all inputs equally, turning "I don't know" into a confident wrong answer
