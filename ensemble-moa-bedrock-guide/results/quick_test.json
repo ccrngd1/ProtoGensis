@@ -1,0 +1,1576 @@
+{
+  "metadata": {
+    "timestamp": "2026-04-03T02:50:04.173595",
+    "num_prompts": 3,
+    "mode": "live",
+    "judge_enabled": true
+  },
+  "single_models": {
+    "nova-lite": [
+      {
+        "prompt_id": "reasoning-1",
+        "category": "reasoning",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "To solve this problem, we need to carefully interpret the phrase \"all but 9 die.\" Let's break it down step by step:\n\n1. **Initial number of sheep**: The farmer starts with 17 sheep.\n\n2. **Interpret the phrase \"all but 9 die\"**:\n   - \"All but 9\" means \"all except 9\".\n   - This implies that 9 sheep are not the ones that die; instead, the rest of the sheep are the ones that die.\n\n3. **Determine how many sheep die**:\n   - If 9 sheep are not the ones that die, then the number of sheep that die is the total number of sheep minus the 9 sheep that are not dying.\n   - Mathematically, this is \\(17 - 9 = 8\\).\n   - So, 8 sheep die.\n\n4. **Calculate the number of sheep left**:\n   - If 8 sheep die out of the original 17, then the number of sheep left is the total number of sheep minus the number of sheep that died.\n   - Mathematically, this is \\(17 - 8 = 9\\).\n\nTherefore, the number of sheep left is \\(\\boxed{9}\\).",
+        "cost": 6.3e-05,
+        "input_tokens": 27,
+        "output_tokens": 257,
+        "latency_ms": 1512.7,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A perfect response that correctly solves the problem, provides thorough step-by-step reasoning, and presents the solution in a clear, well-organized format."
+        }
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "category": "reasoning",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "When you pass the person in second place in a race, you take their position. Therefore, you would then be in second place. Here\u2019s the logic broken down:\n\n1. Initially, the race order is:\n   - 1st place\n   - 2nd place\n   - 3rd place (and so on)\n\n2. You pass the person in second place. Since you are now ahead of them, you take their position. So, you become:\n   - 2nd place\n\n3. Next, you pass the person in first place. Since you are now ahead of them, you take their position. So, you become:\n   - 1st place\n\nThus, after passing the person in second place, you are in second place. After passing the person in first place, you are in first place. \n\nThe key logic here is that passing another competitor means you assume their position in the race.",
+        "cost": 4.8e-05,
+        "input_tokens": 42,
+        "output_tokens": 191,
+        "latency_ms": 1321.3,
+        "judge_score": {
+          "correctness": 25.0,
+          "completeness": 20.0,
+          "clarity": 27.0,
+          "total": 72.0,
+          "justification": "The response arrives at the correct answers matching the expected output and presents them clearly, but it fails to explain the counterintuitive trick that makes this a classic riddle \u2014 namely, why passing the person in second place doesn't put you in first. The explanation is superficial rather than insightful."
+        }
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "category": "reasoning",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "To determine which switch controls which bulb, you can follow these steps:\n\n1. **Label the switches**: For convenience, let's label the switches as Switch A, Switch B, and Switch C.\n\n2. **Set up the switches**: \n   - Turn Switch A to the \"on\" position and leave it on for about 5-10 minutes. This will allow the bulb connected to Switch A to heat up.\n   - After 5-10 minutes, turn Switch A to the \"off\" position.\n   - Immediately before entering the room, turn Switch B to the \"on\" position. Leave Switch C in the \"off\" position.\n\n3. **Enter the room**: When you enter the room, you will observe the following:\n   - One of the bulbs will be on. This bulb is controlled by Switch B, because it is the only switch that is currently in the \"on\" position.\n   - One of the bulbs will be off and warm to the touch. This bulb is controlled by Switch A, because it was on for a while and has had time to heat up, even though it is now off.\n   - The remaining bulb will be off and cool to the touch. This bulb is controlled by Switch C, because neither Switch A nor Switch B could have turned it on.\n\nBy following these steps, you can determine which switch controls which bulb with just one entry into the room. The bulbs will be:\n- Switch A: The bulb that is off and warm.\n- Switch B: The bulb that is on.\n- Switch C: The bulb that is off and cool.",
+        "cost": 8.1e-05,
+        "input_tokens": 38,
+        "output_tokens": 329,
+        "latency_ms": 2180.58,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A flawless response that correctly solves the classic puzzle with clear, well-organized reasoning and a helpful summary."
+        }
+      }
+    ]
+  },
+  "ensembles": {
+    "ultra-cheap": [
+      {
+        "prompt_id": "reasoning-1",
+        "category": "reasoning",
+        "recipe": "ultra-cheap",
+        "response": "To determine how many sheep are left after \"all but 9 die,\" we need to carefully interpret the phrase and follow a logical sequence of steps. Here\u2019s a synthesized and comprehensive response based on the given explanations:\n\n1. **Initial Number of Sheep:**\n   - The farmer starts with 17 sheep.\n\n2. **Understanding the Phrase \"All but 9 Die\":**\n   - The phrase \"all but 9 die\" means that all the sheep except for 9 of them die.\n   - This implies that 9 sheep are not among those that die and therefore remain alive.\n\n3. **Determine How Many Sheep Die:**\n   - If 9 sheep remain alive, then the number of sheep that die can be calculated by subtracting the number of sheep that are left alive from the total number of sheep.\n   - Number of sheep that die = Total number of sheep - Number of sheep that are left alive\n   - Number of sheep that die = 17 - 9 = 8\n\n4. **Calculate the Number of Sheep Left Alive:**\n   - Since 9 sheep are not among those that die, these 9 sheep remain alive.\n\nTherefore, the number of sheep left alive is \\(\\boxed{9}\\).\n\nThis comprehensive explanation resolves any potential confusion by clearly defining the phrase \"all but 9 die\" and methodically calculating the number of sheep that remain alive. The contradiction in one response is corrected by emphasizing that \"all but 9 die\" means 9 sheep are still alive. Thus, the correct answer is \\(\\boxed{9}\\).",
+        "cost": 0.000202,
+        "latency_ms": 3569.96,
+        "cost_summary": {
+          "total_cost": 0.000202,
+          "total_input_tokens": 546,
+          "total_output_tokens": 679,
+          "num_invocations": 4,
+          "layer_costs": {
+            "layer_0": 9.8e-05,
+            "layer_1": 0.000105
+          },
+          "cost_per_layer": [
+            {
+              "layer": 0,
+              "model": "Llama 3.1 8B",
+              "cost": 2.1e-05,
+              "input_tokens": 41,
+              "output_tokens": 53
+            },
+            {
+              "layer": 0,
+              "model": "Mistral 7B",
+              "cost": 1.7e-05,
+              "input_tokens": 36,
+              "output_tokens": 59
+            },
+            {
+              "layer": 0,
+              "model": "Nova Lite",
+              "cost": 6e-05,
+              "input_tokens": 27,
+              "output_tokens": 242
+            },
+            {
+              "layer": 1,
+              "model": "Nova Lite",
+              "cost": 0.000105,
+              "input_tokens": 442,
+              "output_tokens": 325
+            }
+          ]
+        },
+        "latency_summary": {
+          "total_duration_ms": 3569.96,
+          "total_duration_s": 3.57,
+          "num_layers": 2,
+          "layer_breakdown": [
+            {
+              "layer": 0,
+              "duration_ms": 1207.36,
+              "num_models": 3,
+              "models": [
+                {
+                  "model": "Llama 3.1 8B",
+                  "duration_ms": 729.4
+                },
+                {
+                  "model": "Mistral 7B",
+                  "duration_ms": 944.75
+                },
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 1207.19
+                }
+              ]
+            },
+            {
+              "layer": 1,
+              "duration_ms": 2362.52,
+              "num_models": 1,
+              "models": [
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 2362.34
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "num_layers": 2,
+          "total_models_invoked": 4
+        },
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 27.0,
+          "total": 97.0,
+          "justification": "The response correctly identifies that 9 sheep remain alive, provides thorough step-by-step reasoning, and is well-organized. It is slightly verbose and contains a minor awkward reference to correcting a \"contradiction in one response,\" but overall it is an excellent answer."
+        }
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "category": "reasoning",
+        "recipe": "ultra-cheap",
+        "response": "Let's synthesize the responses into a single, comprehensive answer:\n\n---\n\nIf you're running a race and you pass the person in second place, you are now in second place. Here's the detailed reasoning:\n\n1. **Passing the Person in Second Place:**\n    - Initially, there are at least three people in the race: the person in first place, the person in second place, and you.\n    - When you pass the person in second place, you move ahead of them.\n    - By doing so, you take their position, which means you are now in second place because you have moved ahead of the person who was originally in second place, but you haven't passed the person in first place yet.\n\n2. **Passing the Person in First Place:**\n    - Once you pass the person in first place, you move ahead of them.\n    - By doing so, you take their position, which means you are now in first place because you have moved ahead of the person who was originally in first place.\n\nTherefore, the sequence of your positions is as follows:\n- Initially, you were in an unspecified position (let's say 5th place).\n- After passing the person in second place, you move up to second place.\n- After passing the person in first place, you move up to first place.\n\nTo summarize:\n- After passing the second-place runner: **Second place**\n- After passing the first-place runner: **First place**\n\nThe logic is straightforward: in a race, positions are determined by who is ahead. When you pass someone, you move up one place in the ranking. Thus, passing the person in second place moves you to second, and passing the person in first place moves you to first.\n\n---\n\nThis synthesized response incorporates the key insights from all provided responses and ensures clarity and coherence.",
+        "cost": 0.000275,
+        "latency_ms": 3859.54,
+        "cost_summary": {
+          "total_cost": 0.000275,
+          "total_input_tokens": 800,
+          "total_output_tokens": 928,
+          "num_invocations": 4,
+          "layer_costs": {
+            "layer_0": 0.000146,
+            "layer_1": 0.00013
+          },
+          "cost_per_layer": [
+            {
+              "layer": 0,
+              "model": "Llama 3.1 8B",
+              "cost": 5.3e-05,
+              "input_tokens": 56,
+              "output_tokens": 186
+            },
+            {
+              "layer": 0,
+              "model": "Mistral 7B",
+              "cost": 3.3e-05,
+              "input_tokens": 51,
+              "output_tokens": 127
+            },
+            {
+              "layer": 0,
+              "model": "Nova Lite",
+              "cost": 5.9e-05,
+              "input_tokens": 42,
+              "output_tokens": 237
+            },
+            {
+              "layer": 1,
+              "model": "Nova Lite",
+              "cost": 0.00013,
+              "input_tokens": 651,
+              "output_tokens": 378
+            }
+          ]
+        },
+        "latency_summary": {
+          "total_duration_ms": 3859.54,
+          "total_duration_s": 3.86,
+          "num_layers": 2,
+          "layer_breakdown": [
+            {
+              "layer": 0,
+              "duration_ms": 1640.27,
+              "num_models": 3,
+              "models": [
+                {
+                  "model": "Llama 3.1 8B",
+                  "duration_ms": 1555.62
+                },
+                {
+                  "model": "Mistral 7B",
+                  "duration_ms": 1599.03
+                },
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 1640.13
+                }
+              ]
+            },
+            {
+              "layer": 1,
+              "duration_ms": 2219.22,
+              "num_models": 1,
+              "models": [
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 2219.13
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "num_layers": 2,
+          "total_models_invoked": 4
+        },
+        "judge_score": {
+          "correctness": 35.0,
+          "completeness": 25.0,
+          "clarity": 22.0,
+          "total": 82.0,
+          "justification": "The response correctly answers both parts of the riddle and provides clear reasoning, particularly for the tricky first part. However, it misses the opportunity to highlight the common misconception that makes this a famous brain teaser, and the meta-commentary about \"synthesizing responses\" detracts from the presentation."
+        }
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "category": "reasoning",
+        "recipe": "ultra-cheap",
+        "response": "To determine which switch controls which bulb using a single entry into the room, you can follow this comprehensive method:\n\n1. **Label the switches** for clarity: Switch A, Switch B, and Switch C.\n\n2. **Set up the switches** in the following manner:\n   - Turn Switch A to the \"on\" position and leave it on for about 5-10 minutes.\n   - After 5-10 minutes, turn Switch A off.\n   - Immediately turn Switch B to the \"on\" position.\n   - Ensure Switch C remains off throughout this entire process.\n\n3. **Enter the room** after the 5-10 minutes have passed.\n\n4. **Identify the bulbs** using the following observations:\n   - The bulb that is **currently lit** is controlled by Switch B, because it was turned on last and remained on when you entered the room.\n   - The bulb that is **off but warm to the touch** is controlled by Switch A, because it was on long enough to heat up but was turned off before you entered the room.\n   - The bulb that is **off and cool to the touch** is controlled by Switch C, because it was never turned on.\n\nBy following these steps, you can accurately determine which switch controls each bulb with just one entry into the room. This method combines the most valuable insights from all responses, ensuring clarity and effectiveness.",
+        "cost": 0.000308,
+        "latency_ms": 4516.2,
+        "cost_summary": {
+          "total_cost": 0.000308,
+          "total_input_tokens": 984,
+          "total_output_tokens": 1045,
+          "num_invocations": 4,
+          "layer_costs": {
+            "layer_0": 0.000189,
+            "layer_1": 0.000119
+          },
+          "cost_per_layer": [
+            {
+              "layer": 0,
+              "model": "Llama 3.1 8B",
+              "cost": 7.7e-05,
+              "input_tokens": 53,
+              "output_tokens": 296
+            },
+            {
+              "layer": 0,
+              "model": "Nova Lite",
+              "cost": 6e-05,
+              "input_tokens": 38,
+              "output_tokens": 241
+            },
+            {
+              "layer": 0,
+              "model": "Mistral 7B",
+              "cost": 5.2e-05,
+              "input_tokens": 51,
+              "output_tokens": 223
+            },
+            {
+              "layer": 1,
+              "model": "Nova Lite",
+              "cost": 0.000119,
+              "input_tokens": 842,
+              "output_tokens": 285
+            }
+          ]
+        },
+        "latency_summary": {
+          "total_duration_ms": 4516.2,
+          "total_duration_s": 4.52,
+          "num_layers": 2,
+          "layer_breakdown": [
+            {
+              "layer": 0,
+              "duration_ms": 2495.88,
+              "num_models": 3,
+              "models": [
+                {
+                  "model": "Llama 3.1 8B",
+                  "duration_ms": 2140.52
+                },
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 2377.69
+                },
+                {
+                  "model": "Mistral 7B",
+                  "duration_ms": 2495.63
+                }
+              ]
+            },
+            {
+              "layer": 1,
+              "duration_ms": 2020.27,
+              "num_models": 1,
+              "models": [
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 2020.13
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "num_layers": 2,
+          "total_models_invoked": 4
+        },
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A flawless response that correctly solves the classic three-switches puzzle with clear, well-organized steps and thorough explanations for each deduction."
+        }
+      }
+    ],
+    "code-generation": [
+      {
+        "prompt_id": "reasoning-1",
+        "category": "reasoning",
+        "recipe": "code-generation",
+        "response": "# Final Answer: The Farmer Has 9 Sheep Left\n\n## Solution\n\n**Initial Count**: The farmer starts with 17 sheep.\n\n**Understanding \"All but 9 die\"**: This is an idiomatic expression meaning \"everything except 9.\" In this context, it indicates that 9 sheep survive while all others perish.\n\n**Calculation**:\n- Sheep that survive: 9\n- Sheep that die: 17 - 9 = 8\n- Sheep remaining: **9**\n\n## Reasoning\n\nThe key to solving this problem is correctly interpreting the phrase \"all but 9 die.\" The phrase structure \"all but X\" is a common English idiom that means \"everything except X.\" Therefore:\n\n- The 9 sheep represent those that did NOT die\n- The remaining sheep (17 - 9 = 8) represent those that DID die\n- The final count of living sheep is 9\n\n## Answer\n\n**The farmer is left with 9 sheep.**\n\nThis problem is designed to test reading comprehension rather than mathematical difficulty. The straightforward arithmetic (subtracting 9 from 17) combined with the potentially ambiguous phrasing can lead to confusion, but all three responses correctly identify that the idiomatic expression \"all but 9\" means exactly 9 sheep survive the event.",
+        "cost": 0.002644,
+        "latency_ms": 9122.88,
+        "cost_summary": {
+          "total_cost": 0.002644,
+          "total_input_tokens": 733,
+          "total_output_tokens": 775,
+          "num_invocations": 4,
+          "layer_costs": {
+            "layer_0": 0.00094,
+            "layer_1": 0.001704
+          },
+          "cost_per_layer": [
+            {
+              "layer": 0,
+              "model": "Mixtral 8x7B",
+              "cost": 9e-05,
+              "input_tokens": 36,
+              "output_tokens": 105
+            },
+            {
+              "layer": 0,
+              "model": "Nova Pro",
+              "cost": 0.00071,
+              "input_tokens": 27,
+              "output_tokens": 215
+            },
+            {
+              "layer": 0,
+              "model": "Llama 3.1 70B",
+              "cost": 0.00014,
+              "input_tokens": 40,
+              "output_tokens": 155
+            },
+            {
+              "layer": 1,
+              "model": "Claude Haiku 4.5",
+              "cost": 0.001704,
+              "input_tokens": 630,
+              "output_tokens": 300
+            }
+          ]
+        },
+        "latency_summary": {
+          "total_duration_ms": 9122.88,
+          "total_duration_s": 9.12,
+          "num_layers": 2,
+          "layer_breakdown": [
+            {
+              "layer": 0,
+              "duration_ms": 5646.84,
+              "num_models": 3,
+              "models": [
+                {
+                  "model": "Mixtral 8x7B",
+                  "duration_ms": 1442.98
+                },
+                {
+                  "model": "Nova Pro",
+                  "duration_ms": 3115.72
+                },
+                {
+                  "model": "Llama 3.1 70B",
+                  "duration_ms": 5646.65
+                }
+              ]
+            },
+            {
+              "layer": 1,
+              "duration_ms": 3475.99,
+              "num_models": 1,
+              "models": [
+                {
+                  "model": "Claude Haiku 4.5",
+                  "duration_ms": 3475.9
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "num_layers": 2,
+          "total_models_invoked": 4
+        },
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 27.0,
+          "total": 96.0,
+          "justification": "An excellent response that correctly solves the problem with thorough, well-organized reasoning. The only notable flaw is a stray reference to \"all three responses\" that appears to be a hallucination from a different context."
+        }
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "category": "reasoning",
+        "recipe": "code-generation",
+        "response": "# Synthesized Final Answer\n\n## The Answer\n\nWhen you pass the person in second place, **you move into second place**. When you then pass the person in first place, **you move into first place**.\n\n## The Logic\n\nThe fundamental principle is straightforward: **when you pass someone, you assume their position, and they fall back to the position you previously occupied.**\n\n### Step-by-Step Breakdown\n\n**Initial State:**\n- 1st place: Person A\n- 2nd place: Person B\n- You: 3rd place (implied)\n\n**After passing Person B (2nd place):**\n- 1st place: Person A\n- 2nd place: You\n- 3rd place: Person B\n\nBy passing the second-place runner, you've overtaken them and taken their position. They now occupy the position you were in.\n\n**After passing Person A (1st place):**\n- 1st place: You\n- 2nd place: Person A\n- 3rd place: Person B\n\nBy passing the first-place runner, you've overtaken them and taken their position. They now occupy the position you were in.\n\n## Why This Works\n\nThe key insight is that **passing someone means moving ahead of them in the race order**. Each pass advances you by exactly one position in the standings. This is a direct consequence of how race positions work: they represent your relative placement compared to all other competitors at any given moment.",
+        "cost": 0.003025,
+        "latency_ms": 11330.93,
+        "cost_summary": {
+          "total_cost": 0.003025,
+          "total_input_tokens": 871,
+          "total_output_tokens": 907,
+          "num_invocations": 4,
+          "layer_costs": {
+            "layer_0": 0.001167,
+            "layer_1": 0.001858
+          },
+          "cost_per_layer": [
+            {
+              "layer": 0,
+              "model": "Mixtral 8x7B",
+              "cost": 8.8e-05,
+              "input_tokens": 51,
+              "output_tokens": 93
+            },
+            {
+              "layer": 0,
+              "model": "Nova Pro",
+              "cost": 0.000872,
+              "input_tokens": 42,
+              "output_tokens": 262
+            },
+            {
+              "layer": 0,
+              "model": "Llama 3.1 70B",
+              "cost": 0.000207,
+              "input_tokens": 55,
+              "output_tokens": 232
+            },
+            {
+              "layer": 1,
+              "model": "Claude Haiku 4.5",
+              "cost": 0.001858,
+              "input_tokens": 723,
+              "output_tokens": 320
+            }
+          ]
+        },
+        "latency_summary": {
+          "total_duration_ms": 11330.93,
+          "total_duration_s": 11.33,
+          "num_layers": 2,
+          "layer_breakdown": [
+            {
+              "layer": 0,
+              "duration_ms": 7983.66,
+              "num_models": 3,
+              "models": [
+                {
+                  "model": "Mixtral 8x7B",
+                  "duration_ms": 1304.02
+                },
+                {
+                  "model": "Nova Pro",
+                  "duration_ms": 3984.38
+                },
+                {
+                  "model": "Llama 3.1 70B",
+                  "duration_ms": 7983.49
+                }
+              ]
+            },
+            {
+              "layer": 1,
+              "duration_ms": 3347.22,
+              "num_models": 1,
+              "models": [
+                {
+                  "model": "Claude Haiku 4.5",
+                  "duration_ms": 3347.08
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "num_layers": 2,
+          "total_models_invoked": 4
+        },
+        "judge_score": {
+          "correctness": 35.0,
+          "completeness": 25.0,
+          "clarity": 30.0,
+          "total": 90.0,
+          "justification": "The response provides a correct, well-structured answer that matches the expected answer, with excellent formatting and clear logic. It loses some points for not acknowledging the trick/riddle nature of the question, which is central to why this puzzle is interesting."
+        }
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "category": "reasoning",
+        "recipe": "code-generation",
+        "response": "# Solution: Determining Which Switch Controls Which Bulb\n\n## The Method\n\nFollow these steps before entering the room:\n\n1. **Turn ON switch 1** and wait for approximately 5 minutes\n2. **Turn OFF switch 1**\n3. **Turn ON switch 2**\n4. **Leave switch 3 OFF**\n5. **Enter the room immediately**\n\n## Identifying Each Bulb\n\nOnce in the room, observe the three bulbs:\n\n- **The bulb that is ON** \u2192 controlled by **switch 2** (currently activated)\n- **The bulb that is OFF but WARM to the touch** \u2192 controlled by **switch 1** (was on long enough to heat up, then turned off)\n- **The bulb that is OFF and COLD** \u2192 controlled by **switch 3** (never activated)\n\n## Why This Works\n\nThis solution exploits a key insight: incandescent light bulbs generate significant heat when operating. By using both the **visual state** (on/off) and **thermal state** (warm/cold) of the bulbs, you gather three independent pieces of information from a single room visit.\n\nThe strategy leverages:\n- **Light** as an indicator of current switch state (switch 2)\n- **Heat** as an indicator of recent switch activity (switch 1)\n- **Process of elimination** for the switch never used (switch 3)\n\nThis elegant solution transforms an impossible-seeming constraint (one room visit, three switches) into a solvable puzzle by using the physical properties of the bulbs themselves as data storage.",
+        "cost": 0.003064,
+        "latency_ms": 13222.99,
+        "cost_summary": {
+          "total_cost": 0.003064,
+          "total_input_tokens": 950,
+          "total_output_tokens": 1001,
+          "num_invocations": 4,
+          "layer_costs": {
+            "layer_0": 0.001005,
+            "layer_1": 0.002059
+          },
+          "cost_per_layer": [
+            {
+              "layer": 0,
+              "model": "Nova Pro",
+              "cost": 0.000613,
+              "input_tokens": 38,
+              "output_tokens": 182
+            },
+            {
+              "layer": 0,
+              "model": "Mixtral 8x7B",
+              "cost": 0.000164,
+              "input_tokens": 51,
+              "output_tokens": 201
+            },
+            {
+              "layer": 0,
+              "model": "Llama 3.1 70B",
+              "cost": 0.000228,
+              "input_tokens": 52,
+              "output_tokens": 265
+            },
+            {
+              "layer": 1,
+              "model": "Claude Haiku 4.5",
+              "cost": 0.002059,
+              "input_tokens": 809,
+              "output_tokens": 353
+            }
+          ]
+        },
+        "latency_summary": {
+          "total_duration_ms": 13222.99,
+          "total_duration_s": 13.22,
+          "num_layers": 2,
+          "layer_breakdown": [
+            {
+              "layer": 0,
+              "duration_ms": 9121.5,
+              "num_models": 3,
+              "models": [
+                {
+                  "model": "Nova Pro",
+                  "duration_ms": 1557.17
+                },
+                {
+                  "model": "Mixtral 8x7B",
+                  "duration_ms": 2285.79
+                },
+                {
+                  "model": "Llama 3.1 70B",
+                  "duration_ms": 9121.29
+                }
+              ]
+            },
+            {
+              "layer": 1,
+              "duration_ms": 4101.44,
+              "num_models": 1,
+              "models": [
+                {
+                  "model": "Claude Haiku 4.5",
+                  "duration_ms": 4101.35
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "num_layers": 2,
+          "total_models_invoked": 4
+        },
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A flawless response that correctly solves the classic logic puzzle with perfect accuracy, thorough explanation, and excellent formatting. It matches the expected answer while providing additional valuable context about why the solution works."
+        }
+      }
+    ],
+    "reasoning": [
+      {
+        "prompt_id": "reasoning-1",
+        "category": "reasoning",
+        "recipe": "reasoning",
+        "response": "# Final Comprehensive Answer: The Sheep Problem\n\n## Problem Statement\nA farmer has 17 sheep. All but 9 die. How many sheep are left?\n\n## Step-by-Step Solution\n\n**Step 1: Starting Point**\n- The farmer begins with 17 sheep.\n\n**Step 2: Interpret the Key Phrase \"All but 9 die\"**\n- The phrase \"all but 9\" is a common English expression meaning \"everything except 9.\"\n- Applied to this problem: all sheep except 9 die, which means 9 sheep survive.\n- This is the critical phrase that must be understood correctly to solve the problem.\n\n**Step 3: Calculate How Many Sheep Died**\n- If 9 sheep survived, then the number that died is:\n- 17 (total) - 9 (survivors) = 8 sheep died\n\n**Step 4: Answer the Question**\n- The question asks: \"How many sheep are left?\"\n- Since 9 sheep survived, there are **9 sheep left**.\n\n## Answer\n**The farmer has 9 sheep left.**\n\n## Key Insight\nThe most common mistake in this problem is misinterpreting \"all but 9 die\" as meaning \"all 9 die\" or \"all but 9 survive.\" Understanding that \"all but X\" means \"everything except X\" is essential. In this case, it means 9 sheep are the exceptions\u2014they survive while the others perish.\n\n## Verification\n- Started with: 17 sheep\n- Survived: 9 sheep\n- Died: 8 sheep\n- Check: 9 + 8 = 17 \u2713",
+        "cost": 0.006876,
+        "latency_ms": 14321.66,
+        "cost_summary": {
+          "total_cost": 0.006876,
+          "total_input_tokens": 3050,
+          "total_output_tokens": 1796,
+          "num_invocations": 6,
+          "layer_costs": {
+            "layer_0": 0.001707,
+            "layer_1": 0.002344,
+            "layer_2": 0.002825
+          },
+          "cost_per_layer": [
+            {
+              "layer": 0,
+              "model": "Claude Haiku 4.5",
+              "cost": 0.000837,
+              "input_tokens": 36,
+              "output_tokens": 202
+            },
+            {
+              "layer": 0,
+              "model": "Nova Pro",
+              "cost": 0.000732,
+              "input_tokens": 27,
+              "output_tokens": 222
+            },
+            {
+              "layer": 0,
+              "model": "Llama 3.1 70B",
+              "cost": 0.000138,
+              "input_tokens": 40,
+              "output_tokens": 152
+            },
+            {
+              "layer": 1,
+              "model": "Mixtral 8x7B",
+              "cost": 0.000643,
+              "input_tokens": 711,
+              "output_tokens": 461
+            },
+            {
+              "layer": 1,
+              "model": "Nova Pro",
+              "cost": 0.001702,
+              "input_tokens": 635,
+              "output_tokens": 373
+            },
+            {
+              "layer": 2,
+              "model": "Claude Haiku 4.5",
+              "cost": 0.002825,
+              "input_tokens": 1601,
+              "output_tokens": 386
+            }
+          ]
+        },
+        "latency_summary": {
+          "total_duration_ms": 14321.66,
+          "total_duration_s": 14.32,
+          "num_layers": 3,
+          "layer_breakdown": [
+            {
+              "layer": 0,
+              "duration_ms": 5570.65,
+              "num_models": 3,
+              "models": [
+                {
+                  "model": "Claude Haiku 4.5",
+                  "duration_ms": 2559.89
+                },
+                {
+                  "model": "Nova Pro",
+                  "duration_ms": 4351.67
+                },
+                {
+                  "model": "Llama 3.1 70B",
+                  "duration_ms": 5570.48
+                }
+              ]
+            },
+            {
+              "layer": 1,
+              "duration_ms": 5240.43,
+              "num_models": 2,
+              "models": [
+                {
+                  "model": "Mixtral 8x7B",
+                  "duration_ms": 4698.16
+                },
+                {
+                  "model": "Nova Pro",
+                  "duration_ms": 5240.26
+                }
+              ]
+            },
+            {
+              "layer": 2,
+              "duration_ms": 3510.5,
+              "num_models": 1,
+              "models": [
+                {
+                  "model": "Claude Haiku 4.5",
+                  "duration_ms": 3510.37
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "num_layers": 3,
+          "total_models_invoked": 6
+        },
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A flawless response that correctly solves the problem, provides thorough step-by-step reasoning, highlights the common pitfall in interpreting the phrase \"all but 9,\" and verifies the answer with clear, well-organized formatting."
+        }
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "category": "reasoning",
+        "recipe": "reasoning",
+        "response": "# The Logic of Race Positions: A Comprehensive Answer\n\n## The Answer\n\n**After passing the person in second place, you are in second place.**\n\n**After passing the person in first place, you are in first place.**\n\n## The Logic Explained\n\nYour position in a race is fundamentally determined by **how many competitors are ahead of you**:\n- If 0 people are ahead \u2192 you're in 1st place\n- If 1 person is ahead \u2192 you're in 2nd place\n- If 2 people are ahead \u2192 you're in 3rd place\n- And so on...\n\n### Step-by-Step Breakdown\n\n**Initial State:**\nYou must have started behind 2nd place (meaning you were in 3rd place or lower).\n\n**After Passing 2nd Place:**\n- You move ahead of the person who was in 2nd place\n- The person in 1st place is still ahead of you\n- Result: **You are now in 2nd place** (1 person ahead of you)\n- The person you passed drops to 3rd place\n\n**After Passing 1st Place:**\n- You move ahead of the person who was in 1st place\n- No one is ahead of you anymore\n- Result: **You are now in 1st place** (0 people ahead of you)\n- The person you passed drops to 2nd place\n\n### The Core Principle\n\nWhen you pass someone, you swap positions with them:\n- You take their place in the ranking\n- They take your previous place\n- Everyone else's relative position remains unchanged\n\nThis is how sequential competitions work\u2014your rank is always a direct reflection of how many competitors remain ahead of you.",
+        "cost": 0.007576,
+        "latency_ms": 18414.29,
+        "cost_summary": {
+          "total_cost": 0.007576,
+          "total_input_tokens": 3507,
+          "total_output_tokens": 1875,
+          "num_invocations": 6,
+          "layer_costs": {
+            "layer_0": 0.001946,
+            "layer_1": 0.002776,
+            "layer_2": 0.002854
+          },
+          "cost_per_layer": [
+            {
+              "layer": 0,
+              "model": "Claude Haiku 4.5",
+              "cost": 0.000831,
+              "input_tokens": 49,
+              "output_tokens": 198
+            },
+            {
+              "layer": 0,
+              "model": "Nova Pro",
+              "cost": 0.000894,
+              "input_tokens": 42,
+              "output_tokens": 269
+            },
+            {
+              "layer": 0,
+              "model": "Llama 3.1 70B",
+              "cost": 0.00022,
+              "input_tokens": 55,
+              "output_tokens": 251
+            },
+            {
+              "layer": 1,
+              "model": "Mixtral 8x7B",
+              "cost": 0.000609,
+              "input_tokens": 884,
+              "output_tokens": 302
+            },
+            {
+              "layer": 1,
+              "model": "Nova Pro",
+              "cost": 0.002167,
+              "input_tokens": 805,
+              "output_tokens": 476
+            },
+            {
+              "layer": 2,
+              "model": "Claude Haiku 4.5",
+              "cost": 0.002854,
+              "input_tokens": 1672,
+              "output_tokens": 379
+            }
+          ]
+        },
+        "latency_summary": {
+          "total_duration_ms": 18414.29,
+          "total_duration_s": 18.41,
+          "num_layers": 3,
+          "layer_breakdown": [
+            {
+              "layer": 0,
+              "duration_ms": 8853.58,
+              "num_models": 3,
+              "models": [
+                {
+                  "model": "Claude Haiku 4.5",
+                  "duration_ms": 2919.93
+                },
+                {
+                  "model": "Nova Pro",
+                  "duration_ms": 4724.12
+                },
+                {
+                  "model": "Llama 3.1 70B",
+                  "duration_ms": 8853.4
+                }
+              ]
+            },
+            {
+              "layer": 1,
+              "duration_ms": 5818.15,
+              "num_models": 2,
+              "models": [
+                {
+                  "model": "Mixtral 8x7B",
+                  "duration_ms": 3198.09
+                },
+                {
+                  "model": "Nova Pro",
+                  "duration_ms": 5817.98
+                }
+              ]
+            },
+            {
+              "layer": 2,
+              "duration_ms": 3742.47,
+              "num_models": 1,
+              "models": [
+                {
+                  "model": "Claude Haiku 4.5",
+                  "duration_ms": 3742.34
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "num_layers": 3,
+          "total_models_invoked": 6
+        },
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A flawless response that correctly answers both parts of the question with clear, well-structured logic. The explanation is thorough, accurate, and easy to follow."
+        }
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "category": "reasoning",
+        "recipe": "reasoning",
+        "response": "# The Three Switches Puzzle: Complete Solution\n\n## The Problem\nYou have three switches in one room that control three light bulbs in another room. You can manipulate the switches however you want, but you can only enter the room once. How do you determine which switch controls which bulb?\n\n## The Solution\n\n### The Strategy\n\n**Before entering the room, perform these steps:**\n\n1. **Turn Switch A to ON** and leave it on for **5 minutes** to allow the corresponding bulb to heat up.\n2. **Turn Switch A to OFF**.\n3. **Turn Switch B to ON** and leave it on.\n4. **Leave Switch C in the OFF position** throughout.\n5. **Enter the room**.\n\n### Identifying the Bulbs\n\nWhen you enter the room, examine each bulb:\n\n- **Bulb that is ON** \u2192 Controlled by **Switch B**\n- **Bulb that is OFF but WARM to the touch** \u2192 Controlled by **Switch A**\n- **Bulb that is OFF and COOL to the touch** \u2192 Controlled by **Switch C**\n\n## Why This Works\n\nThe key insight is to **use three distinguishable states** rather than just two (on/off):\n\n1. **Visual State (On/Off)**: Switch B's bulb is visibly on.\n2. **Thermal State (Warm/Cool)**: Switch A's bulb is off but still warm from being on for 5 minutes.\n3. **Control State (Never Used)**: Switch C's bulb is off and cool, having never been turned on.\n\nBy combining visual observation with thermal detection, you create enough information to uniquely identify all three switches with just one room visit.\n\n## Why This is Optimal\n\nThis solution is elegant because it:\n- Uses the physical properties of incandescent bulbs (they retain heat)\n- Requires only one entry to the room\n- Provides clear, unambiguous results\n- Works reliably with standard light bulbs",
+        "cost": 0.008172,
+        "latency_ms": 18627.79,
+        "cost_summary": {
+          "total_cost": 0.008172,
+          "total_input_tokens": 3605,
+          "total_output_tokens": 2045,
+          "num_invocations": 6,
+          "layer_costs": {
+            "layer_0": 0.001946,
+            "layer_1": 0.002978,
+            "layer_2": 0.003248
+          },
+          "cost_per_layer": [
+            {
+              "layer": 0,
+              "model": "Claude Haiku 4.5",
+              "cost": 0.000882,
+              "input_tokens": 47,
+              "output_tokens": 211
+            },
+            {
+              "layer": 0,
+              "model": "Nova Pro",
+              "cost": 0.000878,
+              "input_tokens": 38,
+              "output_tokens": 265
+            },
+            {
+              "layer": 0,
+              "model": "Llama 3.1 70B",
+              "cost": 0.000186,
+              "input_tokens": 52,
+              "output_tokens": 207
+            },
+            {
+              "layer": 1,
+              "model": "Mixtral 8x7B",
+              "cost": 0.000659,
+              "input_tokens": 866,
+              "output_tokens": 384
+            },
+            {
+              "layer": 1,
+              "model": "Nova Pro",
+              "cost": 0.002319,
+              "input_tokens": 767,
+              "output_tokens": 533
+            },
+            {
+              "layer": 2,
+              "model": "Claude Haiku 4.5",
+              "cost": 0.003248,
+              "input_tokens": 1835,
+              "output_tokens": 445
+            }
+          ]
+        },
+        "latency_summary": {
+          "total_duration_ms": 18627.79,
+          "total_duration_s": 18.63,
+          "num_layers": 3,
+          "layer_breakdown": [
+            {
+              "layer": 0,
+              "duration_ms": 7524.03,
+              "num_models": 3,
+              "models": [
+                {
+                  "model": "Claude Haiku 4.5",
+                  "duration_ms": 3282.89
+                },
+                {
+                  "model": "Nova Pro",
+                  "duration_ms": 3481.67
+                },
+                {
+                  "model": "Llama 3.1 70B",
+                  "duration_ms": 7523.78
+                }
+              ]
+            },
+            {
+              "layer": 1,
+              "duration_ms": 6828.51,
+              "num_models": 2,
+              "models": [
+                {
+                  "model": "Mixtral 8x7B",
+                  "duration_ms": 4038.53
+                },
+                {
+                  "model": "Nova Pro",
+                  "duration_ms": 6828.36
+                }
+              ]
+            },
+            {
+              "layer": 2,
+              "duration_ms": 4275.18,
+              "num_models": 1,
+              "models": [
+                {
+                  "model": "Claude Haiku 4.5",
+                  "duration_ms": 4275.05
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "num_layers": 3,
+          "total_models_invoked": 6
+        },
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A flawless response that correctly solves the classic three-switches puzzle with clear, well-organized explanation and insightful reasoning about why the solution works."
+        }
+      }
+    ],
+    "same-model-baseline": [
+      {
+        "prompt_id": "reasoning-1",
+        "category": "reasoning",
+        "recipe": "same-model-baseline",
+        "response": "Certainly! Let's synthesize the responses into a comprehensive, well-reasoned answer to the original prompt.\n\n---\n\nTo determine how many sheep are left after the event described, we need to carefully interpret the phrase \"all but 9 die.\" Here\u2019s a step-by-step breakdown:\n\n1. **Understand the total number of sheep**: The farmer initially has 17 sheep.\n\n2. **Interpret the phrase \"all but 9 die\"**:\n   - The phrase \"all but 9\" means \"everything except 9.\"\n   - This implies that 9 sheep are not affected by the event of dying.\n\n3. **Calculate the number of sheep that die**:\n   - If 9 sheep are not affected (i.e., they do not die), then the number of sheep that die is the total number of sheep minus the number of sheep that are not affected.\n   - Total sheep = 17\n   - Sheep not affected = 9\n   - Sheep that die = Total sheep - Sheep not affected = 17 - 9 = 8\n\n4. **Determine the number of sheep left**:\n   - Since 9 sheep are not affected (i.e., they remain alive), the number of sheep left is simply the number of sheep that are not affected.\n\nTherefore, the number of sheep left is \\(\\boxed{9}\\).\n\n### Summary\nThe key insight from all the responses is the correct interpretation of the phrase \"all but 9 die.\" This means that out of the 17 sheep, all except 9 have died. Hence, 9 sheep remain alive. The consistent conclusion across all interpretations is that the farmer has 9 sheep left.\n\nSo, the final answer is:\n\\[\n\\boxed{9}\n\\]",
+        "cost": 0.001937,
+        "latency_ms": 6337.94,
+        "cost_summary": {
+          "total_cost": 0.001937,
+          "total_input_tokens": 827,
+          "total_output_tokens": 1024,
+          "num_invocations": 4,
+          "layer_costs": {
+            "layer_0": 0.000162,
+            "layer_1": 0.001774
+          },
+          "cost_per_layer": [
+            {
+              "layer": 0,
+              "model": "Nova Lite",
+              "cost": 4e-05,
+              "input_tokens": 27,
+              "output_tokens": 159
+            },
+            {
+              "layer": 0,
+              "model": "Nova Lite",
+              "cost": 6.3e-05,
+              "input_tokens": 27,
+              "output_tokens": 256
+            },
+            {
+              "layer": 0,
+              "model": "Nova Lite",
+              "cost": 5.9e-05,
+              "input_tokens": 27,
+              "output_tokens": 241
+            },
+            {
+              "layer": 1,
+              "model": "Nova Pro",
+              "cost": 0.001774,
+              "input_tokens": 746,
+              "output_tokens": 368
+            }
+          ]
+        },
+        "latency_summary": {
+          "total_duration_ms": 6337.94,
+          "total_duration_s": 6.34,
+          "num_layers": 2,
+          "layer_breakdown": [
+            {
+              "layer": 0,
+              "duration_ms": 1650.44,
+              "num_models": 3,
+              "models": [
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 1359.89
+                },
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 1508.04
+                },
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 1650.29
+                }
+              ]
+            },
+            {
+              "layer": 1,
+              "duration_ms": 4687.46,
+              "num_models": 1,
+              "models": [
+                {
+                  "model": "Nova Pro",
+                  "duration_ms": 4687.37
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "num_layers": 2,
+          "total_models_invoked": 4
+        },
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 25.0,
+          "total": 95.0,
+          "justification": "The response arrives at the correct answer with clear, step-by-step reasoning. It is slightly verbose and contains unnecessary meta-framing language, but the core explanation is excellent."
+        }
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "category": "reasoning",
+        "recipe": "same-model-baseline",
+        "response": "Certainly! Let's synthesize the responses into a comprehensive, well-reasoned answer to the original prompt.\n\n---\n\n### Final Answer:\n\nWhen you're running a race and you pass the person in second place, you move into second place. Here\u2019s the detailed reasoning:\n\n1. **Initial Situation:**\n   - You are running in a race.\n   - There is a person in first place and a person in second place.\n\n2. **Passing the Person in Second Place:**\n   - When you pass the person in second place, you move ahead of them.\n   - Since you are now ahead of the second-place runner but still behind the first-place runner, you take the second-place position.\n\n3. **Passing the Person in First Place:**\n   - When you pass the person in first place, you move ahead of them.\n   - At this point, you are now in the lead, which means you are in first place.\n\n### Key Insights:\n\n- **Response 1** correctly identifies that passing the second-place runner moves you into second place and passing the first-place runner moves you into first place.\n- **Response 2** emphasizes that once you pass the second-place runner, you immediately move into first place if you continue to pass the first-place runner without any delay.\n- **Response 3** adds the nuance that after passing the second-place runner, you could be in either second or first place depending on whether you immediately pass the first-place runner or not. However, passing the first-place runner definitely puts you in first place.\n\n### Conclusion:\n\n- **After passing the person in second place:** You are in **second place**.\n- **After passing the person in first place:** You are in **first place**.\n\nThus, the most comprehensive understanding is that you first move into second place by passing the second-place runner and then into first place by passing the first-place runner.\n\n\\boxed{\\text{First place}}",
+        "cost": 0.002341,
+        "latency_ms": 8053.45,
+        "cost_summary": {
+          "total_cost": 0.002341,
+          "total_input_tokens": 1126,
+          "total_output_tokens": 1306,
+          "num_invocations": 4,
+          "layer_costs": {
+            "layer_0": 0.000222,
+            "layer_1": 0.002118
+          },
+          "cost_per_layer": [
+            {
+              "layer": 0,
+              "model": "Nova Lite",
+              "cost": 6.4e-05,
+              "input_tokens": 42,
+              "output_tokens": 256
+            },
+            {
+              "layer": 0,
+              "model": "Nova Lite",
+              "cost": 7.3e-05,
+              "input_tokens": 42,
+              "output_tokens": 292
+            },
+            {
+              "layer": 0,
+              "model": "Nova Lite",
+              "cost": 8.6e-05,
+              "input_tokens": 42,
+              "output_tokens": 346
+            },
+            {
+              "layer": 1,
+              "model": "Nova Pro",
+              "cost": 0.002118,
+              "input_tokens": 1000,
+              "output_tokens": 412
+            }
+          ]
+        },
+        "latency_summary": {
+          "total_duration_ms": 8053.45,
+          "total_duration_s": 8.05,
+          "num_layers": 2,
+          "layer_breakdown": [
+            {
+              "layer": 0,
+              "duration_ms": 2341.68,
+              "num_models": 3,
+              "models": [
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 1593.01
+                },
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 1832.1
+                },
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 2341.52
+                }
+              ]
+            },
+            {
+              "layer": 1,
+              "duration_ms": 5711.73,
+              "num_models": 1,
+              "models": [
+                {
+                  "model": "Nova Pro",
+                  "duration_ms": 5711.63
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "num_layers": 2,
+          "total_models_invoked": 4
+        },
+        "judge_score": {
+          "correctness": 35.0,
+          "completeness": 25.0,
+          "clarity": 18.0,
+          "total": 78.0,
+          "justification": "The response arrives at the correct answers for both parts of the question, but is marred by hallucinated references to nonexistent prior responses and a confusing synthesis section that undermines clarity and introduces minor logical inconsistencies."
+        }
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "category": "reasoning",
+        "recipe": "same-model-baseline",
+        "response": "To determine which switch controls which light bulb with only one entry into the room, you can use the following method, which synthesizes the insights from the provided responses:\n\n1. **Label the Switches**: Designate the three switches as Switch A, Switch B, and Switch C for clarity.\n\n2. **Flip the Switches**:\n   - Turn on Switch A and leave it on for about 5-10 minutes. This duration allows the bulb connected to Switch A to heat up.\n   - After 5-10 minutes, turn off Switch A.\n   - Immediately turn on Switch B.\n\n3. **Enter the Room**:\n   - Upon entering the room, you will encounter three different states among the light bulbs:\n     - **One bulb will be lit**: This bulb is controlled by Switch B, as it was the last switch you turned on before entering the room.\n     - **One bulb will be off but warm to the touch**: This bulb is controlled by Switch A. It was on long enough to heat up but was turned off before you entered the room.\n     - **One bulb will be off and cool to the touch**: This bulb is controlled by Switch C, as it was never turned on.\n\nBy following these steps, you can accurately determine which switch controls each bulb:\n- The **lit bulb** is controlled by Switch B.\n- The **off and warm bulb** is controlled by Switch A.\n- The **off and cool bulb** is controlled by Switch C.\n\nThis method ensures that you can identify the correct switch for each bulb with a single visit to the room.",
+        "cost": 0.001825,
+        "latency_ms": 6314.22,
+        "cost_summary": {
+          "total_cost": 0.001825,
+          "total_input_tokens": 889,
+          "total_output_tokens": 998,
+          "num_invocations": 4,
+          "layer_costs": {
+            "layer_0": 0.000169,
+            "layer_1": 0.001657
+          },
+          "cost_per_layer": [
+            {
+              "layer": 0,
+              "model": "Nova Lite",
+              "cost": 5.4e-05,
+              "input_tokens": 38,
+              "output_tokens": 215
+            },
+            {
+              "layer": 0,
+              "model": "Nova Lite",
+              "cost": 5.8e-05,
+              "input_tokens": 38,
+              "output_tokens": 234
+            },
+            {
+              "layer": 0,
+              "model": "Nova Lite",
+              "cost": 5.6e-05,
+              "input_tokens": 38,
+              "output_tokens": 225
+            },
+            {
+              "layer": 1,
+              "model": "Nova Pro",
+              "cost": 0.001657,
+              "input_tokens": 775,
+              "output_tokens": 324
+            }
+          ]
+        },
+        "latency_summary": {
+          "total_duration_ms": 6314.22,
+          "total_duration_s": 6.31,
+          "num_layers": 2,
+          "layer_breakdown": [
+            {
+              "layer": 0,
+              "duration_ms": 1904.74,
+              "num_models": 3,
+              "models": [
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 1644.23
+                },
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 1786.82
+                },
+                {
+                  "model": "Nova Lite",
+                  "duration_ms": 1904.56
+                }
+              ]
+            },
+            {
+              "layer": 1,
+              "duration_ms": 4409.44,
+              "num_models": 1,
+              "models": [
+                {
+                  "model": "Nova Pro",
+                  "duration_ms": 4409.35
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "num_layers": 2,
+          "total_models_invoked": 4
+        },
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A flawless response that accurately, completely, and clearly explains the classic heat-based solution to the three switches puzzle. The formatting and organization make it particularly easy to understand and follow."
+        }
+      }
+    ]
+  },
+  "baselines": {
+    "nova-lite": [
+      {
+        "prompt_id": "reasoning-1",
+        "category": "reasoning",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "Let's break down the problem step by step.\n\n1. **Understanding the statement \"All but 9 die\":**\n   - The phrase \"all but 9 die\" means that all the sheep except for 9 sheep die.\n   - \"All but 9\" is a way of saying \"everyone except 9.\"\n\n2. **Total number of sheep:**\n   - The farmer initially has 17 sheep.\n\n3. **Number of sheep that survive:**\n   - Since \"all but 9 die,\" this means that 9 sheep do not die.\n   - Therefore, the number of sheep that survive is 9.\n\n4. **Calculation:**\n   - Initially, the farmer has 17 sheep.\n   - If all but 9 sheep die, then 9 sheep remain alive.\n\nThus, the number of sheep left after all but 9 die is \\( \\boxed{9} \\).",
+        "cost": 4.7e-05,
+        "input_tokens": 27,
+        "output_tokens": 190,
+        "latency_ms": 1307.04,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A perfect response that correctly answers the trick question, provides clear step-by-step reasoning as requested, and presents the solution in a well-organized, easy-to-follow format."
+        }
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "category": "reasoning",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "Let's break down the logic step by step:\n\n1. **Initial Situation**: You are running a race and you pass the person in second place.\n\n   - Before passing the second-place runner, you are behind the first-place runner and ahead of the second-place runner.\n   - When you pass the second-place runner, you move into the position they were in, which is second place.\n\n2. **After Passing Second Place**: You are now in second place.\n\n3. **Passing the First-Place Runner**: If you then pass the person in first place, you move into the position they were in, which is first place.\n\n   - Before passing the first-place runner, you were in second place.\n   - When you pass the first-place runner, you move into the position they were in, which is first place.\n\nSo, the logic is as follows:\n- Initially, you pass the second-place runner, moving you to second place.\n- Then, you pass the first-place runner, moving you to first place.\n\nTherefore:\n- After passing the second-place runner, you are in second place.\n- After passing the first-place runner, you are in first place.",
+        "cost": 6.2e-05,
+        "input_tokens": 42,
+        "output_tokens": 249,
+        "latency_ms": 1767.32,
+        "judge_score": {
+          "correctness": 35.0,
+          "completeness": 22.0,
+          "clarity": 25.0,
+          "total": 82.0,
+          "justification": "The response arrives at the correct answers for both parts of the riddle, but contains a logical contradiction in explaining the first scenario and misses the opportunity to highlight why this is a counterintuitive puzzle that trips people up."
+        }
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "category": "reasoning",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "To determine which switch controls which bulb, you can follow these steps:\n\n1. **Label the Switches**: For clarity, let\u2019s label the switches as Switch A, Switch B, and Switch C.\n\n2. **Initial State**: Ensure all switches are in the \"off\" position initially.\n\n3. **Flip the First Switch**: Turn on Switch A and leave it on for about 5-10 minutes. This will allow the corresponding bulb to heat up.\n\n4. **Flip the Second Switch**: After 5-10 minutes, turn off Switch A and immediately turn on Switch B.\n\n5. **Enter the Room**: Now, go into the room.\n\n6. **Observation**:\n   - The bulb that is currently lit corresponds to Switch B (since it is currently on).\n   - The bulb that is off but warm to the touch corresponds to Switch A (since it was on long enough to heat up).\n   - The bulb that is off and cool corresponds to Switch C (since it was never turned on).\n\n**Summary**:\n- The bulb that is lit = controlled by Switch B.\n- The bulb that is off but warm = controlled by Switch A.\n- The bulb that is off and cool = controlled by Switch C.",
+        "cost": 6.3e-05,
+        "input_tokens": 38,
+        "output_tokens": 253,
+        "latency_ms": 1913.74,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A perfect response that correctly solves the classic logic puzzle with clear, well-organized step-by-step instructions and a helpful summary."
+        }
+      }
+    ],
+    "haiku": [
+      {
+        "prompt_id": "reasoning-1",
+        "category": "reasoning",
+        "model": "Claude Haiku 4.5",
+        "model_key": "haiku",
+        "response": "# Step-by-Step Solution\n\n**Starting point:** 17 sheep\n\n**Key phrase:** \"All but 9 die\"\n\nThis means: 9 sheep survive (all the others die)\n\n**Calculation:**\n- If \"all but 9\" die, then 9 are the exception to dying\n- Therefore: 9 sheep remain\n\n**Answer: 9 sheep are left**\n\n**Why this phrasing is tricky:**\nThe phrase \"all but 9\" is a common source of confusion. It means \"everyone except 9,\" not \"all 9.\" If the problem wanted to say only 9 died, it would say \"9 sheep die\" instead.",
+        "cost": 0.000653,
+        "input_tokens": 36,
+        "output_tokens": 156,
+        "latency_ms": 2758.77,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A perfect response that correctly answers the question, provides clear step-by-step reasoning, and even adds useful context about why the problem's phrasing can be confusing."
+        }
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "category": "reasoning",
+        "model": "Claude Haiku 4.5",
+        "model_key": "haiku",
+        "response": "# The Logic of Passing in a Race\n\n**First scenario:** If you pass the person in second place, you're now in **second place**.\n\n- You were behind them, so you were at least third\n- By passing them, you move into their position\n- They drop to third\n\n**Second scenario:** If you then pass the person in first place, you're now in **first place**.\n\n- The person who was in first is now in second\n- You've moved ahead of everyone\n\n## The Key Logic\n\nWhen you pass someone, you take their position and they take yours. It's a simple swap. The person you pass doesn't disappear or skip a position\u2014they just move one spot back while you move one spot forward.\n\nThis is a classic riddle that trips people up because they sometimes imagine you'd be in third place after passing second place, but that's not how positions work in a race.",
+        "cost": 0.000823,
+        "input_tokens": 49,
+        "output_tokens": 196,
+        "latency_ms": 3768.04,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An excellent response that correctly answers both parts of the riddle, provides clear and well-structured explanations, and helpfully addresses the common misconception that trips people up on this classic puzzle."
+        }
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "category": "reasoning",
+        "model": "Claude Haiku 4.5",
+        "model_key": "haiku",
+        "response": "# The Switch and Bulb Problem\n\nHere's the classic solution:\n\n## The Strategy\n\n1. **Turn on switch 1** and leave it on for several minutes\n2. **Turn off switch 1**, then turn on switch 2\n3. **Leave switch 3 off**\n4. **Enter the room once** and observe each bulb\n\n## How You Identify Them\n\n- **Switch 1** \u2192 the bulb that is **off but warm** (it was on long enough to heat up)\n- **Switch 2** \u2192 the bulb that is **on**\n- **Switch 3** \u2192 the bulb that is **off and cool**\n\n## Why It Works\n\nYou're using three states to gather information about three unknowns:\n- **On/off state** (visual)\n- **Temperature** (tactile)\n- **Time elapsed** (temporal)\n\nThis gives you enough data points to distinguish all three switches in a single observation.",
+        "cost": 0.000902,
+        "input_tokens": 47,
+        "output_tokens": 216,
+        "latency_ms": 3189.45,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A flawless response that presents the classic solution with perfect accuracy, complete coverage, and outstanding clarity through excellent formatting and a helpful explanatory section."
+        }
+      }
+    ],
+    "sonnet": [
+      {
+        "prompt_id": "reasoning-1",
+        "category": "reasoning",
+        "model": "Claude Sonnet 4.6",
+        "model_key": "sonnet",
+        "response": "## Breaking Down the Problem\n\nThis is a classic **trick question** that relies on careful reading.\n\n### The Key Phrase\n\n> \"All **but** 9 die\"\n\nThe word **\"but\"** here means **\"except\"** \u2014 not \"all of them and then 9 more.\"\n\n### Step-by-Step Reasoning\n\n1. The farmer starts with **17 sheep**\n2. \"All but 9 die\" = **all of them EXCEPT 9 die**\n3. So 9 sheep **survive** (do not die)\n4. The remaining number is **9**\n\n### Why People Get It Wrong\n\nMany people instinctively subtract: 17 - 9 = 8, assuming \"but 9\" means \"minus 9.\" But that's misreading the sentence.\n\n### Answer\n\n**9 sheep are left.**",
+        "cost": 0.003078,
+        "input_tokens": 36,
+        "output_tokens": 198,
+        "latency_ms": 8177.68,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A perfect response that correctly solves the trick question, provides clear step-by-step reasoning, and helpfully explains the common misinterpretation, all in a well-organized format."
+        }
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "category": "reasoning",
+        "model": "Claude Sonnet 4.6",
+        "model_key": "sonnet",
+        "response": "## Passing the Person in Second Place\n\nIf you pass the person in **second place**, you take their position. You are now in **second place**.\n\nThis is straightforward - you occupied the spot they were running in.\n\n---\n\n## Passing the Person in First Place\n\nThis is where people often make an **intuitive error**.\n\nIf you then pass the person in first place, you are now in **first place**.\n\n---\n\n## Why People Get Confused\n\nThe classic trick answer suggests you'd be in second place after passing the leader, using reasoning like \"you can't be in first if someone passed you.\" But that's actually **correct** - when you pass the first place runner, you move ahead of them, putting you in **first place** and them in **second**.\n\nThe more famous version of this riddle involves only the first scenario, where people expect \"first place\" as the answer but the correct answer is \"second.\" The logic there genuinely trips people up.\n\n**The straightforward logic:**\n- Passing someone means you go **ahead of them**\n- Whoever is ahead of everyone else is in **first place**\n- After passing the leader, that person is now you\n\nSo the answers are **second**, then **first**.",
+        "cost": 0.004197,
+        "input_tokens": 49,
+        "output_tokens": 270,
+        "latency_ms": 7261.81,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 28.0,
+          "clarity": 28.0,
+          "total": 96.0,
+          "justification": "The response is accurate, complete, and well-organized, correctly answering both parts of the riddle and providing solid logical explanation. Minor clarity issues in the \"confusion\" section don't significantly detract from the overall quality."
+        }
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "category": "reasoning",
+        "model": "Claude Sonnet 4.6",
+        "model_key": "sonnet",
+        "response": "## The Solution\n\n**The key insight:** You need more than just on/off states. Use **heat** as a third data point.\n\n---\n\n### The Method\n\n1. **Turn on Switch #1** and leave it on for **5-10 minutes**\n2. **Turn off Switch #1**, then **turn on Switch #2**\n3. **Enter the room immediately**\n\n---\n\n### How to Read the Results\n\n| Bulb State | Controlled By |\n|------------|---------------|\n| **On** | Switch #2 |\n| **Off + warm** | Switch #1 |\n| **Off + cold** | Switch #3 |\n\n---\n\n## Why This Works\n\nYou're extracting **three distinct pieces of information** from one observation by using:\n- **Light** (currently on)\n- **Heat** (was on, now off)\n- **Neither** (was never on)\n\n---\n\n### The Underlying Logic\n\nThe puzzle seems to only allow two states (on/off) for three unknowns, which appears unsolvable. The trick is recognizing that **physical reality offers more information** than the binary framing suggests.\n\nThis is a good lesson in questioning assumed constraints when problem-solving.",
+        "cost": 0.004266,
+        "input_tokens": 47,
+        "output_tokens": 275,
+        "latency_ms": 8170.64,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A flawless response that delivers the correct solution with outstanding clarity, excellent formatting including a helpful summary table, and insightful commentary on the problem-solving principle at play."
+        }
+      }
+    ]
+  },
+  "summary": {
+    "single_models": {
+      "nova-lite": {
+        "avg_cost": 6.4e-05,
+        "total_cost": 0.000192,
+        "avg_latency_ms": 1671.53,
+        "num_runs": 3,
+        "avg_quality": 90.67,
+        "min_quality": 72.0,
+        "max_quality": 100.0,
+        "quality_std": 13.2
+      }
+    },
+    "ensembles": {
+      "ultra-cheap": {
+        "avg_cost": 0.000262,
+        "total_cost": 0.000785,
+        "avg_latency_ms": 3981.9,
+        "num_runs": 3,
+        "avg_quality": 93.0,
+        "min_quality": 82.0,
+        "max_quality": 100.0,
+        "quality_std": 7.87
+      },
+      "code-generation": {
+        "avg_cost": 0.002911,
+        "total_cost": 0.008733,
+        "avg_latency_ms": 11225.6,
+        "num_runs": 3,
+        "avg_quality": 95.33,
+        "min_quality": 90.0,
+        "max_quality": 100.0,
+        "quality_std": 4.11
+      },
+      "reasoning": {
+        "avg_cost": 0.007541,
+        "total_cost": 0.022624,
+        "avg_latency_ms": 17121.25,
+        "num_runs": 3,
+        "avg_quality": 100.0,
+        "min_quality": 100.0,
+        "max_quality": 100.0,
+        "quality_std": 0.0
+      },
+      "same-model-baseline": {
+        "avg_cost": 0.002034,
+        "total_cost": 0.006103,
+        "avg_latency_ms": 6901.87,
+        "num_runs": 3,
+        "avg_quality": 91.0,
+        "min_quality": 78.0,
+        "max_quality": 100.0,
+        "quality_std": 9.42
+      }
+    },
+    "baselines": {
+      "nova-lite": {
+        "avg_cost": 5.7e-05,
+        "total_cost": 0.000172,
+        "avg_latency_ms": 1662.7,
+        "num_runs": 3,
+        "avg_quality": 94.0,
+        "min_quality": 82.0,
+        "max_quality": 100.0,
+        "quality_std": 8.49
+      },
+      "haiku": {
+        "avg_cost": 0.000793,
+        "total_cost": 0.002378,
+        "avg_latency_ms": 3238.75,
+        "num_runs": 3,
+        "avg_quality": 99.33,
+        "min_quality": 98.0,
+        "max_quality": 100.0,
+        "quality_std": 0.94
+      },
+      "sonnet": {
+        "avg_cost": 0.003847,
+        "total_cost": 0.011541,
+        "avg_latency_ms": 7870.04,
+        "num_runs": 3,
+        "avg_quality": 98.67,
+        "min_quality": 96.0,
+        "max_quality": 100.0,
+        "quality_std": 1.89
+      }
+    }
+  }
+}

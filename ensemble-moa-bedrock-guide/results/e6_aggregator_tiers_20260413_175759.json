@@ -1,0 +1,767 @@
+{
+  "metadata": {
+    "timestamp": "2026-04-13T17:57:59.935806",
+    "num_prompts": 54,
+    "proposer_model": "nova-lite",
+    "aggregator_model": "sonnet",
+    "total_cost": 1.1720870000000003
+  },
+  "results": [
+    {
+      "prompt_id": "reasoning-1",
+      "category": "reasoning",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.006919,
+      "judge_score": {
+        "correctness": 40.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 100.0,
+        "justification": "A flawless response that correctly solves the trick question, clearly explains the reasoning, proactively addresses the common misinterpretation, and verifies the answer with supporting arithmetic\u2014all in a well-organized format."
+      }
+    },
+    {
+      "prompt_id": "reasoning-2",
+      "category": "reasoning",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.008162,
+      "judge_score": {
+        "correctness": 30.0,
+        "completeness": 24.0,
+        "clarity": 29.0,
+        "total": 83.0,
+        "justification": "The response handles the first part of the riddle perfectly and is exceptionally well-structured, but it treats the second part too straightforwardly without acknowledging the trick element that is central to this classic puzzle \u2014 namely, that if you're in second place, the scenario of \"passing the person in first place\" may be designed to test whether the respondent recognizes the nuance or impossibility of the setup."
+      }
+    },
+    {
+      "prompt_id": "reasoning-3",
+      "category": "reasoning",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.008829,
+      "judge_score": {
+        "correctness": 40.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 100.0,
+        "justification": "A flawless response that presents the classic solution with exceptional clarity, complete reasoning, and excellent formatting. The only minor oddity is the opening reference to \"All three responses converge,\" which suggests it was synthesizing multiple prior answers, but this does not detract from the quality of the solution itself."
+      }
+    },
+    {
+      "prompt_id": "code-1",
+      "category": "code",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.020225,
+      "judge_score": {
+        "correctness": 40.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 100.0,
+        "justification": "A flawless response that provides a correct, well-documented palindrome checker with proper error handling, thorough complexity analysis, illustrative examples, and a useful alternative implementation\u2014all presented with excellent clarity and organization."
+      }
+    },
+    {
+      "prompt_id": "code-2",
+      "category": "code",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.038791,
+      "judge_score": {
+        "correctness": 40.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 100.0,
+        "justification": "This is an exemplary response that provides a correct, complete, and beautifully structured LRU cache implementation with thorough explanations of the underlying data structures and their O(1) guarantees. The design decision notes and visual aids elevate it beyond a standard answer."
+      }
+    },
+    {
+      "prompt_id": "code-3",
+      "category": "code",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.02966,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An exceptionally well-structured and thorough response that correctly implements the space-optimized LCS algorithm, provides clear explanations with visual aids, and goes above and beyond by including the reconstruction variant with appropriate caveats about space trade-offs."
+      }
+    },
+    {
+      "prompt_id": "code-4",
+      "category": "code",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.022916,
+      "judge_score": {
+        "correctness": 40.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 100.0,
+        "justification": "This is an exemplary response that provides a correct, well-explained SQL query with a concrete example, step-by-step breakdown, and thoughtful discussion of edge cases involving salary ties. The formatting and organization are outstanding."
+      }
+    },
+    {
+      "prompt_id": "creative-1",
+      "category": "creative",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.005503,
+      "judge_score": {
+        "correctness": 30.0,
+        "completeness": 25.0,
+        "clarity": 22.0,
+        "total": 77.0,
+        "justification": "The haiku itself is thoughtful and effectively balances AI's promise and limitations, but the response is marred by fabricated references to prior responses that never existed, and the over-elaborate presentation adds confusion rather than value for what should be a simple creative task."
+      }
+    },
+    {
+      "prompt_id": "creative-2",
+      "category": "creative",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.006593,
+      "judge_score": {
+        "correctness": 30.0,
+        "completeness": 25.0,
+        "clarity": 18.0,
+        "total": 73.0,
+        "justification": "The actual 3-sentence pitch is strong, compelling, and meets all prompt requirements, but the response is significantly undermined by hallucinated references to nonexistent prior responses and excessive, irrelevant meta-analysis that clutters the output and confuses the reader."
+      }
+    },
+    {
+      "prompt_id": "creative-3",
+      "category": "creative",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.015522,
+      "judge_score": {
+        "correctness": 32.0,
+        "completeness": 22.0,
+        "clarity": 22.0,
+        "total": 76.0,
+        "justification": "The core creative writing is genuinely excellent\u2014gripping, atmospheric, and original\u2014but the response is significantly undermined by an inexplicable meta-framework that references nonexistent prior responses and treats the task as a synthesis exercise rather than a straightforward creative writing prompt."
+      }
+    },
+    {
+      "prompt_id": "creative-4",
+      "category": "creative",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.008733,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "A polished, well-organized response that delivers exactly what was asked \u2014 five creative, ocean-themed product names with clear taglines \u2014 enhanced by thoughtful rationales and strong visual formatting. The only notable issues are the slightly misleading preamble and a potential trademark concern with \"BluePlanet.\""
+      }
+    },
+    {
+      "prompt_id": "factual-1",
+      "category": "factual",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.013942,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 98.0,
+        "justification": "An excellent, well-organized, and accurate explanation of HTTP vs. HTTPS that thoroughly addresses both the technical differences and the security implications, presented in a highly readable format suitable for a broad audience."
+      }
+    },
+    {
+      "prompt_id": "factual-2",
+      "category": "factual",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.020651,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 95.0,
+        "justification": "An excellent, well-structured explanation of the CAP theorem with accurate real-world examples for each combination. The response goes beyond the minimum requirements by including trade-off analysis, use case recommendations, and important nuances about the practical implications of the theorem."
+      }
+    },
+    {
+      "prompt_id": "factual-3",
+      "category": "factual",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.026353,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "This is an outstanding response that provides a comprehensive, accurate, and beautifully structured comparison of mRNA and traditional vaccines. It addresses every aspect of the prompt with appropriate depth, clear language, and excellent formatting, with only the most negligible of quibbles preventing a perfect score."
+      }
+    },
+    {
+      "prompt_id": "analysis-1",
+      "category": "analysis",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.020281,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 30.0,
+        "clarity": 28.0,
+        "total": 96.0,
+        "justification": "An outstanding response that delivers correct calculations, comprehensive business analysis, and excellent formatting. The only notable flaw is the out-of-context references to other \"responses,\" which slightly undermines clarity but does not affect the substance of the analysis."
+      }
+    },
+    {
+      "prompt_id": "analysis-2",
+      "category": "analysis",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.027674,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 98.0,
+        "justification": "An outstanding, near-comprehensive response that accurately captures the key trade-offs between microservices and monolithic architectures, provides actionable decision guidance, and is presented with exceptional clarity and structure. The inclusion of often-overlooked nuances like the modular monolith and monolith-first approach elevates it beyond a standard comparison."
+      }
+    },
+    {
+      "prompt_id": "analysis-3",
+      "category": "analysis",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.038131,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "This is an outstanding, production-quality response that provides a comprehensive, accurate, and clearly structured systematic approach to AWS cost optimization. It addresses both the cost reduction target and the performance preservation constraint with appropriate depth, practical tooling recommendations, and realistic expectations."
+      }
+    },
+    {
+      "prompt_id": "multistep-1",
+      "category": "multistep",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.040311,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "This is an outstanding response that demonstrates deep expertise in real-time ML systems design. It provides a comprehensive, accurate, and well-organized treatment of all four requested areas plus a thorough analysis of technical challenges, with production-relevant details like fail-open strategies, training-serving skew mitigation, and PCI DSS considerations that distinguish it from a textbook answer."
+      }
+    },
+    {
+      "prompt_id": "multistep-2",
+      "category": "multistep",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.041478,
+      "judge_score": {
+        "correctness": 37.0,
+        "completeness": 22.0,
+        "clarity": 29.0,
+        "total": 88.0,
+        "justification": "This is a high-quality, professionally structured migration plan that demonstrates deep expertise in cloud migration strategy and risk management. The primary weakness is that the response is truncated, missing approximately one-third of the planned content including critical post-migration phases, which prevents it from being a complete deliverable despite the excellence of what is present."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "category": "edge-cases",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.019184,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 30.0,
+        "total": 96.0,
+        "justification": "An excellent, well-organized response that accurately diagnoses both the leap year and midnight UTC edge cases with concrete checks, code examples, and a particularly insightful combined failure scenario. The response demonstrates deep understanding of date/time handling pitfalls and provides actionable remediation guidance."
+      }
+    },
+    {
+      "prompt_id": "reasoning-4",
+      "category": "reasoning",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.031143,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "This is an excellent, fully correct solution to the classic 12-ball balance puzzle with outstanding formatting and clear logical tracking of suspect-heavy and suspect-light designations. The only notable flaw is the hallucinated reference to prior \"incorrect\" responses."
+      }
+    },
+    {
+      "prompt_id": "reasoning-5",
+      "category": "reasoning",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.006983,
+      "judge_score": {
+        "correctness": 40.0,
+        "completeness": 30.0,
+        "clarity": 29.0,
+        "total": 99.0,
+        "justification": "An excellent response that correctly solves the classic widget problem with clear, well-organized reasoning and thorough explanation of the underlying principle."
+      }
+    },
+    {
+      "prompt_id": "reasoning-6",
+      "category": "reasoning",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.010845,
+      "judge_score": {
+        "correctness": 40.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 100.0,
+        "justification": "A flawless response that correctly solves the classic snail problem with excellent structure, clear reasoning, and thorough verification."
+      }
+    },
+    {
+      "prompt_id": "reasoning-7",
+      "category": "reasoning",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.015506,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "A well-structured and mathematically correct solution to this classic probability puzzle, with clear derivations and good intuitive reasoning. The only minor shortcoming is not addressing the subtle distinction between the expected ratio E[B/G] and the ratio of expectations E[B]/E[G]."
+      }
+    },
+    {
+      "prompt_id": "code-5",
+      "category": "code",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.040217,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An excellent, production-quality implementation with thorough concurrency explanation. The code is correct, well-documented, and the trade-off analysis adds significant value, with only minor issues being the truncated ending and out-of-context references to other responses."
+      }
+    },
+    {
+      "prompt_id": "code-6",
+      "category": "code",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.014606,
+      "judge_score": {
+        "correctness": 40.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 100.0,
+        "justification": "A flawless response that provides a correct, well-explained implementation of Floyd's cycle detection algorithm with thorough complexity analysis, clear formatting, and a useful comparison to the hash set alternative."
+      }
+    },
+    {
+      "prompt_id": "code-7",
+      "category": "code",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.040028,
+      "judge_score": {
+        "correctness": 37.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An exceptionally well-structured and technically accurate response that thoroughly addresses rate limiting with Redis sorted sets, clearly explains race conditions with a concrete example, and provides a production-ready Lua-based atomic solution with thoughtful edge case handling. Minor issues include a truncated comparison table and a potentially non-unique member naming scheme."
+      }
+    },
+    {
+      "prompt_id": "code-8",
+      "category": "code",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.026054,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 95.0,
+        "justification": "An excellent, well-organized response that provides a practical regex pattern with thorough explanation of its capabilities and limitations. Minor inaccuracies around the behavior of the consecutive-dot lookahead and missing mention of leading/trailing dots in the local part are the only notable shortcomings."
+      }
+    },
+    {
+      "prompt_id": "creative-5",
+      "category": "creative",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.006628,
+      "judge_score": {
+        "correctness": 28.0,
+        "completeness": 22.0,
+        "clarity": 18.0,
+        "total": 68.0,
+        "justification": "The tweet itself is decent \u2014 concise, engaging, and appropriately targeted \u2014 but the fabricated \"~50%\" statistic undermines the accuracy requirement, and the extensive unrequested meta-commentary about synthesis methodology detracts from what should be a simple, clean deliverable."
+      }
+    },
+    {
+      "prompt_id": "creative-6",
+      "category": "creative",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.008959,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 91.0,
+        "justification": "An excellent, well-structured response that delivers a memorable, age-appropriate metaphor with strong accuracy in mapping neural network training concepts. The formatting and progressive explanation make it highly effective for the target audience."
+      }
+    },
+    {
+      "prompt_id": "creative-7",
+      "category": "creative",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.00671,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 92.0,
+        "justification": "An excellent, well-structured response that delivers a strong subject line with thorough justification. The only notable concern is the deliberate avoidance of the word \"recall\" in what is explicitly a product recall communication, which could raise transparency issues despite the sound reasoning about tone management."
+      }
+    },
+    {
+      "prompt_id": "creative-8",
+      "category": "creative",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.005807,
+      "judge_score": {
+        "correctness": 32.0,
+        "completeness": 22.0,
+        "clarity": 20.0,
+        "total": 74.0,
+        "justification": "The poem itself is a solid, mostly accurate 4-line AABB rhyming poem about the CAP theorem, but the response is significantly undermined by extensive, unrequested meta-commentary about \"synthesizing\" from other responses, which introduces confusion and suggests the AI was responding to a different task than what was asked."
+      }
+    },
+    {
+      "prompt_id": "factual-4",
+      "category": "factual",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.015394,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 98.0,
+        "justification": "An excellent, well-organized response that accurately explains the core architectural differences between Docker and VMs, provides a thorough comparison, and gives practical guidance on when to choose each\u2014all with outstanding clarity and structure."
+      }
+    },
+    {
+      "prompt_id": "factual-5",
+      "category": "factual",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.018104,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An excellent, well-organized response that accurately explains eventual consistency with compelling real-world examples and clear reasoning. The only minor improvements would be a more nuanced treatment of CAP theorem semantics and a brief mention of conflict resolution mechanisms."
+      }
+    },
+    {
+      "prompt_id": "factual-6",
+      "category": "factual",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.024305,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 30.0,
+        "total": 94.0,
+        "justification": "An excellent, well-organized explanation that accurately covers both the Byzantine Generals Problem and blockchain's approach to solving it, with only minor technical nuances (probabilistic vs. deterministic finality, different fault tolerance thresholds for different consensus mechanisms) left unaddressed."
+      }
+    },
+    {
+      "prompt_id": "factual-7",
+      "category": "factual",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.027229,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 98.0,
+        "justification": "An outstanding, well-organized, and highly accurate comparison of REST and GraphQL that covers all major dimensions of difference with appropriate nuance, practical examples, and actionable guidance. Only the most minor technical nitpicks prevent a perfect score."
+      }
+    },
+    {
+      "prompt_id": "factual-8",
+      "category": "factual",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.031973,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An excellent, near-flawless response that accurately explains all five SOLID principles with well-chosen violation examples, clear rationale, and outstanding formatting. It goes beyond the minimum requirements by including \"why it matters\" sections, fix suggestions, and a helpful summary table."
+      }
+    },
+    {
+      "prompt_id": "analysis-4",
+      "category": "analysis",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.026215,
+      "judge_score": {
+        "correctness": 37.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 96.0,
+        "justification": "An outstanding response that provides accurate benchmarking, insightful diagnosis of the retention gap, and a comprehensive, well-prioritized list of additional metrics. The structure and clarity make it immediately actionable for a product team."
+      }
+    },
+    {
+      "prompt_id": "analysis-5",
+      "category": "analysis",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.024186,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding response that accurately interprets the latency distribution, identifies the critical long-tail problem, provides well-prioritized and technically sound investigation areas, and presents everything in an exceptionally clear and actionable format. This is close to an ideal answer for this type of systems performance question."
+      }
+    },
+    {
+      "prompt_id": "analysis-6",
+      "category": "analysis",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.029096,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, near-flawless response that provides a comprehensive, well-structured, and accurate decision framework for the build vs. buy authentication question. It goes beyond a simple list of factors to offer actionable insights, a decision heuristic, and a clear recommendation, making it immediately useful for real-world decision-making."
+      }
+    },
+    {
+      "prompt_id": "analysis-7",
+      "category": "analysis",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.023882,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 98.0,
+        "justification": "An outstanding response that provides accurate, comprehensive, and exceptionally well-structured advice. It correctly identifies that a 5-engineer team should almost certainly not pursue a wholesale microservices migration, while offering a nuanced, pragmatic middle path that demonstrates deep understanding of both the technical and organizational dimensions of the decision."
+      }
+    },
+    {
+      "prompt_id": "analysis-8",
+      "category": "analysis",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.03915,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An exceptionally well-structured and comprehensive analysis that accurately covers all major trade-offs between Lambda and ECS for hourly data processing. The hybrid architecture recommendation and decision matrix add significant practical value, with only very minor technical simplifications preventing a perfect score."
+      }
+    },
+    {
+      "prompt_id": "multistep-3",
+      "category": "multistep",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.041073,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 25.0,
+        "clarity": 28.0,
+        "total": 89.0,
+        "justification": "A well-organized and technically accurate design document that thoroughly covers all four requested areas with practical, actionable details. It falls slightly short of truly Netflix-scale depth by omitting private CDN infrastructure (like Open Connect), ISP peering strategies, live streaming considerations, and per-shot encoding optimization, but remains an excellent high-level architecture reference."
+      }
+    },
+    {
+      "prompt_id": "multistep-4",
+      "category": "multistep",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.040239,
+      "judge_score": {
+        "correctness": 33.0,
+        "completeness": 22.0,
+        "clarity": 27.0,
+        "total": 82.0,
+        "justification": "No summary provided"
+      }
+    },
+    {
+      "prompt_id": "multistep-5",
+      "category": "multistep",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.042367,
+      "judge_score": {
+        "correctness": 34.0,
+        "completeness": 18.0,
+        "clarity": 27.0,
+        "total": 79.0,
+        "justification": "A well-structured and technically sound response that excels in covering assignment logic and metrics collection with practical code examples and architecture diagrams, but is significantly incomplete due to truncation \u2014 entirely missing the statistical significance calculation section, which was one of three core requirements of the prompt."
+      }
+    },
+    {
+      "prompt_id": "multistep-6",
+      "category": "multistep",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.036655,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 98.0,
+        "justification": "An outstanding, production-ready response that accurately covers monitoring scope and alert fatigue mitigation with excellent structure, actionable detail, and sound engineering principles. It demonstrates deep expertise in observability for microservices architectures."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "category": "edge-cases",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.025277,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 28.0,
+        "total": 92.0,
+        "justification": "An exceptionally well-structured and comprehensive response that correctly identifies the most likely causes of sorting failures with duplicate values, provides multiple concrete solutions with working code, and includes helpful diagnostic tools. The only notable issues are a slightly confusing framing as a meta-evaluation and minor overstatement about the consequences of `<` vs `<=` in merge sort."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "category": "edge-cases",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.021138,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, well-organized response that accurately identifies a comprehensive range of potential causes for timezone-change crashes, provides actionable diagnostic steps, and offers concrete platform-specific fixes. It goes well beyond simply listing causes by providing a complete troubleshooting framework."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "category": "edge-cases",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.020225,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An excellent, well-organized response that accurately identifies the core issue (ASCII-centric validation assumptions) and provides multiple specific failure modes with practical solutions. Minor improvements could include discussion of grapheme clusters and platform-specific considerations."
+      }
+    },
+    {
+      "prompt_id": "adversarial-1",
+      "category": "adversarial",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.012418,
+      "judge_score": {
+        "correctness": 28.0,
+        "completeness": 25.0,
+        "clarity": 15.0,
+        "total": 68.0,
+        "justification": "The final answer is correct (781,781), and the partial product approach is sound, but the detailed addition table contains errors and the note section is confusing with a spurious reference to \"Response 1\" and an initial wrong sum that gets corrected, significantly hurting clarity and perceived correctness."
+      }
+    },
+    {
+      "prompt_id": "adversarial-2",
+      "category": "adversarial",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.00573,
+      "judge_score": {
+        "correctness": 20.0,
+        "completeness": 18.0,
+        "clarity": 24.0,
+        "total": 62.0,
+        "justification": "The response is well-organized and appropriately cautious, but the GDP figures provided (~$626\u2013660 million) are substantially below the actual World Bank figure of approximately $1.04 billion for Lesotho in 1991. The meta-analytical framing referencing \"three responses\" is also awkward and undermines confidence in the answer."
+      }
+    },
+    {
+      "prompt_id": "adversarial-3",
+      "category": "adversarial",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.016604,
+      "judge_score": {
+        "correctness": 40.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 100.0,
+        "justification": "A flawless response that provides a rigorous, well-organized formal logic proof while remaining accessible. It correctly applies hypothetical syllogism, uses proper notation, and explains the reasoning at both formal and intuitive levels."
+      }
+    },
+    {
+      "prompt_id": "adversarial-4",
+      "category": "adversarial",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.009009,
+      "judge_score": {
+        "correctness": 40.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 100.0,
+        "justification": "A flawless response that correctly solves the classic cognitive reflection problem with clear algebraic reasoning, thorough verification, and a valuable note addressing the common intuitive error."
+      }
+    },
+    {
+      "prompt_id": "adversarial-5",
+      "category": "adversarial",
+      "proposer": "nova-lite",
+      "aggregator": "sonnet",
+      "cost": 0.008474,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 27.0,
+        "total": 93.0,
+        "justification": "An excellent response that correctly identifies this classic garden-path sentence and provides accurate linguistic analysis along with appropriate French translations. The only notable flaw is the puzzling references to nonexistent \"prior responses,\" which introduces mild confusion."
+      }
+    }
+  ]
+}

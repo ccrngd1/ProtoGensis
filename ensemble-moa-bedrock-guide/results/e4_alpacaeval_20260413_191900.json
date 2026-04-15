@@ -1,0 +1,2424 @@
+{
+  "metadata": {
+    "timestamp": "2026-04-13T19:19:00.616400",
+    "num_prompts": 50,
+    "configs": [
+      "opus",
+      "high-end-reasoning",
+      "mixed-capability",
+      "same-model-premium"
+    ],
+    "total_cost": 27.204693999999993,
+    "benchmark": "AlpacaEval-50"
+  },
+  "results": {
+    "opus": [
+      {
+        "prompt_id": "alpaca-1",
+        "config": "opus",
+        "cost": 0.02403,
+        "judge_score": {
+          "correctness": 36.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 95.0,
+          "justification": "An excellent, age-appropriate explanation that accurately covers all key bicycle mechanics with engaging formatting, relatable analogies, and a warm tone perfectly suited for a 5-year-old audience. The only minor quibble is a slight oversimplification of bicycle stability."
+        }
+      },
+      {
+        "prompt_id": "alpaca-2",
+        "config": "opus",
+        "cost": 0.02184,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 29.0,
+          "total": 95.0,
+          "justification": "This is an excellent, professional email template for declining a job offer that covers all key elements with appropriate tone and structure. It could be marginally improved by including a brief, tactful reason for the declination, but as written it is highly effective and ready to use."
+        }
+      },
+      {
+        "prompt_id": "alpaca-3",
+        "config": "opus",
+        "cost": 0.015465000000000001,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an excellent, well-organized response that accurately and clearly explains the water cycle in simple terms. It hits all the major stages with appropriate detail for a general audience, with only minor omissions like transpiration that are forgivable given the simplicity requested."
+        }
+      },
+      {
+        "prompt_id": "alpaca-4",
+        "config": "opus",
+        "cost": 0.01707,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "A flawless response that provides five accurate, well-detailed, and clearly presented ways to reduce one's carbon footprint, fully addressing the prompt with strong formatting and actionable specifics."
+        }
+      },
+      {
+        "prompt_id": "alpaca-5",
+        "config": "opus",
+        "cost": 0.024480000000000002,
+        "judge_score": {
+          "correctness": 35.0,
+          "completeness": 27.0,
+          "clarity": 29.0,
+          "total": 91.0,
+          "justification": "A well-structured and largely accurate comparison of viruses and bacteria, with minor factual overstatements regarding viruses always causing disease and the relative prevalence of viral vs. bacterial vaccines. Overall, it effectively communicates the key differences in an accessible format."
+        }
+      },
+      {
+        "prompt_id": "alpaca-6",
+        "config": "opus",
+        "cost": 0.0026850000000000003,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 29.0,
+          "total": 95.0,
+          "justification": "An excellent haiku that correctly adheres to the 5-7-5 syllable structure, meaningfully engages with the theme of technology through vivid and layered imagery, and is presented in a clean, polished format. It goes slightly beyond the prompt by including a fitting title."
+        }
+      },
+      {
+        "prompt_id": "alpaca-7",
+        "config": "opus",
+        "cost": 0.026414999999999998,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 96.0,
+          "justification": "This is an excellent, well-structured response that provides accurate, complete, and clearly written instructions for making a classic paper airplane. The formatting, helpful tips, and logical step-by-step progression make it highly effective for readers of any skill level."
+        }
+      },
+      {
+        "prompt_id": "alpaca-8",
+        "config": "opus",
+        "cost": 0.026999999999999996,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 27.0,
+          "clarity": 30.0,
+          "total": 95.0,
+          "justification": "An excellent, age-appropriate explanation of compound interest that uses clear math, a relatable analogy, and smart formatting to make the concept accessible. The only minor gaps are the absence of compounding frequency and the fact that compound interest also applies to debt."
+        }
+      },
+      {
+        "prompt_id": "alpaca-9",
+        "config": "opus",
+        "cost": 0.028515,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is a near-ideal response to the prompt\u2014accurate, comprehensive, and impeccably organized. It covers the major pros and cons of remote work with clear, concise descriptions and balanced treatment of both sides."
+        }
+      },
+      {
+        "prompt_id": "alpaca-10",
+        "config": "opus",
+        "cost": 0.024375,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, well-structured response that accurately and thoroughly describes the scientific method. The formatting is exemplary, the content is correct and comprehensive, and the additional notes about the iterative nature of science add valuable context."
+        }
+      },
+      {
+        "prompt_id": "alpaca-11",
+        "config": "opus",
+        "cost": 0.024015,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 96.0,
+          "justification": "An excellent, well-structured explanation that accurately conveys what DNS does using clear analogies and a step-by-step breakdown, perfectly calibrated for the \"simple terms\" audience requested in the prompt."
+        }
+      },
+      {
+        "prompt_id": "alpaca-12",
+        "config": "opus",
+        "cost": 0.050625,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding response that provides comprehensive, accurate, and well-organized presentation tips covering all key dimensions from preparation to post-presentation feedback. The formatting is exemplary and the advice is practical and actionable."
+        }
+      },
+      {
+        "prompt_id": "alpaca-13",
+        "config": "opus",
+        "cost": 0.03369,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an excellent, well-organized explanation of photosynthesis that is accurate, comprehensive, and highly readable. It strikes a strong balance between scientific rigor and accessibility, covering all essential aspects of the process with only minor omissions of advanced detail."
+        }
+      },
+      {
+        "prompt_id": "alpaca-14",
+        "config": "opus",
+        "cost": 0.013799999999999998,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "An excellent, well-organized response that accurately and thoroughly lists ingredients for a simple pasta recipe. The formatting is clean, the categorization is logical, and the inclusion of optional items and a time estimate adds practical value."
+        }
+      },
+      {
+        "prompt_id": "alpaca-15",
+        "config": "opus",
+        "cost": 0.022365,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding response that accurately, thoroughly, and clearly explains the difference between weather and climate, using effective formatting, relatable analogies, and a meaningful discussion of why the distinction matters."
+        }
+      },
+      {
+        "prompt_id": "alpaca-16",
+        "config": "opus",
+        "cost": 0.012615000000000001,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 29.0,
+          "total": 95.0,
+          "justification": "An excellent, well-structured thank you note template that covers all the essential components with warm, appropriate language. The inclusion of customizable placeholders and the offer to personalize further demonstrate thoughtful consideration of the user's needs."
+        }
+      },
+      {
+        "prompt_id": "alpaca-17",
+        "config": "opus",
+        "cost": 0.023625,
+        "judge_score": {
+          "correctness": 35.0,
+          "completeness": 27.0,
+          "clarity": 29.0,
+          "total": 91.0,
+          "justification": "A well-structured, accurate, and clear guide to tying a Four-in-Hand knot that covers all essential steps with helpful tips. Minor improvements could be made in the precision of a couple of intermediate steps, but overall this is an excellent response."
+        }
+      },
+      {
+        "prompt_id": "alpaca-18",
+        "config": "opus",
+        "cost": 0.02964,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An excellent, well-structured response that accurately and comprehensively explains inflation and its effects, with clear organization and appropriate depth for a general audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-19",
+        "config": "opus",
+        "cost": 0.023895,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An excellent, well-structured response that accurately and comprehensively covers the benefits of regular exercise across multiple dimensions of health and well-being, presented in a highly readable format."
+        }
+      },
+      {
+        "prompt_id": "alpaca-20",
+        "config": "opus",
+        "cost": 0.031065,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 96.0,
+          "justification": "An excellent, well-structured response that accurately and thoroughly describes all five layers of Earth's atmosphere with key characteristics, altitude ranges, and temperature trends. Minor approximation issues in unit conversions are negligible."
+        }
+      },
+      {
+        "prompt_id": "alpaca-21",
+        "config": "opus",
+        "cost": 0.026744999999999998,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 27.0,
+          "clarity": 30.0,
+          "total": 96.0,
+          "justification": "This is an excellent, well-structured explanation of how vaccines work that is accurate, clearly written, and covers all the essential mechanisms. It strikes a strong balance between scientific accuracy and accessibility, with only minor gaps in completeness regarding secondary concepts like herd immunity or innate immune system involvement."
+        }
+      },
+      {
+        "prompt_id": "alpaca-22",
+        "config": "opus",
+        "cost": 0.050325,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, well-organized, and accurate response that covers nearly every important dimension of learning to code\u2014from mindset and habits to practical strategies and long-term thinking. The writing is clear, encouraging, and highly accessible to beginners."
+        }
+      },
+      {
+        "prompt_id": "alpaca-23",
+        "config": "opus",
+        "cost": 0.031814999999999996,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An excellent, well-organized response that accurately and comprehensively explains the differences between RAM and ROM, with clear formatting and a helpful summary table. Only the most minor technical nuances could be improved."
+        }
+      },
+      {
+        "prompt_id": "alpaca-24",
+        "config": "opus",
+        "cost": 0.031109999999999995,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, well-structured response that provides accurate, comprehensive, and clearly organized advice on improving sleep quality. It covers all major evidence-based strategies with appropriate specificity and ends with a helpful prompt for further engagement."
+        }
+      },
+      {
+        "prompt_id": "alpaca-25",
+        "config": "opus",
+        "cost": 0.023549999999999998,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An exemplary response that accurately, clearly, and thoroughly explains the cause of Earth's seasons, with well-organized formatting and a helpful correction of a common misconception. Only the most minor additions (e.g., solstices/equinoxes, surface area spreading of light) could improve it further."
+        }
+      },
+      {
+        "prompt_id": "alpaca-26",
+        "config": "opus",
+        "cost": 0.044925,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 96.0,
+          "justification": "An excellent, well-structured brief history of the internet that is accurate, comprehensive, and highly readable. The only notable weakness is the common but slightly misleading framing of ARPANET's origins as primarily a nuclear-survivable network."
+        }
+      },
+      {
+        "prompt_id": "alpaca-27",
+        "config": "opus",
+        "cost": 0.033764999999999996,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 27.0,
+          "clarity": 30.0,
+          "total": 95.0,
+          "justification": "This is an excellent, well-organized explanation of how a combustion engine works that is accurate, thorough, and highly readable. It covers all essential aspects of the four-stroke cycle with only minor omissions regarding alternative combustion engine types."
+        }
+      },
+      {
+        "prompt_id": "alpaca-28",
+        "config": "opus",
+        "cost": 0.028709999999999996,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding response that provides a comprehensive, well-organized, and accurate list of leadership characteristics. The categorization into four dimensions adds meaningful structure, and the concise descriptions for each trait enhance understanding without unnecessary verbosity."
+        }
+      },
+      {
+        "prompt_id": "alpaca-29",
+        "config": "opus",
+        "cost": 0.025890000000000003,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 27.0,
+          "clarity": 30.0,
+          "total": 96.0,
+          "justification": "This is an excellent, well-organized explanation of supply and demand that accurately covers all the essential concepts with clear formatting and accessible language. It could be marginally improved with a concrete example or mention of elasticity, but it thoroughly addresses the prompt."
+        }
+      },
+      {
+        "prompt_id": "alpaca-30",
+        "config": "opus",
+        "cost": 0.042885,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding, well-organized response that provides accurate, comprehensive, and actionable time management tips across multiple dimensions, enhanced by practical tool recommendations and a polished presentation."
+        }
+      },
+      {
+        "prompt_id": "alpaca-31",
+        "config": "opus",
+        "cost": 0.04515,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An excellent, well-structured, and highly accurate explanation of how the human eye works, covering the full light-to-perception pathway with appropriate detail and clear organization. Only the most minor simplifications and omissions prevent a perfect score."
+        }
+      },
+      {
+        "prompt_id": "alpaca-32",
+        "config": "opus",
+        "cost": 0.03195,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding, well-organized, and accurate explanation of thunder and lightning that covers the key mechanisms with appropriate depth and clarity for a general audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-33",
+        "config": "opus",
+        "cost": 0.026924999999999998,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an excellent, well-organized response that accurately and comprehensively covers the key steps to starting a small business. The formatting is exemplary, and only very minor additions (such as insurance and IP protection) would make it even more complete."
+        }
+      },
+      {
+        "prompt_id": "alpaca-34",
+        "config": "opus",
+        "cost": 0.025140000000000003,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An excellent, well-organized response that accurately and clearly explains the key differences between stocks and bonds. The parallel structure makes comparison intuitive, and the inclusion of a risk/reward summary adds practical value."
+        }
+      },
+      {
+        "prompt_id": "alpaca-35",
+        "config": "opus",
+        "cost": 0.03321,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An excellent, well-structured explanation that accurately covers all major mechanisms of antibiotic action with appropriate examples, important caveats, and clear organization. It strikes an ideal balance between accessibility and scientific rigor."
+        }
+      },
+      {
+        "prompt_id": "alpaca-36",
+        "config": "opus",
+        "cost": 0.07753499999999999,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding, comprehensive, and expertly organized guide to conflict resolution that covers all essential dimensions\u2014from mindset and process to communication techniques, pitfalls, escalation, and aftercare\u2014with accurate, actionable advice and excellent formatting."
+        }
+      },
+      {
+        "prompt_id": "alpaca-37",
+        "config": "opus",
+        "cost": 0.041445,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, well-structured description of the nitrogen cycle that accurately covers all major stages with appropriate detail, specific examples, and relevant context about human impacts. The formatting and organization make it highly accessible while maintaining scientific rigor."
+        }
+      },
+      {
+        "prompt_id": "alpaca-38",
+        "config": "opus",
+        "cost": 0.025920000000000002,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, well-structured response that provides a comprehensive and accurate list of stress reduction techniques organized into intuitive categories. The formatting is exemplary, making it easy to read and actionable."
+        }
+      },
+      {
+        "prompt_id": "alpaca-39",
+        "config": "opus",
+        "cost": 0.027075,
+        "judge_score": {
+          "correctness": 35.0,
+          "completeness": 27.0,
+          "clarity": 29.0,
+          "total": 91.0,
+          "justification": "A well-organized and largely accurate explanation of ocean tides that covers all the essential factors. The only notable weakness is a slightly imprecise explanation of the far-side tidal bulge, though this is a common simplification in popular science communication."
+        }
+      },
+      {
+        "prompt_id": "alpaca-40",
+        "config": "opus",
+        "cost": 0.04551,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An outstanding, well-organized, and comprehensive response that covers virtually all aspects of healthy eating habits with accurate information and excellent formatting. It is both informative and actionable, making it highly useful for a general audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-41",
+        "config": "opus",
+        "cost": 0.032235,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 96.0,
+          "justification": "This is an excellent, well-organized explanation of how solar panels work that is accurate, comprehensive, and highly readable. It strikes a strong balance between technical detail and accessibility."
+        }
+      },
+      {
+        "prompt_id": "alpaca-42",
+        "config": "opus",
+        "cost": 0.0249,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An excellent, well-organized explanation of opportunity cost that is accurate, comprehensive, and highly accessible. It effectively combines clear definitions with concrete examples across multiple domains, making the concept easy to understand for any audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-43",
+        "config": "opus",
+        "cost": 0.026144999999999998,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding response that provides a comprehensive, well-organized, and accurate overview of effective communication qualities. The categorical structure with clear definitions makes it both informative and highly readable."
+        }
+      },
+      {
+        "prompt_id": "alpaca-44",
+        "config": "opus",
+        "cost": 0.03241499999999999,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 27.0,
+          "clarity": 30.0,
+          "total": 95.0,
+          "justification": "A well-organized, accurate, and comprehensive explanation of 3D printing that covers the key concepts, methods, materials, and applications. It strikes an excellent balance between accessibility and technical detail."
+        }
+      },
+      {
+        "prompt_id": "alpaca-45",
+        "config": "opus",
+        "cost": 0.02745,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an excellent, well-organized explanation of rainbow formation that accurately covers all the key physics (refraction, dispersion, internal reflection) with appropriate detail, clear structure, and helpful additional context about viewing conditions and double rainbows."
+        }
+      },
+      {
+        "prompt_id": "alpaca-46",
+        "config": "opus",
+        "cost": 0.10516500000000001,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, near-comprehensive guide for first-time home buyers that is accurate, well-organized, and highly readable. It covers the full lifecycle of the home-buying process with practical, actionable advice and appropriate level of detail."
+        }
+      },
+      {
+        "prompt_id": "alpaca-47",
+        "config": "opus",
+        "cost": 0.031619999999999995,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an excellent, well-organized description of the carbon cycle that accurately covers all major processes, reservoirs, and human impacts with clear formatting and appropriate detail. Only very minor additions (e.g., chemical weathering, biological pump) could improve it further."
+        }
+      },
+      {
+        "prompt_id": "alpaca-48",
+        "config": "opus",
+        "cost": 0.026744999999999998,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An excellent, well-structured, and accurate response that comprehensively addresses the prompt with clear categorization and actionable advice. It covers nearly all major evidence-based strategies for memory improvement with appropriate brevity and clarity."
+        }
+      },
+      {
+        "prompt_id": "alpaca-49",
+        "config": "opus",
+        "cost": 0.056369999999999996,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding explanation of GPS that is accurate, comprehensive, and exceptionally well-organized. It successfully balances technical depth with accessibility, covering everything from basic trilateration to relativistic corrections in a clear, logical flow."
+        }
+      },
+      {
+        "prompt_id": "alpaca-50",
+        "config": "opus",
+        "cost": 0.06831,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, well-structured, and comprehensive response that covers virtually all aspects of successful job interviewing with accurate, actionable advice. The formatting is exemplary and makes the content highly scannable and easy to follow."
+        }
+      }
+    ],
+    "high-end-reasoning": [
+      {
+        "prompt_id": "alpaca-1",
+        "config": "high-end-reasoning",
+        "cost": 0.177686,
+        "judge_score": {
+          "correctness": 36.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 94.0,
+          "justification": "An outstanding, age-appropriate explanation that covers all key bicycle components with creative analogies and engaging formatting. Minor technical simplifications around stability and mechanical advantage are entirely forgivable given the target audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-2",
+        "config": "high-end-reasoning",
+        "cost": 0.19133,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 30.0,
+          "clarity": 29.0,
+          "total": 97.0,
+          "justification": "An outstanding response that delivers a polished, professional email template while also providing valuable contextual guidance on timing, personalization, and relationship preservation. It exceeds the prompt's requirements with thoughtful extras that enhance rather than distract from the core deliverable."
+        }
+      },
+      {
+        "prompt_id": "alpaca-3",
+        "config": "high-end-reasoning",
+        "cost": 0.150456,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An excellent, well-organized explanation of the water cycle that is accurate, comprehensive, and highly accessible. It strikes an ideal balance between simplicity (as requested) and informative depth, with outstanding formatting and an engaging closing thought."
+        }
+      },
+      {
+        "prompt_id": "alpaca-4",
+        "config": "high-end-reasoning",
+        "cost": 0.146389,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An outstanding response that is accurate, comprehensive, and exceptionally well-organized. It goes significantly beyond the simple list requested by providing detailed justifications, actionable steps, and a thoughtful synthesis, all while remaining clear and accessible."
+        }
+      },
+      {
+        "prompt_id": "alpaca-5",
+        "config": "high-end-reasoning",
+        "cost": 0.226753,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response\u2014accurate, comprehensive, and beautifully structured. It explains the core differences clearly, provides practical context around treatment implications, and includes thoughtful additional nuances without overwhelming the reader."
+        }
+      },
+      {
+        "prompt_id": "alpaca-6",
+        "config": "high-end-reasoning",
+        "cost": 0.07027,
+        "judge_score": {
+          "correctness": 35.0,
+          "completeness": 28.0,
+          "clarity": 22.0,
+          "total": 85.0,
+          "justification": "The haiku is excellent \u2014 vivid, well-structured, and thematically resonant. However, the response is marred by an elaborate analytical framework that references nonexistent prior responses, creating confusion and unnecessary bloat for what should be a simple creative task."
+        }
+      },
+      {
+        "prompt_id": "alpaca-7",
+        "config": "high-end-reasoning",
+        "cost": 0.231472,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that provides accurate, comprehensive, and beautifully organized instructions for making a paper airplane. It goes above and beyond with troubleshooting guidance, flight tips, and aerodynamic context while remaining clear and easy to follow for any skill level."
+        }
+      },
+      {
+        "prompt_id": "alpaca-8",
+        "config": "high-end-reasoning",
+        "cost": 0.22696,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An outstanding explanation of compound interest for a teenage audience that is accurate, comprehensive, and exceptionally well-structured. The response strikes an ideal balance between mathematical rigor and accessibility, with practical takeaways that make the concept immediately relevant."
+        }
+      },
+      {
+        "prompt_id": "alpaca-9",
+        "config": "high-end-reasoning",
+        "cost": 0.235254,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is a near-perfect response \u2014 comprehensive, well-organized, accurate, and thoughtfully nuanced. It goes well beyond a basic list by providing meaningful context, addressing multiple stakeholder perspectives, and offering a balanced, evidence-aware conclusion."
+        }
+      },
+      {
+        "prompt_id": "alpaca-10",
+        "config": "high-end-reasoning",
+        "cost": 0.221004,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "This is an exemplary response that accurately, thoroughly, and clearly describes the scientific method. It goes well beyond a simple enumeration of steps by providing context, examples, nuances, and key principles, all in a highly readable and well-structured format."
+        }
+      },
+      {
+        "prompt_id": "alpaca-11",
+        "config": "high-end-reasoning",
+        "cost": 0.17784,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An excellent, well-organized explanation that is accurate, thorough, and perfectly calibrated for a lay audience. The phonebook analogy, step-by-step process, and supplementary details make this a near-ideal response to the prompt."
+        }
+      },
+      {
+        "prompt_id": "alpaca-12",
+        "config": "high-end-reasoning",
+        "cost": 0.278008,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that provides comprehensive, accurate, and exceptionally well-organized presentation tips. It covers all major dimensions of effective presenting with practical, actionable advice and excellent formatting that makes it immediately useful."
+        }
+      },
+      {
+        "prompt_id": "alpaca-13",
+        "config": "high-end-reasoning",
+        "cost": 0.290853,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding, well-structured, and highly accurate explanation of photosynthesis that goes beyond the basics with helpful context, a comparison table, and a misconceptions section, all presented with excellent clarity."
+        }
+      },
+      {
+        "prompt_id": "alpaca-14",
+        "config": "high-end-reasoning",
+        "cost": 0.134563,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 29.0,
+          "total": 98.0,
+          "justification": "An excellent, well-organized response that accurately lists ingredients for simple pasta recipes while going above and beyond with two options, helpful tips, and customization suggestions. The formatting is exemplary and the information is entirely accurate."
+        }
+      },
+      {
+        "prompt_id": "alpaca-15",
+        "config": "high-end-reasoning",
+        "cost": 0.166854,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "This is an exemplary response that is factually accurate, comprehensive, and beautifully organized. It explains the difference at multiple levels of abstraction\u2014definitions, analogies, tables, and real-world implications\u2014making it accessible and informative for any audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-16",
+        "config": "high-end-reasoning",
+        "cost": 0.149182,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding response that not only fulfills the prompt but exceeds it by offering multiple templates, a concrete example, and practical writing tips \u2014 all presented with excellent structure and clarity. The only minor quibble is that the prompt could be read as requesting a single note rather than a guide, but the inclusion of complete, ready-to-use notes more than compensates."
+        }
+      },
+      {
+        "prompt_id": "alpaca-17",
+        "config": "high-end-reasoning",
+        "cost": 0.174848,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An excellent, well-organized response that accurately describes how to tie a Four-in-Hand knot with clear steps, practical finishing tips, and helpful context about alternative knots. The formatting and structure make it highly accessible for beginners."
+        }
+      },
+      {
+        "prompt_id": "alpaca-18",
+        "config": "high-end-reasoning",
+        "cost": 0.307193,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, comprehensive, and well-organized response that accurately explains inflation and its effects while going above and beyond to cover causes, measurement, severity levels, and policy responses. The presentation is exemplary in its clarity and accessibility."
+        }
+      },
+      {
+        "prompt_id": "alpaca-19",
+        "config": "high-end-reasoning",
+        "cost": 0.192779,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response\u2014comprehensive, well-organized, and factually accurate. It goes well beyond a basic list by categorizing benefits, providing brief explanations for each, and including practical recommendations, making it highly informative and immediately useful."
+        }
+      },
+      {
+        "prompt_id": "alpaca-20",
+        "config": "high-end-reasoning",
+        "cost": 0.334975,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect response that is accurate, comprehensive, and beautifully structured. It covers all five atmospheric layers with rich detail, helpful visual aids, and thoughtful contextual notes, making it suitable for both quick reference and deeper learning."
+        }
+      },
+      {
+        "prompt_id": "alpaca-21",
+        "config": "high-end-reasoning",
+        "cost": 0.267303,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding explanation of how vaccines work \u2014 scientifically accurate, comprehensive in scope, and exceptionally well-organized. It successfully balances accessibility for a general audience with sufficient technical depth, and the inclusion of vaccine types, societal context, and misconceptions makes it a near-perfect response."
+        }
+      },
+      {
+        "prompt_id": "alpaca-22",
+        "config": "high-end-reasoning",
+        "cost": 0.358816,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "An outstanding, comprehensive, and expertly structured guide for beginning coders that covers every important dimension of the learning journey with accurate, actionable, and clearly presented advice. It goes well beyond surface-level tips to offer genuinely insightful guidance."
+        }
+      },
+      {
+        "prompt_id": "alpaca-23",
+        "config": "high-end-reasoning",
+        "cost": 0.1915,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding, comprehensive response that accurately and clearly explains the differences between RAM and ROM, enhanced by excellent formatting, a useful comparison table, a helpful analogy, and a thoughtful nuance about modern ROM variants. Only the most minor technical simplifications prevent a perfect score."
+        }
+      },
+      {
+        "prompt_id": "alpaca-24",
+        "config": "high-end-reasoning",
+        "cost": 0.24756,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is a near-perfect response \u2014 comprehensive, accurate, exceptionally well-organized, and actionable. It goes beyond a simple list by providing context, evidence-based reasoning, and practical prioritization guidance."
+        }
+      },
+      {
+        "prompt_id": "alpaca-25",
+        "config": "high-end-reasoning",
+        "cost": 0.233979,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "This is an exemplary response\u2014scientifically accurate, comprehensive, and beautifully structured. It explains the cause of seasons at an appropriate level of detail while proactively addressing common misconceptions and supplementary concepts like thermal lag."
+        }
+      },
+      {
+        "prompt_id": "alpaca-26",
+        "config": "high-end-reasoning",
+        "cost": 0.260248,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an excellent brief history of the internet that is well-structured, nearly flawless in accuracy (with only the common nuclear-survivability simplification as a minor issue), and impressively comprehensive for its length. It successfully balances accessibility with substantive detail."
+        }
+      },
+      {
+        "prompt_id": "alpaca-27",
+        "config": "high-end-reasoning",
+        "cost": 0.231181,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, well-structured, and highly accurate explanation of how a combustion engine works, covering all essential aspects with clear formatting and appropriate depth for a general audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-28",
+        "config": "high-end-reasoning",
+        "cost": 0.281448,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an exemplary response that transforms a simple list prompt into a richly structured, accurate, and insightful guide to leadership characteristics. It demonstrates exceptional depth, nuance, and presentation quality, with the situational framing at the end adding meaningful sophistication beyond what was asked."
+        }
+      },
+      {
+        "prompt_id": "alpaca-29",
+        "config": "high-end-reasoning",
+        "cost": 0.244778,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "This is an exemplary explanation of supply and demand \u2014 accurate, comprehensive, and beautifully structured. It covers all essential concepts with clear examples, addresses important nuances like the movement-vs-shift distinction, and honestly acknowledges the model's limitations, making it suitable for both beginners and those seeking a solid refresher."
+        }
+      },
+      {
+        "prompt_id": "alpaca-30",
+        "config": "high-end-reasoning",
+        "cost": 0.337802,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an exemplary response \u2014 accurate, remarkably comprehensive, and beautifully organized. It transforms a straightforward prompt into a genuinely useful, actionable guide that balances breadth with depth and includes thoughtful nuances (e.g., when Pomodoro may not work, the distinction between distraction avoidance and resistance) that elevate it well beyond a generic list."
+        }
+      },
+      {
+        "prompt_id": "alpaca-31",
+        "config": "high-end-reasoning",
+        "cost": 0.413026,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect response that provides a comprehensive, accurate, and beautifully structured explanation of how the human eye works, covering everything from basic optics to neural processing and common pathologies."
+        }
+      },
+      {
+        "prompt_id": "alpaca-32",
+        "config": "high-end-reasoning",
+        "cost": 0.216383,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding, well-structured explanation that accurately and thoroughly covers the physics of thunder and lightning, with excellent use of formatting and accessible language. Virtually no errors or omissions relative to the scope of the question."
+        }
+      },
+      {
+        "prompt_id": "alpaca-33",
+        "config": "high-end-reasoning",
+        "cost": 0.30527,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect response that provides accurate, comprehensive, and exceptionally well-organized guidance for starting a small business. It goes well beyond a simple list by offering actionable detail, critical warnings, curated resources, and practical tips \u2014 all presented with excellent clarity and structure."
+        }
+      },
+      {
+        "prompt_id": "alpaca-34",
+        "config": "high-end-reasoning",
+        "cost": 0.19203,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that accurately, comprehensively, and clearly explains the differences between stocks and bonds. The structured format with multiple presentation styles (bullets, table, callouts, summary) makes it both thorough and highly accessible."
+        }
+      },
+      {
+        "prompt_id": "alpaca-35",
+        "config": "high-end-reasoning",
+        "cost": 0.292932,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-flawless explanation of how antibiotics work. It is accurate, comprehensive, and beautifully structured, covering mechanisms of action, selectivity, resistance, and clinical relevance with appropriate depth and clarity for a broad audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-36",
+        "config": "high-end-reasoning",
+        "cost": 0.574745,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An outstanding, comprehensive, and expertly organized guide to conflict resolution that is accurate, actionable, and clearly written. The only minor issue is the truncated final section, which prevents a perfect score."
+        }
+      },
+      {
+        "prompt_id": "alpaca-37",
+        "config": "high-end-reasoning",
+        "cost": 0.392481,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect response that is accurate, remarkably comprehensive (including anammox and detailed human impacts), and exceptionally well-structured with effective use of formatting to enhance clarity."
+        }
+      },
+      {
+        "prompt_id": "alpaca-38",
+        "config": "high-end-reasoning",
+        "cost": 0.223034,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that is accurate, remarkably comprehensive, and beautifully organized. It transforms a simple list prompt into a genuinely useful, well-structured guide with appropriate nuance, actionable detail, and thoughtful framing."
+        }
+      },
+      {
+        "prompt_id": "alpaca-39",
+        "config": "high-end-reasoning",
+        "cost": 0.24896,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding explanation of ocean tides that is accurate, remarkably comprehensive, and beautifully organized. It successfully balances accessibility with scientific rigor, covering everything from the fundamental gravitational mechanics to real-world geographic effects."
+        }
+      },
+      {
+        "prompt_id": "alpaca-40",
+        "config": "high-end-reasoning",
+        "cost": 0.30786,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect response that provides accurate, comprehensive, and beautifully organized guidance on healthy eating habits. It balances practical actionable tips with nuanced considerations about sustainability, individual differences, and mental health around food, making it both informative and responsible."
+        }
+      },
+      {
+        "prompt_id": "alpaca-41",
+        "config": "high-end-reasoning",
+        "cost": 0.237588,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding response that accurately, comprehensively, and clearly explains how solar panels work, going beyond the core mechanism to include system components, efficiency factors, and practical context \u2014 all presented in an exceptionally well-organized format."
+        }
+      },
+      {
+        "prompt_id": "alpaca-42",
+        "config": "high-end-reasoning",
+        "cost": 0.259328,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding explanation of opportunity cost\u2014accurate, comprehensive, and beautifully structured. It covers the concept at multiple levels of depth with clear examples and correctly distinguishes it from related ideas like sunk costs and explicit costs."
+        }
+      },
+      {
+        "prompt_id": "alpaca-43",
+        "config": "high-end-reasoning",
+        "cost": 0.243199,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that provides a comprehensive, accurate, and beautifully organized treatment of the qualities of effective communication. It goes beyond a simple enumeration to offer nuanced sub-points and a unifying principle, all presented with exceptional clarity and structure."
+        }
+      },
+      {
+        "prompt_id": "alpaca-44",
+        "config": "high-end-reasoning",
+        "cost": 0.306121,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-flawless response that accurately, comprehensively, and clearly explains how 3D printing works, covering the full workflow, major technologies, applications, and trade-offs in a highly readable format."
+        }
+      },
+      {
+        "prompt_id": "alpaca-45",
+        "config": "high-end-reasoning",
+        "cost": 0.187327,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding, well-organized, and nearly flawless explanation of rainbow formation that is accurate, thorough, and highly readable."
+        }
+      },
+      {
+        "prompt_id": "alpaca-46",
+        "config": "high-end-reasoning",
+        "cost": 0.542442,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 24.0,
+          "clarity": 29.0,
+          "total": 91.0,
+          "justification": "This is an excellent, well-structured, and highly accurate guide for first-time home buyers that covers the process in impressive detail with practical, actionable advice. The only significant drawback is that the response is truncated, cutting off mid-phase and omitting the closing process and post-purchase guidance."
+        }
+      },
+      {
+        "prompt_id": "alpaca-47",
+        "config": "high-end-reasoning",
+        "cost": 0.314903,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect description of the carbon cycle that is scientifically accurate, remarkably comprehensive, and exceptionally well-organized. It would serve as an excellent reference for students or general audiences seeking a thorough understanding of the topic."
+        }
+      },
+      {
+        "prompt_id": "alpaca-48",
+        "config": "high-end-reasoning",
+        "cost": 0.25071,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect response that is accurate, remarkably comprehensive, and exceptionally well-organized. It goes well beyond a simple list by providing context, research grounding, and actionable prioritization, making it highly useful for any reader."
+        }
+      },
+      {
+        "prompt_id": "alpaca-49",
+        "config": "high-end-reasoning",
+        "cost": 0.350411,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding explanation of GPS that is accurate, remarkably comprehensive, and exceptionally well-structured. It successfully makes a complex technical system accessible while maintaining precision, covering everything from fundamental principles to advanced augmentation systems."
+        }
+      },
+      {
+        "prompt_id": "alpaca-50",
+        "config": "high-end-reasoning",
+        "cost": 0.522335,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect response that provides comprehensive, accurate, and exceptionally well-organized job interview advice covering all phases of the process. The formatting, practical examples, and actionable specificity make it immediately useful for any job seeker."
+        }
+      }
+    ],
+    "mixed-capability": [
+      {
+        "prompt_id": "alpaca-1",
+        "config": "mixed-capability",
+        "cost": 0.050241,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An outstanding explanation that is accurate, comprehensive, and perfectly tailored to a 5-year-old audience. The use of analogies, emojis, structured formatting, and an enthusiastic tone makes this an exemplary response to the prompt."
+        }
+      },
+      {
+        "prompt_id": "alpaca-2",
+        "config": "mixed-capability",
+        "cost": 0.055824,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an excellent, comprehensive response that delivers a polished, professional email template for declining a job offer along with valuable supplementary guidance. The tone is gracious and diplomatic throughout, and the additional tips demonstrate thoughtful expertise that adds genuine value beyond the basic request."
+        }
+      },
+      {
+        "prompt_id": "alpaca-3",
+        "config": "mixed-capability",
+        "cost": 0.040434,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, well-organized explanation of the water cycle that is accurate, comprehensive, and perfectly pitched at an accessible level. The formatting enhances readability, and the closing summary effectively distills the entire cycle into one clear sentence."
+        }
+      },
+      {
+        "prompt_id": "alpaca-4",
+        "config": "mixed-capability",
+        "cost": 0.047937,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 96.0,
+          "justification": "An excellent, well-structured response that provides accurate, actionable, and detailed advice on reducing one's carbon footprint. The formatting is exemplary and the content strikes a good balance between breadth and depth."
+        }
+      },
+      {
+        "prompt_id": "alpaca-5",
+        "config": "mixed-capability",
+        "cost": 0.077878,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that provides a comprehensive, accurate, and beautifully organized explanation of the differences between viruses and bacteria. The combination of detailed sections, a summary table, and a practical concluding note makes it both informative and highly useful."
+        }
+      },
+      {
+        "prompt_id": "alpaca-6",
+        "config": "mixed-capability",
+        "cost": 0.008381,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 29.0,
+          "total": 95.0,
+          "justification": "An excellent response that delivers a well-crafted, correctly structured haiku about technology with vivid imagery and meaningful thematic depth, enhanced by a thoughtful explanatory note."
+        }
+      },
+      {
+        "prompt_id": "alpaca-7",
+        "config": "mixed-capability",
+        "cost": 0.079742,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an outstanding response that provides accurate, comprehensive, and beautifully organized instructions for making a paper airplane. It goes above and beyond with helpful tips, optional modifications, and a troubleshooting guide, all presented in clear, well-structured prose."
+        }
+      },
+      {
+        "prompt_id": "alpaca-8",
+        "config": "mixed-capability",
+        "cost": 0.075444,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding explanation of compound interest tailored perfectly for a teenage audience. It combines accuracy, completeness, and exceptional clarity with relatable analogies, concrete examples, and actionable advice that makes the concept both understandable and personally relevant."
+        }
+      },
+      {
+        "prompt_id": "alpaca-9",
+        "config": "mixed-capability",
+        "cost": 0.072115,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is a near-perfect response that provides a comprehensive, well-organized, and accurate overview of the pros and cons of remote work, enhanced by a thoughtful concluding synthesis. It would be difficult to meaningfully improve upon this answer."
+        }
+      },
+      {
+        "prompt_id": "alpaca-10",
+        "config": "mixed-capability",
+        "cost": 0.068563,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that accurately, comprehensively, and clearly describes the scientific method. It goes beyond a simple enumeration of steps by including important nuances like the iterative nature of the process, the role of peer review, and the pathway from hypothesis to theory."
+        }
+      },
+      {
+        "prompt_id": "alpaca-11",
+        "config": "mixed-capability",
+        "cost": 0.041055,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An excellent, well-organized explanation of DNS that is accurate, appropriately detailed for a simple explanation, and exceptionally clear. The combination of analogy, step-by-step breakdown, and one-sentence summary makes it accessible to virtually any audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-12",
+        "config": "mixed-capability",
+        "cost": 0.092045,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding, well-structured, and comprehensive guide to giving good presentations that covers all major aspects from preparation through follow-up. The response is accurate, actionable, and exceptionally well-organized, making it both informative and highly usable."
+        }
+      },
+      {
+        "prompt_id": "alpaca-13",
+        "config": "mixed-capability",
+        "cost": 0.123427,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect explanation of photosynthesis that is scientifically accurate, comprehensive in scope, and presented with exceptional clarity and organization. It would serve well as both an educational resource and a reference document."
+        }
+      },
+      {
+        "prompt_id": "alpaca-14",
+        "config": "mixed-capability",
+        "cost": 0.042901,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An excellent, well-organized response that accurately and thoroughly addresses the prompt. It provides a clear, tiered ingredient list with helpful quantities and practical cooking tips, making it highly useful for cooks of all skill levels."
+        }
+      },
+      {
+        "prompt_id": "alpaca-15",
+        "config": "mixed-capability",
+        "cost": 0.071794,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that explains the difference between weather and climate with excellent accuracy, thoroughness, and clarity. The use of structured formatting, a comparison table, a memorable analogy, and concrete examples makes the explanation highly effective for any audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-16",
+        "config": "mixed-capability",
+        "cost": 0.058057,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding response that not only fulfills the prompt but exceeds expectations by providing a versatile template, multiple situational examples, and practical writing tips\u2014all presented with excellent formatting and genuine warmth."
+        }
+      },
+      {
+        "prompt_id": "alpaca-17",
+        "config": "mixed-capability",
+        "cost": 0.06739,
+        "judge_score": {
+          "correctness": 35.0,
+          "completeness": 28.0,
+          "clarity": 29.0,
+          "total": 92.0,
+          "justification": "An excellent, well-organized response that accurately describes the Four-in-Hand knot with helpful supplementary information. The formatting is outstanding, and while the core instructions could be marginally more precise in their spatial descriptions, this is a highly useful and polished guide."
+        }
+      },
+      {
+        "prompt_id": "alpaca-18",
+        "config": "mixed-capability",
+        "cost": 0.099429,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, comprehensive, and well-organized response that accurately explains inflation and its effects while going above and beyond with additional context on causes, types, and management. The clarity of presentation and depth of coverage make it an exemplary answer."
+        }
+      },
+      {
+        "prompt_id": "alpaca-19",
+        "config": "mixed-capability",
+        "cost": 0.088353,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that provides a comprehensive, well-organized, and accurate overview of the benefits of regular exercise, going above and beyond the prompt with actionable guidelines and life-stage considerations while maintaining excellent readability."
+        }
+      },
+      {
+        "prompt_id": "alpaca-20",
+        "config": "mixed-capability",
+        "cost": 0.086221,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An outstanding, comprehensive, and beautifully formatted response that accurately describes all five atmospheric layers with appropriate detail, clear organization, and a helpful summary table. The only minor issue is a slight inconsistency in the troposphere altitude between the heading and the table."
+        }
+      },
+      {
+        "prompt_id": "alpaca-21",
+        "config": "mixed-capability",
+        "cost": 0.088888,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding response that accurately, comprehensively, and clearly explains how vaccines work. It combines scientific rigor with excellent accessibility, covering the immune mechanism, vaccine types, and public health significance in a well-structured format."
+        }
+      },
+      {
+        "prompt_id": "alpaca-22",
+        "config": "mixed-capability",
+        "cost": 0.096911,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding, well-organized, and accurate guide for someone learning to code. It balances practical advice with motivational encouragement, covers nearly every important dimension of the learning journey, and presents it all in a highly readable format."
+        }
+      },
+      {
+        "prompt_id": "alpaca-23",
+        "config": "mixed-capability",
+        "cost": 0.064193,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An excellent, well-organized response that accurately and thoroughly explains the differences between RAM and ROM, enhanced by a practical example, a clear comparison table, and an effective analogy. Minor simplifications do not detract meaningfully from the overall quality."
+        }
+      },
+      {
+        "prompt_id": "alpaca-24",
+        "config": "mixed-capability",
+        "cost": 0.120843,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect response that provides accurate, comprehensive, and exceptionally well-organized guidance on improving sleep quality. It goes well beyond a simple list by offering specific, actionable details and appropriate caveats throughout."
+        }
+      },
+      {
+        "prompt_id": "alpaca-25",
+        "config": "mixed-capability",
+        "cost": 0.07614,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, near-flawless explanation of what causes Earth's seasons. It is scientifically accurate, comprehensive, clearly structured, and anticipates and addresses a common misconception."
+        }
+      },
+      {
+        "prompt_id": "alpaca-26",
+        "config": "mixed-capability",
+        "cost": 0.11807,
+        "judge_score": {
+          "correctness": 37.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 96.0,
+          "justification": "This is an excellent, well-structured brief history of the internet that is accurate, comprehensive, and highly readable. The minor factual imprecisions (e.g., Amazon/Netscape launch dates) are trivial and do not detract meaningfully from the overall quality."
+        }
+      },
+      {
+        "prompt_id": "alpaca-27",
+        "config": "mixed-capability",
+        "cost": 0.113903,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an exemplary explanation of how a combustion engine works\u2014technically accurate, comprehensive, and exceptionally well-organized. It successfully balances accessibility for a general audience with sufficient technical depth, making it one of the best possible responses to this prompt."
+        }
+      },
+      {
+        "prompt_id": "alpaca-28",
+        "config": "mixed-capability",
+        "cost": 0.091299,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that provides a comprehensive, well-organized, and accurate overview of leadership characteristics. The combination of clear categorization, concise definitions, and a thoughtful concluding synthesis makes it both informative and highly readable."
+        }
+      },
+      {
+        "prompt_id": "alpaca-29",
+        "config": "mixed-capability",
+        "cost": 0.081405,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding explanation of supply and demand that is accurate, comprehensive, and exceptionally well-organized, with effective use of visual aids and a concrete example to reinforce understanding."
+        }
+      },
+      {
+        "prompt_id": "alpaca-30",
+        "config": "mixed-capability",
+        "cost": 0.093646,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that provides accurate, comprehensive, and exceptionally well-organized time management advice. It covers all major strategies with actionable detail, uses clear categorization, and includes a pragmatic closing that encourages gradual adoption\u2014making it both informative and immediately useful."
+        }
+      },
+      {
+        "prompt_id": "alpaca-31",
+        "config": "mixed-capability",
+        "cost": 0.120656,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding, well-organized, and highly accurate explanation of how the human eye works, covering anatomy, the vision process, protective mechanisms, and common disorders with excellent clarity and near-perfect scientific accuracy."
+        }
+      },
+      {
+        "prompt_id": "alpaca-32",
+        "config": "mixed-capability",
+        "cost": 0.061572,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An excellent, well-organized, and scientifically accurate explanation of thunder and lightning that covers the topic comprehensively and is highly accessible to a general audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-33",
+        "config": "mixed-capability",
+        "cost": 0.105162,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect response that provides a comprehensive, accurate, and beautifully organized guide to starting a small business. It goes well beyond a simple list by offering actionable detail at each step while remaining clear and accessible."
+        }
+      },
+      {
+        "prompt_id": "alpaca-34",
+        "config": "mixed-capability",
+        "cost": 0.073531,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding response that accurately, thoroughly, and clearly explains the differences between stocks and bonds, using excellent formatting and a practical example to make the concepts accessible to any reader."
+        }
+      },
+      {
+        "prompt_id": "alpaca-35",
+        "config": "mixed-capability",
+        "cost": 0.082511,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, comprehensive, and well-structured explanation of how antibiotics work. It is accurate, covers all essential aspects and several important related topics, and presents the information in a highly readable format suitable for a broad audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-36",
+        "config": "mixed-capability",
+        "cost": 0.137571,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an exemplary, well-structured guide to conflict resolution that is accurate, comprehensive, and exceptionally clear. It covers the full lifecycle of conflict resolution with practical, actionable advice and only lacks minor consideration of situations where standard resolution approaches may not be appropriate."
+        }
+      },
+      {
+        "prompt_id": "alpaca-37",
+        "config": "mixed-capability",
+        "cost": 0.090336,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding, near-comprehensive description of the nitrogen cycle that is scientifically accurate, well-structured, and clearly written, with only the most minor simplifications preventing a perfect score."
+        }
+      },
+      {
+        "prompt_id": "alpaca-38",
+        "config": "mixed-capability",
+        "cost": 0.088286,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "An outstanding, well-organized, and comprehensive response that covers virtually every major evidence-based stress reduction strategy with accurate information and excellent readability. The categorization and formatting make it highly practical and actionable."
+        }
+      },
+      {
+        "prompt_id": "alpaca-39",
+        "config": "mixed-capability",
+        "cost": 0.080325,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding explanation of ocean tides that is accurate, comprehensive, and exceptionally well-organized. It covers all major causes and modifying factors with appropriate detail and clarity, making it suitable for a wide audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-40",
+        "config": "mixed-capability",
+        "cost": 0.093308,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an outstanding, well-organized, and comprehensive guide to healthy eating habits. The information is accurate, the coverage is thorough across multiple dimensions of healthy eating, and the formatting with clear categories and bold key points makes it highly readable and actionable."
+        }
+      },
+      {
+        "prompt_id": "alpaca-41",
+        "config": "mixed-capability",
+        "cost": 0.068939,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an excellent, well-organized explanation of how solar panels work that is accurate, comprehensive, and highly accessible. It successfully balances technical detail with clarity, making it suitable for a wide audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-42",
+        "config": "mixed-capability",
+        "cost": 0.071972,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding explanation of opportunity cost that is accurate, comprehensive, and exceptionally well-organized. It covers all essential aspects of the concept with clear examples and practical relevance, making it accessible to readers at various levels of economic knowledge."
+        }
+      },
+      {
+        "prompt_id": "alpaca-43",
+        "config": "mixed-capability",
+        "cost": 0.067861,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding response that provides a well-organized, accurate, and comprehensive overview of effective communication qualities. The categorization into thematic groups, concise explanations, and thoughtful summary elevate it well beyond a simple list."
+        }
+      },
+      {
+        "prompt_id": "alpaca-44",
+        "config": "mixed-capability",
+        "cost": 0.114252,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect response that provides a comprehensive, accurate, and exceptionally well-organized explanation of 3D printing. It covers the topic from basic principles through advanced methods with excellent formatting and clarity, making it suitable for both beginners and those seeking deeper technical understanding."
+        }
+      },
+      {
+        "prompt_id": "alpaca-45",
+        "config": "mixed-capability",
+        "cost": 0.078013,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an excellent, near-perfect response that accurately and thoroughly explains rainbow formation with outstanding organization and clarity. It covers all essential physics while remaining accessible to a general audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-46",
+        "config": "mixed-capability",
+        "cost": 0.115571,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding, well-structured guide for first-time home buyers that covers nearly every important aspect of the process with accurate information and clear organization. The only notable gap is the absence of specific first-time buyer programs and assistance options, which would make it even more valuable for its target audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-47",
+        "config": "mixed-capability",
+        "cost": 0.097195,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding, near-comprehensive description of the carbon cycle that is accurate, well-organized, and clearly written. It goes beyond the basics to include human impacts and feedback mechanisms, making it an exemplary response to the prompt."
+        }
+      },
+      {
+        "prompt_id": "alpaca-48",
+        "config": "mixed-capability",
+        "cost": 0.103327,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding, well-organized, and accurate response that comprehensively addresses the prompt with evidence-based strategies across multiple dimensions of memory improvement. The formatting and structure make it highly practical and easy to follow."
+        }
+      },
+      {
+        "prompt_id": "alpaca-49",
+        "config": "mixed-capability",
+        "cost": 0.110966,
+        "judge_score": {
+          "correctness": 36.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 95.0,
+          "justification": "An excellent, well-structured explanation of GPS that covers the system comprehensively with strong accuracy. The only notable shortcomings are a minor signal designation error (L6) and the omission of relativistic corrections, but overall this is a high-quality response that would serve most audiences very well."
+        }
+      },
+      {
+        "prompt_id": "alpaca-50",
+        "config": "mixed-capability",
+        "cost": 0.107177,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect response that provides comprehensive, accurate, and exceptionally well-organized job interview tips covering preparation, execution, and follow-up, enhanced by a useful quick-reference table and a motivating closing statement."
+        }
+      }
+    ],
+    "same-model-premium": [
+      {
+        "prompt_id": "alpaca-1",
+        "config": "same-model-premium",
+        "cost": 0.12159,
+        "judge_score": {
+          "correctness": 36.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 94.0,
+          "justification": "An excellent, age-appropriate explanation that accurately covers all key aspects of how a bicycle works using creative, relatable analogies. The formatting, tone, and structure are perfectly suited for a young child, making this a near-ideal response to the prompt."
+        }
+      },
+      {
+        "prompt_id": "alpaca-2",
+        "config": "same-model-premium",
+        "cost": 0.095865,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 29.0,
+          "total": 95.0,
+          "justification": "This is an excellent, polished professional email that effectively declines a job offer while maintaining goodwill and professionalism. It covers all the key components with appropriate tone and structure, with only very minor room for improvement in conciseness and optional specificity regarding the reason for declining."
+        }
+      },
+      {
+        "prompt_id": "alpaca-3",
+        "config": "same-model-premium",
+        "cost": 0.079395,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 27.0,
+          "clarity": 30.0,
+          "total": 95.0,
+          "justification": "An excellent, well-structured explanation of the water cycle that is accurate, accessible, and appropriately detailed for a simple explanation. Minor omissions like transpiration and runoff keep it from a perfect score, but these are reasonable trade-offs for simplicity."
+        }
+      },
+      {
+        "prompt_id": "alpaca-4",
+        "config": "same-model-premium",
+        "cost": 0.080745,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "An exemplary response that is accurate, well-organized, and actionable. It goes beyond a simple list by providing specific examples under each category, making it both informative and practical."
+        }
+      },
+      {
+        "prompt_id": "alpaca-5",
+        "config": "same-model-premium",
+        "cost": 0.134565,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an outstanding response that accurately, thoroughly, and clearly explains the differences between viruses and bacteria. The use of structured formatting, a comparison table, concrete examples, and a practical takeaway about antibiotic resistance makes it both informative and highly readable."
+        }
+      },
+      {
+        "prompt_id": "alpaca-6",
+        "config": "same-model-premium",
+        "cost": 0.017385,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 27.0,
+          "total": 93.0,
+          "justification": "An excellent, correctly structured haiku with evocative imagery that captures the essence of technology. The only notable flaw is the superfluous explanatory paragraph that awkwardly references synthesizing multiple responses, which is mildly confusing but doesn't undermine the quality of the haiku itself."
+        }
+      },
+      {
+        "prompt_id": "alpaca-7",
+        "config": "same-model-premium",
+        "cost": 0.13317,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an excellent, well-organized response that provides accurate, detailed, and easy-to-follow instructions for making a classic paper airplane, complete with helpful tips for optimizing flight performance. Only the slightest ambiguity in wing-folding alignment prevents a perfect score."
+        }
+      },
+      {
+        "prompt_id": "alpaca-8",
+        "config": "same-model-premium",
+        "cost": 0.141195,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An outstanding explanation of compound interest tailored perfectly for a teenage audience. It combines accurate math, relatable examples, appropriate warnings about debt, and an engaging, well-organized presentation that makes a potentially dry financial concept genuinely interesting."
+        }
+      },
+      {
+        "prompt_id": "alpaca-9",
+        "config": "same-model-premium",
+        "cost": 0.14136,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, well-organized response that provides a comprehensive and accurate overview of remote work's pros and cons, enhanced by clear formatting and a balanced concluding insight about hybrid work."
+        }
+      },
+      {
+        "prompt_id": "alpaca-10",
+        "config": "same-model-premium",
+        "cost": 0.12159,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, comprehensive, and clearly organized description of the scientific method that accurately covers all standard steps with appropriate detail, helpful formatting, and valuable additional context about the iterative nature of scientific inquiry."
+        }
+      },
+      {
+        "prompt_id": "alpaca-11",
+        "config": "same-model-premium",
+        "cost": 0.100095,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 96.0,
+          "justification": "An excellent, well-structured explanation of DNS that is accurate, accessible, and appropriately detailed for the \"simple terms\" request. The phone contact list analogy is particularly effective, and the formatting enhances readability."
+        }
+      },
+      {
+        "prompt_id": "alpaca-12",
+        "config": "same-model-premium",
+        "cost": 0.24357,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, well-organized, and comprehensive response that covers all essential aspects of giving a good presentation with accurate, actionable advice. The formatting is exemplary and the content strikes an excellent balance between breadth and conciseness."
+        }
+      },
+      {
+        "prompt_id": "alpaca-13",
+        "config": "same-model-premium",
+        "cost": 0.15939,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an excellent, well-structured explanation of photosynthesis that is accurate, comprehensive, and highly readable. It covers all essential aspects of the process with appropriate detail for a general audience while maintaining scientific rigor."
+        }
+      },
+      {
+        "prompt_id": "alpaca-14",
+        "config": "same-model-premium",
+        "cost": 0.07521,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An excellent, well-organized response that accurately and thoroughly lists ingredients for a simple pasta recipe, with clear formatting, helpful notes on quantities and substitutions, and a logical categorization that makes it easy to use as a shopping list or cooking reference."
+        }
+      },
+      {
+        "prompt_id": "alpaca-15",
+        "config": "same-model-premium",
+        "cost": 0.10395,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an excellent, near-perfect response that accurately and clearly explains the difference between weather and climate, enriched with memorable analogies, concrete examples, and a thoughtful discussion of why the distinction matters."
+        }
+      },
+      {
+        "prompt_id": "alpaca-16",
+        "config": "same-model-premium",
+        "cost": 0.06366,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An excellent response that provides a polished, warm thank you note template along with practical personalization tips that elevate it beyond a simple answer. The formatting and structure make it immediately usable while the tips help the user craft a more meaningful, personalized version."
+        }
+      },
+      {
+        "prompt_id": "alpaca-17",
+        "config": "same-model-premium",
+        "cost": 0.128655,
+        "judge_score": {
+          "correctness": 36.0,
+          "completeness": 28.0,
+          "clarity": 29.0,
+          "total": 93.0,
+          "justification": "A well-structured, accurate, and thorough guide to tying a Four-in-Hand knot. The response is beginner-friendly with excellent formatting, practical finishing tips, and an offer to provide alternative knot instructions."
+        }
+      },
+      {
+        "prompt_id": "alpaca-18",
+        "config": "same-model-premium",
+        "cost": 0.140265,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, well-organized response that accurately and comprehensively explains inflation and its effects, going above and beyond the prompt by also covering causes, measurement, and management in a clear, accessible format."
+        }
+      },
+      {
+        "prompt_id": "alpaca-19",
+        "config": "same-model-premium",
+        "cost": 0.12633,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is a near-perfect response\u2014comprehensive, well-organized, and factually accurate. It covers a wide range of exercise benefits across multiple dimensions of health and life, presented in a clear and reader-friendly format."
+        }
+      },
+      {
+        "prompt_id": "alpaca-20",
+        "config": "same-model-premium",
+        "cost": 0.151965,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, well-structured, and highly accurate response that thoroughly describes Earth's atmospheric layers with clear formatting and helpful additional details about boundary zones and the K\u00e1rm\u00e1n Line."
+        }
+      },
+      {
+        "prompt_id": "alpaca-21",
+        "config": "same-model-premium",
+        "cost": 0.13332,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an excellent, well-organized explanation of how vaccines work that is accurate, comprehensive for a general audience, and exceptionally clear. It covers all the essential concepts with appropriate depth and accessible language."
+        }
+      },
+      {
+        "prompt_id": "alpaca-22",
+        "config": "same-model-premium",
+        "cost": 0.236145,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding, well-organized, and accurate guide for beginning coders that covers nearly every important dimension of the learning journey \u2014 from mindset and fundamentals to debugging and community. The writing is polished, encouraging, and highly actionable."
+        }
+      },
+      {
+        "prompt_id": "alpaca-23",
+        "config": "same-model-premium",
+        "cost": 0.14196,
+        "judge_score": {
+          "correctness": 37.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 96.0,
+          "justification": "An excellent, well-organized response that accurately and comprehensively explains the differences between RAM and ROM, enhanced by a helpful comparison table and memorable analogy. Only very minor technical nuances are missing."
+        }
+      },
+      {
+        "prompt_id": "alpaca-24",
+        "config": "same-model-premium",
+        "cost": 0.156855,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding, well-organized, and evidence-based response that comprehensively addresses the prompt. It covers virtually all major dimensions of sleep hygiene with accurate information, clear structure, and practical actionability."
+        }
+      },
+      {
+        "prompt_id": "alpaca-25",
+        "config": "same-model-premium",
+        "cost": 0.125415,
+        "judge_score": {
+          "correctness": 40.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 100.0,
+          "justification": "This is an exemplary response that accurately, completely, and clearly explains the causes of Earth's seasons. The structure, use of formatting, inclusion of the common misconception, and regional variation discussion make it an outstanding educational explanation."
+        }
+      },
+      {
+        "prompt_id": "alpaca-26",
+        "config": "same-model-premium",
+        "cost": 0.223155,
+        "judge_score": {
+          "correctness": 36.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 94.0,
+          "justification": "This is an excellent brief history of the internet\u2014well-organized, engaging, and highly accurate, with only a minor oversimplification regarding ARPANET's original purpose. It strikes an ideal balance between brevity and comprehensiveness."
+        }
+      },
+      {
+        "prompt_id": "alpaca-27",
+        "config": "same-model-premium",
+        "cost": 0.182175,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 27.0,
+          "clarity": 30.0,
+          "total": 95.0,
+          "justification": "An excellent, well-organized explanation of how a four-stroke internal combustion engine works, with accurate technical content and outstanding presentation. The only notable gap is the absence of diesel/compression-ignition engines and two-stroke variants, given the prompt's general framing."
+        }
+      },
+      {
+        "prompt_id": "alpaca-28",
+        "config": "same-model-premium",
+        "cost": 0.149745,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that provides a comprehensive, well-organized, and accurate overview of leadership characteristics, enhanced by clear categorization, concise explanations, and a thoughtful concluding summary."
+        }
+      },
+      {
+        "prompt_id": "alpaca-29",
+        "config": "same-model-premium",
+        "cost": 0.138,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an excellent, well-organized explanation of supply and demand that accurately covers all core aspects of the concept with clear language and effective real-world examples. It strikes an ideal balance between thoroughness and accessibility."
+        }
+      },
+      {
+        "prompt_id": "alpaca-30",
+        "config": "same-model-premium",
+        "cost": 0.22965,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is a near-perfect response\u2014comprehensive, well-organized, accurate, and actionable. It covers all major time management strategies with clear explanations and practical framing, making it immediately useful to a wide audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-31",
+        "config": "same-model-premium",
+        "cost": 0.280695,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-flawless response that accurately, comprehensively, and clearly explains how the human eye works, covering anatomy, optics, phototransduction, neural processing, and brain interpretation in a well-structured format."
+        }
+      },
+      {
+        "prompt_id": "alpaca-32",
+        "config": "same-model-premium",
+        "cost": 0.156465,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding, well-structured, and scientifically accurate explanation of thunder and lightning that covers the key mechanisms in detail while remaining highly accessible."
+        }
+      },
+      {
+        "prompt_id": "alpaca-33",
+        "config": "same-model-premium",
+        "cost": 0.152295,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding response that provides a comprehensive, well-organized, and accurate guide to starting a small business. The phased structure, clear formatting, and actionable key takeaways make it both informative and highly practical."
+        }
+      },
+      {
+        "prompt_id": "alpaca-34",
+        "config": "same-model-premium",
+        "cost": 0.114135,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding response that accurately, comprehensively, and clearly explains the differences between stocks and bonds. The well-organized format with parallel structure, bolded key concepts, and a synthesizing conclusion makes it both informative and highly readable."
+        }
+      },
+      {
+        "prompt_id": "alpaca-35",
+        "config": "same-model-premium",
+        "cost": 0.15939,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding explanation of how antibiotics work, covering all major mechanisms of action with accurate details, specific examples, and important context. The formatting and organization make it highly accessible while maintaining scientific rigor."
+        }
+      },
+      {
+        "prompt_id": "alpaca-36",
+        "config": "same-model-premium",
+        "cost": 0.49818,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 29.0,
+          "total": 96.0,
+          "justification": "This is an outstanding, comprehensive, and well-organized guide to conflict resolution that draws on established frameworks and provides highly practical advice. The only notable flaw is that the response is truncated at the very end, leaving the final section incomplete."
+        }
+      },
+      {
+        "prompt_id": "alpaca-37",
+        "config": "same-model-premium",
+        "cost": 0.23529,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, comprehensive, and well-structured explanation of the nitrogen cycle that accurately covers all key stages, relevant organisms and chemistry, ecological significance, and human impacts, with only the most minor quibble about one specific statistic."
+        }
+      },
+      {
+        "prompt_id": "alpaca-38",
+        "config": "same-model-premium",
+        "cost": 0.13635,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding response that provides a well-organized, comprehensive, and accurate list of stress reduction strategies across multiple domains. The formatting is exemplary, making it easy to scan and reference, and the content is both thorough and practically useful."
+        }
+      },
+      {
+        "prompt_id": "alpaca-39",
+        "config": "same-model-premium",
+        "cost": 0.14145,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An excellent, well-organized, and highly accurate explanation of ocean tides that covers the primary gravitational mechanisms, combined lunar-solar effects, and local modifying factors with impressive clarity and appropriate detail."
+        }
+      },
+      {
+        "prompt_id": "alpaca-40",
+        "config": "same-model-premium",
+        "cost": 0.183495,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "An outstanding, well-organized, and comprehensive guide to healthy eating habits that covers all major dimensions with accurate information and excellent formatting. The few minor points of contention (breakfast skipping, meal frequency) reflect areas where nutritional science is still evolving rather than clear errors."
+        }
+      },
+      {
+        "prompt_id": "alpaca-41",
+        "config": "same-model-premium",
+        "cost": 0.15054,
+        "judge_score": {
+          "correctness": 38.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 96.0,
+          "justification": "This is an exemplary explanation of how solar panels work\u2014accurate, well-organized, and comprehensive. It successfully balances technical detail with accessibility, making it suitable for a broad audience."
+        }
+      },
+      {
+        "prompt_id": "alpaca-42",
+        "config": "same-model-premium",
+        "cost": 0.117045,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 28.0,
+          "clarity": 30.0,
+          "total": 97.0,
+          "justification": "This is an excellent, well-organized explanation of opportunity cost that is accurate, comprehensive, and highly accessible. It effectively balances simplicity with depth, includes a useful misconception correction, and uses concrete examples to reinforce the concept."
+        }
+      },
+      {
+        "prompt_id": "alpaca-43",
+        "config": "same-model-premium",
+        "cost": 0.118485,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding response that accurately, comprehensively, and clearly enumerates the qualities of effective communication, organized into intuitive categories with concise yet informative descriptions for each quality."
+        }
+      },
+      {
+        "prompt_id": "alpaca-44",
+        "config": "same-model-premium",
+        "cost": 0.20394,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, well-structured, and highly accurate explanation of 3D printing that covers the process comprehensively\u2014from digital design through post-processing\u2014while also detailing multiple technologies, materials, and applications in a clear and accessible manner."
+        }
+      },
+      {
+        "prompt_id": "alpaca-45",
+        "config": "same-model-premium",
+        "cost": 0.139455,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "An outstanding, well-organized, and nearly flawless explanation of rainbow formation that accurately covers the essential optics, observing conditions, and interesting supplementary facts, with only a trivial numbering inconsistency."
+        }
+      },
+      {
+        "prompt_id": "alpaca-46",
+        "config": "same-model-premium",
+        "cost": 0.5451,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an outstanding, near-perfect guide for first-time home buyers that is accurate, remarkably comprehensive, and exceptionally well-organized. It covers the entire home-buying journey with practical, actionable advice while maintaining an accessible and encouraging tone."
+        }
+      },
+      {
+        "prompt_id": "alpaca-47",
+        "config": "same-model-premium",
+        "cost": 0.16302,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an excellent, near-comprehensive description of the carbon cycle that is accurate, well-structured, and covers both biological and geological timescales with appropriate detail. The clear organization and logical flow make it accessible while maintaining scientific rigor."
+        }
+      },
+      {
+        "prompt_id": "alpaca-48",
+        "config": "same-model-premium",
+        "cost": 0.15594,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding response that provides a comprehensive, well-organized, and accurate guide to improving memory. It covers the topic from multiple angles with clear structure and actionable advice, making it highly useful for any reader."
+        }
+      },
+      {
+        "prompt_id": "alpaca-49",
+        "config": "same-model-premium",
+        "cost": 0.26115,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 29.0,
+          "clarity": 30.0,
+          "total": 98.0,
+          "justification": "This is an outstanding explanation of GPS that is accurate, comprehensive, and beautifully structured. It covers all essential aspects from satellite infrastructure to relativistic corrections, presented in a way that is accessible to a general audience while maintaining technical rigor."
+        }
+      },
+      {
+        "prompt_id": "alpaca-50",
+        "config": "same-model-premium",
+        "cost": 0.30633,
+        "judge_score": {
+          "correctness": 39.0,
+          "completeness": 30.0,
+          "clarity": 30.0,
+          "total": 99.0,
+          "justification": "This is an exemplary response that is accurate, comprehensive, and beautifully structured. It covers every phase of the interview process with actionable, specific advice and goes above and beyond with mindset tips and a mistakes-to-avoid table, making it an excellent resource for any job seeker."
+        }
+      }
+    ]
+  }
+}

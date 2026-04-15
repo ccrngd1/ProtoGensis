@@ -38,9 +38,7 @@ ENV/
 Thumbs.db
 
 # Project specific
-results/*.json
-!results/example_benchmark_results.json
-!results/ANALYSIS.md
+# (Raw experiment results now tracked for reproducibility)
 
 # AWS credentials (never commit)
 .aws/

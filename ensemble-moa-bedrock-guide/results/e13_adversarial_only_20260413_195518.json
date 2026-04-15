@@ -1,0 +1,2096 @@
+{
+  "metadata": {
+    "timestamp": "2026-04-13T19:55:18.352859",
+    "num_prompts": 4,
+    "num_repetitions": 10,
+    "configs": [
+      "opus",
+      "high-end-reasoning",
+      "mixed-capability",
+      "same-model-premium"
+    ],
+    "total_cost": 51.044764999999984
+  },
+  "results": [
+    {
+      "prompt_id": "edge-case-1",
+      "config": "opus",
+      "repetition": 1,
+      "cost": 0.12732000000000002,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An excellent, near-comprehensive response that accurately identifies and explains the key debugging concerns for Feb 29th and midnight UTC edge cases, with practical code examples, a useful diagnostic checklist, and insightful coverage of how the two issues can interact through timezone conversions."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "opus",
+      "repetition": 1,
+      "cost": 0.062595,
+      "judge_score": {
+        "correctness": 34.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 91.0,
+        "justification": "A well-structured and comprehensive response that correctly identifies the core issues with duplicates in sorting, though the initial characterization of the Lomuto partition bug is slightly misleading \u2014 using `<` doesn't produce incorrect results, it produces poor performance with many duplicates. The 3-way partition solution and debugging checklist are excellent additions."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "opus",
+      "repetition": 1,
+      "cost": 0.115935,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, production-quality diagnostic response that systematically covers the major categories of time zone-related crash causes with accurate, concrete code examples across platforms, complemented by practical debugging and prevention guidance. One of the most thorough and well-organized answers possible for this question."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "opus",
+      "repetition": 1,
+      "cost": 0.08840999999999999,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, near-perfect response that accurately identifies and explains all major reasons string validation fails on emoji while passing ASCII, with correct code examples across multiple languages and practical, actionable fixes. The structure and visual aids make it highly accessible."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "high-end-reasoning",
+      "repetition": 1,
+      "cost": 0.717081,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An outstanding response that systematically dissects both the leap year and midnight UTC issues with accurate technical detail, practical code examples, and excellent structure. The compound bug analysis showing how the two issues interact is particularly valuable, and the response goes beyond diagnosis to provide clear fix patterns."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "high-end-reasoning",
+      "repetition": 1,
+      "cost": 0.313141,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 92.0,
+        "justification": "A well-organized and comprehensive response that correctly identifies the most common causes of sorting failures with duplicates. Minor technical inaccuracy regarding the Lomuto partition behavior, but overall an excellent diagnostic guide."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "high-end-reasoning",
+      "repetition": 1,
+      "cost": 0.659729,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, expert-level diagnostic guide that accurately covers the full spectrum of causes for timezone-change crashes, with platform-specific details, realistic code examples, and excellent organization. The response goes well beyond a simple list of causes to provide a genuinely useful troubleshooting framework."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "high-end-reasoning",
+      "repetition": 1,
+      "cost": 0.572019,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An outstanding, comprehensive analysis of why string validation fails on emoji, covering virtually all common root causes with accurate, multi-language code examples and practical debugging guidance. The minor surrogate pair count discrepancy and the truncated ending are the only notable flaws in an otherwise excellent response."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "mixed-capability",
+      "repetition": 1,
+      "cost": 0.136371,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 30.0,
+        "total": 96.0,
+        "justification": "An excellent, well-organized response that accurately identifies and explains both the leap year edge case and the midnight UTC timezone boundary issue, demonstrates how they interact, and provides actionable code examples and test cases. The only room for improvement would be mentioning a few additional peripheral concerns."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "mixed-capability",
+      "repetition": 1,
+      "cost": 0.09787,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 91.0,
+        "justification": "A thorough, well-structured response that correctly identifies the most common causes of sorting failures with duplicate values, provides clear code examples, and offers practical diagnostic advice. Minor deductions for some context-dependent comparison operator advice and slight verbosity."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "mixed-capability",
+      "repetition": 1,
+      "cost": 0.099389,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding, comprehensive response that accurately identifies a wide range of potential causes for timezone-related crashes, provides actionable diagnostic steps, and includes best practices for prevention. The organization and depth make it highly useful for a developer investigating this issue."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "mixed-capability",
+      "repetition": 1,
+      "cost": 0.113168,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An excellent, well-organized response that correctly identifies the key reasons emoji break ASCII-oriented string validation and provides practical solutions. Minor inaccuracies in a byte-count comment and a somewhat vacuous regex in the final validation example are the only notable issues."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "same-model-premium",
+      "repetition": 1,
+      "cost": 0.61296,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding, near-comprehensive response that accurately identifies and explains the full spectrum of date-handling edge cases around February 29th and midnight UTC, with practical code examples and a useful diagnostic checklist. The only notable flaw is the truncated ending."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "same-model-premium",
+      "repetition": 1,
+      "cost": 0.2811,
+      "judge_score": {
+        "correctness": 30.0,
+        "completeness": 27.0,
+        "clarity": 28.0,
+        "total": 85.0,
+        "justification": "A well-structured and comprehensive response that correctly identifies the general category of bugs (comparison operator handling of equality) but overstates the severity of some issues and incorrectly labels standard, working implementations as buggy \u2014 particularly the Lomuto partition scheme, which works correctly with `<`."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "same-model-premium",
+      "repetition": 1,
+      "cost": 0.679575,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 26.0,
+        "clarity": 28.0,
+        "total": 90.0,
+        "justification": "A thorough, well-structured, and technically sound analysis of time zone change crash causes with practical code examples and fixes across multiple platforms. The response is only slightly diminished by truncation at the end and a couple of minor technical imprecisions."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "same-model-premium",
+      "repetition": 1,
+      "cost": 0.44067,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An exemplary response that accurately diagnoses the root cause, provides comprehensive coverage across languages and layers of Unicode abstraction, and presents everything in a highly readable, well-organized format with practical fixes and diagnostic tools."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "opus",
+      "repetition": 2,
+      "cost": 0.12274499999999999,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An excellent, thorough, and well-organized response that accurately diagnoses both classes of date-handling bugs with concrete code examples, a combined-case analysis, and actionable best practices. Only very minor issues prevent a perfect score."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "opus",
+      "repetition": 2,
+      "cost": 0.058094999999999994,
+      "judge_score": {
+        "correctness": 30.0,
+        "completeness": 26.0,
+        "clarity": 29.0,
+        "total": 85.0,
+        "justification": "The response is exceptionally well-structured and covers the topic broadly, but the specific code examples don't accurately demonstrate real bugs \u2014 the \"buggy\" quicksort (Lomuto partition) and merge sort examples actually work correctly with duplicates, undermining the core correctness of the answer despite the generally sound high-level advice."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "opus",
+      "repetition": 2,
+      "cost": 0.13213499999999997,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An outstanding, comprehensive response that systematically covers virtually all plausible causes of timezone-change crashes with accurate, well-illustrated code examples across platforms, complemented by practical diagnostic and prevention guidance. The structure and depth make it both an excellent diagnostic reference and educational resource."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "opus",
+      "repetition": 2,
+      "cost": 0.09163500000000001,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, comprehensive response that accurately diagnoses the most common reasons string validation fails on emoji, provides concrete code examples across multiple languages, and is exceptionally well-organized. It goes well beyond a surface-level answer while remaining accessible."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "high-end-reasoning",
+      "repetition": 2,
+      "cost": 0.728483,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An excellent, deeply practical response that systematically diagnoses both the leap year and midnight UTC failure modes with accurate code examples and clear explanations. The insight about how timezone offsets can mask the leap year bug is particularly valuable. The only notable flaw is the truncated ending."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "high-end-reasoning",
+      "repetition": 2,
+      "cost": 0.377828,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An excellent, comprehensive response that correctly identifies the most likely causes of sorting failures with duplicate values, provides clear code examples and fixes, and includes useful diagnostic tools. Minor accuracy concerns around the merge sort stability example don't significantly detract from the overall quality."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "high-end-reasoning",
+      "repetition": 2,
+      "cost": 0.563072,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An exceptionally comprehensive, well-structured, and technically accurate response that thoroughly addresses the prompt with concrete code examples across platforms, a systematic debugging workflow, and actionable prevention strategies. It goes well beyond listing potential causes to provide a complete diagnostic and remediation framework."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "high-end-reasoning",
+      "repetition": 2,
+      "cost": 0.547456,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, near-perfect response that accurately diagnoses the root cause (ASCII assumptions breaking down with multi-byte/multi-code-point emoji), covers every relevant layer of the stack, and presents the information in an exceptionally clear and actionable format with correct code examples across multiple languages."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "mixed-capability",
+      "repetition": 2,
+      "cost": 0.131245,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 30.0,
+        "total": 96.0,
+        "justification": "An excellent, comprehensive response that accurately identifies and explains both the leap year calculation pitfalls and midnight UTC boundary issues, demonstrates their interaction with clear code examples, and provides actionable debugging guidance. The structure and clarity are outstanding."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "mixed-capability",
+      "repetition": 2,
+      "cost": 0.112852,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An outstanding, well-structured response that correctly identifies the most likely causes of sorting failures with duplicate values, provides clear code examples and fixes, and organizes the information in a highly accessible format. Minor deductions for slightly overstating the merge sort issue with duplicates."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "mixed-capability",
+      "repetition": 2,
+      "cost": 0.108092,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, comprehensive, and well-organized response that accurately identifies a wide range of potential causes for timezone-change-related crashes, provides actionable debugging strategies, and includes concrete code examples for prevention. It would serve as an excellent reference for any developer facing this issue."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "mixed-capability",
+      "repetition": 2,
+      "cost": 0.114788,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, well-structured response that accurately identifies and explains the most common reasons string validation fails on emoji, with practical code examples and fixes. The only minor issue is a potentially inaccurate specific character count for the family emoji example."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "same-model-premium",
+      "repetition": 2,
+      "cost": 0.629745,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An outstanding, practically-oriented response that systematically diagnoses both edge cases with accurate, well-illustrated code examples and a comprehensive checklist. The combined interaction analysis is particularly insightful, and the overall structure makes this immediately actionable for debugging."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "same-model-premium",
+      "repetition": 2,
+      "cost": 0.252525,
+      "judge_score": {
+        "correctness": 34.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 91.0,
+        "justification": "A well-structured and comprehensive response that correctly identifies the most likely cause of duplicate-related sorting bugs. Minor inaccuracies in the specific consequences of the bug (e.g., claiming merge sort can \"drop\" duplicates) slightly reduce the correctness score, but overall this is an excellent answer."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "same-model-premium",
+      "repetition": 2,
+      "cost": 0.623685,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding, deeply technical response that systematically covers virtually all plausible causes of time-zone-change crashes with accurate, illustrative code examples across multiple platforms. The only notable flaw is the truncated \"Prevention Best Practices\" section."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "same-model-premium",
+      "repetition": 2,
+      "cost": 0.41385,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An exceptional response that accurately diagnoses why string validation fails on emoji, provides concrete code examples across multiple languages, and is structured with remarkable clarity. It goes well beyond a surface-level answer to provide a comprehensive, actionable guide."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "opus",
+      "repetition": 3,
+      "cost": 0.134595,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An excellent, thorough response that accurately diagnoses both the leap year and midnight UTC edge cases, demonstrates them with clear code examples, explores their interaction, and provides actionable diagnostic guidance. Minor improvements could include broader language/platform coverage, but the answer is near-comprehensive for the question asked."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "opus",
+      "repetition": 3,
+      "cost": 0.052169999999999994,
+      "judge_score": {
+        "correctness": 32.0,
+        "completeness": 26.0,
+        "clarity": 28.0,
+        "total": 86.0,
+        "justification": "A well-structured and comprehensive response that covers multiple plausible causes for duplicate-related sorting bugs, though the primary quicksort example is technically misleading since the Lomuto partition with `<` is standard and correct, weakening the core argument."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "opus",
+      "repetition": 3,
+      "cost": 0.08946000000000001,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An exceptional, production-quality diagnostic response that systematically covers the major categories of time-zone-related crashes with accurate, multi-platform code examples and a practical debugging methodology. The minor deductions are for slightly imprecise behavior descriptions in a couple of the code examples, but the overall technical substance and presentation are excellent."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "opus",
+      "repetition": 3,
+      "cost": 0.07603499999999999,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, well-structured response that accurately identifies and explains the multiple ways emoji can break string validation, with practical code examples and fixes. Only very minor technical imprecisions prevent a perfect score."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "high-end-reasoning",
+      "repetition": 3,
+      "cost": 0.721706,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 26.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "A thorough, accurate, and superbly structured diagnosis covering nearly all relevant edge cases with clear code examples. The only meaningful shortcoming is the truncated ending, which leaves the combined-failure analysis and summary incomplete."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "high-end-reasoning",
+      "repetition": 3,
+      "cost": 0.403139,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An excellent, comprehensive response that accurately identifies the most likely causes of sorting failures with duplicate values, provides clear code examples with fixes, and includes practical diagnostic tools and test cases. The structure and presentation are exemplary."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "high-end-reasoning",
+      "repetition": 3,
+      "cost": 0.610422,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An exceptionally well-crafted, technically accurate, and comprehensive response that goes well beyond listing potential causes \u2014 it provides concrete code examples, platform-specific nuances, diagnostic strategies, and reproduction techniques. The slight truncation at the end is the only notable flaw."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "high-end-reasoning",
+      "repetition": 3,
+      "cost": 0.569665,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, near-comprehensive response that accurately diagnoses why string validation fails on emoji, provides clear explanations with practical code examples across multiple languages, and offers actionable fixes. The structure and pedagogical approach make complex Unicode concepts accessible."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "mixed-capability",
+      "repetition": 3,
+      "cost": 0.104155,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An excellent, comprehensive response that accurately identifies and explains both the leap year validation and midnight UTC timezone issues, demonstrates their dangerous intersection with clear code examples, and provides a practical debugging checklist. The structure and clarity are outstanding."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "mixed-capability",
+      "repetition": 3,
+      "cost": 0.10121,
+      "judge_score": {
+        "correctness": 32.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 88.0,
+        "justification": "A well-structured and mostly accurate response that correctly identifies quicksort partitioning as the primary suspect, though the bubble sort example is misleading since `>` works perfectly fine for bubble sort with duplicates. The overall presentation and completeness are strong."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "mixed-capability",
+      "repetition": 3,
+      "cost": 0.1044,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, comprehensive response that accurately identifies a wide range of potential causes for timezone-change-related crashes, organizes them clearly into logical categories, and provides actionable debugging guidance along with a strong preventive best practice."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "mixed-capability",
+      "repetition": 3,
+      "cost": 0.101935,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "A comprehensive, well-structured, and largely accurate response that covers the major reasons string validation fails on emoji while passing ASCII. Minor inaccuracies around Python 3's default regex Unicode behavior are the only notable weakness."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "same-model-premium",
+      "repetition": 3,
+      "cost": 0.70764,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An excellent, deeply practical response that not only identifies the individual failure modes for leap day and midnight UTC but also insightfully explains how they compound. The code examples are accurate and illustrative, and the diagnostic checklist adds significant practical value, despite the minor issue of the response being truncated at the very end."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "same-model-premium",
+      "repetition": 3,
+      "cost": 0.2997,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An outstanding, well-structured response that correctly identifies the primary cause (strict vs. non-strict comparison operators) and provides comprehensive coverage of related issues, complete with code examples, diagnostic tools, and test cases. Minor deductions for slightly imprecise language around how duplicates are \"dropped\" in partition logic."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "same-model-premium",
+      "repetition": 3,
+      "cost": 0.56973,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An outstanding, expert-level diagnostic response that accurately identifies and illustrates a wide range of plausible causes with platform-specific code examples, a practical diagnostic flowchart, and reproduction steps. The only notable flaw is the truncated ending that cuts off the architectural fix recommendations."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "same-model-premium",
+      "repetition": 3,
+      "cost": 0.457785,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, near-perfect response that accurately and comprehensively explains why string validation fails on emoji, covering multiple languages, multiple root causes, and multiple abstraction layers with exceptional clarity and practical code examples."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "opus",
+      "repetition": 4,
+      "cost": 0.154245,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An excellent, thorough analysis that accurately identifies the key failure modes for both leap year and midnight UTC edge cases, demonstrates their interaction, and provides practical fix patterns. The response is well-organized with clear code examples, only slightly marred by being cut off at the end."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "opus",
+      "repetition": 4,
+      "cost": 0.06146999999999999,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 92.0,
+        "justification": "A well-structured and comprehensive response that correctly identifies the most common causes of sorting failures with duplicates. Minor deductions for the slightly misleading characterization of the standard Lomuto partition as buggy, but overall an excellent and practical answer."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "opus",
+      "repetition": 4,
+      "cost": 0.09981,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, near-comprehensive response that accurately identifies the most likely causes of timezone-change crashes across platforms, provides realistic code examples, and offers practical debugging and prevention strategies. The structure and clarity make it immediately actionable for a developer facing this issue."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "opus",
+      "repetition": 4,
+      "cost": 0.08046,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An exceptionally well-crafted response that accurately identifies and explains multiple root causes for emoji validation failures, with clear code examples across languages and a practical debugging checklist. The structure and visual formatting make complex Unicode concepts highly accessible."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "high-end-reasoning",
+      "repetition": 4,
+      "cost": 0.745169,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An excellent, practically-oriented response that accurately identifies and explains the key failure modes with clear code examples, and importantly surfaces the compound bug where leap day and midnight UTC interact \u2014 which is the real diagnostic insight. The only notable flaw is the truncation at the end."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "high-end-reasoning",
+      "repetition": 4,
+      "cost": 0.382153,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding response that comprehensively addresses the duplicate-values sorting bug question with accurate technical content, multiple algorithm-specific explanations, clear code examples, and excellent organization. It goes well beyond a simple answer to provide genuine diagnostic value."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "high-end-reasoning",
+      "repetition": 4,
+      "cost": 0.568459,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An exceptionally well-structured and comprehensive response that accurately identifies the major causes of timezone-change crashes with platform-specific code examples, diagnostic tools, and prevention strategies. The only notable flaw is the JWT/token expiry scenario which mischaracterizes how epoch-based time comparisons interact with timezone changes, and the response is truncated at the very end."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "high-end-reasoning",
+      "repetition": 4,
+      "cost": 0.524937,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, near-perfect response that accurately explains why string validation fails on emoji but passes ASCII, covering all major failure modes with correct technical details, practical code examples in multiple languages, and exceptional organization that makes the information immediately actionable."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "mixed-capability",
+      "repetition": 4,
+      "cost": 0.15687,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An excellent, comprehensive response that accurately identifies and explains both the leap year validation and midnight UTC boundary issues, demonstrates them with clear code examples, and provides actionable testing strategies and best practices. The structure and presentation are nearly ideal for a technical debugging explanation."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "mixed-capability",
+      "repetition": 4,
+      "cost": 0.10668,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An excellent, well-structured response that correctly identifies the most likely cause of sorting failures with duplicate values and provides both immediate fixes and robust long-term solutions. The only minor weakness is a heavy focus on QuickSort when the prompt doesn't specify the algorithm."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "mixed-capability",
+      "repetition": 4,
+      "cost": 0.102282,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, comprehensive response that accurately identifies a wide range of potential causes, provides actionable diagnostic steps and fix principles, and is exceptionally well-organized. It goes well beyond a simple list to deliver genuinely useful technical guidance."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "mixed-capability",
+      "repetition": 4,
+      "cost": 0.096432,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, well-structured response that accurately identifies and explains the major reasons emoji fail ASCII-oriented string validation, with practical code examples and solutions. The only notable issue is a likely incorrect code point count for the family emoji ZWJ sequence."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "same-model-premium",
+      "repetition": 4,
+      "cost": 0.66651,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An outstanding, practically-oriented response that accurately diagnoses both edge cases, provides clear code examples for each failure mode, and insightfully connects the two issues through timezone boundary analysis. The truncated ending is the only notable flaw in an otherwise exemplary answer."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "same-model-premium",
+      "repetition": 4,
+      "cost": 0.27741,
+      "judge_score": {
+        "correctness": 34.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 91.0,
+        "justification": "A comprehensive, well-organized response that correctly identifies the most likely cause of duplicate-handling bugs in sorting functions and provides actionable fixes. Minor technical inaccuracies (particularly around Merge Sort behavior with strict comparisons) slightly reduce the correctness score."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "same-model-premium",
+      "repetition": 4,
+      "cost": 0.611805,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An outstanding, expert-level response that systematically identifies and illustrates the major causes of timezone-change crashes across mobile platforms, with accurate code examples and clear organization. The only drawbacks are minor truncation at the end and a few niche scenarios not covered."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "same-model-premium",
+      "repetition": 4,
+      "cost": 0.42645,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "This is an outstanding response that provides a comprehensive, accurate, and beautifully structured explanation of why string validation fails on emoji. It covers the problem at every relevant layer (encoding, regex, storage, iteration) with precise code examples and actionable fixes, making it both educational and practically useful."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "opus",
+      "repetition": 5,
+      "cost": 0.154245,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding, practically oriented response that accurately diagnoses both the leap year and midnight UTC bugs, explains their dangerous interaction, provides correct code examples with fixes, and offers a systematic debugging checklist. Only a minor truncation at the end prevents a perfect score."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "opus",
+      "repetition": 5,
+      "cost": 0.05666999999999999,
+      "judge_score": {
+        "correctness": 34.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 90.0,
+        "justification": "A well-structured and highly practical response that correctly identifies the most common cause of sorting failures with duplicates and provides excellent code examples and debugging guidance. Minor accuracy concerns around the characterization of the Lomuto partition bug and one vague table entry slightly reduce the score."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "opus",
+      "repetition": 5,
+      "cost": 0.15403499999999998,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding, expert-level response that systematically identifies realistic crash scenarios with concrete code examples across both iOS and Android, provides a clear diagnostic methodology, and offers actionable prevention strategies. The only notable flaw is the truncation at the very end."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "opus",
+      "repetition": 5,
+      "cost": 0.083685,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 98.0,
+        "justification": "An outstanding, comprehensive response that accurately identifies and explains all major reasons emoji break string validation that works for ASCII, with clear code examples, practical fixes, and excellent organization. The only minor gap is the implicit assumption of a JavaScript context."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "high-end-reasoning",
+      "repetition": 5,
+      "cost": 0.72763,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An excellent, well-organized response that accurately identifies and explains the key failure modes for February 29th and midnight UTC edge cases, with clear code examples and practical fixes. The only notable weakness is the truncated ending in Part 3, which leaves the compound bug discussion incomplete."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "high-end-reasoning",
+      "repetition": 5,
+      "cost": 0.370294,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An excellent, well-organized response that accurately identifies the most likely causes of sorting failures with duplicate values, provides clear code examples and fixes, and includes helpful diagnostic tools and test cases. Minor deductions for slight oversimplification in the Lomuto partition fix explanation."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "high-end-reasoning",
+      "repetition": 5,
+      "cost": 0.64678,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 92.0,
+        "justification": "An outstanding, deeply technical response that correctly identifies and illustrates the major categories of timezone-change crashes with platform-specific code examples and clear architectural reasoning. The only notable issues are the truncation at the end and a minor overstatement about Android configuration changes triggered by timezone shifts."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "high-end-reasoning",
+      "repetition": 5,
+      "cost": 0.561274,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding, highly detailed response that accurately identifies and explains virtually all common reasons string validation fails on emoji, with correct code examples across multiple languages and a practical diagnostic framework. The only notable flaw is the truncation at the end."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "mixed-capability",
+      "repetition": 5,
+      "cost": 0.146513,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 91.0,
+        "justification": "An excellent, well-structured response that correctly identifies the core interaction between timezone conversion at day boundaries and leap year edge cases. It provides practical, accurate code examples and comprehensive debugging guidance, with only minor gaps in coverage of additional edge cases like DST transitions."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "mixed-capability",
+      "repetition": 5,
+      "cost": 0.095928,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An excellent, well-organized response that accurately identifies the most likely causes of sorting failures with duplicate values, supported by clear code examples and practical diagnostic advice. Minor deductions for slightly imprecise characterization of some code examples as \"broken\" vs. \"suboptimal.\""
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "mixed-capability",
+      "repetition": 5,
+      "cost": 0.108707,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, comprehensive response that accurately identifies virtually all plausible causes of timezone-change-related crashes, organizes them logically, and provides actionable debugging steps. The technical depth, practical recommendations, and clear structure make this an exemplary answer."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "mixed-capability",
+      "repetition": 5,
+      "cost": 0.114065,
+      "judge_score": {
+        "correctness": 37.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An outstanding, well-structured response that accurately identifies the key reasons string validation fails on emoji while passing ASCII, provides concrete code examples in multiple languages, and offers practical solutions. Minor imperfections in one regex example and a slightly tangential normalization point are the only notable issues."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "same-model-premium",
+      "repetition": 5,
+      "cost": 0.70611,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An outstanding, deeply practical response that systematically identifies and demonstrates the key failure modes around February 29th and midnight UTC, with clear code examples and excellent structure. The only significant flaw is the truncated ending, which cuts off the final solution class mid-definition."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "same-model-premium",
+      "repetition": 5,
+      "cost": 0.29115,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "A comprehensive, well-structured response that correctly identifies the core issue and provides extensive supporting detail. Minor inaccuracies regarding the exact failure mode of the Lomuto partition with duplicates slightly reduce the correctness score, but overall this is an excellent answer."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "same-model-premium",
+      "repetition": 5,
+      "cost": 0.576765,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, near-comprehensive response that combines accurate technical depth with excellent organization. It provides concrete, platform-specific code examples for each failure mode, a structured diagnostic methodology, and actionable prevention principles, making it immediately useful for debugging this class of issue."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "same-model-premium",
+      "repetition": 5,
+      "cost": 0.42996,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, near-perfect response that accurately and comprehensively explains why string validation fails on emoji while passing ASCII, covering all major causes across multiple languages and layers (JavaScript, Python, SQL, regex), providing correct code examples, practical fixes, and an excellent diagnostic framework."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "opus",
+      "repetition": 6,
+      "cost": 0.154245,
+      "judge_score": {
+        "correctness": 37.0,
+        "completeness": 28.0,
+        "clarity": 28.0,
+        "total": 93.0,
+        "justification": "An excellent, thorough response that systematically diagnoses both the leap year and midnight UTC edge cases with accurate code examples, explains why they combine dangerously, and provides a practical diagnostic checklist. The only notable flaw is the truncated ending."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "opus",
+      "repetition": 6,
+      "cost": 0.07392,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 92.0,
+        "justification": "A comprehensive, well-structured response that correctly identifies the most likely causes of duplicate-handling bugs in sorting implementations, with helpful code examples and debugging guidance. Minor inaccuracies in the specific claims about how `<` vs `<=` affects Lomuto partition behavior slightly reduce the correctness score."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "opus",
+      "repetition": 6,
+      "cost": 0.15230999999999997,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An outstanding, production-quality diagnostic response that accurately identifies the major categories of timezone-change crashes with realistic code examples across platforms, complemented by practical debugging and prevention guidance. The depth, accuracy, and presentation are all excellent."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "opus",
+      "repetition": 6,
+      "cost": 0.09486,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, comprehensive response that accurately identifies and explains the multiple ways string validation can fail on emoji, with clear code examples, practical fixes, and excellent organization. It goes well beyond a surface-level answer to provide genuinely useful diagnostic guidance."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "high-end-reasoning",
+      "repetition": 6,
+      "cost": 0.680558,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An outstanding, deeply practical response that not only identifies the individual failure modes for Feb 29th and midnight UTC but excels in demonstrating how they interact. The code examples are accurate, well-annotated, and immediately actionable, with the minor caveat of a truncated ending."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "high-end-reasoning",
+      "repetition": 6,
+      "cost": 0.412194,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding response that accurately identifies the most likely causes of sorting failures with duplicate values, provides clear code examples across multiple algorithms, offers a robust general solution, and is exceptionally well-organized. Minor technical quibbles about the Lomuto partition example prevent a perfect score."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "high-end-reasoning",
+      "repetition": 6,
+      "cost": 0.567816,
+      "judge_score": {
+        "correctness": 37.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An exceptionally well-structured and technically accurate response that goes far beyond simply listing causes \u2014 it provides actionable diagnostic steps, platform-specific code examples, reproduction strategies, and prevention practices. The only notable flaw is the truncated ending."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "high-end-reasoning",
+      "repetition": 6,
+      "cost": 0.527111,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, near-comprehensive response that accurately diagnoses the multi-layered reasons emoji break string validation, with practical code examples, a diagnostic checklist, and recommended fixes. The minor correctness issues (e.g., the `\\w` matching emoji claim) are small blemishes on an otherwise exemplary answer"
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "mixed-capability",
+      "repetition": 6,
+      "cost": 0.142043,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding response that accurately and thoroughly addresses both the leap year and midnight UTC edge cases, explains their dangerous interaction, and provides actionable diagnostic steps with clear code examples. The structure and presentation are exemplary."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "mixed-capability",
+      "repetition": 6,
+      "cost": 0.084032,
+      "judge_score": {
+        "correctness": 34.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 90.0,
+        "justification": "A well-structured and comprehensive response that correctly identifies the most likely causes of sorting failures with duplicate values, particularly quicksort partitioning issues. The first point about comparison logic is slightly misleading since the example code shown would actually work correctly, but overall the answer provides strong diagnostic guidance."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "mixed-capability",
+      "repetition": 6,
+      "cost": 0.105536,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding, well-organized response that accurately and comprehensively covers the potential causes of timezone-related app crashes, with correct platform-specific details and practical debugging recommendations. It goes well beyond a surface-level answer by addressing edge cases and providing actionable resolution steps."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "mixed-capability",
+      "repetition": 6,
+      "cost": 0.097721,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding response that accurately and comprehensively explains why string validation might fail on emoji, covering all major causes from encoding issues to surrogate pairs, with well-structured explanations and practical, actionable solutions."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "same-model-premium",
+      "repetition": 6,
+      "cost": 0.70521,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding, near-comprehensive response that accurately identifies and explains both edge cases with practical code examples, and \u2014 most impressively \u2014 demonstrates how they compound into subtle, intermittent bugs. The minor truncation at the end is the only notable flaw."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "same-model-premium",
+      "repetition": 6,
+      "cost": 0.30792,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An outstanding response that correctly identifies the most likely cause (strict vs. inclusive comparisons), provides thorough coverage across multiple algorithms, and presents the information in an exceptionally well-organized format. Minor issues with the Hoare partition example's labeling and the merge sort stability point prevent a perfect score."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "same-model-premium",
+      "repetition": 6,
+      "cost": 0.57648,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding, expert-level response that accurately identifies and illustrates virtually all plausible causes of timezone-change crashes with concrete, correct code examples across platforms. The structured format with dangerous/safe pattern pairs makes it immediately actionable, though the slight truncation at the end is a minor blemish."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "same-model-premium",
+      "repetition": 6,
+      "cost": 0.407595,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, near-perfect response that accurately identifies and thoroughly explains all major reasons string validation can fail on emoji while passing ASCII, with excellent structure, concrete examples, and actionable fixes."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "opus",
+      "repetition": 7,
+      "cost": 0.154245,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An excellent, thorough response that accurately identifies the key issues (incomplete leap year logic, timezone-induced day boundary shifts, and their dangerous interaction), presents them with clear code examples and a systematic debugging framework, and provides practical fix patterns with comprehensive test cases."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "opus",
+      "repetition": 7,
+      "cost": 0.06132,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 92.0,
+        "justification": "An excellent, well-organized response that correctly identifies the most likely cause of duplicate-handling failures in sorting algorithms, with helpful code examples and debugging guidance. Minor technical imprecisions (e.g., overstating the Lomuto partition issue) prevent a perfect score."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "opus",
+      "repetition": 7,
+      "cost": 0.14526,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An exceptionally well-structured and comprehensive response that accurately identifies multiple potential causes of timezone-change crashes across platforms, provides concrete code examples with fixes, and includes practical diagnostic and prevention strategies. One of the strongest possible answers to this question."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "opus",
+      "repetition": 7,
+      "cost": 0.09921,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, comprehensive response that accurately identifies and explains the root causes of emoji validation failures across multiple languages and system layers, with clear code examples and practical fixes. The only flaw is a minor inaccuracy in the UTF-16 code unit count for the ZWJ family emoji example."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "high-end-reasoning",
+      "repetition": 7,
+      "cost": 0.703221,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An excellent, well-organized diagnostic walkthrough that accurately identifies the key failure modes at the intersection of leap year calendar irregularity and UTC midnight timezone boundaries, with clear code examples and realistic compounding scenarios. The only notable flaw is the truncation at the end."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "high-end-reasoning",
+      "repetition": 7,
+      "cost": 0.430146,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 92.0,
+        "justification": "An outstanding, well-structured response that thoroughly addresses the most common causes of sorting failures with duplicate values, providing clear code examples, a diagnostic table, and test cases. Minor accuracy concerns with some of the specific fix implementations don't significantly detract from the overall high quality."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "high-end-reasoning",
+      "repetition": 7,
+      "cost": 0.564043,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, near-perfect response that combines deep technical accuracy with comprehensive coverage and exceptional presentation. It goes well beyond listing potential causes to provide a complete diagnostic and prevention framework, with realistic code examples across multiple platforms."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "high-end-reasoning",
+      "repetition": 7,
+      "cost": 0.533846,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, near-perfect response that accurately and comprehensively explains why string validation passes ASCII but fails on emoji, covering every relevant abstraction layer with correct code examples, practical fixes, and excellent organization."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "mixed-capability",
+      "repetition": 7,
+      "cost": 0.141024,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 30.0,
+        "total": 96.0,
+        "justification": "An excellent, well-organized response that accurately identifies and explains both the leap year and midnight UTC boundary condition bugs, demonstrates their dangerous intersection, and provides practical fixes with clear code examples. The structure and presentation are exemplary."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "mixed-capability",
+      "repetition": 7,
+      "cost": 0.110268,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An outstanding response that accurately identifies the most likely causes of sorting failures with duplicate values, provides correct code examples and fixes, and is exceptionally well-organized. The coverage is comprehensive across multiple sorting algorithms with practical debugging advice."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "mixed-capability",
+      "repetition": 7,
+      "cost": 0.093204,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 98.0,
+        "justification": "An outstanding, comprehensive response that accurately identifies a wide range of potential causes across multiple dimensions (code logic, platform behavior, system integration, dependencies) and provides actionable debugging steps. The organization and clarity make it immediately useful for a developer investigating this issue."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "mixed-capability",
+      "repetition": 7,
+      "cost": 0.106971,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, well-structured response that accurately identifies and explains the key reasons emoji break ASCII-oriented string validation, with only a minor factual error in one code comment about the length of a ZWJ sequence. The inclusion of practical solutions in multiple languages adds significant value."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "same-model-premium",
+      "repetition": 7,
+      "cost": 0.66912,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding, near-comprehensive response that accurately identifies and explains the key failure modes around February 29th and midnight UTC, provides clear code examples for each bug pattern, and insightfully analyzes their intersection. The only notable flaw is the truncated checklist at the end."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "same-model-premium",
+      "repetition": 7,
+      "cost": 0.224085,
+      "judge_score": {
+        "correctness": 33.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 89.0,
+        "justification": "A well-structured and practical response that correctly identifies the most common cause of duplicate-related sorting bugs. Minor inaccuracies in the specific behavior claims about the Lomuto partition scheme and merge sort slightly reduce the correctness score, but the overall advice is sound and actionable."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "same-model-premium",
+      "repetition": 7,
+      "cost": 0.58242,
+      "judge_score": {
+        "correctness": 37.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An outstanding, expert-level response that systematically covers the major categories of time zone-related mobile app crashes with accurate, platform-specific code examples and a practical debugging methodology. The only notable flaw is the truncated ending, which cuts off the prevention best practices table."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "same-model-premium",
+      "repetition": 7,
+      "cost": 0.40257,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, near-perfect response that accurately diagnoses why string validation fails on emoji, provides concrete code examples across multiple languages, and offers a comprehensive diagnostic checklist. The layered explanation from conceptual understanding to practical fixes makes this exceptionally useful."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "opus",
+      "repetition": 8,
+      "cost": 0.154245,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An excellent, thorough response that accurately identifies and explains the key date-handling edge cases with clear code examples, covers the critical compound interaction between leap year and midnight UTC issues, and provides actionable diagnostic guidance in a well-organized format."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "opus",
+      "repetition": 8,
+      "cost": 0.062444999999999994,
+      "judge_score": {
+        "correctness": 33.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 90.0,
+        "justification": "A well-structured and comprehensive response that correctly identifies the main categories of duplicate-handling bugs in sorting algorithms, though it slightly overstates the incorrectness impact of some comparison operator choices (particularly in Lomuto partition and merge sort) where the real issue is more about performance degradation or stability rather than producing wrong output."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "opus",
+      "repetition": 8,
+      "cost": 0.128685,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An outstanding, comprehensive response that systematically covers the major categories of timezone-change-related crashes with concrete code examples, a practical diagnostic approach, and a well-prioritized summary. Minor inaccuracies in edge cases don't meaningfully detract from the overall quality."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "opus",
+      "repetition": 8,
+      "cost": 0.089085,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 98.0,
+        "justification": "An outstanding, comprehensive, and well-organized response that accurately identifies and explains all major reasons string validation can fail on emoji, with correct code examples across multiple languages and a clear progression from basic to advanced Unicode concepts."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "high-end-reasoning",
+      "repetition": 8,
+      "cost": 0.721113,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 26.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An outstanding, practically-oriented response that systematically covers the major failure modes with accurate, well-annotated code examples. The only significant drawback is the truncation that cuts off the combined analysis section, which would have been the capstone of an otherwise excellent answer."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "high-end-reasoning",
+      "repetition": 8,
+      "cost": 0.429389,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An outstanding, well-structured response that correctly identifies comparison operator misuse as the primary cause of duplicate-related sorting failures, covers multiple algorithms with concrete buggy/fixed code examples, and provides practical diagnostic tools. Minor deductions for slightly misleading framing of the Lomuto partition example."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "high-end-reasoning",
+      "repetition": 8,
+      "cost": 0.555472,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 92.0,
+        "justification": "An outstanding, deeply technical response that correctly identifies the major and subtle causes of timezone-change crashes, provides realistic code examples with fixes, and offers a structured diagnostic and prevention framework. The only notable flaws are a truncated ending and very minor technical imprecisions."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "high-end-reasoning",
+      "repetition": 8,
+      "cost": 0.511851,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, near-comprehensive response that accurately diagnoses why string validation fails on emoji, provides concrete code examples across multiple languages and layers, and offers practical diagnostic tools. The structure and progressive complexity make it both educational and immediately actionable."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "mixed-capability",
+      "repetition": 8,
+      "cost": 0.128617,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An excellent, well-organized response that accurately identifies and explains both the leap year validation and midnight UTC boundary issues, demonstrates their compound interaction, and provides actionable code examples and a comprehensive testing checklist. Only minor additional edge cases could have been mentioned."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "mixed-capability",
+      "repetition": 8,
+      "cost": 0.099855,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 92.0,
+        "justification": "An excellent, well-organized response that correctly identifies the most common causes of sorting failures with duplicates, supported by clear code examples. Minor inaccuracy regarding the in-place Lomuto partition behavior slightly reduces the correctness score."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "mixed-capability",
+      "repetition": 8,
+      "cost": 0.11214,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, comprehensive response that accurately identifies a wide range of potential causes for timezone-change-related crashes, organizes them logically, and provides practical diagnostic steps. It demonstrates deep understanding of mobile development, date/time handling, and platform-specific behaviors."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "mixed-capability",
+      "repetition": 8,
+      "cost": 0.097631,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An exceptionally well-structured and comprehensive response that accurately identifies the core reasons emoji fail ASCII-based string validation, with practical code examples and fixes. The only notable flaw is the slightly misleading `\\w` regex example for matching emoji."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "same-model-premium",
+      "repetition": 8,
+      "cost": 0.690135,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, practically comprehensive response that accurately identifies and explains both the leap year and midnight UTC edge cases with clear code examples, correctly highlights their dangerous compound interaction, and provides a useful diagnostic checklist. The structure and clarity are exemplary."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "same-model-premium",
+      "repetition": 8,
+      "cost": 0.343335,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "A comprehensive, well-structured response that correctly identifies the core issue and provides extensive examples and debugging guidance. Minor inaccuracies in characterizing certain bugs (e.g., Lomuto partition with `<` isn't truly incorrect, merge sort with `<` doesn't drop elements) slightly reduce the correctness score, but overall this is an excellent answer."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "same-model-premium",
+      "repetition": 8,
+      "cost": 0.609285,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 94.0,
+        "justification": "An exceptionally comprehensive and well-structured response that accurately identifies the major categories of timezone-change crashes across multiple platforms, with practical code examples and a solid debugging methodology. Minor inaccuracies in a few contrived crash scenarios prevent a perfect score, but this would serve as an excellent diagnostic guide for any developer facing this issue."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "same-model-premium",
+      "repetition": 8,
+      "cost": 0.45381,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, near-perfect response that accurately diagnoses why string validation fails on emoji, covers every major cause with correct code examples across multiple languages, and presents the information in an exceptionally clear and well-organized format. This would serve as an excellent reference document on the topic."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "opus",
+      "repetition": 9,
+      "cost": 0.15417,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An outstanding, well-structured response that accurately identifies and explains the key date-handling edge cases with concrete code examples, a clear diagnostic framework, and an insightful explanation of how leap year and midnight UTC bugs interact. Minor deductions for a slightly imprecise version claim and a truncated ending."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "opus",
+      "repetition": 9,
+      "cost": 0.06221999999999999,
+      "judge_score": {
+        "correctness": 30.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 86.0,
+        "justification": "A well-structured and comprehensive response that correctly identifies the general category of bugs (comparison operator handling of equality), but the flagship QuickSort example is technically inaccurate \u2014 the Lomuto partition with `<` is not incorrect, making the core \"buggy vs fixed\" demonstration misleading."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "opus",
+      "repetition": 9,
+      "cost": 0.10513499999999999,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An excellent, production-quality response that accurately identifies a comprehensive range of potential causes with concrete code examples across multiple platforms, paired with a clear debugging methodology and prevention guidelines. One of the strongest possible answers to this diagnostic question."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "opus",
+      "repetition": 9,
+      "cost": 0.08780999999999999,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, comprehensive response that accurately identifies the root cause (code unit vs code point vs grapheme cluster confusion), provides multiple concrete examples with fixes across languages, and delivers a clear conceptual framework for understanding why ASCII input masks these Unicode handling issues."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "high-end-reasoning",
+      "repetition": 9,
+      "cost": 0.720581,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 25.0,
+        "clarity": 29.0,
+        "total": 92.0,
+        "justification": "A highly accurate, well-structured, and insightful response that correctly identifies and explains the key edge cases around Feb 29 and midnight UTC, with practical code examples. The only notable drawbacks are the truncation at the end and a slight overcommitment to a single causal narrative."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "high-end-reasoning",
+      "repetition": 9,
+      "cost": 0.394668,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "A comprehensive and well-structured response that covers the most likely causes of sorting failures with duplicate values. The one notable accuracy concern is the claim that Lomuto partition with `<` causes infinite recursion (it doesn't \u2014 that's standard), but the overall breadth of coverage, diagnostic tools, and practical advice make this an excellent answer."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "high-end-reasoning",
+      "repetition": 9,
+      "cost": 0.658619,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An outstanding, practitioner-oriented response that combines accurate technical depth with excellent code examples across multiple platforms. The structured diagnosis of root causes\u2014from lifecycle mismanagement to race conditions\u2014provides genuinely actionable debugging guidance, with only minor truncation and a slight imprecision around timer behavior detracting from an otherwise exemplary answer."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "high-end-reasoning",
+      "repetition": 9,
+      "cost": 0.618401,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 95.0,
+        "justification": "An exceptionally well-structured and technically accurate response that systematically covers all major reasons emoji break string validation, with practical code examples across multiple languages and a useful diagnostic framework. The only flaw is the truncated ending."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "mixed-capability",
+      "repetition": 9,
+      "cost": 0.13028,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 30.0,
+        "total": 96.0,
+        "justification": "An excellent, well-organized response that accurately identifies and explains the key date-handling edge cases around February 29th and midnight UTC, with practical code examples and a clear summary. It covers nearly all relevant concerns with strong technical accuracy and outstanding presentation."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "mixed-capability",
+      "repetition": 9,
+      "cost": 0.090665,
+      "judge_score": {
+        "correctness": 33.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 90.0,
+        "justification": "A well-structured and comprehensive response that correctly identifies the most likely causes of sorting failures with duplicates, though it contains a subtle error in one of its \"fixed\" code examples that could mislead readers implementing a Hoare-style partition."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "mixed-capability",
+      "repetition": 9,
+      "cost": 0.105992,
+      "judge_score": {
+        "correctness": 39.0,
+        "completeness": 30.0,
+        "clarity": 30.0,
+        "total": 99.0,
+        "justification": "An outstanding, comprehensive, and well-organized response that accurately identifies virtually all plausible causes of timezone-related crashes and provides actionable debugging guidance. It demonstrates deep technical knowledge across multiple layers of mobile app development."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "mixed-capability",
+      "repetition": 9,
+      "cost": 0.125703,
+      "judge_score": {
+        "correctness": 33.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 90.0,
+        "justification": "A comprehensive and well-structured explanation of why string validation fails on emoji, covering encoding, length, regex, and composition issues with helpful code examples. Minor inaccuracies in the practical code example (using `\\p{P}` in Python's `re` module) and some tangential content slightly reduce the score."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "same-model-premium",
+      "repetition": 9,
+      "cost": 0.69711,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding response that not only identifies the individual bugs (leap year validation and midnight UTC boundary issues) with accurate, well-structured code examples, but also insightfully analyzes how these two categories of bugs compound each other\u2014which is the real diagnostic insight the question is probing for. The truncated ending is the only notable flaw."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "same-model-premium",
+      "repetition": 9,
+      "cost": 0.302865,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 92.0,
+        "justification": "A well-structured and comprehensive response that correctly identifies the main issues with duplicate handling in sorting algorithms, though it slightly oversimplifies the impact of `<` vs `<=` in partition schemes \u2014 the comparison operator choice in standard quicksort partitioning doesn't typically cause incorrect results, just performance degradation or instability."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "same-model-premium",
+      "repetition": 9,
+      "cost": 0.58989,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding, expert-level response that systematically identifies a comprehensive set of potential causes with accurate technical detail, practical code examples in multiple languages, and a structured debugging methodology. The slight truncation at the end and one minor conceptual imprecision on token expiration are the only notable shortcomings."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "same-model-premium",
+      "repetition": 9,
+      "cost": 0.42858,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An exemplary response that accurately and comprehensively explains why string validation fails on emoji, covering all major causes (encoding, regex, length counting, allowlists, storage) with correct technical details, practical code examples, and exceptional organization."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "opus",
+      "repetition": 10,
+      "cost": 0.134445,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding response that accurately diagnoses both reported issues, demonstrates their interaction with concrete code examples, and provides actionable debugging guidance. The structure, code quality, and progressive depth make this an exemplary technical debugging walkthrough."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "opus",
+      "repetition": 10,
+      "cost": 0.06102,
+      "judge_score": {
+        "correctness": 32.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 88.0,
+        "justification": "A well-structured and practical response that identifies the most common duplicate-related sorting bugs, though it slightly mischaracterizes the Lomuto partition issue (strict `<` doesn't produce incorrect results, just poor performance) and could have mentioned three-way partitioning as the standard fix."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "opus",
+      "repetition": 10,
+      "cost": 0.085335,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An exceptional response that combines technical accuracy, comprehensive coverage of potential causes, and excellent presentation. The code examples across multiple platforms, diagnostic methodology, and the closing insight about treating timezone as mutable global state make this a highly practical and educational answer."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "opus",
+      "repetition": 10,
+      "cost": 0.07551,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An excellent, thorough response that accurately identifies multiple plausible causes for emoji validation failures, provides concrete code examples across languages, and offers clear solutions. The structure and presentation are exemplary for a technical explanation."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "high-end-reasoning",
+      "repetition": 10,
+      "cost": 0.727429,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 26.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "A thorough, well-structured, and technically accurate deep-dive into leap-day and midnight-UTC edge cases, with clear code examples and good coverage of the intersection of both issues. The only notable shortcoming is the truncated final code example, which leaves the recommended solution incomplete."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "high-end-reasoning",
+      "repetition": 10,
+      "cost": 0.449128,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 29.0,
+        "total": 96.0,
+        "justification": "An outstanding, comprehensive response that accurately diagnoses multiple ways duplicate values can break sorting algorithms, provides clear buggy-vs-fixed code examples, and offers practical diagnostic tools. The depth and organization far exceed what's typically needed but remain accessible and well-structured."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "high-end-reasoning",
+      "repetition": 10,
+      "cost": 0.623473,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 93.0,
+        "justification": "An outstanding, production-quality diagnostic guide that accurately identifies the major causes of timezone-change crashes with realistic code examples, a practical decision tree, and reproduction strategies. The response goes far beyond listing potential causes and provides genuinely actionable debugging methodology, with only very minor technical imprecisions."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "high-end-reasoning",
+      "repetition": 10,
+      "cost": 0.527921,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An exceptionally well-structured and comprehensive answer that accurately identifies and explains the multiple layers at which emoji can break string validation. The code examples are practical, the diagnostic checklist is immediately useful, and the explanation progresses logically from fundamental concepts to specific fixes."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "mixed-capability",
+      "repetition": 10,
+      "cost": 0.119071,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 28.0,
+        "clarity": 30.0,
+        "total": 96.0,
+        "justification": "An excellent, comprehensive response that accurately identifies and explains the key edge cases around February 29th leap year handling and midnight UTC boundary issues, with clear code examples, well-organized structure, and practical recommendations. Only minor additional edge cases (like year arithmetic from Feb 29 or serialization issues) would have made it even more complete."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "mixed-capability",
+      "repetition": 10,
+      "cost": 0.098144,
+      "judge_score": {
+        "correctness": 35.0,
+        "completeness": 27.0,
+        "clarity": 29.0,
+        "total": 91.0,
+        "justification": "A well-structured and largely accurate response that correctly identifies comparison operator misuse as the primary culprit for duplicate-related sorting bugs. Minor inaccuracies around the Lomuto partition example (conflating performance issues with correctness bugs) prevent a perfect score, but overall this is a high-quality, actionable answer."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "mixed-capability",
+      "repetition": 10,
+      "cost": 0.095293,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, comprehensive response that accurately identifies a wide range of potential causes for timezone-related crashes, organized into clear categories with actionable diagnostic steps. It demonstrates deep understanding of both the problem domain and platform-specific considerations."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "mixed-capability",
+      "repetition": 10,
+      "cost": 0.118626,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, comprehensive response that accurately identifies and explains multiple reasons why string validation might fail on emoji while passing ASCII, provides concrete code examples in multiple languages, and offers practical solutions. The structure and clarity are exemplary."
+      }
+    },
+    {
+      "prompt_id": "edge-case-1",
+      "config": "same-model-premium",
+      "repetition": 10,
+      "cost": 0.640365,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An outstanding, near-comprehensive response that accurately identifies and explains both the leap year and midnight UTC edge cases, their dangerous intersection, and provides practical diagnostic and fix patterns. The only notable flaw is the truncated code snippet at the very end."
+      }
+    },
+    {
+      "prompt_id": "edge-case-2",
+      "config": "same-model-premium",
+      "repetition": 10,
+      "cost": 0.284655,
+      "judge_score": {
+        "correctness": 32.0,
+        "completeness": 28.0,
+        "clarity": 29.0,
+        "total": 89.0,
+        "justification": "A well-structured and comprehensive response that correctly identifies comparison operators as the likely culprit, though it somewhat overstates the impact of using strict `<` in the standard Lomuto partition scheme. The additional context, debugging checklist, and three-way partition solution add significant value."
+      }
+    },
+    {
+      "prompt_id": "edge-case-3",
+      "config": "same-model-premium",
+      "repetition": 10,
+      "cost": 0.53607,
+      "judge_score": {
+        "correctness": 36.0,
+        "completeness": 27.0,
+        "clarity": 28.0,
+        "total": 91.0,
+        "justification": "An outstanding, deeply technical response that covers nearly every realistic cause of timezone-change crashes across mobile platforms, with accurate code examples and a practical diagnostic framework. The only notable flaw is the truncated prevention table at the end."
+      }
+    },
+    {
+      "prompt_id": "edge-case-4",
+      "config": "same-model-premium",
+      "repetition": 10,
+      "cost": 0.38373,
+      "judge_score": {
+        "correctness": 38.0,
+        "completeness": 29.0,
+        "clarity": 30.0,
+        "total": 97.0,
+        "justification": "An exceptionally well-structured and technically accurate response that comprehensively explains why string validation fails on emoji, covering all major causes from surrogate pairs to grapheme clusters, with practical fixes across multiple layers of the stack. The visual tables and code examples make complex Unicode concepts immediately accessible."
+      }
+    }
+  ]
+}

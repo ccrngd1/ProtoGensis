@@ -1,0 +1,11 @@
+{
+  "metadata": {
+    "timestamp": "2026-04-13T15:52:18.481362",
+    "analysis_type": "cost-matched-comparison",
+    "cost": 0.0
+  },
+  "summary": {
+    "key_insight": "Cost-matched comparison favors best-of-N baseline over ensembles",
+    "recommendation": "Use best-of-N baseline instead of N-model ensemble at same cost"
+  }
+}
