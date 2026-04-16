@@ -8,6 +8,15 @@ No judge model needed - the model verifies itself through multiple samples.
 Based on: Wang et al. (2023) "Self-Consistency Improves Chain of Thought Reasoning in Language Models"
 
 Key advantage over vote.py: No weak judge bottleneck. The model is its own verifier.
+
+BUGFIX HISTORY (2026-04-11):
+- Original bug: selected_answer stored full-text responses for GSM8K
+  Example: "Let me work through this step-by-step..." instead of "18"
+- Fix: Added extracted_answer field to store extracted numeric/MC answer
+- Impact: Accuracy calculations were correct (used extracted keys for voting)
+  but selected_answer field was not suitable for answer comparison
+- See: CHANGELOG.md for full details
+- For GSM8K evaluation: ALWAYS use extracted_answer, never selected_answer
 """
 
 import json
@@ -30,7 +39,8 @@ class SelfConsistencyResult:
     prompt_id: str
     model_key: str
     num_samples: int
-    selected_answer: str
+    selected_answer: str  # Full answer text from majority sample
+    extracted_answer: str  # Extracted key used for voting (ALWAYS use this for GSM8K)
     vote_counts: Dict[str, int]  # Answer -> count
     agreement_rate: float  # 0-1, how many agreed with majority
     all_answers: List[str]  # All raw answers
@@ -141,6 +151,7 @@ class SelfConsistencyAggregator:
                 model_key=model_key,
                 num_samples=num_samples,
                 selected_answer="Mock answer (3/5 agree)",
+                extracted_answer="42",  # Mock extracted answer
                 vote_counts={"Mock answer": 3, "Alternative": 2},
                 agreement_rate=0.6,
                 all_answers=["Mock answer"] * 3 + ["Alternative"] * 2,
@@ -194,9 +205,11 @@ class SelfConsistencyAggregator:
             majority_key, majority_count = vote_counts.most_common(1)[0]
             # Find first full answer that matches majority key
             majority_answer = answers[answer_keys.index(majority_key)]
+            extracted_majority = majority_key  # This is the extracted answer used for voting
             agreement_rate = majority_count / len(answers)
         else:
             majority_answer = "No valid answers"
+            extracted_majority = ""
             agreement_rate = 0.0
 
         return SelfConsistencyResult(
@@ -204,6 +217,7 @@ class SelfConsistencyAggregator:
             model_key=model_key,
             num_samples=num_samples,
             selected_answer=majority_answer,
+            extracted_answer=extracted_majority,  # FIX: Store extracted key separately
             vote_counts=dict(vote_counts),
             agreement_rate=agreement_rate,
             all_answers=answers,

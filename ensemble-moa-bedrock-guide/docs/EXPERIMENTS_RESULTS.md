@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-We ran 11 validation experiments to address gaps and criticisms from the devil's advocate review. **Key finding: The original Phase 1-3 conclusions were too pessimistic.** Ensembles perform better than initially reported when:
+We ran 11 validation experiments 
 1. Tested on standardized benchmarks (AlpacaEval)
 2. Used with weak proposers that benefit from aggregation
 3. Evaluated on adversarial/edge cases

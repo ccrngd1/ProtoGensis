@@ -1,8 +1,15 @@
 # 🚨 CRITICAL BUG: Self-Consistency Answer Extraction
 
+> **⚠️ HISTORICAL DOCUMENT**  
+> This file documents the bug discovery process (April 11, 2026).  
+> **Status:** ✅ RESOLVED (see BUGFIX_SUMMARY.md)  
+> References to 86.7% are initial buggy reports. **Corrected result: 93.3%**  
+> For current documentation, see BLOG.md, README.md, and CHANGELOG.md
+
 **Discovered:** April 11, 2026  
 **Severity:** CRITICAL - Invalidates Phase 2 self-consistency findings  
-**Source:** DEVILS_ADVOCATE_REVIEW_2.md Issue #1 prediction confirmed
+**Source:** DEVILS_ADVOCATE_REVIEW_2.md Issue #1 prediction confirmed  
+**Resolution:** Fixed April 11, 2026 - accuracy calculations were correct (93.3%), only storage was buggy
 
 ---
 
