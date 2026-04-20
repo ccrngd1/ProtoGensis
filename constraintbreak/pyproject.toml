@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "constraintbreak"
+version = "0.1.0"
+description = "Test whether output constraints silently degrade LLM quality"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    {name = "Protogenesis W17"}
+]
+dependencies = [
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "pyyaml>=6.0",
+    "openai>=1.0.0",
+    "anthropic>=0.18.0",
+    "boto3>=1.34.0",
+    "pytest>=7.4.0",
+]
+
+[project.scripts]
+constraintbreak = "constraintbreak.cli:app"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["constraintbreak*"]

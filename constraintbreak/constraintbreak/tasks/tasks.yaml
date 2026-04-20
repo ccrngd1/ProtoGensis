@@ -1,0 +1,55 @@
+# Test tasks for ConstraintBreak
+# MT-Bench-style prompts across 4 categories
+
+tasks:
+  writing:
+    - name: essay_climate
+      prompt: "Write a comprehensive essay discussing the relationship between climate change and global food security. Include multiple perspectives and potential solutions."
+      description: "Long-form analytical writing"
+
+    - name: story_beginning
+      prompt: "Write the opening scene of a science fiction novel where humanity discovers a signal from deep space. Make it engaging and set up compelling questions."
+      description: "Creative narrative writing"
+
+    - name: business_email
+      prompt: "Draft a professional email to a client explaining why a project deadline needs to be extended by two weeks. Be diplomatic but clear about the reasons."
+      description: "Professional communication"
+
+  coding:
+    - name: algorithm_sorting
+      prompt: "Explain how the quicksort algorithm works, including its time complexity, best and worst cases, and provide a Python implementation with comments."
+      description: "Algorithm explanation and implementation"
+
+    - name: debug_scenario
+      prompt: "A web application is experiencing slow database queries. Walk through a systematic approach to diagnose and fix the performance issue."
+      description: "Debugging and problem-solving"
+
+    - name: api_design
+      prompt: "Design a RESTful API for a library management system. Include endpoints for books, users, and borrowing transactions. Explain your design choices."
+      description: "System design and architecture"
+
+  analysis:
+    - name: data_interpretation
+      prompt: "Analyze this scenario: A company's sales increased 30% after launching a new marketing campaign, but customer retention dropped 15%. What might explain this pattern and what should the company investigate?"
+      description: "Data analysis and business reasoning"
+
+    - name: compare_approaches
+      prompt: "Compare and contrast microservices architecture versus monolithic architecture for web applications. When would you choose each approach?"
+      description: "Comparative technical analysis"
+
+    - name: ethical_dilemma
+      prompt: "Analyze the ethical implications of AI systems being used for hiring decisions. Consider multiple stakeholder perspectives and potential consequences."
+      description: "Ethical reasoning and analysis"
+
+  reasoning:
+    - name: logic_puzzle
+      prompt: "Three people are at a party: Alice always tells the truth, Bob always lies, and Carol alternates between truth and lies. You ask each person 'Is Alice here?' and get three 'yes' answers. Who is who?"
+      description: "Logical deduction"
+
+    - name: estimate_fermi
+      prompt: "Estimate how many piano tuners are in New York City. Show your reasoning and break down your assumptions step by step."
+      description: "Fermi estimation and quantitative reasoning"
+
+    - name: causal_reasoning
+      prompt: "A study shows that people who drink more coffee tend to live longer. Does this mean coffee causes longevity? What other explanations might exist? How would you design a study to test this?"
+      description: "Causal reasoning and research design"

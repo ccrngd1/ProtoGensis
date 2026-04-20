@@ -1,0 +1,45 @@
+# Built-in constraints for ConstraintBreak testing
+# Based on arXiv 2604.13006 — "One Token Away from Collapse"
+
+constraints:
+  - name: em_dash_ban
+    description: "Ban em dashes (—) from output"
+    instruction: "Never use em dashes (—) in your response. Use commas, periods, or parentheses instead."
+    tokens: ["—", " —", "—"]
+    logit_bias_value: -100.0
+    category: punctuation
+
+  - name: colon_ban
+    description: "Ban colons (:) from output"
+    instruction: "Never use colons (:) in your response. Rephrase to avoid colons entirely."
+    tokens: [":", " :"]
+    logit_bias_value: -100.0
+    category: punctuation
+
+  - name: bullet_ban
+    description: "Ban bullet points from output"
+    instruction: "Never use bullet points or list markers (•, -, *) in your response. Write in continuous prose only."
+    tokens: ["•", " •", "- ", "* "]
+    logit_bias_value: -100.0
+    category: formatting
+
+  - name: the_ban
+    description: "Ban the word 'the' from output"
+    instruction: "Never use the word 'the' in your response. Rephrase all sentences to avoid this word."
+    tokens: [" the", "The", " The"]
+    logit_bias_value: -100.0
+    category: vocabulary
+
+  - name: numbered_list_ban
+    description: "Ban numbered lists from output"
+    instruction: "Never use numbered lists (1., 2., 3., etc.) in your response. Present information in paragraph form only."
+    tokens: ["1.", "2.", "3.", "1)", "2)", "3)"]
+    logit_bias_value: -100.0
+    category: formatting
+
+  - name: rhetorical_question_ban
+    description: "Ban rhetorical questions from output"
+    instruction: "Never use rhetorical questions in your response. Make direct statements instead of posing questions."
+    tokens: ["?"]
+    logit_bias_value: -100.0
+    category: style

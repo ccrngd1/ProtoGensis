@@ -1,0 +1,357 @@
+{
+  "metadata": {
+    "timestamp": "2026-04-01T15:30:14.962898",
+    "num_prompts": 5,
+    "mode": "live"
+  },
+  "single_models": {
+    "nova-lite": [
+      {
+        "prompt_id": "reasoning-1",
+        "category": "reasoning",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "To solve the problem, we need to carefully interpret the statement \"All but 9 die.\" Here is the step-by-step reasoning:\n\n1. **Initial Number of Sheep**: The farmer starts with 17 sheep.\n2. **Interpreting the Statement**: The phrase \"All but 9 die\" means that all the sheep except for 9 of them die. In other words, 9 sheep survive.\n3. **Calculation**: Since 9 sheep are the ones that do not die, we can determine the number of surviving sheep by simply noting that these 9 sheep are left alive.\n\nTherefore, the number of sheep that are left is:\n\n\\[ \\boxed{9} \\]",
+        "cost": 3.6e-05,
+        "input_tokens": 27,
+        "output_tokens": 144,
+        "latency_ms": 1394.45
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "category": "reasoning",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "To determine your position after passing another racer, let's break down the scenario step by step.\n\n1. **Initial Scenario**: \n   - Assume there are at least three people in the race: the person in first place, the person in second place, and you.\n\n2. **First Action**: \n   - You pass the person in second place.\n   - **Logic**: When you pass the second-place runner, you take their position. \n   - **Result**: You are now in second place.\n\n3. **Second Action**: \n   - You then pass the person in first place.\n   - **Logic**: When you pass the first-place runner, you take their position.\n   - **Result**: You are now in first place.\n\n**Summary**:\n- After passing the person in second place, you are in second place.\n- After passing the person in first place, you are in first place.\n\n**Conclusion**:\n- **First place**: You are in first place after passing the person who was initially in first place.",
+        "cost": 5.4e-05,
+        "input_tokens": 42,
+        "output_tokens": 213,
+        "latency_ms": 1984.43
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "category": "reasoning",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "To determine which switch controls which bulb with only one entry into the room, you can follow these steps:\n\n1. **Label the switches** as Switch A, Switch B, and Switch C.\n\n2. **Turn on Switch A** and leave it on for about 5-10 minutes. This will allow the bulb connected to Switch A to heat up.\n\n3. **After 5-10 minutes, turn off Switch A** and immediately turn on Switch B. Leave Switch C off.\n\n4. **Enter the room** now.\n\nHere's how you can determine which switch controls which bulb:\n\n- **The bulb that is lit** is controlled by Switch B (since it is the only switch that is currently on).\n- **The bulb that is off but warm to the touch** is controlled by Switch A (since it was on long enough to heat up but is now off).\n- **The bulb that is off and cold** is controlled by Switch C (since it has never been turned on).\n\nBy following these steps, you can determine which switch controls which bulb with just one entry into the room.",
+        "cost": 5.7e-05,
+        "input_tokens": 38,
+        "output_tokens": 227,
+        "latency_ms": 1686.34
+      },
+      {
+        "prompt_id": "code-1",
+        "category": "code",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "To check if a string is a palindrome in Python, we need to create a function that will handle various input types and appropriately check if the string reads the same forwards and backwards. Here is a detailed implementation along with an explanation of the time complexity:\n\n### Function Implementation\n\n```python\ndef is_palindrome(s):\n    \"\"\"\n    Check if a given input is a palindrome.\n\n    Parameters:\n    s (any): The input to check.\n\n    Returns:\n    bool: True if the input is a palindrome, False otherwise.\n    \"\"\"\n    # Check if the input is a string\n    if not isinstance(s, str):\n        raise TypeError(\"Input must be a string\")\n    \n    # Convert the string to lowercase to ignore case differences\n    s = s.lower()\n    \n    # Remove any non-alphanumeric characters\n    s = ''.join(char for char in s if char.isalnum())\n    \n    # Check if the string is equal to its reverse\n    return s == s[::-1]\n\n# Example usage:\n# print(is_palindrome(\"A man, a plan, a canal: Panama\"))  # True\n# print(is_palindrome(\"racecar\"))  # True\n# print(is_palindrome(\"hello\"))  # False\n```\n\n### Explanation\n\n1. **Input Validation**:\n   - The function first checks if the input is a string using `isinstance(s, str)`.\n   - If the input is not a string, it raises a `TypeError`.\n\n2. **Normalization**:\n   - The function converts the string to lowercase to ensure that the palindrome check is case-insensitive.\n   - It also removes any non-alphanumeric characters (spaces, punctuation, etc.) to focus only on the characters that matter for palindrome checking.\n\n3. **Palindrome Check**:\n   - The function checks if the cleaned string is equal to its reverse (`s[::-1]`).\n   - If both are equal, the function returns `True`, indicating the string is a palindrome. Otherwise, it returns `False`.\n\n### Time Complexity\n\n- **Normalization**:\n  - Converting the string to lowercase: \\( O(n) \\)\n  - Removing non-alphanumeric characters: \\( O(n) \\)\n- **Palindrome Check**:\n  - Reversing the string: \\( O(n) \\)\n  - Comparing the string to its reverse: \\( O(n) \\)\n\nCombining these, the overall time complexity of the function is \\( O(n) \\), where \\( n \\) is the length of the input string.\n\n### Summary\n\nThe provided function checks if a string is a palindrome, handling non-string inputs with appropriate error handling. The time complexity of the function is linear, \\( O(n) \\), making it efficient for reasonably sized strings.",
+        "cost": 0.00015,
+        "input_tokens": 29,
+        "output_tokens": 616,
+        "latency_ms": 3097.47
+      },
+      {
+        "prompt_id": "code-2",
+        "category": "code",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "To implement a Least Recently Used (LRU) cache with O(1) get and put operations, we can use a combination of a hash map (dictionary in Python) and a doubly linked list. This combination allows us to achieve the desired time complexity.\n\nHere's a step-by-step explanation and the implementation:\n\n### Data Structures Used:\n\n1. **Hash Map (Dictionary)**:\n   - **Purpose**: To store the keys and their corresponding nodes in the doubly linked list.\n   - **Reason**: Provides O(1) time complexity for both insertion and lookup operations.\n\n2. **Doubly Linked List**:\n   - **Purpose**: To maintain the order of usage of keys.\n   - **Reason**: Allows us to efficiently move nodes to the front (recently used) or remove nodes from the end (least recently used).\n\n### Steps to Implement LRU Cache:\n\n1. **Node Class**:\n   - Each node will store the key, value, and references to the previous and next nodes in the doubly linked list.\n\n2. **LRUCache Class**:\n   - This class will maintain the dictionary and the two pointers (head and tail) for the doubly linked list.\n   - It will also maintain the capacity of the cache.\n\n### Implementation:\n\n```python\nclass Node:\n    def __init__(self, key, value):\n        self.key = key\n        self.value = value\n        self.prev = None\n        self.next = None\n\n\nclass LRUCache:\n    def __init__(self, capacity: int):\n        self.capacity = capacity\n        self.cache = {}  # Dictionary to store nodes with keys\n        self.head = Node(0, 0)  # Dummy head node\n        self.tail = Node(0, 0)  # Dummy tail node\n        self.head.next = self.tail  # Link head to tail\n        self.tail.prev = self.head  # Link tail to head\n\n    def _remove(self, node):\n        # Remove an existing node from the linked list\n        prev = node.prev\n        next = node.next\n        prev.next = next\n        next.prev = prev\n\n    def _add(self, node):\n        # Add a new node right after the head node\n        node.prev = self.head\n        node.next = self.head.next\n        self.head.next.prev = node\n        self.head.next = node\n\n    def get(self, key: int) -> int:\n        if key in self.cache:\n            node = self.cache[key]\n            self._remove(node)  # Remove the node\n            self._add(node)  # Add the node back to the most recently used position\n            return node.value\n        return -1\n\n    def put(self, key: int, value: int) -> None:\n        if key in self.cache:\n            self._remove(self.cache[key])  # Remove the existing node\n        node = Node(key, value)\n        self._add(node)  # Add the new node to the most recently used position\n        self.cache[key] = node  # Add the node to the dictionary\n\n        if len(self.cache) > self.capacity:\n            # Remove the least recently used node (tail.prev)\n            lru = self.tail.prev\n            self._remove(lru)\n            del self.cache[lru.key]\n\n### Explanation:\n\n- **get(key)**:\n  - If the key exists in the cache, we remove the node from its current position and add it back to the most recently used position (right after the head).\n  - This operation ensures that the key is marked as recently used.\n\n- **put(key, value)**:\n  - If the key already exists, we remove the old node from the list and create a new node with the updated value.\n  - We then add the new node to the most recently used position.\n  - If the cache exceeds capacity, we remove the least recently used node (the one before the tail) and delete it from the dictionary.\n\n### Time Complexity:\n\n- **get(key)**: O(1) because we can directly access the node via the dictionary and perform constant-time operations on the linked list.\n- **put(key, value)**: O(1) because we can directly access the node via the dictionary, perform constant-time operations on the linked list, and if necessary, remove the least recently used node in constant time.\n\n\\boxed{LRUCache class with O(1) get and put operations implemented using a dictionary and a doubly linked list.}",
+        "cost": 0.000243,
+        "input_tokens": 36,
+        "output_tokens": 1003,
+        "latency_ms": 5718.09
+      }
+    ]
+  },
+  "ensembles": {
+    "ultra-cheap": [
+      {
+        "prompt_id": "reasoning-1",
+        "error": "Unknown model key: mistral-7b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "error": "Unknown model key: mistral-7b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "error": "Unknown model key: mistral-7b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      },
+      {
+        "prompt_id": "code-1",
+        "error": "Unknown model key: mistral-7b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      },
+      {
+        "prompt_id": "code-2",
+        "error": "Unknown model key: mistral-7b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      }
+    ],
+    "code-generation": [
+      {
+        "prompt_id": "reasoning-1",
+        "error": "Unknown model key: mixtral-8x7b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "error": "Unknown model key: mixtral-8x7b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "error": "Unknown model key: mixtral-8x7b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      },
+      {
+        "prompt_id": "code-1",
+        "error": "Unknown model key: mixtral-8x7b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      },
+      {
+        "prompt_id": "code-2",
+        "error": "Unknown model key: mixtral-8x7b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      }
+    ],
+    "reasoning": [
+      {
+        "prompt_id": "reasoning-1",
+        "error": "Unknown model key: llama-3.1-70b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "error": "Unknown model key: llama-3.1-70b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "error": "Unknown model key: llama-3.1-70b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      },
+      {
+        "prompt_id": "code-1",
+        "error": "Unknown model key: llama-3.1-70b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      },
+      {
+        "prompt_id": "code-2",
+        "error": "Unknown model key: llama-3.1-70b. Available: ['nova-lite', 'nova-pro', 'nova-premier', 'haiku', 'sonnet', 'opus']"
+      }
+    ]
+  },
+  "baselines": {
+    "nova-lite": [
+      {
+        "prompt_id": "reasoning-1",
+        "category": "reasoning",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "To solve the problem, we need to carefully interpret the statement \"All but 9 die.\" This means that out of the 17 sheep, only 9 do not die. Here's the step-by-step reasoning:\n\n1. Start with the total number of sheep, which is 17.\n2. The phrase \"all but 9 die\" means that 9 sheep are not among those that die. In other words, 9 sheep survive.\n3. Therefore, the number of sheep that are left alive is exactly the number of sheep that did not die, which is 9.\n\nSo, the number of sheep left is \\(\\boxed{9}\\).",
+        "cost": 3.5e-05,
+        "input_tokens": 27,
+        "output_tokens": 140,
+        "latency_ms": 12823.56
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "category": "reasoning",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "Let's break down the situation step by step:\n\n1. **Initial Scenario:**\n   - You are running in a race.\n   - There is a person in second place.\n\n2. **Passing the Person in Second Place:**\n   - If you pass the person in second place, you move ahead of them.\n   - At this moment, you are no longer in third place because you have moved ahead of the person who was in second place.\n   - You are now ahead of the person who was in second place, so you are now in second place.\n\n3. **Passing the Person in First Place:**\n   - If you then pass the person in first place, you move ahead of them as well.\n   - At this moment, you are no longer in second place because you have moved ahead of the person who was in first place.\n   - You are now ahead of the person who was in first place, so you are now in first place.\n\n**Summary:**\n- After passing the person in second place, you are in second place.\n- After passing the person in first place, you are in first place.\n\n**Logic:**\n- Your position is determined by the number of people you have passed.\n- Each time you pass another runner, you move up one place in the rankings.",
+        "cost": 6.7e-05,
+        "input_tokens": 42,
+        "output_tokens": 268,
+        "latency_ms": 1435.64
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "category": "reasoning",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "To determine which switch controls which bulb with only one entry into the room, you can follow these steps:\n\n1. **Label the switches**: Let's call the three switches A, B, and C.\n\n2. **Flip the switches in a specific sequence**:\n   - Turn on switch A and leave it on for about 5-10 minutes.\n   - After 5-10 minutes, turn off switch A and immediately turn on switch B.\n   - Leave switch C off throughout this process.\n\n3. **Enter the room**:\n   - When you enter the room, you will see the following scenarios:\n     - One of the bulbs is on. This bulb is controlled by switch B, because it was turned on last and is still lit.\n     - One of the bulbs is off but warm. This bulb is controlled by switch A, because it was on for a while and has cooled down but is still warm.\n     - One of the bulbs is off and cold. This bulb is controlled by switch C, because it was never turned on.\n\nBy using this method, you can determine which switch controls which bulb with just one entry into the room.",
+        "cost": 5.9e-05,
+        "input_tokens": 38,
+        "output_tokens": 238,
+        "latency_ms": 2154.4
+      },
+      {
+        "prompt_id": "code-1",
+        "category": "code",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "To check if a string is a palindrome, we need to create a Python function that handles non-string inputs gracefully and returns `True` if the string reads the same forwards and backwards, and `False` otherwise. Here's a detailed implementation and explanation:\n\n### Function Definition\n\n```python\ndef is_palindrome(s):\n    \"\"\"\n    Check if a given input is a palindrome.\n\n    Parameters:\n    s (any): The input to check.\n\n    Returns:\n    bool: True if the input is a palindrome, False otherwise.\n    \"\"\"\n    # Error handling for non-string inputs\n    if not isinstance(s, str):\n        raise TypeError(\"Input must be a string.\")\n    \n    # Convert to lowercase and remove non-alphanumeric characters\n    cleaned_str = ''.join(char.lower() for char in s if char.isalnum())\n    \n    # Check if the cleaned string is equal to its reverse\n    return cleaned_str == cleaned_str[::-1]\n```\n\n### Explanation\n\n1. **Error Handling**:\n    - The function first checks if the input `s` is of type `str` using `isinstance(s, str)`.\n    - If the input is not a string, it raises a `TypeError` with an appropriate message.\n\n2. **Cleaning the String**:\n    - The string is converted to lowercase to ensure the comparison is case-insensitive.\n    - Non-alphanumeric characters (such as punctuation and spaces) are removed using a generator expression and `char.isalnum()`.\n\n3. **Palindrome Check**:\n    - The cleaned string is compared to its reverse (`cleaned_str[::-1]`).\n    - If they are equal, the function returns `True`, indicating the input is a palindrome. Otherwise, it returns `False`.\n\n### Time Complexity\n\n- **Cleaning the String**:\n    - Converting to lowercase and removing non-alphanumeric characters both take \\(O(n)\\) time, where \\(n\\) is the length of the string.\n- **Reversing the String**:\n    - Reversing the string also takes \\(O(n)\\) time.\n- **Comparing Strings**:\n    - Comparing the cleaned string with its reverse takes \\(O(n)\\) time.\n\nTherefore, the overall time complexity of the function is \\(O(n)\\).\n\n### Example Usage\n\n```python\ntry:\n    print(is_palindrome(\"A man, a plan, a canal, Panama\"))  # True\n    print(is_palindrome(\"racecar\"))  # True\n    print(is_palindrome(\"hello\"))  # False\n    print(is_palindrome(12321))  # Raises TypeError\nexcept TypeError as e:\n    print(e)  # Input must be a string.\n```\n\nBy following these steps, we ensure the function is robust, efficient, and handles errors appropriately.",
+        "cost": 0.000152,
+        "input_tokens": 29,
+        "output_tokens": 626,
+        "latency_ms": 2858.06
+      },
+      {
+        "prompt_id": "code-2",
+        "category": "code",
+        "model": "Nova Lite",
+        "model_key": "nova-lite",
+        "response": "To implement a LRU (Least Recently Used) cache with O(1) get and put operations, we can use a combination of a hash map (or dictionary in Python) and a doubly linked list. Here\u2019s a detailed explanation of the implementation and why it achieves O(1) complexity for both get and put operations.\n\n### Data Structures Used\n\n1. **Hash Map (Dictionary)**:\n   - **Purpose**: To provide quick access to the nodes based on the key.\n   - **Reason**: It allows O(1) access time for both retrieval and updates.\n\n2. **Doubly Linked List**:\n   - **Purpose**: To maintain the order of usage of the cache elements, with the most recently used element near the head and the least recently used element near the tail.\n   - **Reason**: It allows O(1) time complexity for adding or removing nodes from both ends.\n\n### Implementation Steps\n\n1. **Node Class**:\n   - Each node in the doubly linked list will store the key, value, a reference to the previous node, and a reference to the next node.\n\n2. **LRUCache Class**:\n   - This class will maintain the capacity of the cache, a dictionary for quick access, and the head and tail of the doubly linked list.\n\n### Detailed Implementation\n\n```python\nclass Node:\n    def __init__(self, key, value):\n        self.key = key\n        self.value = value\n        self.prev = None\n        self.next = None\n\nclass LRUCache:\n    def __init__(self, capacity: int):\n        self.capacity = capacity\n        self.cache = {}  # Dictionary to store nodes with keys as keys\n        self.head = Node(0, 0)  # Dummy head node\n        self.tail = Node(0, 0)  # Dummy tail node\n        # Initialize dummy nodes to simplify edge cases\n        self.head.next = self.tail\n        self.tail.prev = self.head\n\n    def _remove(self, node):\n        # Utility function to remove a node from the linked list\n        prev = node.prev\n        next = node.next\n        prev.next = next\n        next.prev = prev\n\n    def _add(self, node):\n        # Utility function to add a node right after the head\n        node.prev = self.head\n        node.next = self.head.next\n        self.head.next.prev = node\n        self.head.next = node\n\n    def get(self, key: int) -> int:\n        if key in self.cache:\n            node = self.cache[key]\n            self._remove(node)  # Remove the node\n            self._add(node)    # Add the node to the head\n            return node.value\n        return -1\n\n    def put(self, key: int, value: int) -> None:\n        if key in self.cache:\n            self._remove(self.cache[key])  # Remove existing node\n        node = Node(key, value)\n        self._add(node)  # Add new node to the head\n        self.cache[key] = node  # Add to the dictionary\n        if len(self.cache) > self.capacity:\n             # Remove the least recently used node (tail.prev)\n            lru = self.tail.prev\n            self._remove(lru)\n            del self.cache[lru.key]  # Remove from the dictionary\n```\n\n### Explanation\n\n1. **Initialization**:\n   - We initialize the cache with a specified capacity, a dictionary to hold nodes, and a dummy head and tail node to simplify operations.\n\n2. **_remove(node)**:\n   - This utility function removes a node from the linked list by updating the previous and next pointers of its neighbors.\n\n3. **_add(node)**:\n   - This utility function adds a node right after the head node.\n\n4. **get(key)**:\n   - If the key is present in the cache, we retrieve the node, remove it from its current position, and add it to the head to mark it as the most recently used.\n   - Returns the value associated with the key if present, otherwise returns -1.\n\n5. **put(key, value)**:\n   - If the key is already present, we update the value and move the node to the head.\n   - If the key is not present and the cache is at capacity, we remove the least recently used node (the one before the tail).\n   - We then add the new node to the head and update the dictionary.\n\n### Why O(1) Complexity\n\n- **Hash Map Operations**: Accessing, updating, or removing nodes from the dictionary takes O(1) time.\n- **Doubly Linked List Operations**: Adding or removing nodes from the head or tail of the list takes O(1) time.\n\nBy combining these two data structures, we achieve O(1) complexity for both get and put operations.",
+        "cost": 0.000261,
+        "input_tokens": 36,
+        "output_tokens": 1080,
+        "latency_ms": 5565.3
+      }
+    ],
+    "haiku": [
+      {
+        "prompt_id": "reasoning-1",
+        "category": "reasoning",
+        "model": "Claude Haiku 4.5",
+        "model_key": "haiku",
+        "response": "# Step-by-Step Solution\n\n**Given information:**\n- Starting number of sheep: 17\n- All but 9 die\n\n**What \"all but 9\" means:**\n\"All but 9\" is a phrase meaning \"everything except 9.\" So if all but 9 sheep die, that means 9 sheep survive.\n\n**The math:**\n- Sheep that died: 17 - 9 = 8\n- Sheep remaining: 9\n\n**Answer: 9 sheep are left**\n\nThe key to this problem is understanding the phrase \"all but 9,\" which indicates that 9 is the exception to what dies\u2014meaning 9 survive.",
+        "cost": 0.000645,
+        "input_tokens": 36,
+        "output_tokens": 154,
+        "latency_ms": 2444.62
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "category": "reasoning",
+        "model": "Claude Haiku 4.5",
+        "model_key": "haiku",
+        "response": "# The Logic of Passing in a Race\n\n**After passing the person in second place: You're in second place.**\n\nWhen you pass someone, you take their position. If they were in second, you're now second, and they drop to third.\n\n**After passing the person in first place: You're in first place.**\n\nSame logic applies\u2014you take their position.\n\n## Why This Matters\n\nThe key insight is that **positions are relative rankings, not fixed identities**. \"Second place\" isn't a person; it's a ranking that changes as people pass each other. When you overtake someone, you swap positions with them.\n\nThis is a classic riddle that trips people up because it's easy to think \"if I pass the second-place person, I must be first\"\u2014but that only works if there are only two people racing. With at least three runners, the positions shift as described above.",
+        "cost": 0.000827,
+        "input_tokens": 49,
+        "output_tokens": 197,
+        "latency_ms": 4475.94
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "category": "reasoning",
+        "model": "Claude Haiku 4.5",
+        "model_key": "haiku",
+        "response": "# The Solution\n\nHere's the key insight: **use heat as a third state of information.**\n\n## The Strategy\n\n1. **Turn on switch 1** and leave it on for several minutes\n2. **Turn off switch 1**, then **turn on switch 2**\n3. **Leave switch 3 off**\n4. **Enter the room**\n\n## What You'll Find\n\n- **Bulb that's ON** \u2192 controlled by switch 2\n- **Bulb that's OFF but WARM** \u2192 controlled by switch 1\n- **Bulb that's OFF and COOL** \u2192 controlled by switch 3\n\n## Why It Works\n\nYou're essentially encoding three pieces of information from three switches:\n- On/off state (2 possibilities per switch)\n- Temperature (warm or cool for off bulbs)\n\nThis gives you enough information to uniquely identify all three combinations in a single observation.",
+        "cost": 0.000846,
+        "input_tokens": 47,
+        "output_tokens": 202,
+        "latency_ms": 3305.86
+      },
+      {
+        "prompt_id": "code-1",
+        "category": "code",
+        "model": "Claude Haiku 4.5",
+        "model_key": "haiku",
+        "response": "# Palindrome Checker Function\n\n```python\ndef is_palindrome(s: str) -> bool:\n    \"\"\"\n    Check if a string is a palindrome (ignoring spaces, punctuation, and case).\n    \n    Args:\n        s: The string to check\n        \n    Returns:\n        bool: True if the string is a palindrome, False otherwise\n        \n    Raises:\n        TypeError: If input is not a string\n        ValueError: If input is an empty string\n        \n    Time Complexity: O(n) where n is the length of the string\n    Space Complexity: O(n) for the cleaned string\n    \"\"\"\n    \n    # Error handling\n    if not isinstance(s, str):\n        raise TypeError(f\"Expected string, got {type(s).__name__}\")\n    \n    if len(s) == 0:\n        raise ValueError(\"Input string cannot be empty\")\n    \n    # Clean the string: remove non-alphanumeric characters and convert to lowercase\n    cleaned = ''.join(char.lower() for char in s if char.isalnum())\n    \n    # Handle edge case where cleaned string is empty\n    if len(cleaned) == 0:\n        raise ValueError(\"String must contain at least one alphanumeric character\")\n    \n    # Check if cleaned string equals its reverse\n    return cleaned == cleaned[::-1]\n\n\n# Two-pointer approach (more space-efficient)\ndef is_palindrome_optimized(s: str) -> bool:\n    \"\"\"\n    Check if a string is a palindrome using two-pointer technique.\n    \n    Args:\n        s: The string to check\n        \n    Returns:\n        bool: True if the string is a palindrome, False otherwise\n        \n    Raises:\n        TypeError: If input is not a string\n        ValueError: If input is an empty string\n        \n    Time Complexity: O(n) where n is the length of the string\n    Space Complexity: O(1) - only using pointers, no extra data structures\n    \"\"\"\n    \n    # Error handling\n    if not isinstance(s, str):\n        raise TypeError(f\"Expected string, got {type(s).__name__}\")\n    \n    if len(s) == 0:\n        raise ValueError(\"Input string cannot be empty\")\n    \n    # Two pointers approach\n    left = 0\n    right = len(s) - 1\n    \n    while left < right:\n        # Skip non-alphanumeric characters from left\n        while left < right and not s[left].isalnum():\n            left += 1\n        \n        # Skip non-alphanumeric characters from right\n        while left < right and not s[right].isalnum():\n            right -= 1\n        \n        # Compare characters (case-insensitive)\n        if s[left].lower() != s[right].lower():\n            return False\n        \n        left += 1\n        right -= 1\n    \n    return True\n\n\n# Test cases\nif __name__ == \"__main__\":\n    # Valid palindromes\n    test_cases = [\n        (\"A man, a plan, a canal: Panama\", True),\n        (\"race a car\", False),\n        (\"0P\", False),\n        (\"a.\", True),\n        (\"ab_a\", True),\n        (\"12321\", True),\n        (\"Hello, World!\", False),\n        (\"Madam\", True),\n        (\"No 'x' in Nixon\", True),\n    ]\n    \n    print(\"=\" * 60)\n    print(\"Testing is_palindrome function:\")\n    print(\"=\" * 60)\n    \n    for test_string, expected in test_cases:\n        try:\n            result = is_palindrome(test_string)\n            status = \"\u2713 PASS\" if result == expected else \"\u2717 FAIL\"\n            print(f\"{status} | '{test_string}' -> {result} (expected {expected})\")\n        except (TypeError, ValueError) as e:\n            print(f\"\u2717 ERROR | '{test_string}' -> {e}\")\n    \n    print(\"\\n\" + \"=\" * 60)\n    print(\"Testing is_palindrome_optimized function:\")\n    print(\"=\" * 60)\n    \n    for test_string, expected in test_cases:\n        try:\n            result = is_palindrome_optimized(test_string)\n            status = \"\u2713 PASS\" if result == expected else \"\u2717 FAIL\"\n            print(f\"{status} | '{test_string}' -> {result} (expected {expected})\")\n        except (TypeError, ValueError) as e:\n            print(f\"\u2717 ERROR | '{test_string}' -> {e}\")\n    \n    print(\"\\n\" + \"=\" * 60)\n    print(\"Testing error handling:\")\n    print(\"=\" * 60)\n    \n    # Test error handling\n    error_cases = [\n        (123, TypeError),\n        (None, TypeError),\n        ([], TypeError),\n        (\"\", ValueError),\n        (\"@#$%\", ValueError),\n    ]\n    \n    for test_input, expected_error in error_cases:\n        try:\n            is_palindrome(test_input)\n            print(f\"\u2717 FAIL | {test_input} should raise {expected_error.__name__}\")\n        except expected_error as e:\n            print(f\"\u2713 PASS | {test_input} correctly raised {expected_error.__name__}: {e}\")\n        except Exception as e:\n            print(f\"\u2717 FAIL | {test_input} raised unexpected {type(e).__name__}: {e}\")\n```\n\n## Output:\n```\n============================================================\nTesting is_palindrome function:\n\u2713 PASS | 'A man, a plan, a canal: Panama' -> True (expected True)\n\u2713 PASS | 'race a car' -> False (expected False)\n\u2713 PASS | '0P' -> False (expected False)\n\u2713 PASS | 'a.' -> True (expected True)\n\u2713 PASS | 'ab_a' -> True (expected True)\n\u2713 PASS | '12321' -> True (expected True)\n\u2713 PASS | 'Hello, World!' -> False (expected False)\n\u2713 PASS | 'Madam' -> True (expected True)\n\u2713 PASS | 'No 'x' in Nixon' -> True (expected True)\n\n============================================================\nTesting is_palindrome_optimized function:\n\u2713 PASS | 'A man, a plan, a canal: Panama' -> True (expected True)\n\u2713 PASS | 'race a car' -> False (expected False)\n\u2713 PASS | '0P' -> False (expected False)\n\u2713 PASS | 'a.' -> True (expected True)\n\u2713 PASS | 'ab_a' -> True (expected True)\n\u2713 PASS | '12321' -> True (expected True)\n\u2713 PASS | 'Hello, World!' -> False (expected False)\n\u2713 PASS | 'Madam' -> True (expected True)\n\u2713 PASS | 'No 'x' in Nixon' -> True (expected True)\n\n============================================================\nTesting error handling:\n\u2713 PASS | 123 correctly raised TypeError: Expected string, got int\n\u2713 PASS | None correctly raised TypeError: Expected string, got NoneType\n\u2713 PASS | [] correctly raised TypeError: Expected string, got list\n\u2713 PASS | '' correctly raised ValueError: Input string cannot be empty\n\u2713 PASS | '@#$%' correctly raised ValueError: String must contain at least one alphanumeric character\n```\n\n## Complexity Analysis:\n\n### **Time Complexity: O(n)**\n- **is_palindrome()**: Iterates through the entire string once to clean it, then compares with reversed string\n- **is_palindrome_optimized()**: Two pointers move from both ends, each character visited at most once\n\n### **Space Complexity:**\n- **is_palindrome()**: O(n) - Creates a new cleaned string\n- **is_palindrome_optimized()**: O(1) - Only uses two pointer variables\n\n## Key Features:\n\n\u2705 **Type checking** - Validates input is a string  \n\u2705 **Value validation** - Ensures string isn't empty  \n\u2705 **Case-insensitive** - Treats 'A' and 'a' as equal  \n\u2705 **Ignores punctuation** - Only compares alphanumeric characters  \n\u2705 **Two implementations** - One simple, one space-optimized  \n\u2705 **Comprehensive tests** -",
+        "cost": 0.00822,
+        "input_tokens": 35,
+        "output_tokens": 2048,
+        "latency_ms": 9751.31
+      },
+      {
+        "prompt_id": "code-2",
+        "category": "code",
+        "model": "Claude Haiku 4.5",
+        "model_key": "haiku",
+        "response": "# LRU Cache Implementation\n\nI'll implement a complete LRU cache with O(1) operations using a combination of a hash map and doubly-linked list.\n\n## Complete Implementation\n\n```python\nfrom collections import defaultdict\nfrom typing import Optional\n\nclass Node:\n    \"\"\"Doubly-linked list node for LRU cache\"\"\"\n    def __init__(self, key: int = 0, value: int = 0):\n        self.key = key\n        self.value = value\n        self.prev: Optional['Node'] = None\n        self.next: Optional['Node'] = None\n\n\nclass LRUCache:\n    \"\"\"\n    LRU Cache with O(1) get and put operations.\n    \n    Data Structures:\n    1. Doubly-Linked List: Maintains order of usage (most recent at tail)\n    2. Hash Map (Dictionary): Maps key -> Node for O(1) access\n    \"\"\"\n    \n    def __init__(self, capacity: int):\n        \"\"\"\n        Initialize LRU cache.\n        \n        Args:\n            capacity: Maximum number of items to store\n        \"\"\"\n        if capacity <= 0:\n            raise ValueError(\"Capacity must be positive\")\n        \n        self.capacity = capacity\n        self.cache: dict[int, Node] = {}  # key -> Node mapping\n        \n        # Dummy nodes to simplify edge cases\n        self.head = Node()  # Points to least recently used\n        self.tail = Node()  # Points to most recently used\n        self.head.next = self.tail\n        self.tail.prev = self.head\n    \n    def get(self, key: int) -> int:\n        \"\"\"\n        Get value by key. O(1) operation.\n        \n        Args:\n            key: The key to retrieve\n            \n        Returns:\n            Value associated with key, or -1 if not found\n        \"\"\"\n        if key not in self.cache:\n            return -1\n        \n        node = self.cache[key]\n        self._move_to_end(node)  # Mark as recently used\n        return node.value\n    \n    def put(self, key: int, value: int) -> None:\n        \"\"\"\n        Put key-value pair in cache. O(1) operation.\n        \n        Args:\n            key: The key to store\n            value: The value to store\n        \"\"\"\n        if key in self.cache:\n            # Update existing node\n            node = self.cache[key]\n            node.value = value\n            self._move_to_end(node)\n        else:\n            # Create new node\n            if len(self.cache) >= self.capacity:\n                self._remove_least_recently_used()\n            \n            new_node = Node(key, value)\n            self.cache[key] = new_node\n            self._add_to_end(new_node)\n    \n    def _move_to_end(self, node: Node) -> None:\n        \"\"\"Move node to end (most recently used position)\"\"\"\n        self._remove_node(node)\n        self._add_to_end(node)\n    \n    def _remove_node(self, node: Node) -> None:\n        \"\"\"Remove node from linked list\"\"\"\n        prev_node = node.prev\n        next_node = node.next\n        prev_node.next = next_node\n        next_node.prev = prev_node\n    \n    def _add_to_end(self, node: Node) -> None:\n        \"\"\"Add node to end of linked list (before tail)\"\"\"\n        prev_node = self.tail.prev\n        prev_node.next = node\n        node.prev = prev_node\n        node.next = self.tail\n        self.tail.prev = node\n    \n    def _remove_least_recently_used(self) -> None:\n        \"\"\"Remove the least recently used item (after head)\"\"\"\n        lru_node = self.head.next\n        self._remove_node(lru_node)\n        del self.cache[lru_node.key]\n    \n    def __repr__(self) -> str:\n        \"\"\"Display cache contents from least to most recent\"\"\"\n        items = []\n        current = self.head.next\n        while current != self.tail:\n            items.append(f\"{current.key}:{current.value}\")\n            current = current.next\n        return f\"LRUCache({' -> '.join(items)})\"\n\n\n# Alternative implementation using OrderedDict (simpler but less instructive)\nclass LRUCacheSimple:\n    \"\"\"Simplified LRU Cache using OrderedDict\"\"\"\n    \n    def __init__(self, capacity: int):\n        self.capacity = capacity\n        self.cache = {}\n    \n    def get(self, key: int) -> int:\n        if key not in self.cache:\n            return -1\n        # Move to end (most recently used)\n        self.cache.move_to_end(key)\n        return self.cache[key]\n    \n    def put(self, key: int, value: int) -> None:\n        if key in self.cache:\n            self.cache.move_to_end(key)\n        self.cache[key] = value\n        if len(self.cache) > self.capacity:\n            # Remove first item (least recently used)\n            self.cache.popitem(last=False)\n```\n\n## Detailed Explanation\n\n### Why O(1) Operations?\n\n```python\n\"\"\"\nTIME COMPLEXITY ANALYSIS:\n\n1. GET OPERATION: O(1)\n   - Hash map lookup: O(1)\n   - Move to end: O(1) (just pointer updates)\n   \n2. PUT OPERATION: O(1)\n   - Hash map lookup: O(1)\n   - Node creation: O(1)\n   - Linked list insertion: O(1) (just pointer updates)\n   - Eviction (if needed): O(1) (remove head.next)\n\nKEY INSIGHT: \n- Hash map provides O(1) key lookup\n- Doubly-linked list provides O(1) node removal/insertion\n- Dummy head/tail nodes eliminate edge case handling\n\"\"\"\n```\n\n### Data Structure Diagram\n\n```\nDOUBLY-LINKED LIST (Order of Usage):\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 [HEAD] \u2194 [Node1] \u2194 [Node2] \u2194 [Node3] \u2194 [TAIL]      \u2502\n\u2502  LRU                                      MRU       \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\nHASH MAP:\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 key1 \u2192 Node1             \u2502\n\u2502 key2 \u2192 Node2             \u2502\n\u2502 key3 \u2192 Node3             \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\nWhen accessing Node2:\n1. O(1) lookup in hash map\n2. O(1) removal from current position\n3. O(1) insertion at end\nResult: Node2 becomes most recently used\n```\n\n## Usage Examples\n\n```python\n# Example 1: Basic operations\ncache = LRUCache(2)\ncache.put(1, 1)\ncache.put(2, 2)\nprint(cache.get(1))      # Output: 1\ncache.put(3, 3)          # Evicts key 2\nprint(cache.get(2))      # Output: -1 (evicted)\ncache.put(4, 4)          # Evicts key 1\nprint(cache.get(1))      # Output: -1 (evicted)\nprint(cache.get(3))      # Output: 3\nprint(cache.get(4))      # Output: 4\n\n\n# Example 2: Tracking usage\ncache = LRUCache(3)\ncache.put(1, \"a\")\ncache.put(2, \"b\")\ncache.put(3, \"c\")\nprint(cache)             # 1:a -> 2:b -> 3:c\n\ncache.get(1)             # Access 1, moves to end\nprint(cache)             # 2:b -> 3:c -> 1:a\n\ncache.put(4, \"d\")        # Capacity exceeded, evict 2\nprint(cache)             # 3:c -> 1:a -> 4:d\n\n\n# Example 3: Update existing key\ncache = LRUCache(2)\ncache.put(1, 1)\ncache.put(2, 2)\ncache.put(1, 10)         # Update key 1",
+        "cost": 0.008229,
+        "input_tokens": 46,
+        "output_tokens": 2048,
+        "latency_ms": 10951.49
+      }
+    ],
+    "sonnet": [
+      {
+        "prompt_id": "reasoning-1",
+        "category": "reasoning",
+        "model": "Claude Sonnet 4.6",
+        "model_key": "sonnet",
+        "response": "## Step-by-Step Reasoning\n\n**Reading the problem carefully:**\n\n\"All but 9 die.\"\n\n**What does \"all but 9\" mean?**\n\n\"All but 9\" means **all EXCEPT 9**. In other words, 9 survive.\n\n**Common mistake to avoid:**\n\nMany people misread this and subtract: 17 - 9 = 8. But that's answering the wrong question. The phrase \"all but 9\" directly tells you the outcome \u2014 it doesn't ask you to calculate who died.\n\n## Answer\n\n**9 sheep are left.**",
+        "cost": 0.002148,
+        "input_tokens": 36,
+        "output_tokens": 136,
+        "latency_ms": 4426.68
+      },
+      {
+        "prompt_id": "reasoning-2",
+        "category": "reasoning",
+        "model": "Claude Sonnet 4.6",
+        "model_key": "sonnet",
+        "response": "## Passing the Person in Second Place\n\nWhen you pass the person in **second place**, you take their position. You are now in **second place**.\n\nThis is straightforward - you moved into the spot they were occupying.\n\n## Passing the Person in First Place\n\nWhen you then pass the person in **first place**, you are now in **first place**.\n\n---\n\n## Where People Often Get Tripped Up\n\nThe classic trick answer suggests you'd be in **second place** after passing the leader, with the reasoning being *\"you can't be in first place because someone was ahead of you.\"*\n\nBut that reasoning is **wrong**. The word \"pass\" means you go **ahead of** that person. If you pass the person in first place, you are now ahead of them, making **you first** and **them second**.\n\nThe brain teaser version of this puzzle tries to trick people on the *first* part - suggesting you'd be in first after passing second. That's the actual logical catch: **passing second place puts you in second**, not first, because first place is still ahead of you.\n\nBoth answers follow the same consistent logic: **passing someone means you take their place position**, moving them back one spot.",
+        "cost": 0.004122,
+        "input_tokens": 49,
+        "output_tokens": 265,
+        "latency_ms": 7407.39
+      },
+      {
+        "prompt_id": "reasoning-3",
+        "category": "reasoning",
+        "model": "Claude Sonnet 4.6",
+        "model_key": "sonnet",
+        "response": "## The Solution\n\nHere's the classic approach using **heat as a second information channel**:\n\n### Steps:\n1. **Turn on Switch 1** and leave it on for several minutes\n2. **Turn off Switch 1**, then **turn on Switch 2**\n3. **Enter the room immediately** and observe the bulbs\n\n### Reading the Results:\n\n| Bulb State | Controlled By |\n|------------|---------------|\n| **On** | Switch 2 (currently on) |\n| **Off but warm** | Switch 1 (was on, now off) |\n| **Off and cold** | Switch 3 (never turned on) |\n\n## Why This Works\n\nYou're exploiting **two independent variables**:\n- **Electrical state** \u2192 tells you about the current switch position\n- **Thermal state** \u2192 tells you about the switch's history\n\nMost people assume you can only gather 2 states (on/off) with one room visit, which would only identify 2 bulbs. The key insight is that **light bulbs retain heat**, giving you a third distinguishable state.\n\n### The Underlying Principle\nThis puzzle teaches that **creative problem-solving often means identifying hidden information channels** that the problem statement doesn't explicitly mention.",
+        "cost": 0.004386,
+        "input_tokens": 47,
+        "output_tokens": 283,
+        "latency_ms": 9307.08
+      },
+      {
+        "prompt_id": "code-1",
+        "category": "code",
+        "model": "Claude Sonnet 4.6",
+        "model_key": "sonnet",
+        "response": "# Palindrome Checker in Python\n\n## Implementation\n\n```python\ndef is_palindrome(s: str, ignore_case: bool = True, ignore_spaces: bool = True) -> bool:\n    \"\"\"\n    Check if a string is a palindrome.\n    \n    A palindrome reads the same forwards and backwards.\n    Examples: \"racecar\", \"A man a plan a canal Panama\", \"Was it a car or a cat I saw\"\n    \n    Args:\n        s: The string to check\n        ignore_case: If True, treats 'A' and 'a' as equal (default: True)\n        ignore_spaces: If True, ignores spaces and punctuation (default: True)\n    \n    Returns:\n        True if the string is a palindrome, False otherwise\n    \n    Raises:\n        TypeError: If input is not a string\n        ValueError: If string is empty\n    \"\"\"\n    # --- Input Validation ---\n    if not isinstance(s, str):\n        raise TypeError(\n            f\"Expected a string, got {type(s).__name__!r}. \"\n            f\"Received value: {s!r}\"\n        )\n    \n    if len(s) == 0:\n        raise ValueError(\"Input string cannot be empty.\")\n    \n    # --- Preprocessing ---\n    processed = s\n    \n    if ignore_spaces:\n        # Keep only alphanumeric characters\n        processed = ''.join(char for char in processed if char.isalnum())\n    \n    if ignore_case:\n        processed = processed.lower()\n    \n    # Edge case: string had only spaces/punctuation\n    if len(processed) == 0:\n        raise ValueError(\"String contains no alphanumeric characters to evaluate.\")\n    \n    # --- Palindrome Check (Two-Pointer Approach) ---\n    left, right = 0, len(processed) - 1\n    \n    while left < right:\n        if processed[left] != processed[right]:\n            return False\n        left += 1\n        right -= 1\n    \n    return True\n\n\ndef is_palindrome_recursive(s: str) -> bool:\n    \"\"\"\n    Recursive implementation for educational comparison.\n    Note: Less efficient due to string slicing creating new strings.\n    \n    Args:\n        s: A pre-processed (lowercase, no spaces) string\n    \n    Returns:\n        True if the string is a palindrome, False otherwise\n    \"\"\"\n    if not isinstance(s, str):\n        raise TypeError(f\"Expected a string, got {type(s).__name__!r}.\")\n    \n    # Base cases\n    if len(s) <= 1:\n        return True\n    \n    # Check outer characters, then recurse on inner substring\n    if s[0] != s[-1]:\n        return False\n    \n    return is_palindrome_recursive(s[1:-1])  # s[1:-1] creates a NEW string each call\n```\n\n---\n\n## Test Suite\n\n```python\ndef run_tests():\n    \"\"\"Comprehensive tests covering normal cases, edge cases, and error handling.\"\"\"\n    \n    tests = {\n        # --- Standard palindromes ---\n        \"racecar\":                          True,\n        \"madam\":                            True,\n        \"level\":                            True,\n        \"A man a plan a canal Panama\":      True,\n        \"Was it a car or a cat I saw\":      True,\n        \"No lemon no melon\":                True,\n        \n        # --- Non-palindromes ---\n        \"hello\":                            False,\n        \"world\":                            False,\n        \"Python\":                           False,\n        \n        # --- Edge cases ---\n        \"a\":                                True,   # Single character\n        \"aa\":                               True,   # Two same characters\n        \"ab\":                               False,  # Two different characters\n        \"  racecar  \":                      True,   # Leading/trailing spaces\n        \"race a car\":                       False,  # Not a palindrome with spaces\n        \"!@#racecar#@!\":                    True,   # With punctuation\n    }\n    \n    print(\"=\" * 55)\n    print(f\"{'Input':<35} {'Expected':<10} {'Result':<10}\")\n    print(\"=\" * 55)\n    \n    passed = 0\n    failed = 0\n    \n    for input_str, expected in tests.items():\n        result = is_palindrome(input_str)\n        status = \"\u2705 PASS\" if result == expected else \"\u274c FAIL\"\n        \n        display = repr(input_str) if len(input_str) < 30 else repr(input_str[:27] + \"...\")\n        print(f\"{display:<35} {str(expected):<10} {status}\")\n        \n        if result == expected:\n            passed += 1\n        else:\n            failed += 1\n    \n    print(\"=\" * 55)\n    print(f\"Results: {passed} passed, {failed} failed\\n\")\n    \n    # --- Error Handling Tests ---\n    print(\"Error Handling Tests:\")\n    print(\"-\" * 40)\n    \n    error_cases = [\n        (123,       TypeError,  \"Integer input\"),\n        (None,      TypeError,  \"None input\"),\n        (['r','a'], TypeError,  \"List input\"),\n        (\"\",        ValueError, \"Empty string\"),\n        (\"   \",     ValueError, \"Spaces-only string\"),\n        (\"!@#$\",    ValueError, \"Punctuation-only string\"),\n    ]\n    \n    for value, expected_error, description in error_cases:\n        try:\n            is_palindrome(value)\n            print(f\"  \u274c FAIL | {description}: Expected {expected_error.__name__}\")\n        except expected_error as e:\n            print(f\"  \u2705 PASS | {description}: {expected_error.__name__}: {e}\")\n        except Exception as e:\n            print(f\"  \u274c FAIL | {description}: Unexpected error: {type(e).__name__}: {e}\")\n\nrun_tests()\n```\n\n---\n\n## Sample Output\n\n```\n=======================================================\nInput                               Expected   Result    \n=======================================================\n'racecar'                           True       \u2705 PASS\n'madam'                             True       \u2705 PASS\n'level'                             True       \u2705 PASS\n'A man a plan a canal Panama'       True       \u2705 PASS\n'Was it a car or a cat I saw'       True       \u2705 PASS\n'No lemon no melon'                 True       \u2705 PASS\n'hello'                             False      \u2705 PASS\n'world'                             False      \u2705 PASS\n'Python'                            False      \u2705 PASS\n'a'                                 True       \u2705 PASS\n'aa'                                True       \u2705 PASS\n'ab'                                False      \u2705 PASS\n'  racecar  '                       True       \u2705 PASS\n'race a car'                        False      \u2705 PASS\n'!@#racecar#@!'                     True       \u2705 PASS\n=======================================================\nResults: 15 passed, 0 failed\n\nError Handling Tests:\n----------------------------------------\n  \u2705 PASS | Integer input: TypeError: Expected a string, got 'int'. Received value: 123\n  \u2705 PASS | None input: TypeError: Expected a string, got 'NoneType'. Received value: None\n  \u2705 PASS | List input: TypeError: Expected a string, got 'list'. Received value: ['r', 'a']\n  \u2705 PASS | Empty string: ValueError: Input string cannot be empty.\n  \u2705 PASS | Spaces-only string: ValueError: String contains no alphanumeric characters to evaluate.\n  \u2705 PASS | Punctuation-only string: ValueError: String contains no alphanumeric characters to evaluate.\n```\n\n---\n\n## Time & Space Complexity Analysis\n\n```\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 Approach             \u2551 Time          \u2551 Space         \u2551 Notes                            \u2551\n\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u256c\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u256c\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u256c\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n\u2551 Two-Pointer (main)   \u2551 O(n)          \u2551 O(n)          ",
+        "cost": 0.030825,
+        "input_tokens": 35,
+        "output_tokens": 2048,
+        "latency_ms": 24425.55
+      },
+      {
+        "prompt_id": "code-2",
+        "category": "code",
+        "model": "Claude Sonnet 4.6",
+        "model_key": "sonnet",
+        "response": "# LRU Cache Implementation in Python\n\n## Overview\n\nAn LRU cache evicts the **least recently used** item when capacity is exceeded. Achieving O(1) for both `get` and `put` requires combining two data structures.\n\n## Data Structures Used\n\n```\nHashMap (dict):     O(1) key lookup \u2192 points to node in linked list\nDoubly Linked List: O(1) insertion/deletion \u2192 maintains usage order\n                    (most recent = head, least recent = tail)\n```\n\n---\n\n## Implementation\n\n```python\nfrom __future__ import annotations\nfrom typing import Optional\n\n\nclass Node:\n    \"\"\"\n    Doubly linked list node storing a key-value pair.\n    \n    Why store the key? So we can remove it from the hashmap\n    when we evict this node from the tail.\n    \"\"\"\n    def __init__(self, key: int = 0, value: int = 0):\n        self.key = key\n        self.value = value\n        self.prev: Optional[Node] = None\n        self.next: Optional[Node] = None\n\n    def __repr__(self) -> str:\n        return f\"Node(key={self.key}, value={self.value})\"\n\n\nclass LRUCache:\n    \"\"\"\n    LRU Cache with O(1) get and put operations.\n    \n    Internal structure:\n    \n        cache (dict): key \u2192 Node\n        \n        Doubly Linked List:\n        [HEAD] \u2194 [most_recent] \u2194 ... \u2194 [least_recent] \u2194 [TAIL]\n        \n        HEAD and TAIL are sentinel nodes (dummy nodes that never hold data).\n        They eliminate edge cases for empty list / single element operations.\n    \n    Usage order rule:\n        - After any get or put, that node moves to HEAD (most recently used)\n        - When over capacity, remove node at TAIL (least recently used)\n    \"\"\"\n\n    def __init__(self, capacity: int):\n        if capacity <= 0:\n            raise ValueError(f\"Capacity must be positive, got {capacity}\")\n        \n        self.capacity = capacity\n        self.cache: dict[int, Node] = {}  # key \u2192 Node (O(1) lookup)\n        \n        # Sentinel nodes \u2014 never store real data\n        # Avoids null checks on every insert/delete\n        self.head = Node()  # dummy head (most recent side)\n        self.tail = Node()  # dummy tail (least recent side)\n        self.head.next = self.tail\n        self.tail.prev = self.head\n\n    # \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n    # Public API\n    # \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n    def get(self, key: int) -> int:\n        \"\"\"\n        Return value if key exists, else -1.\n        Marks the accessed node as most recently used.\n        Time: O(1)\n        \"\"\"\n        if key not in self.cache:\n            return -1\n        \n        node = self.cache[key]\n        self._move_to_front(node)  # mark as recently used\n        return node.value\n\n    def put(self, key: int, value: int) -> None:\n        \"\"\"\n        Insert or update key-value pair.\n        Evicts least recently used item if over capacity.\n        Time: O(1)\n        \"\"\"\n        if key in self.cache:\n            # Update existing node and move to front\n            node = self.cache[key]\n            node.value = value\n            self._move_to_front(node)\n        else:\n            # Create new node and insert at front\n            node = Node(key, value)\n            self.cache[key] = node\n            self._insert_at_front(node)\n            \n            # Evict LRU item if over capacity\n            if len(self.cache) > self.capacity:\n                self._evict_lru()\n\n    # \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n    # Private helpers \u2014 all O(1)\n    # \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n    def _insert_at_front(self, node: Node) -> None:\n        \"\"\"Insert node right after HEAD sentinel (most recently used position).\"\"\"\n        node.prev = self.head\n        node.next = self.head.next\n        self.head.next.prev = node\n        self.head.next = node\n\n    def _remove_node(self, node: Node) -> None:\n        \"\"\"Unlink node from wherever it is in the list.\"\"\"\n        node.prev.next = node.next\n        node.next.prev = node.prev\n\n    def _move_to_front(self, node: Node) -> None:\n        \"\"\"Move existing node to front (mark as most recently used).\"\"\"\n        self._remove_node(node)\n        self._insert_at_front(node)\n\n    def _evict_lru(self) -> None:\n        \"\"\"Remove the node just before TAIL sentinel (least recently used).\"\"\"\n        lru_node = self.tail.prev  # node just before tail = LRU\n        self._remove_node(lru_node)\n        del self.cache[lru_node.key]  # remove from hashmap using stored key\n\n    # \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n    # Debug helpers\n    # \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n    def __len__(self) -> int:\n        return len(self.cache)\n\n    def __repr__(self) -> str:\n        \"\"\"Show cache state from MRU \u2192 LRU.\"\"\"\n        items = []\n        current = self.head.next\n        while current != self.tail:\n            items.append(f\"{current.key}:{current.value}\")\n            current = current.next\n        return f\"LRUCache([{' \u2194 '.join(items)}], capacity={self.capacity})\"\n```\n\n---\n\n## Visual Walkthrough\n\n```python\n# \u2500\u2500 Step-by-step trace \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\ncache = LRUCache(capacity=3)\n\ncache.put(1, \"A\")\n# List: HEAD \u2194 [1:A] \u2194 TAIL\n# Dict: {1: Node(1,A)}\nprint(cache)  # LRUCache([1:A], capacity=3)\n\ncache.put(2, \"B\")\n# List: HEAD \u2194 [2:B] \u2194 [1:A] \u2194 TAIL\nprint(cache)  # LRUCache([2:B \u2194 1:A], capacity=3)\n\ncache.put(3, \"C\")\n# List: HEAD \u2194 [3:C] \u2194 [2:B] \u2194 [1:A] \u2194 TAIL\nprint(cache)  # LRUCache([3:C \u2194 2:B \u2194 1:A], capacity=3)\n\nresult = cache.get(1)\n# Key 1 found \u2192 move to front\n# List: HEAD \u2194 [1:A] \u2194 [3:C] \u2194 [2:B] \u2194 TAIL\nprint(f\"get(1) = {result}\")  # get(1) = A\nprint(cache)  # LRUCache([1:A \u2194 3:C \u2194 2:B], capacity=3)\n\ncache.put(4, \"D\")\n# Over capacity! Evict LRU = node before TAIL = [2:B]\n# List: HEAD \u2194 [4:D] \u2194 [1:A] \u2194 [3:C] \u2194 TAIL\nprint(cache)  # LRUCache([4:D \u2194 1:A \u2194 3:C], capacity=3)\n\nprint(cache.get(2))  # -1  (was evicted)\nprint(cache.get(3))  # C   (still present, moved to front)\nprint(cache)         # LRUCache([3:C \u2194 4:D \u2194 1:A], capacity=3)\n```\n\n---\n\n## Why O(1)?\n\n```\nOperation          HashMap role              Linked List role\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nget(key)     \u2192     O(1) find node     +      O(1) move to front\nput(key,val) \u2192     O",
+        "cost": 0.030858,
+        "input_tokens": 46,
+        "output_tokens": 2048,
+        "latency_ms": 28157.36
+      }
+    ]
+  },
+  "summary": {
+    "single_models": {
+      "nova-lite": {
+        "avg_cost": 0.000108,
+        "total_cost": 0.00054,
+        "avg_latency_ms": 2776.16,
+        "num_runs": 5
+      }
+    },
+    "ensembles": {
+      "ultra-cheap": {
+        "avg_cost": 0,
+        "total_cost": 0,
+        "avg_latency_ms": 0,
+        "num_runs": 5
+      },
+      "code-generation": {
+        "avg_cost": 0,
+        "total_cost": 0,
+        "avg_latency_ms": 0,
+        "num_runs": 5
+      },
+      "reasoning": {
+        "avg_cost": 0,
+        "total_cost": 0,
+        "avg_latency_ms": 0,
+        "num_runs": 5
+      }
+    },
+    "baselines": {
+      "nova-lite": {
+        "avg_cost": 0.000115,
+        "total_cost": 0.000574,
+        "avg_latency_ms": 4967.39,
+        "num_runs": 5
+      },
+      "haiku": {
+        "avg_cost": 0.003753,
+        "total_cost": 0.018767,
+        "avg_latency_ms": 6185.84,
+        "num_runs": 5
+      },
+      "sonnet": {
+        "avg_cost": 0.014468,
+        "total_cost": 0.072339,
+        "avg_latency_ms": 14744.81,
+        "num_runs": 5
+      }
+    }
+  }
+}
