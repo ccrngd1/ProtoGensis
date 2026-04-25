@@ -1,12 +1,12 @@
 # I Added 50 Tools to My AI Agent and It Got Dumber. Here's the Fix.
 
-**TL;DR**: I built ToolGate, an MCP proxy that uses semantic search to filter AI agent tools. It reduces context bloat by 60%+ while maintaining 85%+ precision. Open source, production-ready, and you can use it today.
+**TL;DR**: I built ToolGate, an MCP proxy that uses semantic search to filter AI agent tools. It reduces context bloat by 60%+ while maintaining 85%+ precision on synthetic benchmarks. Open source and ready to try.
 
 ---
 
 ## The Problem: When More Tools = Less Intelligence
 
-I run CABAL - a sophisticated AI coding assistant powered by Claude Desktop. Like many AI developers, I kept adding MCP servers to give it more capabilities:
+I run CABAL, a distributed multi-agent system with 9 specialized orchestrators (Main, REHOBOAM, LEGION, PreCog, DAEDALUS, TheMatrix, MasterControl, TACITUS, HAL9000). Each agent has access to different tool sets through MCP servers. Like many AI developers, I kept adding MCP servers to give the system more capabilities:
 
 - Filesystem operations (read, write, search)
 - Git management (status, commit, diff, log)
@@ -15,7 +15,7 @@ I run CABAL - a sophisticated AI coding assistant powered by Claude Desktop. Lik
 - Text processing utilities
 - Date/time functions
 
-By the time I hit 6+ MCP servers with 50+ tools, something strange happened: **my agent got worse**.
+By the time I hit 6+ MCP servers with 50+ tools, something strange happened: **my agents got worse**.
 
 Tasks that used to work smoothly started failing. Claude would:
 - Use the wrong tools for simple tasks
@@ -58,7 +58,7 @@ Let me show you what a **single tool** looks like in Claude's context:
 
 That's **~350 tokens** for ONE tool. Multiply by 50 tools = **~17,500 tokens** just for the tool catalog.
 
-On **every. single. request.**
+On every single request.
 
 And it gets worse:
 - 90% of those tools aren't relevant to the current task
@@ -67,15 +67,16 @@ And it gets worse:
 
 ## The Research Backing
 
-I'm not the only one who noticed this. Recent research on tool-using language models shows:
+I'm not the only one who noticed this. A recent paper by Sadani and Kumar, "Tool Attention: Optimizing LLM Tool Usage through Attention Score Analysis" (arXiv:2604.21816), directly motivated this build. Their key finding: LLM attention scores over the tool catalog are heavily skewed. Relevant tools capture disproportionate attention, while irrelevant tools create noise that degrades selection accuracy. As catalog size grows, that noise compounds. The practical implication they surface is that retrieval-augmented tool selection, filtering the catalog before it hits the context window, should recover much of that lost precision.
 
+That finding is the direct motivation for ToolGate: apply the same retrieval logic to tools that RAG applies to documents.
+
+More broadly, research on tool-using language models shows:
 - **Tool interference**: LLMs struggle with tool selection accuracy as catalog size increases
 - **Context dilution**: Irrelevant tools in the context reduce task completion rates
 - **Retrieval augmentation**: Semantic search over tools significantly improves performance
 
-(See: arXiv papers on tool-use in LLMs, including work on ToolBench, Gorilla, and GPT-4 function calling optimization)
-
-The insight is simple: **just like RAG for documents, we need RAG for tools**.
+The insight is simple: just like RAG for documents, we need RAG for tools.
 
 ## The Solution: ToolGate
 
@@ -148,9 +149,9 @@ ToolGate is an MCP proxy that sits between your AI agent and your MCP servers. I
 - **Phase 1** (listTools): Return name + truncated description (200 chars max)
 - **Phase 2** (callTool): Fetch full schema JIT when tool is actually called
 
-### Real Results from Benchmark
+### Results from the Synthetic Benchmark
 
-I built a synthetic benchmark with 50 realistic tools and 20 diverse queries. Here's what ToolGate achieves:
+I built a synthetic benchmark with 50 realistic tools and 20 diverse queries. The catalog and queries are artificial, designed to stress-test semantic matching across tool categories. Here's what ToolGate achieves against that benchmark:
 
 | Metric | Value | Status |
 |--------|-------|--------|
@@ -177,20 +178,20 @@ That's **11,500 tokens saved** on every single request. At Claude's pricing ($3/
 - 1,000 requests = $34.50 → $12.00 (saving $22.50)
 - 10,000 requests = $345 → $120 (saving $225)
 
-But the real win isn't cost - it's **accuracy**.
+But the real win isn't cost. It's accuracy.
 
 #### Precision@10: Finding the Right Tools
 
 Precision@10 measures: "Of the top 10 tools returned, how many are actually relevant?"
 
-Test queries:
-- ✓ "Read a config file" → returns `read_file`, `parse_json`, `parse_yaml`
-- ✓ "Show git status" → returns `git_status`, `git_log`, `git_diff`
-- ✓ "Make HTTP request" → returns `http_get`, `http_post`, `parse_json`
+Test queries against the synthetic catalog:
+- "Read a config file" → returns `read_file`, `parse_json`, `parse_yaml`
+- "Show git status" → returns `git_status`, `git_log`, `git_diff`
+- "Make HTTP request" → returns `http_get`, `http_post`, `parse_json`
 
-**85%+ precision** means the right tools are consistently in the top 10.
+**85%+ precision** means the right tools are consistently in the top 10, at least against these synthetic scenarios.
 
-#### Latency: Fast Enough for Production
+#### Latency: Fast Enough to Not Matter
 
 - Index build: ~2 seconds (50 tools, cold start)
 - Query embedding: ~10ms
@@ -245,7 +246,7 @@ if tool_name in recent_tools:
     score += 0.15  # 15% boost
 ```
 
-This creates "sticky" tools - if you just used `git_commit`, it's more likely to appear again for related tasks.
+This creates "sticky" tools. If you just used `git_commit`, it's more likely to appear again for related tasks.
 
 ### Gating Rules
 
@@ -317,33 +318,42 @@ In your Claude Desktop config:
 }
 ```
 
-That's it. ToolGate replaces all your individual MCP servers with a single intelligent proxy.
+ToolGate replaces all your individual MCP servers with a single intelligent proxy.
 
-## Production Lessons
+## What the Benchmarks Suggest
 
-After running ToolGate in production on CABAL for 2 weeks, here's what I learned:
+I haven't run ToolGate in production long enough to have real numbers. These are design hypotheses grounded in the synthetic benchmark results and the Sadani/Kumar findings.
 
-### What Works Great
+### What I Expect to Hold Up
 
-1. **File operations clustering**: When you ask to "read config.yaml", ToolGate returns `read_file`, `parse_yaml`, `list_directory` - the exact cluster you need.
+**File operation clustering should work well in practice.** When you ask to "read config.yaml", the semantic search should return `read_file`, `parse_yaml`, `list_directory` as a cluster. The benchmark results suggest the embeddings have enough signal to group related tools correctly.
 
-2. **Session continuity is magic**: If you `git_status`, then ask to "commit the changes", `git_commit` automatically gets boosted. No need to re-search.
+**Session continuity should reduce re-retrieval churn.** The 15% boost for recently used tools is deliberately small. If you `git_status`, then ask to "commit the changes", `git_commit` should naturally rank high anyway. The boost is a backstop, not the primary mechanism.
 
-3. **Fail-safe fallback**: If embedding fails (network issue, OOM, etc.), ToolGate falls back to returning ALL tools. Your agent never breaks.
+**The fail-safe fallback matters more than it sounds.** If embedding fails (network issue, OOM, etc.), ToolGate falls back to returning all tools. The agent degrades gracefully rather than breaking. That's a design priority, not an afterthought.
 
-### Future Improvements
+### Open Questions
 
-1. **Multi-query embedding**: Some tasks need multiple tool types ("read file AND make HTTP request"). Currently working on query decomposition.
+The synthetic benchmark is a controlled environment. Real tool catalogs have messier descriptions, more semantic overlap between tools, and queries that aren't as cleanly scoped as "show git status." Here's what I actually need to find out:
 
-2. **LLM-based query rewriting**: User says "grab that config" - an LLM could expand this to "read configuration file" for better embedding.
+1. **How does precision hold at K=10 with messier real catalogs?** 85% on synthetic is encouraging. Real-world catalogs may have more redundant descriptions that confuse the retrieval.
 
-3. **Tool usage analytics**: Which tools are actually useful? Which never get called? Use this to prune your server list.
+2. **Multi-intent queries.** Some tasks need tools from multiple categories ("read this file AND post the result to Slack"). Right now ToolGate embeds the query as a single vector. I expect this to be a weak spot.
 
-4. **Cross-server tool deduplication**: Multiple servers might provide `read_file`. ToolGate should deduplicate.
+3. **Description quality sensitivity.** The benchmark tools have clean, informative descriptions. Poorly described tools may not embed well and could get systematically missed.
+
+The plan is to run this on CABAL for a few weeks and revisit these questions with real data.
+
+### Future Work
+
+1. **Multi-query embedding**: Query decomposition for multi-intent tasks.
+2. **LLM-based query rewriting**: Expand "grab that config" to "read configuration file" before embedding.
+3. **Tool usage analytics**: Track which tools actually get called to identify retrieval blind spots.
+4. **Cross-server deduplication**: Multiple servers might provide `read_file`. ToolGate should handle that.
 
 ## The Bigger Picture
 
-ToolGate is a small piece of a larger puzzle: **making AI agents actually work at scale**.
+ToolGate is a small piece of a larger puzzle: making AI agents actually work at scale.
 
 The Model Context Protocol is designed to be a universal interface for AI tools. But as the ecosystem grows (100+ MCP servers, 1000+ tools), we need **tool management infrastructure**:
 
@@ -353,18 +363,18 @@ The Model Context Protocol is designed to be a universal interface for AI tools.
 - **Safety**: Preventing dangerous tool combinations
 - **Monitoring**: Understanding what agents are doing
 
-ToolGate solves discovery. The rest is coming.
+ToolGate addresses discovery. The rest is a separate problem.
 
 ## Try It Yourself
 
-ToolGate is open source (MIT license):
+ToolGate is open source (MIT license) and lives as a module in the ProtoGensis monorepo:
 
 ```bash
 # Clone
-git clone https://github.com/yourusername/toolgate.git
+git clone https://github.com/ccrngd1/ProtoGensis
 
 # Install
-cd toolgate
+cd ProtoGensis
 pip install -e ".[dev]"
 
 # Run benchmark
@@ -372,12 +382,12 @@ pytest tests/ -v
 python benchmark/run.py
 
 # Expected results:
-# ✓ Precision@10 ≥ 80%
-# ✓ Token reduction ≥ 60%
-# ✓ 40+ tests passing
+# Precision@10 >= 80%
+# Token reduction >= 60%
+# 40+ tests passing
 ```
 
-The benchmark uses synthetic data (50 tools, 20 queries), but you can test with your real MCP servers:
+The benchmark uses synthetic data (50 tools, 20 queries). You can also test with your real MCP servers:
 
 ```bash
 toolgate serve --config your-config.yaml
@@ -385,25 +395,24 @@ toolgate serve --config your-config.yaml
 
 ## Conclusion
 
-AI agents are only as good as their tools. But more tools ≠ better agent.
+AI agents are only as good as their tools. But more tools does not equal a better agent.
 
-**ToolGate makes more tools = smarter agent** by applying retrieval-augmented generation to tool selection.
+ToolGate applies retrieval-augmented generation to tool selection. The synthetic benchmark results are solid. The theoretical motivation from Sadani and Kumar is sound. Whether it holds up in production is the next question.
 
-The results are measurable:
-- 65% token reduction
-- 85%+ precision
-- <50ms latency
+The results so far:
+- 65% token reduction on synthetic benchmarks
+- 85%+ precision on synthetic benchmarks
+- Under 50ms latency overhead
 - Works today with any MCP server
 
-If you're building with MCP, give ToolGate a try. Your agent (and your context window) will thank you.
+If you're building with MCP, give it a try. I'd be curious whether the precision numbers hold on real-world tool catalogs.
 
 ---
 
 **Links**:
-- GitHub: [toolgate](https://github.com/yourusername/toolgate)
+- GitHub: [ccrngd1/ProtoGensis](https://github.com/ccrngd1/ProtoGensis)
 - MCP: [modelcontextprotocol.io](https://modelcontextprotocol.io)
+- Paper: Sadani & Kumar, "Tool Attention: Optimizing LLM Tool Usage through Attention Score Analysis" (arXiv:2604.21816)
 - Benchmarks: Run `toolgate benchmark` to see for yourself
 
-**Questions? Issues?** Open a GitHub issue or reach out on Twitter.
-
-Built with ❤️ for the CABAL project.
+Built for the CABAL project.
