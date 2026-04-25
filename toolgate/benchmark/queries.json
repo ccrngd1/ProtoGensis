@@ -1,0 +1,82 @@
+[
+  {
+    "query": "I need to read a configuration file from disk",
+    "relevant_tools": ["read_file", "list_directory", "search_files", "parse_json", "parse_yaml"]
+  },
+  {
+    "query": "Show me the git status and recent commits",
+    "relevant_tools": ["git_status", "git_log", "git_diff"]
+  },
+  {
+    "query": "Create a new commit with my changes",
+    "relevant_tools": ["git_commit", "git_status", "git_diff"]
+  },
+  {
+    "query": "Parse this JSON data and format it nicely",
+    "relevant_tools": ["parse_json", "format_json"]
+  },
+  {
+    "query": "Make an HTTP request to fetch some data",
+    "relevant_tools": ["http_get", "http_post", "parse_json"]
+  },
+  {
+    "query": "Calculate the SHA256 hash of this text",
+    "relevant_tools": ["calculate_hash", "calculate_checksum"]
+  },
+  {
+    "query": "What's the current time and date?",
+    "relevant_tools": ["get_current_time", "format_date"]
+  },
+  {
+    "query": "Find all email addresses in this document",
+    "relevant_tools": ["extract_emails", "extract_urls", "find_and_replace"]
+  },
+  {
+    "query": "Convert this text to uppercase",
+    "relevant_tools": ["convert_case", "find_and_replace"]
+  },
+  {
+    "query": "Write this data to a file",
+    "relevant_tools": ["write_file", "read_file", "list_directory"]
+  },
+  {
+    "query": "Execute a shell command and get the output",
+    "relevant_tools": ["run_shell_command"]
+  },
+  {
+    "query": "Parse CSV data into a structured format",
+    "relevant_tools": ["parse_csv", "format_csv"]
+  },
+  {
+    "query": "Encode this string as base64",
+    "relevant_tools": ["encode_base64", "decode_base64"]
+  },
+  {
+    "query": "Generate a random UUID for this record",
+    "relevant_tools": ["generate_uuid", "generate_random_string"]
+  },
+  {
+    "query": "How many days between these two dates?",
+    "relevant_tools": ["calculate_date_diff", "parse_date", "format_date"]
+  },
+  {
+    "query": "Query the database for user records",
+    "relevant_tools": ["query_database", "insert_record", "update_record", "create_table"]
+  },
+  {
+    "query": "Count words and characters in this text",
+    "relevant_tools": ["count_words", "split_text"]
+  },
+  {
+    "query": "Find all files matching a pattern",
+    "relevant_tools": ["search_files", "list_directory"]
+  },
+  {
+    "query": "Sort this array in descending order",
+    "relevant_tools": ["sort_array", "filter_array", "unique_array"]
+  },
+  {
+    "query": "Validate email addresses in this list",
+    "relevant_tools": ["validate_email", "extract_emails"]
+  }
+]

@@ -1,0 +1,116 @@
+# ToolGate Configuration Example
+#
+# This file shows all available configuration options.
+# Copy and customize for your setup.
+
+# Upstream MCP Servers
+# List all MCP servers you want to proxy through ToolGate
+upstream_servers:
+  # Filesystem server - provides file operations
+  - name: filesystem
+    command: npx
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-filesystem"
+      - "/Users/yourname/Projects"
+    env:
+      # Optional environment variables
+      # DEBUG: "true"
+
+  # Git server - provides git operations
+  - name: git
+    command: npx
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-git"
+      - "--repository"
+      - "/Users/yourname/Projects/myrepo"
+
+  # GitHub server - provides GitHub API access
+  - name: github
+    command: npx
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-github"
+    env:
+      GITHUB_TOKEN: "your-github-token"
+
+  # Brave Search server - provides web search
+  - name: brave-search
+    command: npx
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-brave-search"
+    env:
+      BRAVE_API_KEY: "your-brave-api-key"
+
+# Gating Rules
+# Control which tools are returned and how they're ranked
+gating:
+  # Maximum number of tools to return per request
+  top_k: 10
+
+  # Patterns to always include (glob-style wildcards supported)
+  # These tools will be added even if not in top-K
+  always_include:
+    - "read_file"          # Exact match
+    - "write_file"         # Exact match
+    - "git_*"             # All git tools
+    - "list_*"            # All list operations
+
+  # Patterns to always exclude (glob-style wildcards supported)
+  # These tools will never be returned, even if highly relevant
+  always_exclude:
+    - "delete_*"          # Dangerous deletion operations
+    - "drop_*"            # Database drop operations
+    - "rm_*"              # Remove operations
+
+  # Session boost: extra similarity score for recently used tools
+  # Range: 0.0 to 1.0 (0.15 = 15% boost)
+  session_boost: 0.15
+
+  # Session window: number of recent tool calls to track
+  # Tools used in last N turns get the session boost
+  session_window: 5
+
+  # Maximum description length in listTools response (phase 1)
+  # Longer descriptions are truncated to save tokens
+  description_max_length: 200
+
+# Semantic Index Configuration
+# Controls the embedding model and similarity search
+index:
+  # Sentence transformer model to use
+  # Smaller models are faster, larger models more accurate
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+
+  # Optional: directory to cache downloaded models
+  # If not specified, uses default HuggingFace cache
+  # cache_dir: "~/.cache/toolgate/models"
+
+  # Similarity metric for FAISS index
+  # Options: "cosine" (recommended), "euclidean", "dot"
+  similarity_metric: "cosine"
+
+# Metrics Collection
+# Track usage statistics and performance
+metrics:
+  # Enable or disable metrics collection
+  enabled: true
+
+  # SQLite database path for storing metrics
+  db_path: "~/.toolgate/metrics.db"
+
+  # Tiktoken encoding model for token counting
+  # Options: "cl100k_base" (GPT-4), "p50k_base" (GPT-3), etc.
+  token_model: "cl100k_base"
+
+# Tips for Configuration:
+#
+# 1. Start with a small top_k (5-10) and increase if needed
+# 2. Use always_include for critical tools you always want available
+# 3. Use always_exclude for dangerous operations
+# 4. Session boost helps with multi-step workflows
+# 5. Monitor metrics with: toolgate status --config config.yaml
+#
+# For more information, see: https://github.com/yourusername/toolgate

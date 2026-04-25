@@ -1,0 +1,577 @@
+[
+  {
+    "name": "read_file",
+    "description": "Read the contents of a file from the filesystem. Supports text and binary files. Can read specific line ranges or entire file.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string", "description": "Path to the file"},
+        "encoding": {"type": "string", "description": "File encoding (default: utf-8)"}
+      },
+      "required": ["path"]
+    }
+  },
+  {
+    "name": "write_file",
+    "description": "Write content to a file, creating it if it doesn't exist or overwriting if it does. Creates parent directories as needed.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string", "description": "Path to the file"},
+        "content": {"type": "string", "description": "Content to write"}
+      },
+      "required": ["path", "content"]
+    }
+  },
+  {
+    "name": "list_directory",
+    "description": "List all files and directories in a given path. Supports recursive listing and filtering by pattern.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string", "description": "Directory path"},
+        "recursive": {"type": "boolean", "description": "Recursive listing"}
+      },
+      "required": ["path"]
+    }
+  },
+  {
+    "name": "search_files",
+    "description": "Search for files matching a pattern using glob syntax. Supports wildcards and recursive search across directory trees.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "pattern": {"type": "string", "description": "Glob pattern"},
+        "path": {"type": "string", "description": "Base directory"}
+      },
+      "required": ["pattern"]
+    }
+  },
+  {
+    "name": "git_status",
+    "description": "Get the current git repository status, including modified files, staged changes, and branch information.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "repo_path": {"type": "string", "description": "Repository path"}
+      }
+    }
+  },
+  {
+    "name": "git_commit",
+    "description": "Create a new git commit with the staged changes and a commit message.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "message": {"type": "string", "description": "Commit message"},
+        "repo_path": {"type": "string", "description": "Repository path"}
+      },
+      "required": ["message"]
+    }
+  },
+  {
+    "name": "git_diff",
+    "description": "Show differences between commits, branches, or working directory. Displays line-by-line changes.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "ref1": {"type": "string", "description": "First reference"},
+        "ref2": {"type": "string", "description": "Second reference"}
+      }
+    }
+  },
+  {
+    "name": "git_log",
+    "description": "Display commit history with messages, authors, and timestamps. Supports filtering and formatting options.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {"type": "integer", "description": "Number of commits"},
+        "repo_path": {"type": "string", "description": "Repository path"}
+      }
+    }
+  },
+  {
+    "name": "run_shell_command",
+    "description": "Execute a shell command and return its output. Supports environment variables and working directory specification.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "command": {"type": "string", "description": "Shell command to execute"},
+        "cwd": {"type": "string", "description": "Working directory"}
+      },
+      "required": ["command"]
+    }
+  },
+  {
+    "name": "http_get",
+    "description": "Make an HTTP GET request to a URL and return the response body. Supports custom headers and query parameters.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {"type": "string", "description": "URL to request"},
+        "headers": {"type": "object", "description": "HTTP headers"}
+      },
+      "required": ["url"]
+    }
+  },
+  {
+    "name": "http_post",
+    "description": "Make an HTTP POST request with JSON or form data. Returns response status and body.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {"type": "string", "description": "URL to request"},
+        "body": {"type": "object", "description": "Request body"}
+      },
+      "required": ["url", "body"]
+    }
+  },
+  {
+    "name": "parse_json",
+    "description": "Parse a JSON string into a structured object. Validates syntax and returns parsed data or error details.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "json_string": {"type": "string", "description": "JSON string to parse"}
+      },
+      "required": ["json_string"]
+    }
+  },
+  {
+    "name": "format_json",
+    "description": "Format and pretty-print JSON data with configurable indentation and sorting.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data": {"type": "object", "description": "Data to format"},
+        "indent": {"type": "integer", "description": "Indentation spaces"}
+      },
+      "required": ["data"]
+    }
+  },
+  {
+    "name": "parse_yaml",
+    "description": "Parse YAML formatted text into structured data. Handles multi-document YAML and complex nested structures.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "yaml_string": {"type": "string", "description": "YAML string to parse"}
+      },
+      "required": ["yaml_string"]
+    }
+  },
+  {
+    "name": "format_yaml",
+    "description": "Convert structured data to YAML format with proper indentation and formatting conventions.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data": {"type": "object", "description": "Data to format"}
+      },
+      "required": ["data"]
+    }
+  },
+  {
+    "name": "calculate_hash",
+    "description": "Calculate cryptographic hash (MD5, SHA256, SHA512) of text or file content.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data": {"type": "string", "description": "Data to hash"},
+        "algorithm": {"type": "string", "description": "Hash algorithm"}
+      },
+      "required": ["data"]
+    }
+  },
+  {
+    "name": "encode_base64",
+    "description": "Encode text or binary data to base64 format for safe transmission or storage.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data": {"type": "string", "description": "Data to encode"}
+      },
+      "required": ["data"]
+    }
+  },
+  {
+    "name": "decode_base64",
+    "description": "Decode base64 encoded data back to its original form.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "encoded": {"type": "string", "description": "Base64 encoded data"}
+      },
+      "required": ["encoded"]
+    }
+  },
+  {
+    "name": "get_current_time",
+    "description": "Get the current date and time in various formats (ISO, Unix timestamp, custom format).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "format": {"type": "string", "description": "Time format string"}
+      }
+    }
+  },
+  {
+    "name": "parse_date",
+    "description": "Parse date strings in various formats and convert to ISO format or timestamp.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "date_string": {"type": "string", "description": "Date string to parse"}
+      },
+      "required": ["date_string"]
+    }
+  },
+  {
+    "name": "format_date",
+    "description": "Format a date/timestamp according to a specified format string.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "timestamp": {"type": "number", "description": "Unix timestamp"},
+        "format": {"type": "string", "description": "Format string"}
+      },
+      "required": ["timestamp"]
+    }
+  },
+  {
+    "name": "calculate_date_diff",
+    "description": "Calculate the difference between two dates in various units (days, hours, minutes).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "date1": {"type": "string", "description": "First date"},
+        "date2": {"type": "string", "description": "Second date"}
+      },
+      "required": ["date1", "date2"]
+    }
+  },
+  {
+    "name": "generate_uuid",
+    "description": "Generate a random UUID (v4) for unique identifiers.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "validate_email",
+    "description": "Validate email address format using RFC-compliant regex patterns.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "email": {"type": "string", "description": "Email address to validate"}
+      },
+      "required": ["email"]
+    }
+  },
+  {
+    "name": "validate_url",
+    "description": "Validate URL format and optionally check if the resource is accessible.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {"type": "string", "description": "URL to validate"}
+      },
+      "required": ["url"]
+    }
+  },
+  {
+    "name": "extract_urls",
+    "description": "Extract all URLs from a text string using pattern matching.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string", "description": "Text to extract URLs from"}
+      },
+      "required": ["text"]
+    }
+  },
+  {
+    "name": "extract_emails",
+    "description": "Extract all email addresses from a text string.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string", "description": "Text to extract emails from"}
+      },
+      "required": ["text"]
+    }
+  },
+  {
+    "name": "count_words",
+    "description": "Count words, characters, lines, and sentences in a text string.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string", "description": "Text to analyze"}
+      },
+      "required": ["text"]
+    }
+  },
+  {
+    "name": "find_and_replace",
+    "description": "Find and replace text using literal strings or regular expressions.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string", "description": "Input text"},
+        "find": {"type": "string", "description": "Text to find"},
+        "replace": {"type": "string", "description": "Replacement text"}
+      },
+      "required": ["text", "find", "replace"]
+    }
+  },
+  {
+    "name": "split_text",
+    "description": "Split text into chunks by delimiter, line breaks, or fixed size.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string", "description": "Text to split"},
+        "delimiter": {"type": "string", "description": "Split delimiter"}
+      },
+      "required": ["text"]
+    }
+  },
+  {
+    "name": "join_text",
+    "description": "Join an array of strings with a specified delimiter.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "parts": {"type": "array", "description": "Text parts to join"},
+        "delimiter": {"type": "string", "description": "Join delimiter"}
+      },
+      "required": ["parts"]
+    }
+  },
+  {
+    "name": "convert_case",
+    "description": "Convert text case: uppercase, lowercase, title case, camel case, snake case.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string", "description": "Text to convert"},
+        "case": {"type": "string", "description": "Target case"}
+      },
+      "required": ["text", "case"]
+    }
+  },
+  {
+    "name": "generate_random_string",
+    "description": "Generate a random string with specified length and character set.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "length": {"type": "integer", "description": "String length"},
+        "charset": {"type": "string", "description": "Character set to use"}
+      },
+      "required": ["length"]
+    }
+  },
+  {
+    "name": "compress_text",
+    "description": "Compress text using gzip or other compression algorithms.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string", "description": "Text to compress"}
+      },
+      "required": ["text"]
+    }
+  },
+  {
+    "name": "decompress_text",
+    "description": "Decompress previously compressed text data.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "compressed": {"type": "string", "description": "Compressed data"}
+      },
+      "required": ["compressed"]
+    }
+  },
+  {
+    "name": "calculate_checksum",
+    "description": "Calculate CRC32 or other checksum for data integrity verification.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data": {"type": "string", "description": "Data to checksum"}
+      },
+      "required": ["data"]
+    }
+  },
+  {
+    "name": "convert_units",
+    "description": "Convert between different units of measurement (length, weight, temperature, etc).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "value": {"type": "number", "description": "Value to convert"},
+        "from_unit": {"type": "string", "description": "Source unit"},
+        "to_unit": {"type": "string", "description": "Target unit"}
+      },
+      "required": ["value", "from_unit", "to_unit"]
+    }
+  },
+  {
+    "name": "calculate_percentage",
+    "description": "Calculate percentage, percentage change, or percentage of a value.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "value": {"type": "number", "description": "Value"},
+        "total": {"type": "number", "description": "Total"}
+      },
+      "required": ["value", "total"]
+    }
+  },
+  {
+    "name": "round_number",
+    "description": "Round numbers to specified decimal places or significant figures.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "number": {"type": "number", "description": "Number to round"},
+        "decimals": {"type": "integer", "description": "Decimal places"}
+      },
+      "required": ["number"]
+    }
+  },
+  {
+    "name": "format_number",
+    "description": "Format numbers with thousands separators, currency symbols, or custom patterns.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "number": {"type": "number", "description": "Number to format"},
+        "format": {"type": "string", "description": "Format pattern"}
+      },
+      "required": ["number"]
+    }
+  },
+  {
+    "name": "parse_csv",
+    "description": "Parse CSV formatted text into structured array of objects.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "csv_string": {"type": "string", "description": "CSV data to parse"}
+      },
+      "required": ["csv_string"]
+    }
+  },
+  {
+    "name": "format_csv",
+    "description": "Convert structured data to CSV format with proper escaping.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data": {"type": "array", "description": "Data to format"}
+      },
+      "required": ["data"]
+    }
+  },
+  {
+    "name": "sort_array",
+    "description": "Sort an array of values in ascending or descending order.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "array": {"type": "array", "description": "Array to sort"},
+        "order": {"type": "string", "description": "Sort order (asc/desc)"}
+      },
+      "required": ["array"]
+    }
+  },
+  {
+    "name": "filter_array",
+    "description": "Filter array elements based on a condition or pattern.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "array": {"type": "array", "description": "Array to filter"},
+        "condition": {"type": "string", "description": "Filter condition"}
+      },
+      "required": ["array", "condition"]
+    }
+  },
+  {
+    "name": "unique_array",
+    "description": "Remove duplicate values from an array.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "array": {"type": "array", "description": "Array to deduplicate"}
+      },
+      "required": ["array"]
+    }
+  },
+  {
+    "name": "merge_objects",
+    "description": "Deep merge multiple objects into a single object.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "objects": {"type": "array", "description": "Objects to merge"}
+      },
+      "required": ["objects"]
+    }
+  },
+  {
+    "name": "query_database",
+    "description": "Execute SQL queries against SQLite database and return results.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {"type": "string", "description": "SQL query"},
+        "db_path": {"type": "string", "description": "Database path"}
+      },
+      "required": ["query", "db_path"]
+    }
+  },
+  {
+    "name": "create_table",
+    "description": "Create a new database table with specified schema.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "table_name": {"type": "string", "description": "Table name"},
+        "schema": {"type": "object", "description": "Table schema"}
+      },
+      "required": ["table_name", "schema"]
+    }
+  },
+  {
+    "name": "insert_record",
+    "description": "Insert a new record into a database table.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "table": {"type": "string", "description": "Table name"},
+        "data": {"type": "object", "description": "Record data"}
+      },
+      "required": ["table", "data"]
+    }
+  },
+  {
+    "name": "update_record",
+    "description": "Update existing database records matching a condition.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "table": {"type": "string", "description": "Table name"},
+        "data": {"type": "object", "description": "Update data"},
+        "condition": {"type": "string", "description": "WHERE condition"}
+      },
+      "required": ["table", "data", "condition"]
+    }
+  }
+]
