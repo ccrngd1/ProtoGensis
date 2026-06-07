@@ -365,6 +365,25 @@ The Model Context Protocol is designed to be a universal interface for AI tools.
 
 ToolGate addresses discovery. The rest is a separate problem.
 
+## "But Doesn't X Already Do This?"
+
+Fair question. Several tools occupy this space, and ToolGate isn't the first to apply semantic search to tool selection. Here's the landscape:
+
+- **[Portkey mcp-tool-filter](https://github.com/Portkey-AI/mcp-tool-filter)** — The closest open-source equivalent. Embedding-based filtering, sub-10ms for 1000+ tools. But it's a library you integrate into your code, not a standalone proxy. No lazy schema loading, no session continuity, no gating rules. You need to modify your agent code to use it.
+- **[LiteLLM semantic tool filter](https://docs.litellm.ai/docs/mcp_semantic_filter)** — Built into LiteLLM's proxy as a first-class feature. Works well if you're already routing all your LLM calls through LiteLLM. If you're not, you can't use it.
+- **Claude Code's Tool Search** — Claude Code already does this natively to keep MCP context low. Great if you're in Claude Code. Not extractable or usable elsewhere.
+- **[AWS AgentCore Gateway](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway.html)** — Enterprise managed service with "Semantic Tool Selection" as a feature. Also handles auth, protocol translation, credential management, and scaling. But it's a black box, AWS-only, and priced for enterprise.
+
+What none of these provide as a single self-hosted package:
+
+1. **Standalone MCP proxy** — drop-in, no code changes to your agent or tool servers
+2. **Lazy two-phase schema loading** — names only in discovery, full schemas JIT at call time
+3. **Session continuity** — recently-used tools get a relevance boost
+4. **Transparent scoring** — you see every filtering decision, every similarity score
+5. **Zero cloud dependency** — runs locally on CPU, no API keys needed
+
+The fact that AWS built semantic tool selection into a managed service validates the problem. ToolGate is the open, self-hosted, explainable version for developers who want to understand and control what's happening between their agent and their tools.
+
 ## Try It Yourself
 
 ToolGate is open source (MIT license) and lives as a module in the ProtoGensis monorepo:
