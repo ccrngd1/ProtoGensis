@@ -1,0 +1,561 @@
+[
+  {
+    "name": "read_file",
+    "description": "Read the contents of a file at the specified path",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string", "description": "File path to read"}
+      },
+      "required": ["path"]
+    }
+  },
+  {
+    "name": "write_file",
+    "description": "Write content to a file at the specified path",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"},
+        "content": {"type": "string"}
+      },
+      "required": ["path", "content"]
+    }
+  },
+  {
+    "name": "list_directory",
+    "description": "List files and directories in the specified directory",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"}
+      },
+      "required": ["path"]
+    }
+  },
+  {
+    "name": "delete_file",
+    "description": "Delete a file at the specified path",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"}
+      },
+      "required": ["path"]
+    }
+  },
+  {
+    "name": "web_search",
+    "description": "Search the web for information using a query",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {"type": "string"}
+      },
+      "required": ["query"]
+    }
+  },
+  {
+    "name": "fetch_url",
+    "description": "Fetch and return content from a URL",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {"type": "string"}
+      },
+      "required": ["url"]
+    }
+  },
+  {
+    "name": "execute_python",
+    "description": "Execute Python code in a sandboxed environment",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "code": {"type": "string"}
+      },
+      "required": ["code"]
+    }
+  },
+  {
+    "name": "execute_shell",
+    "description": "Execute a shell command",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "command": {"type": "string"}
+      },
+      "required": ["command"]
+    }
+  },
+  {
+    "name": "sql_query",
+    "description": "Execute a SQL query on the database",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {"type": "string"}
+      },
+      "required": ["query"]
+    }
+  },
+  {
+    "name": "send_email",
+    "description": "Send an email to specified recipients",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "to": {"type": "array", "items": {"type": "string"}},
+        "subject": {"type": "string"},
+        "body": {"type": "string"}
+      },
+      "required": ["to", "subject", "body"]
+    }
+  },
+  {
+    "name": "create_calendar_event",
+    "description": "Create a new calendar event",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "title": {"type": "string"},
+        "start": {"type": "string"},
+        "end": {"type": "string"}
+      },
+      "required": ["title", "start", "end"]
+    }
+  },
+  {
+    "name": "git_commit",
+    "description": "Create a git commit with the specified message",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "message": {"type": "string"}
+      },
+      "required": ["message"]
+    }
+  },
+  {
+    "name": "git_push",
+    "description": "Push commits to remote repository",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "remote": {"type": "string"},
+        "branch": {"type": "string"}
+      },
+      "required": ["remote", "branch"]
+    }
+  },
+  {
+    "name": "git_pull",
+    "description": "Pull changes from remote repository",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "remote": {"type": "string"},
+        "branch": {"type": "string"}
+      },
+      "required": ["remote", "branch"]
+    }
+  },
+  {
+    "name": "create_branch",
+    "description": "Create a new git branch",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {"type": "string"}
+      },
+      "required": ["name"]
+    }
+  },
+  {
+    "name": "api_request",
+    "description": "Make an HTTP API request",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "method": {"type": "string"},
+        "url": {"type": "string"},
+        "body": {"type": "object"}
+      },
+      "required": ["method", "url"]
+    }
+  },
+  {
+    "name": "image_resize",
+    "description": "Resize an image to specified dimensions",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"},
+        "width": {"type": "integer"},
+        "height": {"type": "integer"}
+      },
+      "required": ["path", "width", "height"]
+    }
+  },
+  {
+    "name": "pdf_extract_text",
+    "description": "Extract text content from a PDF file",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"}
+      },
+      "required": ["path"]
+    }
+  },
+  {
+    "name": "json_parse",
+    "description": "Parse JSON string into structured data",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "json_string": {"type": "string"}
+      },
+      "required": ["json_string"]
+    }
+  },
+  {
+    "name": "csv_read",
+    "description": "Read and parse a CSV file",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"}
+      },
+      "required": ["path"]
+    }
+  },
+  {
+    "name": "compress_file",
+    "description": "Compress a file or directory into a zip archive",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "source": {"type": "string"},
+        "output": {"type": "string"}
+      },
+      "required": ["source", "output"]
+    }
+  },
+  {
+    "name": "decompress_file",
+    "description": "Extract contents from a compressed archive",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "archive": {"type": "string"},
+        "output_dir": {"type": "string"}
+      },
+      "required": ["archive", "output_dir"]
+    }
+  },
+  {
+    "name": "encrypt_file",
+    "description": "Encrypt a file using specified algorithm",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"},
+        "password": {"type": "string"}
+      },
+      "required": ["path", "password"]
+    }
+  },
+  {
+    "name": "decrypt_file",
+    "description": "Decrypt an encrypted file",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"},
+        "password": {"type": "string"}
+      },
+      "required": ["path", "password"]
+    }
+  },
+  {
+    "name": "hash_file",
+    "description": "Calculate hash (MD5, SHA256) of a file",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"},
+        "algorithm": {"type": "string"}
+      },
+      "required": ["path", "algorithm"]
+    }
+  },
+  {
+    "name": "copy_file",
+    "description": "Copy a file from source to destination",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "source": {"type": "string"},
+        "destination": {"type": "string"}
+      },
+      "required": ["source", "destination"]
+    }
+  },
+  {
+    "name": "move_file",
+    "description": "Move or rename a file",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "source": {"type": "string"},
+        "destination": {"type": "string"}
+      },
+      "required": ["source", "destination"]
+    }
+  },
+  {
+    "name": "search_files",
+    "description": "Search for files matching a pattern",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "pattern": {"type": "string"},
+        "directory": {"type": "string"}
+      },
+      "required": ["pattern", "directory"]
+    }
+  },
+  {
+    "name": "get_file_info",
+    "description": "Get metadata about a file (size, modified time, permissions)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"}
+      },
+      "required": ["path"]
+    }
+  },
+  {
+    "name": "create_directory",
+    "description": "Create a new directory",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"}
+      },
+      "required": ["path"]
+    }
+  },
+  {
+    "name": "delete_directory",
+    "description": "Delete a directory and its contents",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"}
+      },
+      "required": ["path"]
+    }
+  },
+  {
+    "name": "watch_directory",
+    "description": "Monitor a directory for file changes",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"}
+      },
+      "required": ["path"]
+    }
+  },
+  {
+    "name": "text_to_speech",
+    "description": "Convert text to speech audio",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string"},
+        "output_path": {"type": "string"}
+      },
+      "required": ["text", "output_path"]
+    }
+  },
+  {
+    "name": "speech_to_text",
+    "description": "Transcribe audio file to text",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "audio_path": {"type": "string"}
+      },
+      "required": ["audio_path"]
+    }
+  },
+  {
+    "name": "translate_text",
+    "description": "Translate text from one language to another",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string"},
+        "source_lang": {"type": "string"},
+        "target_lang": {"type": "string"}
+      },
+      "required": ["text", "target_lang"]
+    }
+  },
+  {
+    "name": "sentiment_analysis",
+    "description": "Analyze sentiment of text (positive/negative/neutral)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string"}
+      },
+      "required": ["text"]
+    }
+  },
+  {
+    "name": "summarize_text",
+    "description": "Generate a summary of long text",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string"},
+        "max_length": {"type": "integer"}
+      },
+      "required": ["text"]
+    }
+  },
+  {
+    "name": "count_tokens",
+    "description": "Count the number of tokens in text",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string"}
+      },
+      "required": ["text"]
+    }
+  },
+  {
+    "name": "generate_uuid",
+    "description": "Generate a new UUID",
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "current_time",
+    "description": "Get current timestamp",
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "format_date",
+    "description": "Format a date string in specified format",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "date": {"type": "string"},
+        "format": {"type": "string"}
+      },
+      "required": ["date", "format"]
+    }
+  },
+  {
+    "name": "parse_url",
+    "description": "Parse a URL into components",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {"type": "string"}
+      },
+      "required": ["url"]
+    }
+  },
+  {
+    "name": "validate_email",
+    "description": "Check if email address is valid",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "email": {"type": "string"}
+      },
+      "required": ["email"]
+    }
+  },
+  {
+    "name": "generate_password",
+    "description": "Generate a random secure password",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "length": {"type": "integer"}
+      },
+      "required": ["length"]
+    }
+  },
+  {
+    "name": "base64_encode",
+    "description": "Encode data to base64",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data": {"type": "string"}
+      },
+      "required": ["data"]
+    }
+  },
+  {
+    "name": "base64_decode",
+    "description": "Decode base64 data",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "encoded": {"type": "string"}
+      },
+      "required": ["encoded"]
+    }
+  },
+  {
+    "name": "regex_match",
+    "description": "Test if text matches a regular expression",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string"},
+        "pattern": {"type": "string"}
+      },
+      "required": ["text", "pattern"]
+    }
+  },
+  {
+    "name": "xpath_query",
+    "description": "Query XML/HTML document using XPath",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "document": {"type": "string"},
+        "xpath": {"type": "string"}
+      },
+      "required": ["document", "xpath"]
+    }
+  },
+  {
+    "name": "markdown_to_html",
+    "description": "Convert Markdown to HTML",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "markdown": {"type": "string"}
+      },
+      "required": ["markdown"]
+    }
+  }
+]

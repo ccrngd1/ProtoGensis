@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "needleroute"
+version = "0.1.0"
+description = "MCP routing proxy with Needle model for efficient tool selection"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    {name = "NeedleRoute Contributors"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "mcp>=0.9.0",
+    "sentence-transformers>=2.2.0",
+    "faiss-cpu>=1.7.4",
+    "tiktoken>=0.5.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "rich>=13.0.0",
+    "pyyaml>=6.0",
+    "numpy>=1.24.0",
+    "httpx>=0.24.0",
+    "boto3>=1.28.0",  # For AWS Bedrock escalation
+    "google-generativeai>=0.3.0",  # For finetuning data generation
+    # JAX/Flax for Needle model - optional with safe degradation
+    "jax[cpu]>=0.4.0; platform_machine != 'aarch64'",
+    "flax>=0.7.0; platform_machine != 'aarch64'",
+    "transformers>=4.30.0",  # For HuggingFace model loading
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.11.0",
+]
+
+[project.scripts]
+needleroute = "needleroute.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["needleroute*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["needleroute"]
+omit = ["tests/*", "benchmark/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

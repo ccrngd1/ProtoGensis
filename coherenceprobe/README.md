@@ -1,6 +1,6 @@
 # CoherenceProbe 🔍
 
-[![CI](https://github.com/yourusername/coherenceprobe/workflows/CI/badge.svg)](https://github.com/yourusername/coherenceprobe/actions)
+[![CI](https://github.com/ccrngd1/ProtoGensis/actions/workflows/CI/badge.svg)](https://github.com/ccrngd1/ProtoGensis/actions)
 [![PyPI](https://img.shields.io/pypi/v/coherenceprobe.svg)](https://pypi.org/project/coherenceprobe/)
 [![Python](https://img.shields.io/pypi/pyversions/coherenceprobe.svg)](https://pypi.org/project/coherenceprobe/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -69,7 +69,7 @@ pip install coherenceprobe[viz]
 ### Development
 
 ```bash
-git clone https://github.com/yourusername/coherenceprobe
+git clone https://github.com/ccrngd1/ProtoGensis.git && cd ProtoGensis/coherenceprobe
 cd coherenceprobe
 pip install -e ".[dev]"
 pytest
@@ -430,9 +430,9 @@ MIT License - see [LICENSE](LICENSE) file
 
 ## 🔗 Links
 
-- **Documentation**: [GitHub README](https://github.com/yourusername/coherenceprobe)
+- **Documentation**: [GitHub README](https://github.com/ccrngd1/ProtoGensis/tree/main/coherenceprobe)
 - **PyPI**: [https://pypi.org/project/coherenceprobe/](https://pypi.org/project/coherenceprobe/)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/coherenceprobe/issues)
+- **Issues**: [GitHub Issues](https://github.com/ccrngd1/ProtoGensis/issues)
 - **Blog Post**: See [BLOG.md](BLOG.md) for detailed writeup
 
 ---
@@ -446,7 +446,7 @@ If you use CoherenceProbe in your research, please cite:
   title={CoherenceProbe: Contradiction Detection for Multi-Agent AI Pipelines},
   author={CoherenceProbe Contributors},
   year={2026},
-  url={https://github.com/yourusername/coherenceprobe}
+  url={https://github.com/ccrngd1/ProtoGensis/tree/main/coherenceprobe}
 }
 ```
 

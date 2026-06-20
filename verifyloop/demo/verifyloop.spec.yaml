@@ -1,0 +1,52 @@
+version: "1.0"
+
+invariants:
+  - name: multi-tenant-auth
+    description: "Multi-tenant SaaS authentication chain - ensures all database queries are validated, authenticated, and authorized"
+
+    chain:
+      - type: RawInput
+        description: "Unvalidated user input from HTTP request"
+        constructor: createRawInput
+        fields:
+          data: unknown
+
+      - type: ValidatedInput
+        description: "Input validated against schema"
+        constructor: validateInput
+        requires: RawInput
+        fields:
+          userId: string
+          action: string
+          resource: string
+
+      - type: AuthenticatedCtx
+        description: "User authenticated with valid token"
+        constructor: authenticate
+        requires: ValidatedInput
+        fields:
+          userId: string
+          action: string
+          resource: string
+          sessionToken: string
+
+      - type: AuthorizedQuery
+        description: "Request authorized for specific tenant"
+        constructor: authorizeQuery
+        requires: AuthenticatedCtx
+        fields:
+          userId: string
+          action: string
+          resource: string
+          sessionToken: string
+          tenantId: string
+
+    protected_functions:
+      - dbQuery
+      - dbWrite
+      - dbDelete
+
+    settings:
+      max_retries: 5
+      error_budget: increasing
+      brand_style: symbol

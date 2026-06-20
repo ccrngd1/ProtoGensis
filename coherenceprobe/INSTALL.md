@@ -24,7 +24,7 @@ pip install coherenceprobe[viz]
 ## Development Setup
 
 ```bash
-git clone https://github.com/yourusername/coherenceprobe
+git clone https://github.com/ccrngd1/ProtoGensis.git && cd ProtoGensis/coherenceprobe
 cd coherenceprobe
 pip install -e ".[dev,local,viz]"
 python -m spacy download en_core_web_sm
@@ -229,7 +229,7 @@ pip install coherenceprobe[local]
 ## Getting Help
 
 - **Documentation**: [README.md](README.md)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/coherenceprobe/issues)
+- **Issues**: [GitHub Issues](https://github.com/ccrngd1/ProtoGensis/issues)
 - **Blog Post**: [BLOG.md](BLOG.md)
 
 ---

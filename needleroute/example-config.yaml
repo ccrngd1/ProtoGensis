@@ -1,0 +1,86 @@
+# NeedleRoute Configuration Example
+
+# Transport mode (currently only stdio supported)
+transport: stdio
+
+# ToolGate filtering configuration
+toolgate:
+  # Number of top tools to consider after semantic search
+  top_k: 10
+
+  # Maximum description length in phase 1 (listTools)
+  phase1_max_desc: 200
+
+  # Sentence transformer model for embeddings
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2
+
+  # Session continuity boost (added to recently used tools)
+  session_boost: 0.15
+
+  # Session history window size (number of recent calls to track)
+  session_window: 5
+
+# Needle model configuration
+needle:
+  # HuggingFace model path (null = use default Cactus-Compute/needle)
+  # Can also be a local path to finetuned model
+  model_path: null
+
+  # Confidence threshold for escalation (0.0-1.0)
+  # If top-1 vs top-2 gap < threshold, escalate to frontier model
+  confidence_threshold: 0.7
+
+  # Always escalate destructive tools (write, delete, etc.)
+  always_escalate_destructive: true
+
+# Frontier model escalation configuration
+escalation:
+  # Provider: "bedrock" or "mock" (for testing)
+  provider: bedrock
+
+  # AWS Bedrock model ID
+  model: anthropic.claude-haiku-4-5-20251001-v1:0
+
+  # AWS region
+  region: us-east-1
+
+  # Max tokens for escalation response
+  max_tokens: 1024
+
+  # Temperature for escalation model
+  temperature: 0.0
+
+# Upstream MCP servers
+upstream_servers:
+  # Filesystem server example
+  - name: filesystem
+    transport: stdio
+    command: ["npx", "-y", "@modelcontextprotocol/server-filesystem", "/home/user"]
+    env:
+      # Optional environment variables
+      # NODE_ENV: production
+
+  # Add more upstream servers as needed
+  # - name: database
+  #   transport: stdio
+  #   command: ["npx", "-y", "@modelcontextprotocol/server-database"]
+
+# Gating rules (optional)
+gating:
+  # Tools to always include (glob patterns supported)
+  always_include: []
+    # - "read_*"
+    # - "list_*"
+
+  # Tools to always exclude
+  always_exclude: []
+    # - "*_admin"
+    # - "delete_*"
+
+# Metrics collection
+metrics:
+  # Enable metrics collection
+  enabled: true
+
+  # SQLite database path
+  db_path: ~/.needleroute/metrics.sqlite
