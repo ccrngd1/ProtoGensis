@@ -1,6 +1,5 @@
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
-import { join } from 'path';
 import type { Invariant } from '../spec/types.js';
 import type { VerificationError, VerificationResult } from './types.js';
 
@@ -48,6 +47,7 @@ export function verify(options: VerificationGateOptions): VerificationResult {
   }
 
   if (exitCode === 0) {
+    console.log('[DEBUG] TypeScript check passed, no errors');
     return {
       success: true,
       errors: [],
@@ -55,8 +55,10 @@ export function verify(options: VerificationGateOptions): VerificationResult {
     };
   }
 
+  console.log('[DEBUG] TypeScript output:', output);
   // Parse tsc output
   const errors = parseTscOutput(output, invariants);
+  console.log('[DEBUG] Parsed errors:', errors.length);
 
   // Separate guard-related errors from warnings
   const guardErrors = errors.filter(e => e.is_guard_related);
@@ -92,9 +94,12 @@ function parseTscOutput(output: string, invariants: Invariant[]): VerificationEr
       // Check if error is related to any guard
       const matchedInvariant = findMatchingInvariant(message, invariants);
       if (matchedInvariant) {
+        console.log('[DEBUG] Found matching invariant:', matchedInvariant.name);
+        console.log('[DEBUG] Error message:', message);
         error.is_guard_related = true;
         error.invariant = matchedInvariant.name;
         error.hint = generateHint(message, matchedInvariant);
+        console.log('[DEBUG] Generated hint:', error.hint);
         error.guard_definition = generateGuardDefinition(matchedInvariant);
       }
 
@@ -125,7 +130,7 @@ function findMatchingInvariant(errorMessage: string, invariants: Invariant[]): I
   return undefined;
 }
 
-function generateHint(errorMessage: string, invariant: Invariant): string {
+function generateHint(_errorMessage: string, invariant: Invariant): string {
   // Generate a hint based on the chain structure
   const constructorChain = invariant.chain.map(step => step.constructor).join('(');
   const closingParens = ')'.repeat(invariant.chain.length - 1);

@@ -55,10 +55,10 @@ invariants:
     // Step 4: Create bad code (should fail)
     const badCodePath = join(TEST_DIR, 'bad.ts');
     writeFileSync(badCodePath, `
-      import { secureQuery, type Authenticated } from './guards/simple-auth.js';
+      import { secureQuery } from './guards/simple-auth.js';
 
-      // This should fail: passing wrong type
-      secureQuery({ userId: "123" } as any);
+      // This should fail: passing wrong type (not authenticated)
+      secureQuery({ userId: "123", token: "token" });
     `);
 
     const badResult = verify({

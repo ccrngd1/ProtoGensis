@@ -1,6 +1,6 @@
 import { mkdirSync, writeFileSync } from 'fs';
-import { join, dirname } from 'path';
-import type { Invariant, ChainStep, BrandStyle } from '../spec/types.js';
+import { join } from 'path';
+import type { Invariant, BrandStyle } from '../spec/types.js';
 
 export interface GeneratorOptions {
   outputDir: string;
@@ -133,7 +133,15 @@ function generateGuardImplementation(
   for (const step of invariant.chain) {
     lines.push(`  ${step.type},`);
   }
-  lines.push(`} from './${fileName}.js';`);
+  lines.push(`} from './${fileName}.d.js';`);
+  lines.push('');
+
+  // Re-export types for consumers
+  lines.push(`export type {`);
+  for (const step of invariant.chain) {
+    lines.push(`  ${step.type},`);
+  }
+  lines.push(`} from './${fileName}.d.js';`);
   lines.push('');
 
   // Generate constructor stubs
@@ -158,9 +166,19 @@ function generateGuardImplementation(
     lines.push(`export function ${step.constructor}(${params.join(', ')}): ${step.type} {`);
     lines.push(`  // TODO: Implement ${step.constructor}`);
     lines.push(`  // This is a stub - add your validation/transformation logic here`);
-    if (step.requires) {
-      lines.push(`  return input as ${step.type};`);
+
+    if (step.fields && Object.keys(step.fields).length > 0) {
+      // Has fields - construct return with fields
+      lines.push(`  return {`);
+      for (const [fieldName] of Object.entries(step.fields)) {
+        lines.push(`    ${fieldName},`);
+      }
+      lines.push(`  } as ${step.type};`);
+    } else if (step.requires) {
+      // Only transformation, no new fields - use any as intermediate type
+      lines.push(`  return input as any as ${step.type};`);
     } else {
+      // No fields or requires
       lines.push(`  return {} as ${step.type};`);
     }
     lines.push(`}`);

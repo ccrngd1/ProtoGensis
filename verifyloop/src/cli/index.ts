@@ -2,7 +2,7 @@
 
 import { Command } from 'commander';
 import { existsSync, watchFile, unwatchFile } from 'fs';
-import { join, resolve } from 'path';
+import { resolve } from 'path';
 import { parseSpec } from '../spec/parser.js';
 import { generateGuards } from '../generator/index.js';
 import { verify } from '../gate/index.js';

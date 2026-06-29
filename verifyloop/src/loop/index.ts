@@ -1,6 +1,6 @@
 import { verify, type VerificationGateOptions } from '../gate/index.js';
 import type { Invariant, ErrorBudgetStrategy } from '../spec/types.js';
-import type { LoopResult, RetryAttempt, LoopStatus } from './types.js';
+import type { LoopResult, RetryAttempt } from './types.js';
 
 export interface LoopOptions {
   targetPath: string;
@@ -33,17 +33,20 @@ export async function runVerificationLoop(options: LoopOptions): Promise<LoopRes
 
     const result = verify(verificationOptions);
 
+    // Count total TypeScript errors (both guard-related and warnings)
+    const totalErrorCount = result.errors.length + result.warnings.length;
+
     const attempt: RetryAttempt = {
       attempt: currentAttempt,
       timestamp: new Date(),
-      errorCount: result.errors.length,
-      errors: result.errors,
+      errorCount: totalErrorCount,
+      errors: [...result.errors, ...result.warnings],
     };
 
     attempts.push(attempt);
 
-    if (result.success) {
-      // Success - all guard-related errors resolved
+    if (result.success && result.warnings.length === 0) {
+      // Success - all TypeScript errors resolved (both guard and non-guard)
       return {
         status: 'PASS',
         attempts,
@@ -57,8 +60,8 @@ export async function runVerificationLoop(options: LoopOptions): Promise<LoopRes
       return {
         status: 'FAIL',
         attempts,
-        finalErrorCount: result.errors.length,
-        message: `Verification failed after ${maxRetries} retry attempts. ${result.errors.length} error(s) remaining.`,
+        finalErrorCount: totalErrorCount,
+        message: `Verification failed after ${maxRetries} retry attempts. ${totalErrorCount} error(s) remaining.`,
       };
     }
 

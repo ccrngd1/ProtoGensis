@@ -111,7 +111,8 @@ describe('Verification Gate', () => {
     const codePath = join(TEST_DIR, 'code.ts');
     writeFileSync(codePath, `
       import { protectedFunc } from './guard';
-      protectedFunc({} as any);
+      // Trying to call protected function with wrong type
+      protectedFunc({});  // This should cause type error
     `);
 
     const invariants: Invariant[] = [
@@ -160,7 +161,7 @@ describe('Verification Gate', () => {
       import { guardedFunc } from './guard';
 
       // Guard violation
-      guardedFunc({} as any);
+      guardedFunc({});
 
       // Regular type error (not guard-related)
       const x: number = "string";
