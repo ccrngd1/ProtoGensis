@@ -10,5 +10,7 @@
     "paths": {
       "@guards/*": ["./guards/*"]
     }
-  }
+  },
+  "include": ["correct-api.ts", "guards/**/*"],
+  "exclude": ["bad-api.ts"]
 }

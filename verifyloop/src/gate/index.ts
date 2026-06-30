@@ -47,7 +47,6 @@ export function verify(options: VerificationGateOptions): VerificationResult {
   }
 
   if (exitCode === 0) {
-    console.log('[DEBUG] TypeScript check passed, no errors');
     return {
       success: true,
       errors: [],
@@ -55,10 +54,8 @@ export function verify(options: VerificationGateOptions): VerificationResult {
     };
   }
 
-  console.log('[DEBUG] TypeScript output:', output);
   // Parse tsc output
   const errors = parseTscOutput(output, invariants);
-  console.log('[DEBUG] Parsed errors:', errors.length);
 
   // Separate guard-related errors from warnings
   const guardErrors = errors.filter(e => e.is_guard_related);
@@ -94,12 +91,9 @@ function parseTscOutput(output: string, invariants: Invariant[]): VerificationEr
       // Check if error is related to any guard
       const matchedInvariant = findMatchingInvariant(message, invariants);
       if (matchedInvariant) {
-        console.log('[DEBUG] Found matching invariant:', matchedInvariant.name);
-        console.log('[DEBUG] Error message:', message);
         error.is_guard_related = true;
         error.invariant = matchedInvariant.name;
         error.hint = generateHint(message, matchedInvariant);
-        console.log('[DEBUG] Generated hint:', error.hint);
         error.guard_definition = generateGuardDefinition(matchedInvariant);
       }
 

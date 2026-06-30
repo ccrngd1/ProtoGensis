@@ -78,18 +78,42 @@ function generateGuardDeclaration(
 
   // Generate constructor signatures
   lines.push(`// Constructors`);
-  for (const step of invariant.chain) {
+  for (let i = 0; i < invariant.chain.length; i++) {
+    const step = invariant.chain[i];
     const params: string[] = [];
 
-    if (step.requires) {
-      params.push(`input: ${step.requires}`);
-    }
-
-    if (step.fields && Object.keys(step.fields).length > 0) {
-      for (const [fieldName, fieldType] of Object.entries(step.fields)) {
-        if (!step.requires || !fieldName.includes('input')) {
+    if (!step.requires) {
+      // First step - no requires, use all fields as params
+      if (step.fields && Object.keys(step.fields).length > 0) {
+        for (const [fieldName, fieldType] of Object.entries(step.fields)) {
           params.push(`${fieldName}: ${fieldType}`);
         }
+      }
+    } else {
+      // Has requires - determine new fields only
+      params.push(`input: ${step.requires}`);
+
+      if (step.fields && Object.keys(step.fields).length > 0) {
+        // Get previous step's field names
+        const prevStep = invariant.chain[i - 1];
+        const prevFieldNames = new Set<string>(
+          prevStep.fields ? Object.keys(prevStep.fields) : []
+        );
+
+        const thisFieldNames = Object.keys(step.fields);
+
+        // Determine carry-forward and added fields
+        const carryForwardFields = thisFieldNames.filter(name => prevFieldNames.has(name));
+        const addedFields = thisFieldNames.filter(name => !prevFieldNames.has(name));
+
+        // If any fields carry forward, add the new fields as params
+        if (carryForwardFields.length > 0) {
+          for (const fieldName of addedFields) {
+            params.push(`${fieldName}: ${step.fields[fieldName]}`);
+          }
+        }
+        // If no fields carry forward, all fields are derived/transformed
+        // No extra params needed
       }
     }
 
@@ -145,18 +169,42 @@ function generateGuardImplementation(
   lines.push('');
 
   // Generate constructor stubs
-  for (const step of invariant.chain) {
+  for (let i = 0; i < invariant.chain.length; i++) {
+    const step = invariant.chain[i];
     const params: string[] = [];
 
-    if (step.requires) {
-      params.push(`input: ${step.requires}`);
-    }
-
-    if (step.fields && Object.keys(step.fields).length > 0) {
-      for (const [fieldName, fieldType] of Object.entries(step.fields)) {
-        if (!step.requires || !fieldName.includes('input')) {
+    if (!step.requires) {
+      // First step - no requires, use all fields as params
+      if (step.fields && Object.keys(step.fields).length > 0) {
+        for (const [fieldName, fieldType] of Object.entries(step.fields)) {
           params.push(`${fieldName}: ${fieldType}`);
         }
+      }
+    } else {
+      // Has requires - determine new fields only
+      params.push(`input: ${step.requires}`);
+
+      if (step.fields && Object.keys(step.fields).length > 0) {
+        // Get previous step's field names
+        const prevStep = invariant.chain[i - 1];
+        const prevFieldNames = new Set<string>(
+          prevStep.fields ? Object.keys(prevStep.fields) : []
+        );
+
+        const thisFieldNames = Object.keys(step.fields);
+
+        // Determine carry-forward and added fields
+        const carryForwardFields = thisFieldNames.filter(name => prevFieldNames.has(name));
+        const addedFields = thisFieldNames.filter(name => !prevFieldNames.has(name));
+
+        // If any fields carry forward, add the new fields as params
+        if (carryForwardFields.length > 0) {
+          for (const fieldName of addedFields) {
+            params.push(`${fieldName}: ${step.fields[fieldName]}`);
+          }
+        }
+        // If no fields carry forward, all fields are derived/transformed
+        // No extra params needed
       }
     }
 
@@ -165,21 +213,48 @@ function generateGuardImplementation(
     lines.push(` */`);
     lines.push(`export function ${step.constructor}(${params.join(', ')}): ${step.type} {`);
     lines.push(`  // TODO: Implement ${step.constructor}`);
-    lines.push(`  // This is a stub - add your validation/transformation logic here`);
 
-    if (step.fields && Object.keys(step.fields).length > 0) {
-      // Has fields - construct return with fields
-      lines.push(`  return {`);
-      for (const [fieldName] of Object.entries(step.fields)) {
-        lines.push(`    ${fieldName},`);
+    // Determine return statement based on field structure
+    if (!step.requires) {
+      // First step - construct object from params
+      if (step.fields && Object.keys(step.fields).length > 0) {
+        lines.push(`  return {`);
+        for (const [fieldName] of Object.entries(step.fields)) {
+          lines.push(`    ${fieldName},`);
+        }
+        lines.push(`  } as ${step.type};`);
+      } else {
+        lines.push(`  return {} as ${step.type};`);
       }
-      lines.push(`  } as ${step.type};`);
-    } else if (step.requires) {
-      // Only transformation, no new fields - use any as intermediate type
-      lines.push(`  return input as any as ${step.type};`);
     } else {
-      // No fields or requires
-      lines.push(`  return {} as ${step.type};`);
+      // Has requires
+      if (step.fields && Object.keys(step.fields).length > 0) {
+        const prevStep = invariant.chain[i - 1];
+        const prevFieldNames = new Set<string>(
+          prevStep.fields ? Object.keys(prevStep.fields) : []
+        );
+
+        const thisFieldNames = Object.keys(step.fields);
+        const carryForwardFields = thisFieldNames.filter(name => prevFieldNames.has(name));
+        const addedFields = thisFieldNames.filter(name => !prevFieldNames.has(name));
+
+        if (carryForwardFields.length === 0) {
+          // All fields are derived/transformed - extract from input
+          lines.push(`  // Extract and validate fields from input`);
+          lines.push(`  return input as any as ${step.type};`);
+        } else {
+          // Fields carry forward - merge input with new params
+          if (addedFields.length > 0) {
+            lines.push(`  return { ...input, ${addedFields.join(', ')} } as any as ${step.type};`);
+          } else {
+            // No new fields, just transformation
+            lines.push(`  return input as any as ${step.type};`);
+          }
+        }
+      } else {
+        // No fields, only transformation
+        lines.push(`  return input as any as ${step.type};`);
+      }
     }
     lines.push(`}`);
     lines.push('');

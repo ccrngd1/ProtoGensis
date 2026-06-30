@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["bad-api.ts", "guards/**/*"],
+  "exclude": []
+}
