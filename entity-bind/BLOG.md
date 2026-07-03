@@ -19,6 +19,34 @@ Reality: Your company has two Alexes—Alex Chen (engineering) and Alex Kumar (c
 
 This is an **entity binding failure**: right tool, wrong target. And it's invisible to every eval framework measuring tool-use today.
 
+### The One-Liner: Tool Selection Picks the Verb. Entity Binding Picks the Noun.
+
+If you take one thing from this post, take this framing:
+
+- **Tool selection** answers *"which verb?"* — `send_email` vs `schedule_meeting` vs `delete_record`. This is a solved problem (0% error in the paper).
+- **Entity binding** answers *"which noun?"* — *which* recipient, *which* meeting, *which* record. This is where ~1-in-4 actions go wrong.
+
+The verb is safe. The noun is where the money moves. The agent confidently resolves a fuzzy reference ("Alex," "the report," "that customer") to a specific entity ID in your real system — and a quarter of the time, under ambiguity, it binds to the wrong one and *acts on it immediately*.
+
+### A Few Ways This Bites
+
+The failure is always the same shape — correct tool, correct backend, wrong *identity* — but it wears different clothes:
+
+- **Wrong person.** `transfer_funds(to="John", amount=5000)`. Right banking API. But there are three Johns in the directory, and it bound to the wrong account. The money is gone before anyone reviews the call.
+- **Wrong record.** `cancel_subscription(customer="Acme")`. Right tool, right DB. "Acme" matches both *Acme Corp* and *Acme Holdings*. The wrong company's service just got cut.
+- **Wrong version.** `delete_file("launch plan")`. Three docs named "Launch Plan." It grabbed last quarter's, not this week's — or worse, the live one.
+- **Wrong assignee.** `assign_ticket(engineer="Sam")`. Two Sams on the team. The critical outage ticket lands in the wrong queue.
+
+### "But isn't it sometimes the *resource* that's wrong?"
+
+Yes — and that's the same disease, one layer out. When the identity-bearing argument *is* a resource, misresolution routes the action to the wrong backend:
+
+- `query_database(source="prod")` that quietly hits `staging` (or vice versa — a wrong-entity write to prod).
+- `route_to_agent(agent="billing")` that dispatches to `support`.
+- An API selector that resolves to the wrong tenant or region.
+
+The API, the DB, or the downstream agent is itself the misresolved target. EntityBind treats all of these uniformly: **any argument that names a specific thing — a person, a record, a document, a database, an agent — gets resolved against a catalog and confidence-gated before the call fires.** Right verb, verified noun.
+
 ---
 
 ## The Paper That Formalized It
