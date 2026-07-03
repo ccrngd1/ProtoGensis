@@ -207,11 +207,9 @@ Confidence scoring is rule-based (weighted blend of RapidFuzz + phonetics + stru
 
 ## What's Next
 
-EntityBind is open source (MIT) and pip-installable:
+EntityBind is open source (MIT). Code, benchmark, and docs live in the Protogenesis repo:
 
-```bash
-pip install entity-bind
-```
+https://github.com/ccrngd1/ProtoGensis/tree/main/entity-bind
 
 The package includes:
 - Core gate + resolver (RapidFuzz + jellyfish, sub-100ms)
@@ -243,8 +241,7 @@ The paper formalized the problem. EntityBind engineers the solution. Next step: 
 
 - Paper: Babu & Indukuri, ["Entity Binding Failures in Tool-Augmented Agents"](https://arxiv.org/abs/2606.30531), arXiv 2606.30531, 2026.
 - Reference implementation: [R-Suresh/EntityBindingFailures](https://github.com/R-Suresh/EntityBindingFailures) (MIT, benchmark data + reproduction)
-- EntityBind source: [GitHub](https://github.com/cabal-ai/entity-bind) (MIT)
-- Install: `pip install entity-bind`
+- EntityBind source: [GitHub](https://github.com/ccrngd1/ProtoGensis/tree/main/entity-bind) (MIT)
 
 ---
 
