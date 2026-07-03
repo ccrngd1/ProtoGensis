@@ -1,0 +1,102 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "entity-bind"
+version = "0.1.0"
+description = "Middleware to detect and prevent entity binding failures in tool-augmented agents"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "EntityBind Contributors"}
+]
+keywords = [
+    "agents",
+    "tool-use",
+    "entity-resolution",
+    "entity-binding",
+    "llm",
+    "middleware"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+
+dependencies = [
+    "pydantic>=2.0,<3.0",
+    "rapidfuzz>=3.0,<4.0",
+    "jellyfish>=1.0,<2.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=4.0",
+    "pandas>=2.0",
+    "tqdm>=4.60"
+]
+bench = [
+    "pandas>=2.0",
+    "tqdm>=4.60",
+    "openai>=1.0"
+]
+semantic = [
+    "sentence-transformers>=2.0",
+    "numpy>=1.24"
+]
+adapters = [
+    "openai>=1.0",
+    "anthropic>=0.25"
+]
+all = [
+    "entity-bind[dev,bench,semantic,adapters]"
+]
+
+[project.urls]
+Homepage = "https://github.com/R-Suresh/entity-bind"
+Repository = "https://github.com/R-Suresh/entity-bind"
+Documentation = "https://github.com/R-Suresh/entity-bind#readme"
+
+[tool.setuptools]
+packages = ["entity_bind", "entity_bind.core", "entity_bind.catalog",
+            "entity_bind.scoring", "entity_bind.provenance",
+            "entity_bind.adapters", "entity_bind.bench"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--tb=short",
+    "--cov=entity_bind",
+    "--cov-report=term-missing"
+]
+
+[tool.coverage.run]
+source = ["entity_bind"]
+omit = ["tests/*", "*/bench/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod"
+]
