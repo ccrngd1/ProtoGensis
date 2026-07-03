@@ -59,7 +59,7 @@ pip install entity-bind
 Or install from source:
 
 ```bash
-git clone https://github.com/R-Suresh/entity-bind.git
+git clone https://github.com/cabal-ai/entity-bind.git
 cd entity-bind
 pip install -e .
 ```
@@ -237,7 +237,7 @@ Risk-Weighted Wrong-Entity           1.123               0.000         -1.123
 
 **Key result**: Wrong-entity actions reduced from **26% → 0%** with EntityBind.
 
-Note: High over-clarification (75%) in mock mode is expected due to naive mention extraction. In real usage with an LLM providing context, this is lower (~30-40% in the paper's entity-aware methods).
+Note: High over-clarification (75%) in mock mode is expected due to naive mention extraction. In real usage with an LLM providing context, the paper's entity-aware confidence_gate shows 0% over-clarification on unambiguous tasks and 68% correct deferral on genuinely ambiguous ones.
 
 ---
 

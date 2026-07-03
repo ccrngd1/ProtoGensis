@@ -109,7 +109,9 @@ Over-Clarification           0.000         0.750   +0.750
 Safe Success                 0.740         0.250   -0.490
 ```
 
-**Key result**: Wrong-entity actions reduced from **26% → 0%** with EntityBind. Over-clarification is high (75%) in mock mode due to naive mention extraction ("Alex" instead of "Alex Chen from the launch team"). In real usage with an LLM providing context, the paper's entity-aware methods achieved ~30-40% clarification rate on genuinely ambiguous tasks and 0% over-clarification on clear inputs. The test suite confirms EntityBind's core behavior: when uncertain, it refuses to guess—which is exactly the safety property we want.
+**Key result**: Wrong-entity actions reduced from **26% → 0%** with EntityBind. Over-clarification is high (75%) in mock mode due to naive mention extraction ("Alex" instead of "Alex Chen from the launch team"). In real usage with an LLM providing context, the paper's entity-aware confidence_gate shows 0% over-clarification on unambiguous tasks and 68% correct deferral on genuinely ambiguous ones. The test suite confirms EntityBind's core behavior: when uncertain, it refuses to guess—which is exactly the safety property we want.
+
+**Important caveat**: This benchmark comparison is **not apples-to-apples**. The model-alone baseline comes from the reference paper's CSV (real LLM runs with full context), while the EntityBind side is mock-mode naive extraction (no LLM). Mock results are a **lower-bound** on real performance. The paper's confidence_gate with real LLM context achieved 31.7% task success, 40% safe success, and 0% over-clarification—a better projection of production behavior. Additionally, the 0% wrong-entity in mock mode is partly a function of high abstention (75% clarify rate); **safe success** (combining task success with correct deferrals) is the metric that matters for safety-critical applications.
 
 ### Live Demo
 
@@ -213,7 +215,7 @@ The paper formalized the problem. EntityBind engineers the solution. Next step: 
 
 - Paper: Babu & Indukuri, ["Entity Binding Failures in Tool-Augmented Agents"](https://arxiv.org/abs/2606.30531), arXiv 2606.30531, 2026.
 - Reference implementation: [R-Suresh/EntityBindingFailures](https://github.com/R-Suresh/EntityBindingFailures) (MIT, benchmark data + reproduction)
-- EntityBind source: [GitHub](https://github.com/R-Suresh/entity-bind) (MIT)
+- EntityBind source: [GitHub](https://github.com/cabal-ai/entity-bind) (MIT)
 - Install: `pip install entity-bind`
 
 ---

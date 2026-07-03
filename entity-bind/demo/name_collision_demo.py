@@ -64,7 +64,7 @@ def run_without_entitybind(catalog):
     """
     Simulate agent WITHOUT EntityBind.
 
-    Agent picks the first "Alex" it finds (simulating typical LLM behavior).
+    Agent picks the wrong Alex (simulating typical LLM behavior with ambiguity).
     This is the wrong-entity failure mode.
     """
     print("\n" + "=" * 80)
@@ -73,8 +73,9 @@ def run_without_entitybind(catalog):
 
     instruction = "Email Alex about the launch update"
     print(f"\n📝 Instruction: {instruction}")
+    print(f"   Context: User wants to email Alex Chen (launch team)")
 
-    # Naive resolution: pick first Alex found
+    # Naive resolution: agent picks an Alex, but gets it wrong
     all_entities = catalog.all()
     alex_candidates = [e for e in all_entities if "alex" in e.name.lower()]
 
@@ -82,8 +83,11 @@ def run_without_entitybind(catalog):
     for i, entity in enumerate(alex_candidates, 1):
         print(f"   {i}. {entity.name} ({entity.email})")
 
-    # Agent picks first one (or random - either way, 50% chance it's wrong)
-    chosen = alex_candidates[0]
+    # Agent picks wrong one (Alex Kumar instead of Alex Chen)
+    # Simulates 50/50 chance - in this case it guessed wrong
+    intended = [e for e in alex_candidates if "chen" in e.name.lower()][0]
+    chosen = [e for e in alex_candidates if "kumar" in e.name.lower()][0]
+
     print(f"\n🤖 Agent chose: {chosen.name}")
 
     # Execute
@@ -92,10 +96,10 @@ def run_without_entitybind(catalog):
 
     # Outcome
     print(f"\n❌ WRONG-ENTITY ACTION:")
-    print(f"   Agent intended to email Alex Chen (launch team)")
-    print(f"   but actually emailed {chosen.name}")
+    print(f"   User intended to email {intended.name} (launch team)")
+    print(f"   but agent actually emailed {chosen.name} (customer success)")
     print(f"   Conventional metrics show: 0% wrong-tool, 100% 'successful' execution")
-    print(f"   Reality: wrong target, confusing email to wrong person")
+    print(f"   Reality: wrong target, confusing email sent to wrong person")
 
 
 def run_with_entitybind(catalog, tool_spec):

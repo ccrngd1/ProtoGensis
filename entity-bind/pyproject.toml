@@ -62,9 +62,9 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/R-Suresh/entity-bind"
-Repository = "https://github.com/R-Suresh/entity-bind"
-Documentation = "https://github.com/R-Suresh/entity-bind#readme"
+Homepage = "https://github.com/cabal-ai/entity-bind"
+Repository = "https://github.com/cabal-ai/entity-bind"
+Documentation = "https://github.com/cabal-ai/entity-bind#readme"
 
 [tool.setuptools]
 packages = ["entity_bind", "entity_bind.core", "entity_bind.catalog",
