@@ -1,0 +1,7 @@
+BUILD COMPLETE
+Sat Jul 11 01:21:37 UTC 2026
+Location: /root/projects/protoGen/memory-guard
+
+FIX ROUND 1 (2026-07-11): Semantic outlier FP rate fixed.
+Tests: 23 passed, 0 skipped, 0 failures (sentence-transformers installed).
+Clean-fixture false-positive rate: 0% (<5% required). Injections still detected.
