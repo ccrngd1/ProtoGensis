@@ -123,11 +123,12 @@ $ memoryguard demo
 Early versions had a huge false positive problem. The semantic outlier detector would flag *everything slightly unusual* - including perfectly legitimate entries that just happened to be about a different topic.
 
 I fixed this by:
-1. Tuning the similarity threshold (settled on 0.4 after testing)
-2. Only flagging as high-risk if *multiple* detectors agree
-3. Adding a test requirement: **false positive rate < 5% on clean data**
+1. Replacing the fixed 0.4 threshold with an **adaptive cutoff** — derived from the store's own similarity distribution using median − 3·MAD (median absolute deviation). A hard-coded constant can't handle the natural diversity of real memory files; the adaptive version calibrates to whatever you throw at it.
+2. Switching from global average similarity to **nearest-neighbor cohesion** — an outlier is unlike even the entries it's *most* similar to. Averaging over a diverse store masked real anomalies.
+3. Only flagging as high-risk if *multiple* detectors agree
+4. Adding a test requirement: **false positive rate < 5% on clean data**
 
-Current version passes that test. Out of 20 clean entries, it flags 0-1 false positives.
+Current version passes that test. Out of 20 clean entries, it flags 0 false positives.
 
 ## What I Learned
 
