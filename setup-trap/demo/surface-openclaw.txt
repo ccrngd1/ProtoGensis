@@ -1,0 +1,117 @@
+
+──────────────────────────────── Attack surface — OpenClaw / CABAL ─────────────────────────────────
+OpenClaw builds each agent's system prompt by injecting workspace bootstrap files (AGENTS.md and 
+workspace context), the SOUL.md personality layer, and on-demand SKILL.md instructions; hooks add 
+event-driven automations that can fire at gateway startup. Every one of these is trusted context 
+assembled before the agent acts.
+
+┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+┃                      ┃                      ┃                   ┃       ┃ Attacker can write   ┃
+┃ File / surface       ┃ When read            ┃ Scope             ┃ Prov. ┃ THIS → do THAT       ┃
+┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
+│ AGENTS.md (workspace │ injected into the    │ project           │ 🟢    │ Write here -> inject │
+│ root)                │ system prompt at     │                   │       │ workspace-wide       │
+│                      │ agent bootstrap      │                   │       │ behavior             │
+│                      │                      │                   │       │ instructions into    │
+│                      │                      │                   │       │ the system prompt    │
+│                      │                      │                   │       │ for every turn.      │
+│                      │                      │                   │       │ docs/concepts/system │
+│                      │                      │                   │       │ -prompt.md: runtime  │
+│                      │                      │                   │       │ injects AGENTS.md as │
+│                      │                      │                   │       │ workspace context.   │
+├──────────────────────┼──────────────────────┼───────────────────┼───────┼──────────────────────┤
+│ <subdir>/AGENTS.md   │ injected when the    │ directory-chain   │ 🟢    │ Write here -> scope  │
+│                      │ agent works in that  │                   │       │ a hijack to a        │
+│                      │ subtree              │                   │       │ sensitive            │
+│                      │                      │                   │       │ subdirectory (the    │
+│                      │                      │                   │       │ docs subtree, an ops │
+│                      │                      │                   │       │ runbook, etc.).      │
+│                      │                      │                   │       │ Directory-scoped     │
+│                      │                      │                   │       │ AGENTS.md is         │
+│                      │                      │                   │       │ standard OpenClaw    │
+│                      │                      │                   │       │ layout.              │
+├──────────────────────┼──────────────────────┼───────────────────┼───────┼──────────────────────┤
+│ SOUL.md              │ injected as the      │ project           │ 🟢    │ Write here ->        │
+│                      │ personality/voice    │                   │       │ rewrite the agent's  │
+│                      │ layer at bootstrap   │                   │       │ identity and voice — │
+│                      │                      │                   │       │ the cleanest         │
+│                      │                      │                   │       │ identity-substitutio │
+│                      │                      │                   │       │ n surface.           │
+│                      │                      │                   │       │ docs/concepts/soul.m │
+│                      │                      │                   │       │ d: SOUL.md is the    │
+│                      │                      │                   │       │ personality layer.   │
+├──────────────────────┼──────────────────────┼───────────────────┼───────┼──────────────────────┤
+│ skills/*/SKILL.md    │ skill instructions   │ skill             │ 🟢    │ Write a skill body   │
+│                      │ loaded on demand     │                   │       │ -> malicious         │
+│                      │ when invoked         │                   │       │ instructions run as  │
+│                      │                      │                   │       │ trusted context the  │
+│                      │                      │                   │       │ moment the skill is  │
+│                      │                      │                   │       │ used.                │
+│                      │                      │                   │       │ docs/concepts/system │
+│                      │                      │                   │       │ -prompt.md: skills   │
+│                      │                      │                   │       │ load instructions on │
+│                      │                      │                   │       │ demand.              │
+├──────────────────────┼──────────────────────┼───────────────────┼───────┼──────────────────────┤
+│ hooks (agent hooks / │ event-driven: /new,  │ project / user    │ 🟢    │ Write/enable a hook  │
+│ gateway startup)     │ /reset, gateway      │                   │       │ -> run commands      │
+│                      │ startup, etc.        │                   │       │ automatically on     │
+│                      │                      │                   │       │ lifecycle events,    │
+│                      │                      │                   │       │ before any user task │
+│                      │                      │                   │       │ — persistence +      │
+│                      │                      │                   │       │ execution.           │
+│                      │                      │                   │       │ docs/cli/hooks.md:   │
+│                      │                      │                   │       │ hooks are            │
+│                      │                      │                   │       │ event-driven         │
+│                      │                      │                   │       │ automations          │
+│                      │                      │                   │       │ including gateway    │
+│                      │                      │                   │       │ startup.             │
+├──────────────────────┼──────────────────────┼───────────────────┼───────┼──────────────────────┤
+│ HEARTBEAT.md         │ consulted by the     │ project / session │ 🔵    │ Write here -> attach │
+│                      │ heartbeat/health     │                   │       │ behavior to the      │
+│                      │ loop                 │                   │       │ recurring heartbeat, │
+│                      │                      │                   │       │ giving an attacker a │
+│                      │                      │                   │       │ periodic,            │
+│                      │                      │                   │       │ low-visibility       │
+│                      │                      │                   │       │ trigger.             │
+│                      │                      │                   │       │ CABAL operational    │
+│                      │                      │                   │       │ convention; exact    │
+│                      │                      │                   │       │ read timing          │
+│                      │                      │                   │       │ inferred.            │
+├──────────────────────┼──────────────────────┼───────────────────┼───────┼──────────────────────┤
+│ TOOLS.md             │ injected/consulted   │ project           │ 🔵    │ Write here ->        │
+│                      │ as tool guidance     │                   │       │ redefine how the     │
+│                      │                      │                   │       │ agent uses tools     │
+│                      │                      │                   │       │ (command wraps,      │
+│                      │                      │                   │       │ install sources),    │
+│                      │                      │                   │       │ binding malicious    │
+│                      │                      │                   │       │ behavior to tools.   │
+│                      │                      │                   │       │ CABAL operational    │
+│                      │                      │                   │       │ convention; exact    │
+│                      │                      │                   │       │ read timing          │
+│                      │                      │                   │       │ inferred.            │
+├──────────────────────┼──────────────────────┼───────────────────┼───────┼──────────────────────┤
+│ persona*.md          │ injected as          │ project           │ 🔵    │ Write here -> layer  │
+│                      │ additional           │                   │       │ an alternate persona │
+│                      │ persona/context      │                   │       │ over the agent's     │
+│                      │                      │                   │       │ identity.            │
+├──────────────────────┼──────────────────────┼───────────────────┼───────┼──────────────────────┤
+│ requirements.txt /   │ when the agent       │ project           │ 🟢    │ Write here -> the    │
+│ Makefile /           │ installs             │                   │       │ package-install      │
+│ pyproject.toml       │ dependencies for a   │                   │       │ supply-chain surface │
+│                      │ task                 │                   │       │ (typosquat, index    │
+│                      │                      │                   │       │ redirect, Makefile   │
+│                      │                      │                   │       │ poisoning) from      │
+│                      │                      │                   │       │ arXiv:2607.15143.    │
+│                      │                      │                   │       │ This is the paper's  │
+│                      │                      │                   │       │ proven               │
+│                      │                      │                   │       │ package-install      │
+│                      │                      │                   │       │ class.               │
+└──────────────────────┴──────────────────────┴───────────────────┴───────┴──────────────────────┘
+
+╭──────────────────────────────── Provenance legend (honesty gate) ────────────────────────────────╮
+│ 🟢 sourced   = package-install supply-chain checks empirically evaluated by arXiv:2607.15143     │
+│ 🟡 synthesized = behavior-hijacking rules grounded in prompt-injection literature, NOT           │
+│ paper-proven                                                                                     │
+│ 🔵 inferred  = reasonable deduction (e.g. undocumented runtime read-order)                       │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

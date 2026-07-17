@@ -1,0 +1,119 @@
+# Tool-binding rules (TOOL-001..005).
+#
+# PROVENANCE: MIXED.
+#   TOOL-001..003 concern package-install redirection expressed as an INSTRUCTION
+#   in an agent config file (e.g. "always install with --extra-index-url http://
+#   10.0.0.5"). The underlying redirection class is SOURCED (arXiv:2607.15143),
+#   but detecting it as a config-file directive is the synthesized framing. The
+#   programmatic pre-install checks (PRE-SRC/PRE-SEP/PRE-MAKE) cover the actual
+#   requirements.txt/Makefile forms and are tagged sourced there.
+#   TOOL-004..005 (command prefix/suffix wrap, write-to-/tmp) are SYNTHESIZED.
+rules:
+  - id: TOOL-001
+    name: Directive to install from a non-standard index
+    category: tool-binding
+    severity: critical
+    provenance: sourced
+    source_ref: "arXiv:2607.15143 R6a (redirection class; config-directive framing synthesized)"
+    description: >
+      Agent config instructs installing packages from a custom --index-url /
+      --extra-index-url — a redirection instruction baked into behavior config.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "*.markdown", "*.md"]
+    keywords: ["--index-url", "--extra-index-url", "-i http", "index-url"]
+    regex: >-
+      --(?:extra-)?index-url[=\s]+https?://[^\s)"']+
+    message: >
+      Config directive installs from a non-standard package index.
+    fix_guidance: >
+      Remove the custom index directive or pin it to a trusted, reviewed host.
+    tags: ["tool-binding", "supply-chain", "index-redirect"]
+    allowlist:
+      description: "Legitimate PyTorch/NVIDIA CUDA wheel indexes."
+      regexes:
+        - "download\\.pytorch\\.org"
+        - "data\\.pyg\\.org"
+        - "pypi\\.nvidia\\.com"
+        - "developer\\.download\\.nvidia\\.com"
+
+  - id: TOOL-002
+    name: Directive referencing a separator-confusion package name
+    category: tool-binding
+    severity: warning
+    provenance: sourced
+    source_ref: "arXiv:2607.15143 R-sep (separator class; config-directive framing synthesized)"
+    description: >
+      Config text instructs installing a package whose name uses unusual
+      separators around a well-known name (e.g. azure_core vs azure-core). The
+      requirements.txt/pyproject forms are caught precisely by PRE-SEP.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "*.md"]
+    keywords: ["pip install", "pip3 install"]
+    regex: >-
+      \bpip3?\s+install\s+(?:[-\w.=<>!~]+\s+)*(?:python[-_.]dateutil|azure[-_.]core|scikit[-_.]?learn|open[-_.]?cv[-_.]?python|beautiful[-_.]?soup4?|discord[-_.]?py)\b
+    message: >
+      Config instructs installing a package name prone to separator confusion;
+      verify the canonical name.
+    fix_guidance: >
+      Pin the exact canonical PyPI name; separator/typo variants are a known
+      typosquat vector.
+    tags: ["tool-binding", "separator-confusion"]
+
+  - id: TOOL-003
+    name: Directive to install from localhost / private network
+    category: tool-binding
+    severity: critical
+    provenance: sourced
+    source_ref: "arXiv:2607.15143 R6a (localhost redirect; config-directive framing synthesized)"
+    description: >
+      Config instructs pip to use a localhost or private-IP index — dependency
+      confusion via a machine-local or LAN server.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "*.md"]
+    keywords: ["localhost", "127.0.0.1", "0.0.0.0", "192.168.", "10.", "index-url"]
+    regex: >-
+      --(?:extra-)?index-url[=\s]+https?://(?:localhost|127\.0\.0\.1|0\.0\.0\.0|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(?:1[6-9]|2\d|3[01])\.\d+\.\d+)
+    message: >
+      Config directive installs from a localhost/private-network index.
+    fix_guidance: >
+      Remove localhost/private index directives from agent config.
+    tags: ["tool-binding", "dependency-confusion", "localhost"]
+
+  - id: TOOL-004
+    name: Command prefix/suffix injection ("always run X before/after")
+    category: tool-binding
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Instructs the agent to prepend/append a command to every shell/tool
+      invocation — a wrap that can inject exfiltration or persistence into
+      otherwise-benign commands.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "*.md"]
+    keywords: ["always run", "before every", "after every", "prepend", "append to every", "wrap every", "before each", "prefix every", "pipe"]
+    regex: >-
+      \b(?:always\s+(?:run|prepend|append|execute)|before\s+(?:every|each|any)|after\s+(?:every|each|any)|prepend\s+to\s+(?:every|each)|wrap\s+(?:every|each|all))\b[^.\n]{0,50}\b(?:command|shell|tool|call|invocation|bash|exec|curl|;|\|\||&&|\|)
+    message: >
+      Config instructs wrapping/prefixing/suffixing every command — command
+      injection vector.
+    fix_guidance: >
+      Remove the command-wrap directive; each tool call should run exactly as
+      the user/task specifies.
+    tags: ["tool-binding", "command-injection", "wrap"]
+
+  - id: TOOL-005
+    name: Directive to also write to /tmp or home directory
+    category: tool-binding
+    severity: warning
+    provenance: synthesized
+    source_ref: "prompt-injection literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Instructs the agent to additionally write output/copies to /tmp or the
+      home dir — a staging step for persistence or later exfiltration.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "*.md"]
+    keywords: ["also write", "also save", "also copy", "/tmp", "~/", "$home", "home directory", "copy to"]
+    regex: >-
+      \b(?:also\s+(?:write|save|copy|store|dump)|additionally\s+(?:write|save|copy))\b[^.\n]{0,40}(?:/tmp/|~/|\$HOME|/var/tmp/|/dev/shm/)
+    message: >
+      Config instructs also writing to /tmp or home directory — staging vector.
+    fix_guidance: >
+      Remove the extra write target; outputs should go only where the task
+      requires.
+    tags: ["tool-binding", "staging", "filesystem"]

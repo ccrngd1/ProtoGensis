@@ -1,0 +1,107 @@
+# Identity-substitution rules (IDENT-001..005).
+#
+# PROVENANCE: synthesized. The AGENTS.md/CLAUDE.md identity-hijacking class is a
+# synthesized extension grounded in prompt-injection literature and the "Rules
+# File backdoor" work arXiv:2607.15143 cites as [7]. It was NOT empirically
+# evaluated by that paper. These rules are NOT paper-proven.
+rules:
+  - id: IDENT-001
+    name: Instruction override ("ignore previous instructions")
+    category: identity
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection literature; arXiv:2607.15143 ref [7] (not evaluated)"
+    description: >
+      Classic prompt-injection override telling the agent to disregard its prior
+      system/setup instructions, embedded in a trusted setup file.
+    file_patterns: ["*.md", ".cursorrules", "AGENTS.md", "CLAUDE.md", "*.markdown"]
+    keywords: ["ignore", "disregard", "forget", "previous", "prior", "above"]
+    regex: >-
+      \b(?:ignore|disregard|forget|override)\b[^.\n]{0,40}\b(?:all|any|the|your)?\s*(?:previous|prior|earlier|above|preceding|system)\b[^.\n]{0,20}\b(?:instruction|prompt|rule|direction|message|context)s?\b
+    message: >
+      Setup file instructs the agent to ignore its prior/system instructions —
+      an identity/instruction override.
+    fix_guidance: >
+      Remove the override. Setup files should add project context, never revoke
+      the agent's system instructions.
+    tags: ["identity", "instruction-override", "prompt-injection"]
+
+  - id: IDENT-002
+    name: Identity substitution ("you are no longer / from now on you are")
+    category: identity
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Reassigns the agent's identity or role at init, a precondition for
+      persona-hijacking the whole session.
+    file_patterns: ["*.md", ".cursorrules", "AGENTS.md", "CLAUDE.md", "*.markdown"]
+    keywords: ["you are", "from now on", "no longer", "act as", "pretend", "roleplay"]
+    regex: >-
+      \b(?:from now on,?\s+you\s+are|you\s+are\s+(?:no\s+longer|now\s+a\b|not\s+an?\b)|you\s+are\s+actually|act\s+as\s+(?:if\s+you\s+are\s+)?an?\b|pretend\s+(?:to\s+be|you\s+are)|roleplay\s+as)\b
+    message: >
+      Setup file reassigns the agent's identity/role — session-wide persona
+      hijack precondition.
+    fix_guidance: >
+      Remove identity reassignment. Provide project role context descriptively,
+      not by overriding who the agent is.
+    tags: ["identity", "persona-hijack"]
+
+  - id: IDENT-003
+    name: Safety / guardrail disable directive
+    category: identity
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Instructs the agent to turn off safety checks, filters, or confirmations.
+    file_patterns: ["*.md", ".cursorrules", "AGENTS.md", "CLAUDE.md", "*.markdown"]
+    keywords: ["disable", "turn off", "bypass", "no restrictions", "without restriction", "unfiltered", "safety"]
+    regex: >-
+      \b(?:disable|turn\s+off|bypass|ignore|skip|remove)\b[^.\n]{0,30}\b(?:safety|guardrail|filter|restriction|moderation|content\s+polic|safeguard)\w*|\b(?:no\s+restrictions?|without\s+(?:any\s+)?restrictions?|unfiltered|no\s+filter)\b
+    message: >
+      Setup file instructs disabling safety/guardrails — jailbreak directive in a
+      trusted config.
+    fix_guidance: >
+      Remove the directive. No legitimate project setup requires disabling agent
+      safety controls.
+    tags: ["identity", "jailbreak", "safety-disable"]
+
+  - id: IDENT-004
+    name: Known jailbreak persona (DAN / developer mode)
+    category: identity
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      References a named jailbreak persona (DAN, "developer mode", "do anything
+      now") whose purpose is to remove behavioral constraints.
+    file_patterns: ["*.md", ".cursorrules", "AGENTS.md", "CLAUDE.md", "*.markdown"]
+    keywords: ["dan", "do anything now", "developer mode", "jailbreak", "unlocked mode"]
+    regex: >-
+      \b(?:DAN\s+mode|do\s+anything\s+now|developer\s+mode\s+(?:enabled|on)|jailbroken?|unlocked\s+mode)\b
+    message: >
+      Setup file references a known jailbreak persona (DAN / developer mode).
+    fix_guidance: >
+      Remove the jailbreak persona reference entirely.
+    tags: ["identity", "jailbreak", "dan"]
+
+  - id: IDENT-005
+    name: Secret / hidden instruction to conceal behavior from the user
+    category: identity
+    severity: warning
+    provenance: synthesized
+    source_ref: "prompt-injection literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Directs the agent to hide actions or instructions from the user — a
+      stealth directive enabling covert behavior change.
+    file_patterns: ["*.md", ".cursorrules", "AGENTS.md", "CLAUDE.md", "*.markdown"]
+    keywords: ["do not tell", "don't tell", "without telling", "secretly", "hide from", "do not mention", "don't mention", "without informing"]
+    regex: >-
+      \b(?:do\s*n['o]?t\s+(?:tell|mention|inform|reveal|disclose)|without\s+(?:telling|informing|notifying|mentioning\s+(?:it\s+)?to)|secretly|silently|covertly|hide\s+(?:this|it|that)\s+from)\b[^.\n]{0,30}\b(?:the\s+)?(?:user|human|operator|owner)\b
+    message: >
+      Setup file instructs concealing behavior from the user — stealth directive.
+    fix_guidance: >
+      Remove any instruction to hide actions from the user; agent behavior should
+      be transparent.
+    tags: ["identity", "stealth", "concealment"]

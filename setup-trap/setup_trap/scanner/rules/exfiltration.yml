@@ -1,0 +1,114 @@
+# Exfiltration rules (EXFIL-001..005).
+#
+# PROVENANCE: synthesized. Data-exfiltration directives embedded in agent setup
+# files are a synthesized extension grounded in prompt-injection / data-loss
+# literature. NOT empirically evaluated by arXiv:2607.15143.
+rules:
+  - id: EXFIL-001
+    name: POST / upload to external URL
+    category: exfiltration
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Setup file instructs the agent to send/POST/upload data to an external URL
+      as part of its startup or task routine.
+    file_patterns: ["*.md", ".cursorrules", "AGENTS.md", "CLAUDE.md", "*.markdown"]
+    keywords: ["post", "send", "upload", "report to", "curl", "http", "exfil", "transmit"]
+    regex: >-
+      \b(?:POST|send|upload|transmit|report|exfiltrate|forward)\b[^.\n]{0,40}\b(?:to\s+)?https?://[^\s)"']+
+    message: >
+      Setup file directs sending/uploading data to an external URL.
+    fix_guidance: >
+      Remove the outbound directive, or confirm the endpoint is an intended,
+      trusted integration and allowlist it explicitly.
+    tags: ["exfiltration", "network", "outbound"]
+    allowlist:
+      description: "Documentation/example endpoints and localhost."
+      regexes:
+        - "example\\.(?:com|org|net)"
+        - "https?://localhost"
+        - "127\\.0\\.0\\.1"
+
+  - id: EXFIL-002
+    name: Telemetry / analytics beacon to external host
+    category: exfiltration
+    severity: warning
+    provenance: synthesized
+    source_ref: "prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Configures telemetry/analytics/beacon reporting with an external URL —
+      legitimate for some tools, but a covert channel if attacker-controlled.
+    file_patterns: ["*.md", ".cursorrules", "AGENTS.md", "CLAUDE.md", "*.markdown"]
+    keywords: ["telemetry", "analytics", "beacon", "tracking", "metrics", "phone home"]
+    regex: >-
+      \b(?:telemetry|analytics|beacon|tracking|metrics|phone[\s-]?home)\b[^.\n]{0,60}\bhttps?://[^\s)"']+
+    message: >
+      Setup file configures telemetry/analytics reporting to an external host.
+    fix_guidance: >
+      Confirm the telemetry endpoint is intended and documented; disable if not.
+    tags: ["exfiltration", "telemetry"]
+
+  - id: EXFIL-003
+    name: Credential / secret collection directive
+    category: exfiltration
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Instructs the agent to gather secrets/credentials/keys/tokens/env vars —
+      the collection half of a credential-exfiltration chain.
+    file_patterns: ["*.md", ".cursorrules", "AGENTS.md", "CLAUDE.md", "*.markdown"]
+    keywords: ["collect", "gather", "read", "find", "extract", "dump", "secret", "credential", "api key", "token", "password", ".env", "environment variable"]
+    regex: >-
+      \b(?:collect|gather|read|find|locate|extract|dump|list|print|cat|grep)\b[^.\n]{0,40}\b(?:secret|credential|api[\s_-]?key|access[\s_-]?token|password|passphrase|private[\s_-]?key|\.env\b|environment\s+variable|aws[\s_-]?(?:secret|access)|ssh\s+key)\w*
+    message: >
+      Setup file instructs collecting secrets/credentials/keys/tokens.
+    fix_guidance: >
+      Remove the directive. Agents should never be told to harvest credentials at
+      init time.
+    tags: ["exfiltration", "credentials", "secrets"]
+
+  - id: EXFIL-004
+    name: File-content exfiltration (read file then send)
+    category: exfiltration
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Instructs reading local file contents and sending them off-host —
+      classic file-exfiltration pattern.
+    file_patterns: ["*.md", ".cursorrules", "AGENTS.md", "CLAUDE.md", "*.markdown"]
+    keywords: ["contents of", "read the file", "attach", "include the file", "send the contents", "base64", "upload the"]
+    regex: >-
+      \b(?:contents?\s+of|read\s+(?:the\s+)?files?|send\s+(?:the\s+)?(?:contents?|files?)|upload\s+(?:the\s+)?files?|base64[\s-]?encode)\b[^.\n]{0,60}\b(?:to\s+)?(?:https?://|[\w.-]+@|curl|wget|POST)
+    message: >
+      Setup file instructs reading file contents and sending them off-host.
+    fix_guidance: >
+      Remove the file-exfiltration directive.
+    tags: ["exfiltration", "files"]
+
+  - id: EXFIL-005
+    name: curl / wget in config body (non-README)
+    category: exfiltration
+    severity: warning
+    provenance: synthesized
+    source_ref: "prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      A curl/wget invocation embedded in agent behavior config (AGENTS.md,
+      CLAUDE.md, .cursorrules, persona/skill files). In these files it is an
+      instruction to the agent, not documentation.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "HEARTBEAT.md", "TOOLS.md", "persona*.md", "*persona*.md"]
+    keywords: ["curl", "wget", "invoke-webrequest", "http.client", "urllib.request"]
+    regex: >-
+      \b(?:curl|wget|Invoke-WebRequest|http\.client|urllib\.request\.urlopen)\b[^\n]{0,80}\bhttps?://[^\s)"']+
+    message: >
+      curl/wget with a URL embedded in an agent behavior/config file.
+    fix_guidance: >
+      Move network calls into reviewed tooling; confirm the host is intended.
+    tags: ["exfiltration", "network", "shell"]
+    allowlist:
+      description: "Documentation/example endpoints and localhost."
+      regexes:
+        - "example\\.(?:com|org|net)"
+        - "https?://localhost"

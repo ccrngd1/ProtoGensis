@@ -1,0 +1,117 @@
+# Conditional-trigger rules (COND-001..005).
+#
+# PROVENANCE: mostly synthesized. Conditional/trigger-based behavior changes in
+# agent setup files are a synthesized extension grounded in prompt-injection
+# literature. COND-004 (CVE-pinned version) is SOURCED to arXiv:2607.15143 V5.
+rules:
+  - id: COND-001
+    name: Trigger on sensitive keyword (password / AWS / token)
+    category: conditional
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Behavior gated on the agent encountering a sensitive keyword — a dormant
+      trigger that activates only when secrets are in reach.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "HEARTBEAT.md", "*.md"]
+    keywords: ["if you see", "when you encounter", "if you find", "whenever you", "if the user", "upon seeing", "password", "aws", "token", "secret", "credential", "api key"]
+    regex: >-
+      \b(?:if|when|whenever|upon)\b[^.\n]{0,30}\b(?:you\s+(?:see|find|encounter|detect|read|notice)|there\s+is|the\s+(?:user|file|repo|code)\s+(?:has|contains|mentions))\b[^.\n]{0,40}\b(?:password|passwd|aws[\s_-]?(?:key|secret|access)|secret|credential|api[\s_-]?key|access[\s_-]?token|private[\s_-]?key|\.env\b|ssh\s+key)\w*
+    message: >
+      Config gates behavior on a sensitive keyword (password/AWS/token/secret) —
+      dormant trigger tied to secret exposure.
+    fix_guidance: >
+      Remove the conditional. Setup files should not define behavior that fires
+      specifically when secrets appear.
+    tags: ["conditional", "trigger", "secrets"]
+
+  - id: COND-002
+    name: Trust-escalation directive
+    category: conditional
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Instructs the agent to treat something as fully trusted / pre-approved /
+      already authorized — escalating trust without user involvement.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "HEARTBEAT.md", "*.md"]
+    keywords: ["fully trusted", "always trust", "pre-approved", "pre-authorized", "already approved", "treat as safe", "assume safe", "no need to verify", "consider verified"]
+    regex: >-
+      \b(?:fully\s+trust(?:ed)?|always\s+trust|(?:is|are|treat\s+as)\s+(?:pre[\s-]?(?:approved|authorized)|already\s+(?:approved|authorized|verified)|trusted|safe)|assume\s+(?:it\s+is\s+)?safe|no\s+need\s+to\s+(?:verify|check|confirm)|consider\s+(?:it\s+)?verified)\b
+    message: >
+      Config escalates trust (pre-approved / always trust / no need to verify).
+    fix_guidance: >
+      Remove trust-escalation language; trust decisions belong to the user at
+      action time.
+    tags: ["conditional", "trust-escalation"]
+
+  - id: COND-003
+    name: Confirmation-removal directive
+    category: conditional
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Instructs the agent to skip confirmations / never ask / act without
+      approval — removing the human-in-the-loop safeguard.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "HEARTBEAT.md", "*.md"]
+    keywords: ["without asking", "without confirmation", "don't ask", "do not ask", "never ask", "skip confirmation", "no confirmation", "automatically", "don't confirm", "no need to confirm"]
+    regex: >-
+      \b(?:without\s+(?:asking|confirmation|approval|prompting|checking)|do\s*n['o]?t\s+(?:ask|confirm|prompt|wait)|never\s+ask|skip\s+(?:the\s+)?(?:confirmation|approval|prompt)|no\s+(?:confirmation|approval)\s+(?:needed|required)|auto(?:matically)?[\s-]?(?:approve|confirm|proceed|run|execute))\b
+    message: >
+      Config removes confirmation/approval before actions — human-in-the-loop
+      bypass.
+    fix_guidance: >
+      Restore confirmations for sensitive actions; setup files should not disable
+      approval gates globally.
+    tags: ["conditional", "confirmation-bypass", "auto-approve"]
+    allowlist:
+      description: "Auto-formatting / lint fixes that are inherently safe & reversible."
+      regexes:
+        - "auto(?:matically)?[\\s-]?format"
+        - "auto(?:matically)?[\\s-]?fix\\s+(?:lint|formatting|imports)"
+
+  - id: COND-004
+    name: CVE-pinned dependency version (conditional install)
+    category: conditional
+    severity: warning
+    provenance: sourced
+    source_ref: "arXiv:2607.15143 V5"
+    description: >
+      Setup text pins a dependency to an exact old version, or instructs
+      downgrading/installing a specific version. Pinning to a version with a
+      known CVE is the paper's V5 vector. This text-level rule flags the
+      directive; PRE-CVE/PRE-PIN check actual manifests (optionally via pip-audit).
+    file_patterns: ["*.md", ".cursorrules", "AGENTS.md", "CLAUDE.md", "SKILL.md", "TOOLS.md", "*.markdown"]
+    keywords: ["downgrade", "pin to", "must use version", "install version", "older version", "specific version", "==", "use version"]
+    regex: >-
+      \b(?:downgrade|pin(?:\s+to)?|(?:must\s+)?use\s+version|install\s+version|force\s+version|revert\s+to)\b[^.\n]{0,30}\b[\w.-]+\s*==\s*\d[\w.]*|\b(?:downgrade|older\s+version|specific\s+(?:older\s+)?version)\b[^.\n]{0,40}\b(?:because|due\s+to|for\s+compatibility|to\s+avoid)
+    message: >
+      Setup text pins/downgrades a dependency to a specific version — verify it
+      is not a known-vulnerable (CVE) release (paper V5).
+    fix_guidance: >
+      Confirm the pinned version is patched; run scan with --check-cve to verify
+      against OSV. Attackers pin to CVE-bearing versions.
+    tags: ["conditional", "supply-chain", "cve", "version-pin"]
+
+  - id: COND-005
+    name: Error-triggered install probe
+    category: conditional
+    severity: warning
+    provenance: synthesized
+    source_ref: "arXiv:2607.15143 V7 (error-injection class; conditional framing synthesized)"
+    description: >
+      Behavior that installs / runs something specifically when a command errors
+      or a module is missing — the conditional expression of the paper's V7
+      error-message-injection vector.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "HEARTBEAT.md", "*.md"]
+    keywords: ["if it fails", "if the command fails", "on error", "if you get an error", "when it errors", "modulenotfounderror", "importerror", "if not found", "if missing"]
+    regex: >-
+      \b(?:if\s+(?:it|the\s+\w+)?\s*(?:fails|errors?)|on\s+(?:error|failure)|if\s+you\s+(?:get|see|hit)\s+(?:an?\s+)?(?:error|ModuleNotFoundError|ImportError)|when\s+it\s+errors?|if\s+(?:not\s+found|missing))\b[^.\n]{0,60}\b(?:pip3?\s+install|install\s+[\w.-]+|run\s+[\w./-]+)
+    message: >
+      Config installs/runs something conditionally on error — error-triggered
+      install probe (paper V7 class).
+    fix_guidance: >
+      Do not auto-install/run on error; resolve dependencies explicitly and pin
+      them.
+    tags: ["conditional", "error-injection", "supply-chain"]

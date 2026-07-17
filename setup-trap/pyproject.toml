@@ -1,0 +1,58 @@
+[project]
+name = "setup-trap"
+version = "0.1.0"
+description = "Static scanner + attack-surface mapper for AI coding-agent setup/config files (setup-file injection attacks)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "ProtoGenesis" }]
+keywords = [
+    "security",
+    "ai-agents",
+    "prompt-injection",
+    "supply-chain",
+    "static-analysis",
+    "llm",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = [
+    "PyYAML>=6.0",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+# CVE lookups (paper V5) via OSV. Optional — baseline scan never needs it.
+cve = ["pip-audit>=2.7.0"]
+# LLM behavioral simulation via Amazon Bedrock. Opt-in only.
+simulate = ["boto3>=1.34.0"]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[project.scripts]
+setup-trap = "setup_trap.cli:main"
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["setup_trap*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+setup_trap = ["scanner/rules/*.yml", "scanner/data/*.txt"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

@@ -1,0 +1,6 @@
+# Malicious requirements fixture — exercises pre-install checks.
+torchh
+azurecore
+requests==2.19.0
+--extra-index-url http://10.0.0.5:8080/simple
+numpy>=1.26.0

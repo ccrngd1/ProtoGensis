@@ -1,0 +1,326 @@
+[audit] runtime=openclaw — scanning init-file surface
+
+────────────────────────────────────────── SetupTrap scan ──────────────────────────────────────────
+path: /usr/lib/node_modules/openclaw/skills
+files scanned: 65    rules: 25
+
+🟡 Warning (6)
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/weather/SKILL.md:59
+      match: 'curl --fail --silent --show-error --max-time 20 "https://wttr.in/London?format=j1'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/weather/SKILL.md:60
+      match: 'curl --fail --silent --show-error --max-time 20 "https://wttr.in/London?format=3'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/weather/SKILL.md:61
+      match: 'curl --fail --silent --show-error --max-time 20 "https://wttr.in/London?0'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/weather/SKILL.md:62
+      match: 'curl --fail --silent --show-error --max-time 20 "https://wttr.in/London?format=v2'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/weather/SKILL.md:63
+      match: 'curl --fail --silent --show-error --max-time 20 "https://wttr.in/New+York?format=3'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/weather/SKILL.md:77
+      match: 'curl --fail --silent --show-error --max-time 20 
+"https://wttr.in/London?format=%l:+%c+%t,+feels+%f,+rain+%p,+wind+%w'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+
+🔵 Info (21)
+  [EXFIL-003] Credential / secret collection directive
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/1password/SKILL.md:55
+      match: 'read op://app-prod/db/password'
+      Setup file instructs collecting secrets/credentials/keys/tokens.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Secret-manager/keychain CLI access (e.g. 1Password `op`) — reading a secret is the 
+manager's job. Attacker-could: a tampered skill could point the same CLI at a different item and 
+forward it.
+      fix: Remove the directive. Agents should never be told to harvest credentials at init time.
+
+  [EXFIL-003] Credential / secret collection directive
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/1password/references/cli-examples.md:10
+      match: 'read op://app-prod/db/password'
+      Setup file instructs collecting secrets/credentials/keys/tokens.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Secret-manager/keychain CLI access (e.g. 1Password `op`) — reading a secret is the 
+manager's job. Attacker-could: a tampered skill could point the same CLI at a different item and 
+forward it.
+      fix: Remove the directive. Agents should never be told to harvest credentials at init time.
+
+  [EXFIL-003] Credential / secret collection directive
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/1password/references/cli-examples.md:11
+      match: 'read "op://app-prod/db/one-time password'
+      Setup file instructs collecting secrets/credentials/keys/tokens.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Secret-manager/keychain CLI access (e.g. 1Password `op`) — reading a secret is the 
+manager's job. Attacker-could: a tampered skill could point the same CLI at a different item and 
+forward it.
+      fix: Remove the directive. Agents should never be told to harvest credentials at init time.
+
+  [EXFIL-003] Credential / secret collection directive
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/1password/references/cli-examples.md:12
+      match: 'read "op://app-prod/ssh key/private key'
+      Setup file instructs collecting secrets/credentials/keys/tokens.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Secret-manager/keychain CLI access (e.g. 1Password `op`) — reading a secret is the 
+manager's job. Attacker-could: a tampered skill could point the same CLI at a different item and 
+forward it.
+      fix: Remove the directive. Agents should never be told to harvest credentials at init time.
+
+  [EXFIL-003] Credential / secret collection directive
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/healthcheck/SKILL.md:18
+      match: 'print secrets'
+      Setup file instructs collecting secrets/credentials/keys/tokens.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: The matched directive is phrased as a PROHIBITION (the line leads with a negation like 
+'Never'/'Do not'). Regex matching cannot read intent — treat as informational and confirm.
+      fix: Remove the directive. Agents should never be told to harvest credentials at init time.
+
+  [EXFIL-003] Credential / secret collection directive
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/himalaya/references/configuration.md:44
+      match: 'find-generic-password'
+      Setup file instructs collecting secrets/credentials/keys/tokens.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Secret-manager/keychain CLI access (e.g. 1Password `op`) — reading a secret is the 
+manager's job. Attacker-could: a tampered skill could point the same CLI at a different item and 
+forward it.
+      fix: Remove the directive. Agents should never be told to harvest credentials at init time.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/node-inspect-debugger/SKILL.md:18
+      match: 'curl -s http://127.0.0.1:9229/json/list'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: curl/wget targets localhost — a local diagnostic, not egress. Attacker-could: swap the 
+localhost target for a remote host.
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/notion/SKILL.md:138
+      match: 'curl -sS "https://api.notion.com/v1/users/me'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/trello/SKILL.md:46
+      match: 'curl -s 
+"https://api.trello.com/1/members/me/boards?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/trello/SKILL.md:52
+      match: 'curl -s 
+"https://api.trello.com/1/boards/{boardId}/lists?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/trello/SKILL.md:58
+      match: 'curl -s 
+"https://api.trello.com/1/lists/{listId}/cards?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-001] POST / upload to external URL
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/trello/SKILL.md:64
+      match: 'POST "https://api.trello.com/1/cards?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN'
+      Setup file directs sending/uploading data to an external URL.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Remove the outbound directive, or confirm the endpoint is an intended, trusted 
+integration and allowlist it explicitly.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/trello/SKILL.md:64
+      match: 'curl -s -X POST 
+"https://api.trello.com/1/cards?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/trello/SKILL.md:73
+      match: 'curl -s -X PUT 
+"https://api.trello.com/1/cards/{cardId}?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-001] POST / upload to external URL
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/trello/SKILL.md:80
+      match: 'POST 
+"https://api.trello.com/1/cards/{cardId}/actions/comments?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN'
+      Setup file directs sending/uploading data to an external URL.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Remove the outbound directive, or confirm the endpoint is an intended, trusted 
+integration and allowlist it explicitly.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/trello/SKILL.md:80
+      match: 'curl -s -X POST 
+"https://api.trello.com/1/cards/{cardId}/actions/comments?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/trello/SKILL.md:87
+      match: 'curl -s -X PUT 
+"https://api.trello.com/1/cards/{cardId}?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/trello/SKILL.md:101
+      match: 'curl -s 
+"https://api.trello.com/1/members/me/boards?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN&fields=name,id'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/trello/SKILL.md:104
+      match: 'curl -s 
+"https://api.trello.com/1/members/me/boards?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [EXFIL-005] curl / wget in config body (non-README)
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/trello/SKILL.md:107
+      match: 'curl -s 
+"https://api.trello.com/1/boards/{boardId}/cards?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN'
+      curl/wget with a URL embedded in an agent behavior/config file.
+      source: prompt-injection / data-exfiltration literature (not evaluated by arXiv:2607.15143)
+      note: Call to a first-party service API the skill integrates with — legitimate. 
+Attacker-could: a modified skill could redirect the same call, or add fields, to exfiltrate via a 
+look-alike host.
+      fix: Move network calls into reviewed tooling; confirm the host is intended.
+
+  [COND-003] Confirmation-removal directive
+      🟡 synthesized
+      file: /usr/lib/node_modules/openclaw/skills/xurl/SKILL.md:38
+      match: 'Never ask'
+      Config removes confirmation/approval before actions — human-in-the-loop bypass.
+      source: prompt-injection literature (not evaluated by arXiv:2607.15143)
+      note: The matched directive is phrased as a PROHIBITION (the line leads with a negation like 
+'Never'/'Do not'). Regex matching cannot read intent — treat as informational and confirm.
+      fix: Restore confirmations for sensitive actions; setup files should not disable approval 
+gates globally.
+
+
+        Summary        
+┏━━━━━━━━━━━━━┳━━━━━━━┓
+┃ Severity    ┃ Count ┃
+┡━━━━━━━━━━━━━╇━━━━━━━┩
+│ 🔴 Critical │     0 │
+│ 🟡 Warning  │     6 │
+│ 🔵 Info     │    21 │
+│ Total       │    27 │
+└─────────────┴───────┘
+        Provenance        
+┏━━━━━━━━━━━━━━━━┳━━━━━━━┓
+┃ Provenance     ┃ Count ┃
+┡━━━━━━━━━━━━━━━━╇━━━━━━━┩
+│ 🟢 sourced     │     0 │
+│ 🟡 synthesized │    27 │
+│ 🔵 inferred    │     0 │
+└────────────────┴───────┘
+
+╭──────────────────────────────── Provenance legend (honesty gate) ────────────────────────────────╮
+│ 🟢 sourced   = package-install supply-chain checks empirically evaluated by arXiv:2607.15143     │
+│ 🟡 synthesized = behavior-hijacking rules grounded in prompt-injection literature, NOT           │
+│ paper-proven                                                                                     │
+│ 🔵 inferred  = reasonable deduction (e.g. undocumented runtime read-order)                       │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

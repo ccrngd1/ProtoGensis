@@ -1,0 +1,108 @@
+# Memory-write hook rules (MEM-001..005).
+#
+# PROVENANCE: synthesized. Persisting attacker-controlled content into an agent's
+# durable memory (so a hijack survives across sessions) is a synthesized
+# extension grounded in prompt-injection / persistence literature. NOT
+# empirically evaluated by arXiv:2607.15143.
+rules:
+  - id: MEM-001
+    name: Post-task write to a filesystem path
+    category: memory-hooks
+    severity: warning
+    provenance: synthesized
+    source_ref: "prompt-injection / persistence literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Instructs the agent to write state to a file after completing a task —
+      a persistence hook that can carry injected content forward.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "HEARTBEAT.md", "*.md"]
+    keywords: ["after each task", "after every task", "when done", "on completion", "at the end", "post-task", "append to", "write to"]
+    regex: >-
+      \b(?:after\s+(?:each|every|the)\s+task|when\s+(?:done|finished|complete)|on\s+completion|at\s+the\s+end|post[\s-]?task)\b[^.\n]{0,50}\b(?:write|append|save|store|record|log)\b[^.\n]{0,40}(?:file|\.md\b|\.txt\b|\.json\b|/[\w./-]+)
+    message: >
+      Config instructs writing state to a file after each task — persistence hook.
+    fix_guidance: >
+      Confirm the write target is intended and reviewed; persistence hooks can
+      carry injected instructions into future sessions.
+    tags: ["memory-hooks", "persistence"]
+
+  - id: MEM-002
+    name: Session summary written to file
+    category: memory-hooks
+    severity: warning
+    provenance: synthesized
+    source_ref: "prompt-injection / persistence literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Directs writing a session summary/transcript to disk — a channel that can
+      smuggle instructions into a file re-read at the next init.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "HEARTBEAT.md", "*.md"]
+    keywords: ["session summary", "summarize the session", "conversation summary", "transcript", "write a summary", "save the session"]
+    regex: >-
+      \b(?:session\s+summary|summari[sz]e\s+(?:the\s+)?(?:session|conversation)|conversation\s+summary|(?:save|write|store)\s+(?:the\s+)?(?:session|transcript|conversation))\b[^\n]{0,50}\b(?:to|into|in)\b[^\n]{0,40}(?:file|\.md\b|\.txt\b|/[\w./-]+)
+    message: >
+      Config instructs writing a session summary/transcript to a file.
+    fix_guidance: >
+      Verify the destination; summaries re-read at init can carry injected text.
+    tags: ["memory-hooks", "persistence", "summary"]
+
+  - id: MEM-003
+    name: MEMORY.md / external memory write attempt
+    category: memory-hooks
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection / persistence literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Instructs writing to a durable agent memory store (MEMORY.md, memory/,
+      long-term memory) — the highest-value persistence target: injected content
+      here is trusted at every future init.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "HEARTBEAT.md", "*.md"]
+    keywords: ["memory.md", "memory/", "long-term memory", "persistent memory", "remember this", "add to memory", "save to memory", "store in memory"]
+    regex: >-
+      \b(?:write|append|save|add|store|persist|commit)\b[^.\n]{0,40}\b(?:to\s+)?(?:MEMORY\.md|memory/|long[\s-]?term\s+memory|persistent\s+memory|the\s+memory\s+(?:store|file))\b|\b(?:remember\s+this|add\s+to\s+memory|save\s+to\s+memory|store\s+in\s+memory)\b
+    message: >
+      Config instructs writing to durable agent memory (MEMORY.md / memory store)
+      — persistent hijack vector.
+    fix_guidance: >
+      Memory writes must be user-driven and reviewed. Remove any auto-write to
+      the memory store from setup files.
+    tags: ["memory-hooks", "persistence", "memory-store"]
+
+  - id: MEM-004
+    name: Credential capture to file
+    category: memory-hooks
+    severity: critical
+    provenance: synthesized
+    source_ref: "prompt-injection / persistence literature (not evaluated by arXiv:2607.15143)"
+    description: >
+      Instructs saving secrets/credentials/tokens to a file — collection +
+      persistence, staging exfiltration.
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "HEARTBEAT.md", "*.md"]
+    keywords: ["save", "write", "store", "record", "credential", "secret", "api key", "token", "password", ".env"]
+    regex: >-
+      \b(?:save|write|store|record|append|dump|cache)\b[^\n]{0,30}\b(?:secret|credential|api[\s_-]?key|access[\s_-]?token|password|passphrase|\.env\b|private[\s_-]?key)\w*[^\n]{0,30}\b(?:to|into|in)\b[^\n]{0,25}(?:file|\.md\b|\.txt\b|\.json\b|/[\w./-]+)
+    message: >
+      Config instructs saving credentials/secrets to a file.
+    fix_guidance: >
+      Never persist credentials to disk from agent config. Remove the directive.
+    tags: ["memory-hooks", "credentials", "persistence"]
+
+  - id: MEM-005
+    name: Hidden index dependency added to requirements at runtime
+    category: memory-hooks
+    severity: critical
+    provenance: synthesized
+    source_ref: "arXiv:2607.15143 R8 (hidden-index class; runtime-mutation framing synthesized)"
+    description: >
+      Instructs the agent to append an index-url / dependency line to
+      requirements.txt at runtime — mutating the install manifest to plant a
+      hidden index (the R8 class, expressed as a runtime memory-write directive).
+    file_patterns: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "SKILL.md", "TOOLS.md", "HEARTBEAT.md", "*.md"]
+    keywords: ["requirements.txt", "add to requirements", "append to requirements", "index-url", "--extra-index-url"]
+    regex: >-
+      \b(?:add|append|write|inject|insert)\b[^\n]{0,80}\brequirements(?:\.txt)?\b|\b(?:--extra-index-url|--index-url)\b[^\n]{0,80}\brequirements(?:\.txt)?
+    message: >
+      Config instructs mutating requirements.txt to add an index/dependency at
+      runtime — hidden-index persistence.
+    fix_guidance: >
+      Dependency manifests must be static and reviewed; remove any runtime
+      mutation directive.
+    tags: ["memory-hooks", "supply-chain", "hidden-index"]

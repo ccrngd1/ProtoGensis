@@ -1,0 +1,69 @@
+# SetupTrap — reusable GitHub Action workflow.
+#
+# Scans AI coding-agent setup/config files on pull requests and fails the check
+# when a Critical finding is present. The baseline scan is offline and needs no
+# credentials, so this runs on any runner with no secrets configured.
+#
+# Usage: copy this file to .github/workflows/setup-trap.yml in your repo, or
+# reference the job from your own workflow.
+
+name: SetupTrap
+
+on:
+  pull_request:
+    # Only run when files an agent might read at init time change. Adjust to taste.
+    paths:
+      - "**/AGENTS.md"
+      - "**/CLAUDE.md"
+      - "**/CLAUDE.local.md"
+      - "**/SOUL.md"
+      - "**/SKILL.md"
+      - "**/HEARTBEAT.md"
+      - "**/TOOLS.md"
+      - "**/.cursorrules"
+      - "**/*.mdc"
+      - "**/requirements*.txt"
+      - "**/Makefile"
+      - "**/pyproject.toml"
+      - "**/.github/copilot-instructions.md"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  setup-trap-scan:
+    name: Scan setup files for injection attacks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install SetupTrap
+        run: |
+          python -m pip install --upgrade pip
+          # Pin to a release in production; installs from PyPI once published.
+          pip install setup-trap
+
+      - name: Run SetupTrap scan (JSON report artifact)
+        run: |
+          setup-trap scan . --format json --output setup-trap-report.json || true
+          setup-trap scan . --format html --output setup-trap-report.html || true
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: setup-trap-report
+          path: |
+            setup-trap-report.json
+            setup-trap-report.html
+
+      # The gating step: non-zero exit on any Critical finding fails the PR.
+      - name: Fail on Critical findings
+        run: setup-trap scan . --fail-on critical

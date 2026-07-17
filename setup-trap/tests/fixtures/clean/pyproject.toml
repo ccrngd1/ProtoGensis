@@ -1,0 +1,17 @@
+[project]
+name = "clean-demo"
+version = "1.0.0"
+description = "A perfectly ordinary Python package."
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31.0",
+    "pydantic>=2.6.0",
+    "click>=8.1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "ruff>=0.3.0"]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
