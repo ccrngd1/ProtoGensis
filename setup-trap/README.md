@@ -172,7 +172,7 @@ overrides, static findings. No `boto3` / no AWS creds → cleanly disabled with 
 message; the static scan still runs.
 
 ```bash
-pip install "setup-trap[simulate]"
+pip install -e ".[simulate]"       # from source (see Install)
 export AWS_REGION=us-east-1        # + AWS credentials
 setup-trap scan . --simulate
 ```
