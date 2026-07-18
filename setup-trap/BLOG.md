@@ -251,7 +251,8 @@ an attacker wants to write.* The findings aren't bugs today. They're a map of
 tomorrow's blast radius.
 
 ```bash
-pip install setup-trap
+git clone https://github.com/ccrngd1/ProtoGensis
+cd ProtoGensis/setup-trap && pip install -e .
 setup-trap scan .
 setup-trap audit ~/my-agent-workspace --runtime openclaw
 ```
@@ -261,7 +262,7 @@ out how much it trusts.
 
 ---
 
-*SetupTrap is MIT-licensed. The 🟢 sourced package-install class is grounded in
+*SetupTrap source: [github.com/ccrngd1/ProtoGensis/tree/main/setup-trap](https://github.com/ccrngd1/ProtoGensis/tree/main/setup-trap) (MIT). Not yet on PyPI — install from source. The 🟢 sourced package-install class is grounded in
 arXiv:2607.15143; the 🟡 synthesized behavior-hijacking class is my own extension,
 grounded in prompt-injection literature but not empirically evaluated by that
 paper. Provenance tags are on every finding so you always know which is which.*

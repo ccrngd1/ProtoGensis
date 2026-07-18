@@ -10,11 +10,12 @@ isn't broken; it's following orders the user never gave. SetupTrap scans those
 files for the directives that do this.
 
 ```bash
-pip install setup-trap
+git clone https://github.com/ccrngd1/ProtoGensis
+cd ProtoGensis/setup-trap && pip install -e .
 setup-trap scan .
 ```
 
-The baseline `scan` is **offline and credential-free**. CVE lookups
+> Not yet on PyPI — install from source (above). The baseline `scan` is **offline and credential-free**. CVE lookups
 (`--check-cve`) and LLM behavioral simulation (`--simulate`) are optional add-ons
 that degrade gracefully when their tooling/creds are absent.
 
@@ -184,10 +185,11 @@ setup-trap scan . --simulate
 ## Install extras
 
 ```bash
-pip install setup-trap              # core: PyYAML + rich + stdlib (offline)
-pip install "setup-trap[cve]"       # + pip-audit for --check-cve
-pip install "setup-trap[simulate]"  # + boto3 for --simulate
-pip install "setup-trap[dev]"       # + pytest
+git clone https://github.com/ccrngd1/ProtoGensis && cd ProtoGensis/setup-trap
+pip install -e .              # core: PyYAML + rich + stdlib (offline)
+pip install -e ".[cve]"       # + pip-audit for --check-cve
+pip install -e ".[simulate]"  # + boto3 for --simulate
+pip install -e ".[dev]"       # + pytest
 ```
 
 Python 3.11+. MIT licensed.
