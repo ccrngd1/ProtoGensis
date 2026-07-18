@@ -130,7 +130,7 @@ class Simulator:
             return SimulationResult(
                 file=filename,
                 available=False,
-                error="boto3 not installed; run `pip install setup-trap[simulate]` "
+                error="boto3 not installed; run `pip install -e '.[simulate]'` "
                 "and configure AWS credentials to enable --simulate.",
             )
         prompt = SIMULATION_PROMPT.format(

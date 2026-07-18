@@ -47,8 +47,9 @@ jobs:
       - name: Install SetupTrap
         run: |
           python -m pip install --upgrade pip
-          # Pin to a release in production; installs from PyPI once published.
-          pip install setup-trap
+          # Not yet on PyPI — install from source. Once published, replace with:
+          #   pip install setup-trap
+          pip install "git+https://github.com/ccrngd1/ProtoGensis#subdirectory=setup-trap"
 
       - name: Run SetupTrap scan (JSON report artifact)
         run: |

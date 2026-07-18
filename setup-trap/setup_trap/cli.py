@@ -171,7 +171,7 @@ def _run_simulation_pass(result, scan_target, args) -> list:
     if not is_available():
         print(
             "[simulate] boto3 not installed — simulation skipped. "
-            "Install with `pip install setup-trap[simulate]` and configure AWS "
+            "Install with `pip install -e '.[simulate]'` and configure AWS "
             "credentials. Static findings above are unaffected.",
             file=sys.stderr,
         )
@@ -234,7 +234,7 @@ def _run_simulate(args) -> int:
 
     if not is_available():
         print(
-            "boto3 not installed — install with `pip install setup-trap[simulate]` "
+            "boto3 not installed — install with `pip install -e '.[simulate]'` "
             "and configure AWS credentials.",
             file=sys.stderr,
         )
