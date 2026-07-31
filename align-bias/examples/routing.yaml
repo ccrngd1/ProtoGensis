@@ -1,0 +1,25 @@
+# AlignBias routing policy example.
+#
+# Each task declares the directional tilt it tolerates (or prefers) and an
+# optional hard cap on |Skew| in probability points (pp).
+#
+#   preferred_tilt: neutral | optimistic | pessimistic
+#   max_abs_skew:   number (pp) — models exceeding it are excluded
+
+tasks:
+  forecasting:
+    preferred_tilt: neutral      # closest-to-0 Skew wins
+    max_abs_skew: 5
+
+  risk-assessment:
+    preferred_tilt: pessimistic  # under-promising is the safe failure mode
+    max_abs_skew: 15
+
+  brainstorming:
+    preferred_tilt: optimistic   # exploratory; mild optimism acceptable
+
+  triage:
+    preferred_tilt: pessimistic
+    max_abs_skew: 10
+
+  general:                       # bare key -> neutral, no cap

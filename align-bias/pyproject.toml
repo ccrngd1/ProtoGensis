@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "alignbias"
+version = "0.1.0"
+description = "Audit LLM stacks for directional probability bias (optimism/pessimism tilt) via the OptimismBench inverted-pair method"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "ProtoGensis" }]
+keywords = ["llm", "evaluation", "bias", "calibration", "optimism"]
+dependencies = [
+    "click>=8.0",
+    "anthropic>=0.40",
+    "openai>=1.40",
+    "google-genai>=0.3",
+    "matplotlib>=3.7",
+    "seaborn>=0.13",
+    "numpy>=1.24",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.23"]
+
+[project.scripts]
+alignbias = "alignbias.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["alignbias*"]
+
+# Scenario assets live in ./assets at the repo root; the loader resolves them
+# relative to the source tree, which works under the supported editable install.
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
