@@ -22,11 +22,11 @@ Method and scenarios from **OptimismBench** (Cho & Koshiyama, Holistic AI/UCL, a
 
 ## Install
 
-Not published to PyPI. Install from source:
+Not published to PyPI. Install from source (lives in the ProtoGensis monorepo):
 
 ```bash
-git clone https://github.com/protogensis/align-bias.git
-cd align-bias
+git clone https://github.com/ccrngd1/ProtoGensis.git
+cd ProtoGensis/align-bias
 pip install -e .
 ```
 
