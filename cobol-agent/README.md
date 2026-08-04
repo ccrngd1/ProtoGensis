@@ -72,7 +72,7 @@ Model selection is only via environment variables (LiteLLM format) — no
 model name is hardcoded anywhere in a prompt:
 
 ```bash
-export COBALT_MODEL=bedrock/anthropic.claude-sonnet-4-6   # AWS Bedrock
+export COBALT_MODEL=anthropic/claude-sonnet-4-6          # any hosted model
 # or a local LiteLLM proxy:
 export COBALT_MODEL=litellm/sonnet45
 export COBALT_API_BASE=http://localhost:4000

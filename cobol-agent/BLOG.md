@@ -6,7 +6,7 @@
 
 Here's the thing about COBOL modernization that nobody in the vendor pitch meetings wants to say out loud: the hard part isn't translating the syntax. The hard part is understanding what the code *means* when the only people who wrote it retired a decade ago.
 
-I've been on the receiving end of this problem at AWS. Healthcare payers running billions of claims through programs that haven't been touched since the 90s. They can't find COBOL developers. They can't retire the systems. They're stuck.
+I've been on the receiving end of this problem. Healthcare payers running billions of claims through programs that haven't been touched since the 90s. They can't find COBOL developers. They can't retire the systems. They're stuck.
 
 So I built Cobalt: a CLI that reads legacy COBOL, assembles the hidden context that makes it comprehensible, and hands a modern developer the tools to understand, translate, and verify that code. No mainframe required. No IBM contract. Just the source files and a laptop.
 
