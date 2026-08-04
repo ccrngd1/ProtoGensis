@@ -1,0 +1,1107 @@
+{
+  "schema_version": "cobalt-parser-v0",
+  "parser": "fallback",
+  "program_id": "CLAIMCALC",
+  "source_file": "claimcalc.cbl",
+  "copybooks": [
+    {
+      "name": "CLAIMREC",
+      "path": "copy/CLAIMREC.cpy"
+    },
+    {
+      "name": "BENFTABL",
+      "path": "copy/BENFTABL.cpy"
+    }
+  ],
+  "data_items": [
+    {
+      "level": 1,
+      "name": "CLAIM-RECORD",
+      "picture": null,
+      "usage": null,
+      "signed": false,
+      "integer_digits": null,
+      "fraction_digits": null,
+      "alpha_length": null,
+      "occurs": null,
+      "redefines": null,
+      "value": null,
+      "condition_names": [],
+      "children": [
+        {
+          "level": 5,
+          "name": "CLM-ID",
+          "picture": "X(10)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 10,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        },
+        {
+          "level": 5,
+          "name": "CLM-MEMBER-ID",
+          "picture": "X(08)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 8,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        },
+        {
+          "level": 5,
+          "name": "CLM-PLAN-CODE",
+          "picture": "X(03)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 3,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        },
+        {
+          "level": 5,
+          "name": "CLM-TYPE",
+          "picture": "X(02)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 2,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [
+            {
+              "name": "CLM-TYPE-MEDICAL",
+              "values": [
+                "\"MD\""
+              ]
+            },
+            {
+              "name": "CLM-TYPE-DENTAL",
+              "values": [
+                "\"DN\""
+              ]
+            },
+            {
+              "name": "CLM-TYPE-PHARMACY",
+              "values": [
+                "\"RX\""
+              ]
+            }
+          ],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        },
+        {
+          "level": 5,
+          "name": "CLM-STATUS",
+          "picture": "9(01)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": 1,
+          "fraction_digits": 0,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [
+            {
+              "name": "CLM-STATUS-OPEN",
+              "values": [
+                "1"
+              ]
+            },
+            {
+              "name": "CLM-STATUS-ADJUDICATED",
+              "values": [
+                "2"
+              ]
+            },
+            {
+              "name": "CLM-STATUS-DENIED",
+              "values": [
+                "3"
+              ]
+            }
+          ],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        },
+        {
+          "level": 5,
+          "name": "CLM-SERVICE-DATE",
+          "picture": "9(08)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": 8,
+          "fraction_digits": 0,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        },
+        {
+          "level": 5,
+          "name": "CLM-BILLED-AMT",
+          "picture": "S9(7)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 7,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        },
+        {
+          "level": 5,
+          "name": "CLM-ALLOWED-AMT",
+          "picture": "S9(7)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 7,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        },
+        {
+          "level": 5,
+          "name": "CLM-DEDUCT-APPLIED",
+          "picture": "S9(5)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 5,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        },
+        {
+          "level": 5,
+          "name": "CLM-COINS-AMT",
+          "picture": "S9(7)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 7,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        },
+        {
+          "level": 5,
+          "name": "CLM-PLAN-PAID-AMT",
+          "picture": "S9(7)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 7,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        },
+        {
+          "level": 5,
+          "name": "CLM-MEMBER-RESP-AMT",
+          "picture": "S9(7)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 7,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        },
+        {
+          "level": 5,
+          "name": "FILLER",
+          "picture": "X(10)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 10,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "CLAIMREC.cpy"
+        }
+      ],
+      "source": "CLAIMREC.cpy"
+    },
+    {
+      "level": 1,
+      "name": "BENEFIT-TABLE-INIT",
+      "picture": null,
+      "usage": null,
+      "signed": false,
+      "integer_digits": null,
+      "fraction_digits": null,
+      "alpha_length": null,
+      "occurs": null,
+      "redefines": null,
+      "value": null,
+      "condition_names": [],
+      "children": [
+        {
+          "level": 5,
+          "name": "FILLER",
+          "picture": "X(25)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 25,
+          "occurs": null,
+          "redefines": null,
+          "value": "\"PPO0050000200600000 02500\"",
+          "condition_names": [],
+          "children": [],
+          "source": "BENFTABL.cpy"
+        },
+        {
+          "level": 5,
+          "name": "FILLER",
+          "picture": "X(25)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 25,
+          "occurs": null,
+          "redefines": null,
+          "value": "\"HMO0000000100450000 01500\"",
+          "condition_names": [],
+          "children": [],
+          "source": "BENFTABL.cpy"
+        },
+        {
+          "level": 5,
+          "name": "FILLER",
+          "picture": "X(25)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 25,
+          "occurs": null,
+          "redefines": null,
+          "value": "\"EPO0075000250700000 03000\"",
+          "condition_names": [],
+          "children": [],
+          "source": "BENFTABL.cpy"
+        },
+        {
+          "level": 5,
+          "name": "FILLER",
+          "picture": "X(25)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 25,
+          "occurs": null,
+          "redefines": null,
+          "value": "\"POS0100000300800000 04000\"",
+          "condition_names": [],
+          "children": [],
+          "source": "BENFTABL.cpy"
+        }
+      ],
+      "source": "BENFTABL.cpy"
+    },
+    {
+      "level": 1,
+      "name": "BENEFIT-TABLE",
+      "picture": null,
+      "usage": null,
+      "signed": false,
+      "integer_digits": null,
+      "fraction_digits": null,
+      "alpha_length": null,
+      "occurs": null,
+      "redefines": "BENEFIT-TABLE-INIT",
+      "value": null,
+      "condition_names": [],
+      "children": [
+        {
+          "level": 5,
+          "name": "BENEFIT-ENTRY",
+          "picture": null,
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": null,
+          "occurs": {
+            "times": 4,
+            "indexed_by": "BEN-IDX"
+          },
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [
+            {
+              "level": 10,
+              "name": "BEN-PLAN-CODE",
+              "picture": "X(03)",
+              "usage": null,
+              "signed": false,
+              "integer_digits": null,
+              "fraction_digits": null,
+              "alpha_length": 3,
+              "occurs": null,
+              "redefines": null,
+              "value": null,
+              "condition_names": [],
+              "children": [],
+              "source": "BENFTABL.cpy"
+            },
+            {
+              "level": 10,
+              "name": "BEN-DEDUCTIBLE",
+              "picture": "9(5)V99",
+              "usage": null,
+              "signed": false,
+              "integer_digits": 5,
+              "fraction_digits": 2,
+              "alpha_length": null,
+              "occurs": null,
+              "redefines": null,
+              "value": null,
+              "condition_names": [],
+              "children": [],
+              "source": "BENFTABL.cpy"
+            },
+            {
+              "level": 10,
+              "name": "BEN-COINS-PCT",
+              "picture": "V99",
+              "usage": null,
+              "signed": false,
+              "integer_digits": 0,
+              "fraction_digits": 2,
+              "alpha_length": null,
+              "occurs": null,
+              "redefines": null,
+              "value": null,
+              "condition_names": [],
+              "children": [],
+              "source": "BENFTABL.cpy"
+            },
+            {
+              "level": 10,
+              "name": "BEN-OOP-MAX",
+              "picture": "9(5)V99",
+              "usage": null,
+              "signed": false,
+              "integer_digits": 5,
+              "fraction_digits": 2,
+              "alpha_length": null,
+              "occurs": null,
+              "redefines": null,
+              "value": null,
+              "condition_names": [],
+              "children": [],
+              "source": "BENFTABL.cpy"
+            },
+            {
+              "level": 10,
+              "name": "FILLER",
+              "picture": "X(01)",
+              "usage": null,
+              "signed": false,
+              "integer_digits": null,
+              "fraction_digits": null,
+              "alpha_length": 1,
+              "occurs": null,
+              "redefines": null,
+              "value": null,
+              "condition_names": [],
+              "children": [],
+              "source": "BENFTABL.cpy"
+            },
+            {
+              "level": 10,
+              "name": "BEN-COPAY",
+              "picture": "9(3)V99",
+              "usage": null,
+              "signed": false,
+              "integer_digits": 3,
+              "fraction_digits": 2,
+              "alpha_length": null,
+              "occurs": null,
+              "redefines": null,
+              "value": null,
+              "condition_names": [],
+              "children": [],
+              "source": "BENFTABL.cpy"
+            }
+          ],
+          "source": "BENFTABL.cpy"
+        }
+      ],
+      "source": "BENFTABL.cpy"
+    },
+    {
+      "level": 1,
+      "name": "INPUT-CLAIMS",
+      "picture": null,
+      "usage": null,
+      "signed": false,
+      "integer_digits": null,
+      "fraction_digits": null,
+      "alpha_length": null,
+      "occurs": null,
+      "redefines": null,
+      "value": null,
+      "condition_names": [],
+      "children": [
+        {
+          "level": 5,
+          "name": "FILLER",
+          "picture": "X(40)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 40,
+          "occurs": null,
+          "redefines": null,
+          "value": "\"CLM0000001MBR00001PPOMD20260115000450000\"",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "FILLER",
+          "picture": "X(40)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 40,
+          "occurs": null,
+          "redefines": null,
+          "value": "\"CLM0000002MBR00001PPOMD20260120000123456\"",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "FILLER",
+          "picture": "X(40)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 40,
+          "occurs": null,
+          "redefines": null,
+          "value": "\"CLM0000003MBR00001PPODN20260201000030000\"",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "FILLER",
+          "picture": "X(40)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 40,
+          "occurs": null,
+          "redefines": null,
+          "value": "\"CLM0000004MBR00001XXXMD20260210000050000\"",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "FILLER",
+          "picture": "X(40)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 40,
+          "occurs": null,
+          "redefines": null,
+          "value": "\"CLM0000005MBR00001PPORX20260215000007599\"",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        }
+      ],
+      "source": "claimcalc.cbl"
+    },
+    {
+      "level": 1,
+      "name": "INPUT-CLAIM-TABLE",
+      "picture": null,
+      "usage": null,
+      "signed": false,
+      "integer_digits": null,
+      "fraction_digits": null,
+      "alpha_length": null,
+      "occurs": null,
+      "redefines": "INPUT-CLAIMS",
+      "value": null,
+      "condition_names": [],
+      "children": [
+        {
+          "level": 5,
+          "name": "INPUT-CLAIM",
+          "picture": null,
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": null,
+          "occurs": {
+            "times": 5,
+            "indexed_by": "CLM-IDX"
+          },
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [
+            {
+              "level": 10,
+              "name": "IN-CLM-ID",
+              "picture": "X(10)",
+              "usage": null,
+              "signed": false,
+              "integer_digits": null,
+              "fraction_digits": null,
+              "alpha_length": 10,
+              "occurs": null,
+              "redefines": null,
+              "value": null,
+              "condition_names": [],
+              "children": [],
+              "source": "claimcalc.cbl"
+            },
+            {
+              "level": 10,
+              "name": "IN-MEMBER-ID",
+              "picture": "X(08)",
+              "usage": null,
+              "signed": false,
+              "integer_digits": null,
+              "fraction_digits": null,
+              "alpha_length": 8,
+              "occurs": null,
+              "redefines": null,
+              "value": null,
+              "condition_names": [],
+              "children": [],
+              "source": "claimcalc.cbl"
+            },
+            {
+              "level": 10,
+              "name": "IN-PLAN-CODE",
+              "picture": "X(03)",
+              "usage": null,
+              "signed": false,
+              "integer_digits": null,
+              "fraction_digits": null,
+              "alpha_length": 3,
+              "occurs": null,
+              "redefines": null,
+              "value": null,
+              "condition_names": [],
+              "children": [],
+              "source": "claimcalc.cbl"
+            },
+            {
+              "level": 10,
+              "name": "IN-CLM-TYPE",
+              "picture": "X(02)",
+              "usage": null,
+              "signed": false,
+              "integer_digits": null,
+              "fraction_digits": null,
+              "alpha_length": 2,
+              "occurs": null,
+              "redefines": null,
+              "value": null,
+              "condition_names": [],
+              "children": [],
+              "source": "claimcalc.cbl"
+            },
+            {
+              "level": 10,
+              "name": "IN-SERVICE-DATE",
+              "picture": "9(08)",
+              "usage": null,
+              "signed": false,
+              "integer_digits": 8,
+              "fraction_digits": 0,
+              "alpha_length": null,
+              "occurs": null,
+              "redefines": null,
+              "value": null,
+              "condition_names": [],
+              "children": [],
+              "source": "claimcalc.cbl"
+            },
+            {
+              "level": 10,
+              "name": "IN-BILLED-AMT",
+              "picture": "9(7)V99",
+              "usage": null,
+              "signed": false,
+              "integer_digits": 7,
+              "fraction_digits": 2,
+              "alpha_length": null,
+              "occurs": null,
+              "redefines": null,
+              "value": null,
+              "condition_names": [],
+              "children": [],
+              "source": "claimcalc.cbl"
+            }
+          ],
+          "source": "claimcalc.cbl"
+        }
+      ],
+      "source": "claimcalc.cbl"
+    },
+    {
+      "level": 1,
+      "name": "WS-WORK-FIELDS",
+      "picture": null,
+      "usage": null,
+      "signed": false,
+      "integer_digits": null,
+      "fraction_digits": null,
+      "alpha_length": null,
+      "occurs": null,
+      "redefines": null,
+      "value": null,
+      "condition_names": [],
+      "children": [
+        {
+          "level": 5,
+          "name": "WS-CLAIM-COUNT",
+          "picture": "9(02)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": 2,
+          "fraction_digits": 0,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": "5",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "WS-PLAN-FOUND",
+          "picture": "X(01)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 1,
+          "occurs": null,
+          "redefines": null,
+          "value": "\"N\"",
+          "condition_names": [
+            {
+              "name": "PLAN-FOUND",
+              "values": [
+                "\"Y\""
+              ]
+            },
+            {
+              "name": "PLAN-NOT-FOUND",
+              "values": [
+                "\"N\""
+              ]
+            }
+          ],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "WS-DEDUCT-MET",
+          "picture": "S9(5)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 5,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": "0",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "WS-DEDUCT-REMAIN",
+          "picture": "S9(5)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 5,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": "0",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "WS-POST-DEDUCT",
+          "picture": "S9(7)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 7,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": "0",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "WS-COINS-PCT",
+          "picture": "SV99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 0,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": "0",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "WS-DEDUCT-LIMIT",
+          "picture": "S9(5)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 5,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": "0",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "WS-COPAY",
+          "picture": "S9(3)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 3,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": "0",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "WS-TOT-BILLED",
+          "picture": "S9(9)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 9,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": "0",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "WS-TOT-PLAN-PAID",
+          "picture": "S9(9)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 9,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": "0",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "WS-TOT-MEMBER-RESP",
+          "picture": "S9(9)V99",
+          "usage": "COMP-3",
+          "signed": true,
+          "integer_digits": 9,
+          "fraction_digits": 2,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": "0",
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        }
+      ],
+      "source": "claimcalc.cbl"
+    },
+    {
+      "level": 1,
+      "name": "WS-DISPLAY-FIELDS",
+      "picture": null,
+      "usage": null,
+      "signed": false,
+      "integer_digits": null,
+      "fraction_digits": null,
+      "alpha_length": null,
+      "occurs": null,
+      "redefines": null,
+      "value": null,
+      "condition_names": [],
+      "children": [
+        {
+          "level": 5,
+          "name": "WS-EDIT-AMT",
+          "picture": "Z(6)9.99-",
+          "usage": null,
+          "signed": false,
+          "integer_digits": 9,
+          "fraction_digits": 0,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "WS-EDIT-TOT",
+          "picture": "Z(8)9.99-",
+          "usage": null,
+          "signed": false,
+          "integer_digits": 11,
+          "fraction_digits": 0,
+          "alpha_length": null,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        },
+        {
+          "level": 5,
+          "name": "WS-STATUS-TEXT",
+          "picture": "X(11)",
+          "usage": null,
+          "signed": false,
+          "integer_digits": null,
+          "fraction_digits": null,
+          "alpha_length": 11,
+          "occurs": null,
+          "redefines": null,
+          "value": null,
+          "condition_names": [],
+          "children": [],
+          "source": "claimcalc.cbl"
+        }
+      ],
+      "source": "claimcalc.cbl"
+    }
+  ],
+  "paragraphs": [
+    {
+      "name": "0000-MAIN",
+      "performs": [
+        "1000-INIT",
+        "2000-PROCESS-ONE-CLAIM",
+        "8000-PRINT-TOTALS",
+        "9000-TERM"
+      ],
+      "line": 80
+    },
+    {
+      "name": "1000-INIT",
+      "performs": [],
+      "line": 88
+    },
+    {
+      "name": "2000-PROCESS-ONE-CLAIM",
+      "performs": [
+        "2100-LOAD-CLAIM",
+        "2200-FIND-PLAN",
+        "2600-DENY-CLAIM",
+        "2300-CALC-ALLOWED",
+        "2400-APPLY-DEDUCTIBLE",
+        "2500-APPLY-COST-SHARE",
+        "7000-PRINT-CLAIM",
+        "7500-ACCUMULATE-TOTALS"
+      ],
+      "line": 96
+    },
+    {
+      "name": "2100-LOAD-CLAIM",
+      "performs": [],
+      "line": 110
+    },
+    {
+      "name": "2200-FIND-PLAN",
+      "performs": [],
+      "line": 120
+    },
+    {
+      "name": "2300-CALC-ALLOWED",
+      "performs": [],
+      "line": 133
+    },
+    {
+      "name": "2400-APPLY-DEDUCTIBLE",
+      "performs": [],
+      "line": 136
+    },
+    {
+      "name": "2500-APPLY-COST-SHARE",
+      "performs": [],
+      "line": 150
+    },
+    {
+      "name": "2600-DENY-CLAIM",
+      "performs": [],
+      "line": 169
+    },
+    {
+      "name": "7000-PRINT-CLAIM",
+      "performs": [],
+      "line": 177
+    },
+    {
+      "name": "7500-ACCUMULATE-TOTALS",
+      "performs": [],
+      "line": 204
+    },
+    {
+      "name": "8000-PRINT-TOTALS",
+      "performs": [],
+      "line": 209
+    },
+    {
+      "name": "9000-TERM",
+      "performs": [],
+      "line": 221
+    }
+  ],
+  "perform_graph": {
+    "0000-MAIN": [
+      "1000-INIT",
+      "2000-PROCESS-ONE-CLAIM",
+      "8000-PRINT-TOTALS",
+      "9000-TERM"
+    ],
+    "1000-INIT": [],
+    "2000-PROCESS-ONE-CLAIM": [
+      "2100-LOAD-CLAIM",
+      "2200-FIND-PLAN",
+      "2600-DENY-CLAIM",
+      "2300-CALC-ALLOWED",
+      "2400-APPLY-DEDUCTIBLE",
+      "2500-APPLY-COST-SHARE",
+      "7000-PRINT-CLAIM",
+      "7500-ACCUMULATE-TOTALS"
+    ],
+    "2100-LOAD-CLAIM": [],
+    "2200-FIND-PLAN": [],
+    "2300-CALC-ALLOWED": [],
+    "2400-APPLY-DEDUCTIBLE": [],
+    "2500-APPLY-COST-SHARE": [],
+    "2600-DENY-CLAIM": [],
+    "7000-PRINT-CLAIM": [],
+    "7500-ACCUMULATE-TOTALS": [],
+    "8000-PRINT-TOTALS": [],
+    "9000-TERM": []
+  },
+  "diagnostics": []
+}

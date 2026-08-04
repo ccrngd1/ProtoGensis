@@ -1,0 +1,8 @@
+# Python
+__pycache__/
+*.egg-info/
+.pytest_cache/
+
+# Java parser build output (rebuild with java-parser/build.sh)
+java-parser/target/
+assets/cobalt-parser-v0.jar
