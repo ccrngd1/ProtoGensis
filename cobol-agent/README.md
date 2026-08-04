@@ -185,4 +185,4 @@ quality numbers are claimed anywhere in this repo.
 - [ANTLR4](https://www.antlr.org/) — underlying parser generator (via ProLeap).
 - [LiteLLM](https://github.com/BerriAI/litellm) — provider abstraction.
 
-License: Apache-2.0.
+License: **Elastic License 2.0** (source-available) — see [LICENSE](LICENSE). You may use, modify, and self-host Cobalt freely; you may not offer it to third parties as a hosted or managed service. Bundled third-party components (ProLeap, ANTLR4, LiteLLM) remain under their own permissive licenses; GnuCOBOL is used only as an external tool and is not distributed with Cobalt.

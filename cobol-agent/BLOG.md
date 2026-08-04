@@ -179,4 +179,4 @@ That's a pattern that generalizes well beyond COBOL.
 
 ---
 
-*Cobalt is Apache-2.0 licensed. Built on [ProLeap COBOL Parser](https://github.com/uwol/proleap-cobol-parser) (Apache-2.0), [GnuCOBOL](https://gnucobol.sourceforge.io/), and [LiteLLM](https://github.com/BerriAI/litellm).*
+*Cobalt is source-available under the Elastic License 2.0 (you may use, modify, and self-host it, but not offer it to third parties as a hosted or managed service). Built on [ProLeap COBOL Parser](https://github.com/uwol/proleap-cobol-parser) (Apache-2.0), [GnuCOBOL](https://gnucobol.sourceforge.io/), and [LiteLLM](https://github.com/BerriAI/litellm).*
