@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docprobe"
+version = "0.1.0"
+description = "Agent-instruction-file quality auditor: will an agent actually comply with this?"
+readme = "README.md"
+license = { file = "LICENSE" }
+# Spec targets Python 3.12+; floor lowered to 3.11 so the build environment
+# (Python 3.11.2) can install and run the suite. No 3.12-only syntax is used.
+requires-python = ">=3.11"
+dependencies = [
+    "typer>=0.9",
+    "rich>=13.0",
+    "litellm>=1.40",
+    "pydantic>=2.5",
+    "markdown-it-py>=3.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "pytest-mock>=3.12"]
+
+[project.scripts]
+docprobe = "docprobe.cli:app"
+
+[tool.setuptools]
+packages = ["docprobe"]
+
+[tool.setuptools.package-data]
+docprobe = ["rubric.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+# Prepend the project root so our `tests` package wins over any same-named
+# package elsewhere on sys.path.
+pythonpath = ["."]
