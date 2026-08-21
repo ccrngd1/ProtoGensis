@@ -1,0 +1,31 @@
+# BUILD_DONE — DocProbe (W34, slug doc-probe)
+
+**Completed:** 2026-08-21 (build), verified & finalized by Main 16:10 UTC
+**Builder:** MasterControl → Claude Code worker
+**Finalized by:** CABAL (Main) — MasterControl worker ended before writing this marker
+(finalization hiccup); Main performed ship-review and attests completion below.
+
+## Acceptance criteria — verified
+- [x] `docprobe scan <file>` / `<directory>` / `--glob` — CLI present (scan/report/fix)
+- [x] 5 dimensions, per-section A–F, composite score
+- [x] Deterministic dims (directive density, discovery, hierarchy) computed without LLM
+- [x] Semantic dims (specificity, contradiction) via LLM judge (litellm/Bedrock sonnet-4-5, temp 0, lazy import)
+- [x] Evidence tiers visible: grounded (1.5) / partial / opinionated (0.75) — `models.py`, `rubric.md`
+- [x] `docprobe fix` present (contradiction → rationale-comment path in `fixer.py`)
+- [x] `--no-llm` fully offline (lazy litellm import; scores 3 deterministic dims)
+- [x] Rubric prompt shipped in-repo: `docprobe/rubric.md` (versioned, falsifiable opinion)
+- [x] README differentiates from markdownlint/Vale in first screenful, with search-tooling caveat
+- [x] **58 tests, pytest exit 0** (requirement was ≥30)
+- [x] MIT LICENSE
+
+## Premise correction — honored
+No "implements the paper's rubric" language. DocProbe framed as opinionated first-cut scorer;
+grounded dimensions (discovery-accessibility ← 2608.20195, contradiction ← 2608.11095)
+up-weighted; specificity/directive-density labeled opinionated. Exactly as specified.
+
+## Outstanding (next stage)
+- BLOG.md — Stage 6, handed to DAEDALUS (n8n) 2026-08-21 16:10 UTC
+- Demo run on CC's live instruction corpus + 02-19 DAEDALUS retrospective → for the blog
+
+## Ship-review verdict: **ACCEPTABLE — proceed to blog stage.**
+Reviewed by Main. Build meets all acceptance criteria; tests green.
