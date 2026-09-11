@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "swe-gate"
+version = "0.1.0"
+description = "Post-test-pass deterministic verification gate for AI-specific coding defects"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+authors = [{ name = "ProtoGen" }]
+keywords = ["ci", "verification", "llm", "code-review", "security"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Quality Assurance",
+]
+# Scanner dependencies are bounded, not floating (supply-chain hygiene).
+dependencies = [
+    "bandit>=1.7.5,<2.0",
+    "semgrep>=1.100,<2.0",
+]
+
+[project.optional-dependencies]
+# pyright is optional: Layer 2 degrades to a labeled skip when absent.
+pyright = ["pyright>=1.1.390,<1.2"]
+dev = ["pytest>=8.0,<10.0", "pyright>=1.1.390,<1.2"]
+
+[project.scripts]
+swe-gate = "swe_gate.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["swe_gate*"]
+
+[tool.setuptools.package-data]
+swe_gate = ["rules/*.yml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

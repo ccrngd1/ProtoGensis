@@ -1,0 +1,121 @@
+rules:
+  - id: ai-fstring-sql
+    languages: [python]
+    severity: ERROR
+    message: >-
+      SQL built with an f-string/format/concat and passed to execute() —
+      a classic LLM-generated injection pattern. Use parameterized queries.
+    patterns:
+      - pattern-either:
+          - pattern: $CURSOR.execute(f"...", ...)
+          - pattern: $CURSOR.execute(f"..." + $X, ...)
+          - pattern: $CURSOR.execute("..." % $ARGS, ...)
+          - pattern: $CURSOR.execute("...".format(...), ...)
+          - pattern: $CURSOR.executemany(f"...", ...)
+    metadata:
+      category: security
+      swe_gate_severity: HIGH
+
+  - id: ai-subprocess-shell-interpolation
+    languages: [python]
+    severity: ERROR
+    message: >-
+      subprocess with shell=True and an interpolated command string —
+      command injection. Pass an argument list with shell=False.
+    patterns:
+      - pattern-either:
+          - pattern: subprocess.run(f"...", ..., shell=True, ...)
+          - pattern: subprocess.run("..." + $X, ..., shell=True, ...)
+          - pattern: subprocess.run("...".format(...), ..., shell=True, ...)
+          - pattern: subprocess.run("..." % $A, ..., shell=True, ...)
+          - pattern: subprocess.Popen(f"...", ..., shell=True, ...)
+          - pattern: subprocess.Popen("..." + $X, ..., shell=True, ...)
+          - pattern: subprocess.call(f"...", ..., shell=True, ...)
+          - pattern: subprocess.check_output(f"...", ..., shell=True, ...)
+          - pattern: os.system(f"...")
+          - pattern: os.system("..." + $X)
+          - pattern: os.popen(f"...")
+    metadata:
+      category: security
+      swe_gate_severity: HIGH
+
+  - id: ai-requests-verify-false
+    languages: [python]
+    severity: ERROR
+    message: >-
+      TLS verification disabled (verify=False). LLMs add this to "fix"
+      certificate errors; it silently disables transport security.
+    patterns:
+      - pattern-either:
+          - pattern: requests.$METHOD(..., verify=False, ...)
+          - pattern: $SESSION.request(..., verify=False, ...)
+          - pattern: httpx.$METHOD(..., verify=False, ...)
+          - pattern: httpx.Client(..., verify=False, ...)
+          - pattern: httpx.AsyncClient(..., verify=False, ...)
+    metadata:
+      category: security
+      swe_gate_severity: HIGH
+
+  - id: ai-pickle-loads
+    languages: [python]
+    severity: ERROR
+    message: >-
+      pickle deserialization of external data allows arbitrary code
+      execution. Use json or another safe format.
+    patterns:
+      - pattern-either:
+          - pattern: pickle.loads(...)
+          - pattern: pickle.load(...)
+          - pattern: cPickle.loads(...)
+          - pattern: dill.loads(...)
+    metadata:
+      category: security
+      swe_gate_severity: HIGH
+
+  - id: ai-hardcoded-secret
+    languages: [python]
+    severity: ERROR
+    message: >-
+      Hardcoded credential-looking string assigned to a secret-named
+      variable. Move it to configuration or a secret store.
+    patterns:
+      - pattern-either:
+          - pattern: password = "..."
+          - pattern: passwd = "..."
+          - pattern: api_key = "..."
+          - pattern: apikey = "..."
+          - pattern: secret_key = "..."
+          - pattern: auth_token = "..."
+          - pattern: access_token = "..."
+          - pattern: aws_secret_access_key = "..."
+    metadata:
+      category: security
+      swe_gate_severity: HIGH
+
+  - id: ai-yaml-unsafe-load
+    languages: [python]
+    severity: WARNING
+    message: >-
+      yaml.load without SafeLoader can execute arbitrary Python.
+      Use yaml.safe_load.
+    patterns:
+      - pattern: yaml.load($DATA)
+    metadata:
+      category: security
+      swe_gate_severity: MEDIUM
+
+  - id: ai-eval-exec-dynamic
+    languages: [python]
+    severity: WARNING
+    message: >-
+      eval/exec on a dynamically built string. LLM-generated glue code
+      reaches for eval where parsing would do.
+    patterns:
+      - pattern-either:
+          - pattern: eval(f"...")
+          - pattern: eval("..." + $X)
+          - pattern: exec(f"...")
+          - pattern: exec("..." + $X)
+    metadata:
+      category: security
+      swe_gate_severity: MEDIUM
