@@ -15,6 +15,7 @@
 set -euo pipefail
 
 EXAMPLES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SWE_GATE_SRC="$(cd "$EXAMPLES_DIR/.." && pwd)"
 WORKDIR="${1:-$(mktemp -d /tmp/swe-gate-demo.XXXXXX)}"
 
 echo "==> Building demo repo in $WORKDIR"
@@ -36,8 +37,15 @@ python3 -m pytest -q
 
 echo
 echo "==> Step 2: SWE-Gate on the same working tree"
+# Prefer the installed console script; fall back to the module form so the
+# demo runs from a source checkout without an editable install (PEP 668 hosts).
+if command -v swe-gate >/dev/null 2>&1; then
+    GATE=(swe-gate)
+else
+    GATE=(python3 -m swe_gate)
+fi
 set +e
-swe-gate run --baseline HEAD "$WORKDIR"
+( cd "$SWE_GATE_SRC" && "${GATE[@]}" run --baseline HEAD "$WORKDIR" )
 GATE_EXIT=$?
 set -e
 
@@ -47,4 +55,9 @@ if [ "$GATE_EXIT" -ne 1 ]; then
     echo "DEMO BROKEN: expected exit 1" >&2
     exit 1
 fi
-echo "==> Demo complete. Tests passed; the gate caught all four defects."
+echo "==> Demo complete: the suite was GREEN, but SWE-Gate blocked the patch."
+echo "    Layers L0 (test tampering) and L1 (hallucinated import) fire with no"
+echo "    extra tooling. For the full four-layer catch (L2 signatures, L3 security),"
+echo "    install the scanners:  pip install -e '.[pyright]'  (bandit + semgrep are"
+echo "    core deps; pyright is the optional extra). Absent them, those layers"
+echo "    report a labeled, non-blocking SKIP — see the table above."
