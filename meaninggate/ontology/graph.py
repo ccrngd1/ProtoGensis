@@ -47,9 +47,11 @@ class PayorGraph:
             self.g.add((line_uri, NS.providedBy, provider_uri))
             self.g.add((provider_uri, RDF.type, NS.Provider))
 
-            # Health System (if present)
-            if line_dict["HLTH_SYS_ID"]:
-                hs_uri = INST[f"HealthSystem_{line_dict['HLTH_SYS_ID']}"]
+            # Health System (if present) — guard against NULL/NaN (pandas coerces
+            # SQL NULL to float('nan'), which is truthy, so an explicit check is required)
+            _hs = line_dict.get("HLTH_SYS_ID")
+            if _hs is not None and str(_hs).lower() != "nan" and str(_hs).strip() != "":
+                hs_uri = INST[f"HealthSystem_{_hs}"]
                 self.g.add((provider_uri, NS.partOfHealthSystem, hs_uri))
                 self.g.add((hs_uri, RDF.type, NS.HealthSystem))
 
