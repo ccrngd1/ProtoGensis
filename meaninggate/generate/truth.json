@@ -1,0 +1,26 @@
+{
+  "question": "Our outpatient imaging denials spiked in Ohio last quarter. Why, and what is it costing us?",
+  "governed_answer": {
+    "metric": "first_pass_line_denial_rate",
+    "metric_version": "v4.2",
+    "rate_pct": 12.9,
+    "eligible_lines": 4678,
+    "denied_lines": 604,
+    "carc_197_dominance_pct": 61.6,
+    "root_cause": "UM-RAD-2026 policy effective 2026-04-01 requires 120-day prior auth notice per MP-RAD-114 \u00a74.2 and contract \u00a77.3. Health System 14 (HS-14) was omitted from notification cohort NC-2026-03, resulting in CARC-197 denials for all HS-14 outpatient imaging.",
+    "accountable_party": "Plan (ACME Commercial PPO - Ohio) - notification gap",
+    "at_risk_allowed_dollars": 354110.56,
+    "hs14_tins": [
+      "HS14-TIN-00",
+      "HS14-TIN-01",
+      "HS14-TIN-02",
+      "HS14-TIN-03",
+      "HS14-TIN-04",
+      "HS14-TIN-05",
+      "HS14-TIN-06",
+      "HS14-TIN-07",
+      "HS14-TIN-08"
+    ],
+    "remediation": "Add HS-14 TINs to notification cohort and reprocess denied claims under appeal."
+  }
+}

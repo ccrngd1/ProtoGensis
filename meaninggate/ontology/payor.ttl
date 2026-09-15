@@ -1,0 +1,195 @@
+@prefix : <http://meaninggate.example.org/ontology/payor#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# OWL Ontology for Payor Claims Domain
+
+:PayorOntology a owl:Ontology ;
+    rdfs:label "Healthcare Payor Claims Ontology" ;
+    rdfs:comment "Semantic model for claims adjudication, denials, and authorization." .
+
+# Classes
+
+:Claim a owl:Class ;
+    rdfs:label "Claim" ;
+    rdfs:comment "A request for payment from a provider to a payor." .
+
+:ClaimLine a owl:Class ;
+    rdfs:label "Claim Line" ;
+    rdfs:comment "A single service line within a claim." .
+
+:Member a owl:Class ;
+    rdfs:label "Member" ;
+    rdfs:comment "A covered individual (patient)." .
+
+:Coverage a owl:Class ;
+    rdfs:label "Coverage" ;
+    rdfs:comment "Member's plan coverage with effective dates." .
+
+:Provider a owl:Class ;
+    rdfs:label "Provider" ;
+    rdfs:comment "Healthcare provider (physician, facility, etc)." .
+
+:HealthSystem a owl:Class ;
+    rdfs:label "Health System" ;
+    rdfs:comment "A healthcare organization comprising multiple provider TINs." .
+
+:AdjudicationOutcome a owl:Class ;
+    rdfs:label "Adjudication Outcome" ;
+    rdfs:comment "The result of claim processing." .
+
+:Denial a owl:Class ;
+    rdfs:subClassOf :AdjudicationOutcome ;
+    rdfs:label "Denial" ;
+    rdfs:comment "First-pass denial: payor declines to pay for adjudicated service." .
+
+:Rejection a owl:Class ;
+    rdfs:subClassOf :AdjudicationOutcome ;
+    rdfs:label "Rejection" ;
+    rdfs:comment "Front-end rejection: claim not accepted for adjudication (277CA)." .
+
+:Paid a owl:Class ;
+    rdfs:subClassOf :AdjudicationOutcome ;
+    rdfs:label "Paid" ;
+    rdfs:comment "Claim line paid in full or in part." .
+
+:PatientResponsibility a owl:Class ;
+    rdfs:subClassOf :AdjudicationOutcome ;
+    rdfs:label "Patient Responsibility" ;
+    rdfs:comment "Amount assigned to patient (deductible, coinsurance, copay)." .
+
+# Denial and Rejection are disjoint (key semantic constraint)
+:Denial owl:disjointWith :Rejection .
+
+:CARC a owl:Class ;
+    rdfs:label "Claim Adjustment Reason Code" ;
+    rdfs:comment "X12 CARC code indicating reason for adjustment." .
+
+:CARCFamily a owl:Class ;
+    rdfs:label "CARC Family" ;
+    rdfs:comment "Semantic grouping of related CARCs." .
+
+:AuthorizationDefect a owl:Class ;
+    rdfs:subClassOf :CARCFamily ;
+    rdfs:label "Authorization Defect Family" ;
+    rdfs:comment "CARC 197, 198, 199: authorization missing, invalid, or expired." .
+
+:ClinicalDenial a owl:Class ;
+    rdfs:subClassOf :CARCFamily ;
+    rdfs:label "Clinical Denial Family" ;
+    rdfs:comment "CARC 96, 16: not medically necessary, lack of documentation." .
+
+:ContractualReduction a owl:Class ;
+    rdfs:subClassOf :CARCFamily ;
+    rdfs:label "Contractual Reduction Family" ;
+    rdfs:comment "CARC 45: fee schedule adjustment (not a denial)." .
+
+:AuthorizationRequest a owl:Class ;
+    rdfs:label "Authorization Request" ;
+    rdfs:comment "X12 278 prior authorization request." .
+
+:UMPolicy a owl:Class ;
+    rdfs:label "Utilization Management Policy" ;
+    rdfs:comment "Policy governing prior authorization requirements." .
+
+:MedicalPolicy a owl:Class ;
+    rdfs:label "Medical Policy" ;
+    rdfs:comment "Clinical coverage policy document." .
+
+# Properties
+
+:hasOutcome a owl:ObjectProperty ;
+    rdfs:domain :ClaimLine ;
+    rdfs:range :AdjudicationOutcome .
+
+:hasCARC a owl:ObjectProperty ;
+    rdfs:domain :ClaimLine ;
+    rdfs:range :CARC .
+
+:inFamily a owl:ObjectProperty ;
+    rdfs:domain :CARC ;
+    rdfs:range :CARCFamily .
+
+:memberOf a owl:ObjectProperty ;
+    rdfs:domain :Claim ;
+    rdfs:range :Member .
+
+:coveredBy a owl:ObjectProperty ;
+    rdfs:domain :Member ;
+    rdfs:range :Coverage .
+
+:providedBy a owl:ObjectProperty ;
+    rdfs:domain :ClaimLine ;
+    rdfs:range :Provider .
+
+:partOfHealthSystem a owl:ObjectProperty ;
+    rdfs:domain :Provider ;
+    rdfs:range :HealthSystem .
+
+:hasAuthRequest a owl:ObjectProperty ;
+    rdfs:domain :ClaimLine ;
+    rdfs:range :AuthorizationRequest .
+
+:governedBy a owl:ObjectProperty ;
+    rdfs:domain :ClaimLine ;
+    rdfs:range :UMPolicy .
+
+:citesMedicalPolicy a owl:ObjectProperty ;
+    rdfs:domain :UMPolicy ;
+    rdfs:range :MedicalPolicy .
+
+:serviceDate a owl:DatatypeProperty ;
+    rdfs:domain :ClaimLine ;
+    rdfs:range xsd:date .
+
+:effectiveDate a owl:DatatypeProperty ;
+    rdfs:range xsd:date .
+
+:termDate a owl:DatatypeProperty ;
+    rdfs:range xsd:date .
+
+:allowedAmount a owl:DatatypeProperty ;
+    rdfs:domain :ClaimLine ;
+    rdfs:range xsd:decimal .
+
+# CARC Taxonomy Individuals
+
+:CARC_197 a :CARC ;
+    rdfs:label "CARC 197" ;
+    rdfs:comment "Authorization required but not provided" ;
+    :inFamily :AuthorizationDefect .
+
+:CARC_198 a :CARC ;
+    rdfs:label "CARC 198" ;
+    rdfs:comment "Authorization invalid" ;
+    :inFamily :AuthorizationDefect .
+
+:CARC_199 a :CARC ;
+    rdfs:label "CARC 199" ;
+    rdfs:comment "Authorization expired" ;
+    :inFamily :AuthorizationDefect .
+
+:CARC_96 a :CARC ;
+    rdfs:label "CARC 96" ;
+    rdfs:comment "Not medically necessary" ;
+    :inFamily :ClinicalDenial .
+
+:CARC_16 a :CARC ;
+    rdfs:label "CARC 16" ;
+    rdfs:comment "Claim lacks information" ;
+    :inFamily :ClinicalDenial .
+
+:CARC_45 a :CARC ;
+    rdfs:label "CARC 45" ;
+    rdfs:comment "Fee schedule reduction (not a denial)" ;
+    :inFamily :ContractualReduction .
+
+:CARC_18 a :CARC ;
+    rdfs:label "CARC 18" ;
+    rdfs:comment "Duplicate claim/service" .
+
+:CARC_1 a :CARC ;
+    rdfs:label "CARC 1" ;
+    rdfs:comment "Deductible amount" .

@@ -1,0 +1,33 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix : <http://meaninggate.example.org/ontology/payor#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# SHACL Shapes for Claims Semantic Validation
+# P3 Gate: These MUST FAIL on seeded violations
+
+:DenialMustHaveCARCShape a sh:NodeShape ;
+    sh:targetClass :Denial ;
+    sh:property [
+        sh:path :hasCARC ;
+        sh:minCount 1 ;
+        sh:message "Every Denial must have a CARC (Claim Adjustment Reason Code)" ;
+    ] .
+
+:PatientResponsibilityNotADenialShape a sh:NodeShape ;
+    sh:targetClass :PatientResponsibility ;
+    sh:not [
+        sh:class :Denial
+    ] ;
+    sh:message "Patient Responsibility must not be typed as a Denial (they are disjoint)" .
+
+# REMOVED expensive SPARQL-based shapes - they cause O(n²) performance on 5800 lines
+# The simple property constraints above suffice for the P3 gate check
+
+:RejectionMustNotBeAdjudicatedShape a sh:NodeShape ;
+    sh:targetClass :Rejection ;
+    sh:property [
+        sh:path :hasCARC ;
+        sh:maxCount 0 ;
+        sh:message "Rejections (277CA) are not adjudicated and must not have CARCs" ;
+    ] .

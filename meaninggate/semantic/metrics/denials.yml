@@ -1,0 +1,85 @@
+# P2: Denial rate metric definitions
+# Six definitions from the spike, plus at-risk dollars
+
+metrics:
+  - id: naive_header_denial_rate_with_rejections
+    name: "Naive Header Denial Rate (with rejections unioned)"
+    version: "1.0"
+    description: "Header-grain denial rate unioning front-end rejections as 'didn't get paid'. Ungoverned default."
+    grain: header
+    numerator: "Claims with HDR_DENY_FLG='Y' OR IS_REJECTED=1"
+    denominator: "All claims"
+    exclusions: []
+    owner: "Ungoverned agent (typical error path)"
+    not_to_be_confused_with: "first_pass_line_denial_rate - this version double-counts multi-line claims and unions non-adjudicated rejections"
+
+  - id: header_denial_rate_adj_only
+    name: "Header Denial Rate (adjudicated only, with dupes and reversals)"
+    version: "1.0"
+    description: "Header grain, adjudicated only, still counting duplicates and reversals as denials."
+    grain: header
+    numerator: "Claims with CLP_02_CLM_STAT_CD IN (4, 22) and IS_REJECTED=0"
+    denominator: "Claims with IS_REJECTED=0"
+    exclusions: []
+    owner: "Partial correction (still flawed)"
+    not_to_be_confused_with: "first_pass_line_denial_rate - still header grain and counting non-first-pass events"
+
+  - id: line_denial_rate_everything_not_paid
+    name: "Line Denial Rate (everything not paid as 'denied')"
+    version: "1.0"
+    description: "Line grain, but counts PR (patient responsibility), dupes, and reversals as denials."
+    grain: line
+    numerator: "Lines with CLP_02_CLM_STAT_CD IN (4, 22) OR CAS_GRP_CD='PR'"
+    denominator: "Lines with IS_REJECTED=0"
+    exclusions: []
+    owner: "Closer, but still conflating financial types"
+    not_to_be_confused_with: "first_pass_line_denial_rate - counts patient responsibility and operational adjustments"
+
+  - id: line_denial_rate_excl_reversals_dupes_keep_pr
+    name: "Line Denial Rate (exclude reversals and dupes, keep PR)"
+    version: "1.0"
+    description: "Line grain, excludes reversals (22) and duplicates (CARC 18), but keeps patient responsibility."
+    grain: line
+    numerator: "Lines with (CLP_02_CLM_STAT_CD=4 OR CAS_GRP_CD='PR') and CAS_RSN_CD != 18"
+    denominator: "Lines with IS_REJECTED=0 and CLP_02_CLM_STAT_CD != 22 and CAS_RSN_CD != 18"
+    exclusions: ["reversals", "duplicates"]
+    owner: "Near-correct (still conflates PR)"
+    not_to_be_confused_with: "first_pass_line_denial_rate - patient responsibility is not a plan denial"
+
+  - id: first_pass_line_denial_rate
+    name: "First-Pass Line Denial Rate"
+    version: "v4.2"
+    description: "GOVERNED. Line grain. First-pass contractual denials only: excludes PR, reversals, duplicates, fee-schedule reductions. Real denials per CARC taxonomy."
+    grain: line
+    numerator: "Lines with CLP_02_CLM_STAT_CD=4 and CAS_RSN_CD IN (197,198,199,96,16) and CAS_GRP_CD='CO'"
+    denominator: "Lines with IS_REJECTED=0 and CLP_02_CLM_STAT_CD != 22 and CAS_GRP_CD != 'PR' and CAS_RSN_CD NOT IN (18,45)"
+    exclusions: ["rejections (IS_REJECTED=1)", "reversals (22)", "patient responsibility (PR)", "duplicates (CARC 18)", "fee schedule reductions (CARC 45)"]
+    owner: "Revenue Integrity"
+    access_policy: "internal"
+    time_anchor: "SVC_FROM_DT"
+    not_to_be_confused_with: "Paid rate, reimbursement rate, or net revenue. This is a quality/operations metric."
+    carc_taxonomy: "Uses DENIAL_CARCS family per CARC specification"
+
+  - id: auth_defect_denial_rate
+    name: "Authorization-Defect Denial Rate (CARC 197 family)"
+    version: "v1.0"
+    description: "Subset of first_pass_line_denial_rate: only authorization-related denials (CARC 197, 198, 199)."
+    grain: line
+    numerator: "Lines with CLP_02_CLM_STAT_CD=4 and CAS_RSN_CD IN (197,198,199) and CAS_GRP_CD='CO'"
+    denominator: "Lines with IS_REJECTED=0 and CLP_02_CLM_STAT_CD != 22 and CAS_GRP_CD != 'PR' and CAS_RSN_CD NOT IN (18,45)"
+    exclusions: ["rejections", "reversals", "PR", "duplicates", "fee schedule"]
+    owner: "Utilization Management"
+    parent_metric: "first_pass_line_denial_rate"
+    not_to_be_confused_with: "Clinical denials (CARC 96, 16)"
+
+  - id: denied_allowed_dollars_at_risk
+    name: "Denied Allowed Dollars at Risk"
+    version: "v1.0"
+    description: "Sum of allowed amounts for first-pass denials. Represents recoverable revenue under appeal."
+    grain: line
+    numerator_sum: "SUM(LN_ALLOW_AMT) where CLP_02_CLM_STAT_CD=4 and CAS_RSN_CD IN (197,198,199,96,16) and CAS_GRP_CD='CO'"
+    denominator: null
+    exclusions: ["Same as first_pass_line_denial_rate"]
+    owner: "Revenue Integrity"
+    unit: "USD"
+    not_to_be_confused_with: "Billed amounts or paid amounts. This is contractually-allowed revenue at risk."

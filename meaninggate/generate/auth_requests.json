@@ -1,0 +1,778 @@
+[
+  {
+    "auth_id": "AUTH-OTHER-TIN-00-3549",
+    "member_id": "MBR-000057",
+    "provider_tin": "OTHER-TIN-00",
+    "service_date": "2026-05-07",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-00-6081",
+    "member_id": "MBR-000043",
+    "provider_tin": "OTHER-TIN-00",
+    "service_date": "2026-04-29",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-00-2694",
+    "member_id": "MBR-000245",
+    "provider_tin": "OTHER-TIN-00",
+    "service_date": "2026-05-01",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-00-7981",
+    "member_id": "MBR-000352",
+    "provider_tin": "OTHER-TIN-00",
+    "service_date": "2026-04-25",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-00-9670",
+    "member_id": "MBR-000190",
+    "provider_tin": "OTHER-TIN-00",
+    "service_date": "2026-06-07",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-00-1546",
+    "member_id": "MBR-000208",
+    "provider_tin": "OTHER-TIN-00",
+    "service_date": "2026-06-11",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-00-9222",
+    "member_id": "MBR-000104",
+    "provider_tin": "OTHER-TIN-00",
+    "service_date": "2026-05-25",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-00-7936",
+    "member_id": "MBR-000226",
+    "provider_tin": "OTHER-TIN-00",
+    "service_date": "2026-04-21",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-00-9777",
+    "member_id": "MBR-000202",
+    "provider_tin": "OTHER-TIN-00",
+    "service_date": "2026-05-25",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-00-7779",
+    "member_id": "MBR-000023",
+    "provider_tin": "OTHER-TIN-00",
+    "service_date": "2026-05-22",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-00-8876",
+    "member_id": "MBR-000190",
+    "provider_tin": "OTHER-TIN-00",
+    "service_date": "2026-05-15",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-00-8354",
+    "member_id": "MBR-000401",
+    "provider_tin": "OTHER-TIN-00",
+    "service_date": "2026-05-02",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-01-2646",
+    "member_id": "MBR-000415",
+    "provider_tin": "OTHER-TIN-01",
+    "service_date": "2026-04-01",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-01-8240",
+    "member_id": "MBR-000246",
+    "provider_tin": "OTHER-TIN-01",
+    "service_date": "2026-06-24",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-01-6796",
+    "member_id": "MBR-000006",
+    "provider_tin": "OTHER-TIN-01",
+    "service_date": "2026-05-08",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-01-3930",
+    "member_id": "MBR-000168",
+    "provider_tin": "OTHER-TIN-01",
+    "service_date": "2026-06-28",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-01-1422",
+    "member_id": "MBR-000321",
+    "provider_tin": "OTHER-TIN-01",
+    "service_date": "2026-06-09",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-01-6330",
+    "member_id": "MBR-000270",
+    "provider_tin": "OTHER-TIN-01",
+    "service_date": "2026-05-28",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-01-4460",
+    "member_id": "MBR-000175",
+    "provider_tin": "OTHER-TIN-01",
+    "service_date": "2026-06-02",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-01-6894",
+    "member_id": "MBR-000401",
+    "provider_tin": "OTHER-TIN-01",
+    "service_date": "2026-05-31",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-01-1761",
+    "member_id": "MBR-000269",
+    "provider_tin": "OTHER-TIN-01",
+    "service_date": "2026-04-03",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-02-2870",
+    "member_id": "MBR-000008",
+    "provider_tin": "OTHER-TIN-02",
+    "service_date": "2026-05-07",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-02-7059",
+    "member_id": "MBR-000030",
+    "provider_tin": "OTHER-TIN-02",
+    "service_date": "2026-05-30",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-02-5009",
+    "member_id": "MBR-000059",
+    "provider_tin": "OTHER-TIN-02",
+    "service_date": "2026-05-22",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-02-1225",
+    "member_id": "MBR-000267",
+    "provider_tin": "OTHER-TIN-02",
+    "service_date": "2026-06-25",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-02-8014",
+    "member_id": "MBR-000392",
+    "provider_tin": "OTHER-TIN-02",
+    "service_date": "2026-06-27",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-02-2408",
+    "member_id": "MBR-000175",
+    "provider_tin": "OTHER-TIN-02",
+    "service_date": "2026-06-21",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-02-7265",
+    "member_id": "MBR-000496",
+    "provider_tin": "OTHER-TIN-02",
+    "service_date": "2026-05-26",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-02-4784",
+    "member_id": "MBR-000331",
+    "provider_tin": "OTHER-TIN-02",
+    "service_date": "2026-05-07",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-02-5513",
+    "member_id": "MBR-000225",
+    "provider_tin": "OTHER-TIN-02",
+    "service_date": "2026-06-24",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-03-1689",
+    "member_id": "MBR-000021",
+    "provider_tin": "OTHER-TIN-03",
+    "service_date": "2026-05-10",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-03-5929",
+    "member_id": "MBR-000017",
+    "provider_tin": "OTHER-TIN-03",
+    "service_date": "2026-06-22",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-03-3131",
+    "member_id": "MBR-000320",
+    "provider_tin": "OTHER-TIN-03",
+    "service_date": "2026-06-01",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-03-7654",
+    "member_id": "MBR-000447",
+    "provider_tin": "OTHER-TIN-03",
+    "service_date": "2026-06-13",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-03-7298",
+    "member_id": "MBR-000158",
+    "provider_tin": "OTHER-TIN-03",
+    "service_date": "2026-06-17",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-4964",
+    "member_id": "MBR-000170",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-05-26",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-9293",
+    "member_id": "MBR-000484",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-04-06",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-7451",
+    "member_id": "MBR-000108",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-06-11",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-7610",
+    "member_id": "MBR-000149",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-06-02",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-3699",
+    "member_id": "MBR-000155",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-05-17",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-9355",
+    "member_id": "MBR-000469",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-04-13",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-1628",
+    "member_id": "MBR-000268",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-04-29",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-6725",
+    "member_id": "MBR-000033",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-05-08",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-5270",
+    "member_id": "MBR-000139",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-06-22",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-7576",
+    "member_id": "MBR-000359",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-05-02",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-1665",
+    "member_id": "MBR-000373",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-04-05",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-6848",
+    "member_id": "MBR-000108",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-06-15",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-5476",
+    "member_id": "MBR-000359",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-06-10",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-04-9123",
+    "member_id": "MBR-000323",
+    "provider_tin": "OTHER-TIN-04",
+    "service_date": "2026-04-22",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-05-5941",
+    "member_id": "MBR-000005",
+    "provider_tin": "OTHER-TIN-05",
+    "service_date": "2026-06-27",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-05-2793",
+    "member_id": "MBR-000378",
+    "provider_tin": "OTHER-TIN-05",
+    "service_date": "2026-05-27",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-05-9224",
+    "member_id": "MBR-000483",
+    "provider_tin": "OTHER-TIN-05",
+    "service_date": "2026-05-28",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-05-2204",
+    "member_id": "MBR-000254",
+    "provider_tin": "OTHER-TIN-05",
+    "service_date": "2026-04-02",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-05-7520",
+    "member_id": "MBR-000496",
+    "provider_tin": "OTHER-TIN-05",
+    "service_date": "2026-05-23",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-05-4651",
+    "member_id": "MBR-000457",
+    "provider_tin": "OTHER-TIN-05",
+    "service_date": "2026-04-03",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-9938",
+    "member_id": "MBR-000150",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-05-19",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-3959",
+    "member_id": "MBR-000281",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-04-13",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-1895",
+    "member_id": "MBR-000051",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-05-19",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-6333",
+    "member_id": "MBR-000133",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-05-23",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-3514",
+    "member_id": "MBR-000189",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-05-27",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-2830",
+    "member_id": "MBR-000079",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-05-15",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-7909",
+    "member_id": "MBR-000055",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-04-17",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-7593",
+    "member_id": "MBR-000303",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-06-04",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-7466",
+    "member_id": "MBR-000088",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-04-21",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-9162",
+    "member_id": "MBR-000405",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-06-21",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-9000",
+    "member_id": "MBR-000143",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-05-17",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-1981",
+    "member_id": "MBR-000323",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-06-12",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-2961",
+    "member_id": "MBR-000238",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-04-30",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-2467",
+    "member_id": "MBR-000388",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-05-14",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-06-2540",
+    "member_id": "MBR-000477",
+    "provider_tin": "OTHER-TIN-06",
+    "service_date": "2026-05-25",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-07-3826",
+    "member_id": "MBR-000195",
+    "provider_tin": "OTHER-TIN-07",
+    "service_date": "2026-04-11",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-07-5136",
+    "member_id": "MBR-000229",
+    "provider_tin": "OTHER-TIN-07",
+    "service_date": "2026-04-12",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-07-6455",
+    "member_id": "MBR-000018",
+    "provider_tin": "OTHER-TIN-07",
+    "service_date": "2026-05-04",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-07-2716",
+    "member_id": "MBR-000189",
+    "provider_tin": "OTHER-TIN-07",
+    "service_date": "2026-04-24",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-07-5280",
+    "member_id": "MBR-000145",
+    "provider_tin": "OTHER-TIN-07",
+    "service_date": "2026-05-15",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-07-7784",
+    "member_id": "MBR-000378",
+    "provider_tin": "OTHER-TIN-07",
+    "service_date": "2026-06-16",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-07-7047",
+    "member_id": "MBR-000131",
+    "provider_tin": "OTHER-TIN-07",
+    "service_date": "2026-04-12",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-07-4591",
+    "member_id": "MBR-000477",
+    "provider_tin": "OTHER-TIN-07",
+    "service_date": "2026-05-30",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-07-5166",
+    "member_id": "MBR-000304",
+    "provider_tin": "OTHER-TIN-07",
+    "service_date": "2026-06-04",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-08-3212",
+    "member_id": "MBR-000010",
+    "provider_tin": "OTHER-TIN-08",
+    "service_date": "2026-06-17",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-08-9971",
+    "member_id": "MBR-000413",
+    "provider_tin": "OTHER-TIN-08",
+    "service_date": "2026-04-25",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-08-5039",
+    "member_id": "MBR-000304",
+    "provider_tin": "OTHER-TIN-08",
+    "service_date": "2026-05-21",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-08-3699",
+    "member_id": "MBR-000159",
+    "provider_tin": "OTHER-TIN-08",
+    "service_date": "2026-04-23",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-08-7830",
+    "member_id": "MBR-000001",
+    "provider_tin": "OTHER-TIN-08",
+    "service_date": "2026-06-30",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-08-5609",
+    "member_id": "MBR-000337",
+    "provider_tin": "OTHER-TIN-08",
+    "service_date": "2026-06-26",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-08-6095",
+    "member_id": "MBR-000223",
+    "provider_tin": "OTHER-TIN-08",
+    "service_date": "2026-05-04",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-08-1055",
+    "member_id": "MBR-000407",
+    "provider_tin": "OTHER-TIN-08",
+    "service_date": "2026-04-22",
+    "proc_code": "72148",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-08-3031",
+    "member_id": "MBR-000097",
+    "provider_tin": "OTHER-TIN-08",
+    "service_date": "2026-05-16",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-08-5627",
+    "member_id": "MBR-000079",
+    "provider_tin": "OTHER-TIN-08",
+    "service_date": "2026-05-12",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-08-6594",
+    "member_id": "MBR-000197",
+    "provider_tin": "OTHER-TIN-08",
+    "service_date": "2026-04-12",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-09-8049",
+    "member_id": "MBR-000368",
+    "provider_tin": "OTHER-TIN-09",
+    "service_date": "2026-04-20",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-09-4404",
+    "member_id": "MBR-000273",
+    "provider_tin": "OTHER-TIN-09",
+    "service_date": "2026-05-03",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-09-6899",
+    "member_id": "MBR-000176",
+    "provider_tin": "OTHER-TIN-09",
+    "service_date": "2026-04-10",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-09-6760",
+    "member_id": "MBR-000139",
+    "provider_tin": "OTHER-TIN-09",
+    "service_date": "2026-04-17",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-09-3316",
+    "member_id": "MBR-000443",
+    "provider_tin": "OTHER-TIN-09",
+    "service_date": "2026-06-01",
+    "proc_code": "71250",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-09-1108",
+    "member_id": "MBR-000188",
+    "provider_tin": "OTHER-TIN-09",
+    "service_date": "2026-05-22",
+    "proc_code": "70450",
+    "notification_cohort": "NC-2026-03"
+  },
+  {
+    "auth_id": "AUTH-OTHER-TIN-09-9364",
+    "member_id": "MBR-000463",
+    "provider_tin": "OTHER-TIN-09",
+    "service_date": "2026-05-06",
+    "proc_code": "70551",
+    "notification_cohort": "NC-2026-03"
+  }
+]

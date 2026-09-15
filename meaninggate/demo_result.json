@@ -1,0 +1,48 @@
+{
+  "ungoverned": {
+    "answer": "Based on the data, I found that Ohio had 604 denied claim lines\nin the last quarter with a denial rate of 12.9%. The main reason code is CARC-197\nwhich accounts for about 61% of denials. The total allowed amount for these denials\nis approximately $354,110.\n\nThe high rate appears to be related to authorization issues, but without more\ncontext about your specific policies and authorization workflows, I can't determine\nthe exact root cause. You may want to check with your authorization team.",
+    "tool_calls": 3,
+    "turns": 2
+  },
+  "governed": {
+    "answer": "The first-pass line denial rate in Ohio for outpatient imaging is 12.9%\n(604 denied out of 4,678 eligible lines). CARC-197 accounts for 61.6% of these denials,\nrepresenting $354,110.56 in at-risk allowed dollars.\n\nRoot cause: UM-RAD-2026 policy (effective 2026-04-01) requires 120-day prior\nauthorization notice per MP-RAD-114 \u00a74.2 and contract \u00a77.3. Health System 14 (HS-14)\nwas omitted from notification cohort NC-2026-03, resulting in all HS-14 outpatient\nimaging claims being denied with CARC-197.\n\nAccountable party: Plan (ACME Commercial PPO - Ohio) - notification gap.\n\nRemediation: Add HS-14 TINs to notification cohort and reprocess denied claims under appeal.",
+    "tool_calls": 5,
+    "turns": 3
+  },
+  "verification": {
+    "diff_count": 0,
+    "diffs": [],
+    "extracted": {
+      "rate_pct": 12.9,
+      "carc_197_dominance_pct": 61.6,
+      "at_risk_allowed_dollars": 354110.56,
+      "mentions_hs14": true,
+      "identifies_notification_gap": true,
+      "cites_policy": true
+    },
+    "truth": {
+      "metric": "first_pass_line_denial_rate",
+      "metric_version": "v4.2",
+      "rate_pct": 12.9,
+      "eligible_lines": 4678,
+      "denied_lines": 604,
+      "carc_197_dominance_pct": 61.6,
+      "root_cause": "UM-RAD-2026 policy effective 2026-04-01 requires 120-day prior auth notice per MP-RAD-114 \u00a74.2 and contract \u00a77.3. Health System 14 (HS-14) was omitted from notification cohort NC-2026-03, resulting in CARC-197 denials for all HS-14 outpatient imaging.",
+      "accountable_party": "Plan (ACME Commercial PPO - Ohio) - notification gap",
+      "at_risk_allowed_dollars": 354110.56,
+      "hs14_tins": [
+        "HS14-TIN-00",
+        "HS14-TIN-01",
+        "HS14-TIN-02",
+        "HS14-TIN-03",
+        "HS14-TIN-04",
+        "HS14-TIN-05",
+        "HS14-TIN-06",
+        "HS14-TIN-07",
+        "HS14-TIN-08"
+      ],
+      "remediation": "Add HS-14 TINs to notification cohort and reprocess denied claims under appeal."
+    },
+    "passed": true
+  }
+}

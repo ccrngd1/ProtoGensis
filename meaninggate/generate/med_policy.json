@@ -1,0 +1,5 @@
+{
+  "policy_id": "MP-RAD-114",
+  "section": "4.2",
+  "text": "Outpatient imaging requires prior authorization per UM-RAD-2026. Authorization requests via X12 278 must be submitted 120 days in advance per contract \u00a77.3. Failure to notify results in CARC-197 denial."
+}

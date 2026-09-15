@@ -1,0 +1,135 @@
+[
+  {
+    "tin": "HS14-TIN-00",
+    "npi": "NPI-HS14-TIN-00",
+    "name": "HS-14 Imaging Center 1",
+    "health_system_id": "HS-14",
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "HS14-TIN-01",
+    "npi": "NPI-HS14-TIN-01",
+    "name": "HS-14 Imaging Center 2",
+    "health_system_id": "HS-14",
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "HS14-TIN-02",
+    "npi": "NPI-HS14-TIN-02",
+    "name": "HS-14 Imaging Center 3",
+    "health_system_id": "HS-14",
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "HS14-TIN-03",
+    "npi": "NPI-HS14-TIN-03",
+    "name": "HS-14 Imaging Center 4",
+    "health_system_id": "HS-14",
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "HS14-TIN-04",
+    "npi": "NPI-HS14-TIN-04",
+    "name": "HS-14 Imaging Center 5",
+    "health_system_id": "HS-14",
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "HS14-TIN-05",
+    "npi": "NPI-HS14-TIN-05",
+    "name": "HS-14 Imaging Center 6",
+    "health_system_id": "HS-14",
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "HS14-TIN-06",
+    "npi": "NPI-HS14-TIN-06",
+    "name": "HS-14 Imaging Center 7",
+    "health_system_id": "HS-14",
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "HS14-TIN-07",
+    "npi": "NPI-HS14-TIN-07",
+    "name": "HS-14 Imaging Center 8",
+    "health_system_id": "HS-14",
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "HS14-TIN-08",
+    "npi": "NPI-HS14-TIN-08",
+    "name": "HS-14 Imaging Center 9",
+    "health_system_id": "HS-14",
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "OTHER-TIN-00",
+    "npi": "NPI-OTHER-TIN-00",
+    "name": "Independent Imaging 1",
+    "health_system_id": null,
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "OTHER-TIN-01",
+    "npi": "NPI-OTHER-TIN-01",
+    "name": "Independent Imaging 2",
+    "health_system_id": null,
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "OTHER-TIN-02",
+    "npi": "NPI-OTHER-TIN-02",
+    "name": "Independent Imaging 3",
+    "health_system_id": null,
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "OTHER-TIN-03",
+    "npi": "NPI-OTHER-TIN-03",
+    "name": "Independent Imaging 4",
+    "health_system_id": null,
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "OTHER-TIN-04",
+    "npi": "NPI-OTHER-TIN-04",
+    "name": "Independent Imaging 5",
+    "health_system_id": null,
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "OTHER-TIN-05",
+    "npi": "NPI-OTHER-TIN-05",
+    "name": "Independent Imaging 6",
+    "health_system_id": null,
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "OTHER-TIN-06",
+    "npi": "NPI-OTHER-TIN-06",
+    "name": "Independent Imaging 7",
+    "health_system_id": null,
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "OTHER-TIN-07",
+    "npi": "NPI-OTHER-TIN-07",
+    "name": "Independent Imaging 8",
+    "health_system_id": null,
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "OTHER-TIN-08",
+    "npi": "NPI-OTHER-TIN-08",
+    "name": "Independent Imaging 9",
+    "health_system_id": null,
+    "specialty": "Radiology"
+  },
+  {
+    "tin": "OTHER-TIN-09",
+    "npi": "NPI-OTHER-TIN-09",
+    "name": "Independent Imaging 10",
+    "health_system_id": null,
+    "specialty": "Radiology"
+  }
+]
