@@ -1,6 +1,8 @@
 # One Table, Six Denial Rates, Zero LLMs Required.
 
-**TL;DR**: Ask an LLM with raw SQL access "what's our denial rate?" and you'll get a number. A different number every time. Across 20 live runs on the same Bedrock model, the same data, and the same question, I got 19 distinct rate-sets ranging from 5.7% to 48.6%. Zero errors. Every answer defensible. None of them useful. I built a semantic governance layer that collapses this ambiguity into one deterministic, cited, root-cause-traced answer, and the hardest part didn't need an LLM at all.
+> *"MeaningGate" is a provisional working name for this project and may change.*
+
+**TL;DR**: Ask an LLM with raw SQL access "what's our denial rate?" and you'll get a number. A different number every time. Across 20 live runs on the same Bedrock model, the same data, and the same question, I got 19 distinct rate-sets ranging from 5.7% to 48.6%. Zero errors. Every answer defensible. None of them useful. I built a semantic governance layer that collapses this ambiguity into one deterministic, cited, root-cause-traced answer. The hardest part didn't need an LLM at all.
 
 ---
 
@@ -21,13 +23,13 @@ I wanted to prove that claim. Not assert it. Prove it with code you can clone an
 Here's what happens when you compute six defensible denial-rate definitions over the same 5,821 claim lines in the same DuckDB warehouse:
 
 ```
-Naive header denial rate (includes 277CA rejections)            25.6%
-Header denial rate (adjudicated only)                           14.5%
+Naive header denial rate (277CA rejections unioned)             18.8%
+Header denial rate (adjudicated only, dupes + reversals)        17.1%
 Line denial rate (everything not paid)                          20.7%
-Line denial rate (excl reversals/dupes, keep PR)                15.3%
-First-pass line denial rate (clean adjudication)                 8.0%
-Auth defect denial rate (CARC 197/246/252 only)                  7.7%
-SPREAD: 7.7% -> 25.6%  (3.3x)  on IDENTICAL data
+Line denial rate (excl reversals/dupes, keep PR)                15.6%
+First-pass line denial rate (clean adjudication)                12.9%
+Auth-defect denial rate (CARC 197 family)                        8.0%
+SPREAD: 8.0% -> 20.7%  (2.6x)  on IDENTICAL data
 ```
 
 No LLM in the loop. No prompts. Just six YAML-defined metrics, a deterministic SQL compiler, and one DuckDB table. The spread is structural: it comes from grain choices, inclusion criteria, and which X12 codes you treat as "denied."
@@ -64,15 +66,13 @@ This is the failure mode that matters. Not hallucination. Not wrong SQL. *Correc
 
 ## What Happens When You Do Govern
 
-The governed agent gets the same model (Sonnet 4.6), the same question, and the same underlying data. What changes is the interface. Instead of `execute_sql`, it gets three typed semantic tools:
+The governed agent gets the same model (Sonnet 4.6), the same question, and the same underlying data. What changes is the interface. Instead of `execute_sql`, it gets three typed semantic tools, and here's the important part: the model never writes SQL.
 
-**`query_metric`** takes a metric name from an enumerated list and an optional state filter. The model picks which metric to query. The semantic layer compiles deterministic SQL. The model never writes SQL.
+It can query a named metric from a fixed, enumerated list (with an optional state filter). The semantic layer compiles that metric choice into deterministic SQL. It can walk an RDF knowledge graph (48,210 triples, loaded via rdflib) to find relationships and infer root causes. The load-bearing capability there is *inference-from-absence*: the graph can tell you what *should* exist but doesn't. And it can search UM and medical policy documents by type and keyword, so it can cite specific policy sections, not just claim they exist.
 
-**`traverse_graph`** walks an RDF knowledge graph (48,210 triples, loaded via rdflib) to find relationships and infer root causes. The load-bearing capability here is *inference-from-absence*: the graph can tell you what *should* exist but doesn't.
+The model makes choices. The semantic layer does execution.
 
-**`search_policy`** retrieves UM and medical policy documents by type and keyword. The model can cite specific policy sections, not just claim they exist.
-
-The governed agent's answer, from the live Bedrock run:
+Here's what the governed agent produced from the live Bedrock run:
 
 > Auth-defect (CARC-197) denial rate: **8.0%** (372 denied lines / 4,678 eligible)  
 > At-risk allowed dollars: **~$354K**  
@@ -84,23 +84,27 @@ One answer. Deterministic. Cited. Root-cause traced through the knowledge graph 
 
 The governed agent found the answer because the tools constrained it to. `query_metric("auth_defect_denial_rate")` compiles to exactly one SQL query. That query returns exactly one number. The model can't accidentally union rejections or count PR as denials because the metric definition (versioned YAML, owner: Utilization Management, with a `not_to_be_confused_with` field) makes those exclusions structural.
 
-## The Architecture (Five Phases)
+Here's how that system works.
 
-### Phase 1: Generate the World
+## The Architecture (Five Layers)
 
-A deterministic, seeded generator emits a complete synthetic payor world: members, coverages, plans, claim lines (5,821 of them), providers rolling up to health systems, UM policies with effective dates, medical policy docs, and X12 278 authorization requests with a deliberate gap. HS-14 is omitted from notification cohort NC-2026-03. This is the root cause the governed agent needs to find.
+I built this in five layers. Each one builds on the last, and each one is independently testable.
+
+### Layer 1: Generate the World
+
+The whole system runs on synthetic data, and the synthetic data has to be realistic enough to expose the problem. A deterministic, seeded generator emits a complete payor world: members, coverages, plans, claim lines (5,821 of them), providers rolling up to health systems, UM policies with effective dates, medical policy docs, and X12 278 authorization requests with a deliberate gap. HS-14 is omitted from notification cohort NC-2026-03. This is the root cause the governed agent needs to find.
 
 Critically, the generator also emits `truth.json`: the known-correct answer, computed from the generator's own knowledge. This isn't a label someone wrote by hand. It's ground truth by construction. The verification layer diffs the governed agent's answer against it.
 
-### Phase 2: The Semantic Layer
+### Layer 2: The Semantic Layer
 
-Six metric definitions in YAML. Each one specifies grain (header vs line), numerator conditions, denominator conditions, exclusions, version, owner, access policy, and a `not_to_be_confused_with` field that explains what *doesn't* belong.
+This is where the thesis lives. Six metric definitions in YAML. Each one specifies grain (header vs line), numerator conditions, denominator conditions, exclusions, version, owner, access policy, and a `not_to_be_confused_with` field that explains what *doesn't* belong.
 
 The compiler turns `query_metric("first_pass_line_denial_rate", filter_state="OH")` into deterministic SQL. No prompt engineering. No chain-of-thought. Just a function that maps a metric ID to a query. The model picks the metric. The compiler writes the SQL.
 
-This is the layer where the thesis lives. The six-rate divergence is fully reproducible here, no LLM required. Run `python3 semantic/compiler.py` and you'll see the 3.3x spread yourself.
+The six-rate divergence is fully reproducible here, no LLM required. Run `python3 semantic/compiler.py` and you'll see the 2.6x spread yourself.
 
-### Phase 3: The Knowledge Graph + SHACL
+### Layer 3: The Knowledge Graph + SHACL
 
 An OWL ontology (`payor.ttl`) models the domain: Claims, ClaimLines, Members, Providers, HealthSystems, AdjudicationOutcomes (Denial, Rejection, Paid, PatientResponsibility, all properly classified), CARC codes grouped into semantic families (AuthorizationDefect, ClinicalDenial, ContractualReduction), authorization requests, and policies.
 
@@ -108,26 +112,26 @@ Denial and Rejection are `owl:disjointWith`. That's not decorative. It enforces 
 
 SHACL shapes enforce rigor in CI:
 - Every Denial must have a CARC (you can't deny without a reason code)
-- PatientResponsibility must not be typed as a Denial (they're disjoint classes)  
+- PatientResponsibility must not be typed as a Denial (they're disjoint classes)
 - Rejections must not have CARCs (277CAs are pre-adjudication)
 
 The gate works both directions. Seeded violations (a Denial without a CARC, a PR record typed as Denial) fail validation with 3 detected violations. Clean data passes. This runs in the offline test suite.
 
-The knowledge graph's most important capability is inference-from-absence. The graph traverses from CARC-197 denials to providers to health systems, then checks for the existence of X12 278 authorization requests per health system. HS-14 has 277 CARC-197 denials and $354,110.56 in at-risk allowed dollars, but zero 278 auth requests. The absence *is* the finding: the plan never notified HS-14 about the new prior auth requirement, so every claim from HS-14 got denied for missing authorization that was never requested because no one told them to request it.
+The knowledge graph's most important capability is inference-from-absence (the logic for which runs in Python against the RDF API; see Honesty Notes for the performance rationale). The graph traverses from CARC-197 denials to providers to health systems, then checks for the existence of X12 278 authorization requests per health system. HS-14 has 277 CARC-197 denials and $354,110.56 in at-risk allowed dollars, but zero 278 auth requests. The absence *is* the finding: the plan never notified HS-14 about the new prior auth requirement, so every claim from HS-14 got denied for missing authorization that was never requested because no one told them to request it.
 
-### Phase 4: The Two Agents
+### Layer 4: The Two Agents
 
-Both agents use the same model (Sonnet 4.6 on Bedrock), the same temperature, and answer the same question. The ungoverned agent has `execute_sql` plus an 80-column schema dump. The governed agent has `query_metric`, `traverse_graph`, and `search_policy` with enumerated legal values and system constraints requiring citations for causal claims.
+Both agents use the same model (Sonnet 4.6 on Bedrock), the same temperature, and answer the same question. The ungoverned agent has `execute_sql` plus an 80-column schema dump. The governed agent has `query_metric`, `traverse_graph`, and `search_policy` with enumerated legal values and system constraints requiring citations for causal claims. In this demo, `search_policy` reads from flat JSON policy documents (`generate/um_policy.json` and `generate/med_policy.json`) loaded into memory at agent startup and filtered by policy type and keyword. A production system would swap this for a document store or policy API, but the interface contract stays the same: the model retrieves and cites specific policy sections rather than asserting them.
 
 The verification layer extracts structured facts from the governed answer (rate, CARC dominance percentage, dollar amount, HS-14 mention, notification gap identification, policy citations) and diffs them against `truth.json`. The governed answer passes. The test enforces it.
 
-### Phase 5: Tests and Demo
+### Layer 5: Tests and Demo
 
 14 offline tests pass in ~8 seconds with no live LLM. They cover:
 
-- P2 semantic layer reproducing the six-rate spread (asserts ≥2x divergence)
-- P3 SHACL passing clean data and failing on seeded violations
-- P3 inference-from-absence finding the HS-14 gap
+- The semantic layer reproducing the six-rate spread (asserts ≥2x divergence)
+- SHACL passing clean data and failing on seeded violations
+- Inference-from-absence finding the HS-14 gap
 - Verification layer extracting facts and detecting discrepancies
 - Metric YAML validity (6 metrics), eval questions validity (50 questions)
 - Demo mock mode running end-to-end
@@ -136,7 +140,7 @@ The demo runs in mock mode without credentials (`python3 demo.py --mock`) or liv
 
 ## Honesty Notes
 
-A few things that didn't go perfectly, because this section matters:
+A few things that didn't go perfectly, because this section matters.
 
 **The governed answer is 8.0%, not 12.9%.** The ground truth overall first-pass denial rate is 12.9%. The governed agent, when asked about the denial spike, correctly narrows to the auth-defect slice (CARC-197 family) because that's where the spike is. The 8.0% is the auth-defect denial rate, which is the right metric for the question asked. The `live-harness-result.json` records `governed_matches_truth: false` because it checks against the overall 12.9% rate, not the auth-defect subset. The answer is correct; the truth-matching metric is overly broad.
 
@@ -167,6 +171,7 @@ python3 ontology/graph.py
 python3 demo.py --mock
 
 # Demo (live mode, requires AWS Bedrock credentials)
+# For production, prefer AWS profiles (aws configure) or instance roles.
 export AWS_ACCESS_KEY_ID=...
 export AWS_SECRET_ACCESS_KEY=...
 export AWS_DEFAULT_REGION=us-east-1
@@ -181,7 +186,7 @@ The failure mode here is different. The model says something *right*. Correct SQ
 
 The fix isn't a better model. It's a better interface between the model and the data. Typed tools with enumerated legal values. Pre-compiled metrics with versioned definitions. A knowledge graph that can tell you what's missing, not just what's present. SHACL constraints that enforce domain rules in CI, not in prompts.
 
-Meaning before models. Semantics and ontology drive the answer. The model is just the last mile.
+That's what I learned building this. Meaning before models. Semantics and ontology drive the answer. The model is just the last mile.
 
 ---
 
