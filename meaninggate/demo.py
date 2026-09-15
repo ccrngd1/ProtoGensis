@@ -8,8 +8,8 @@ import json
 import sys
 import os
 
-# Check for Bedrock creds
-if not os.getenv("AWS_ACCESS_KEY_ID"):
+# Check for Bedrock creds (either standard AWS keys or the Bedrock bearer token)
+if not (os.getenv("AWS_ACCESS_KEY_ID") or os.getenv("AWS_BEARER_TOKEN_BEDROCK")):
     print("⚠️  WARNING: No AWS credentials found. Running in MOCK MODE (no live LLM).", file=sys.stderr)
     MOCK_MODE = True
 else:

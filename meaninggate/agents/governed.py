@@ -41,10 +41,13 @@ class GovernedAgent:
                             "metric_name": {
                                 "type": "string",
                                 "enum": [
+                                    "naive_header_denial_rate_with_rejections",
+                                    "header_denial_rate_adj_only",
+                                    "line_denial_rate_everything_not_paid",
+                                    "line_denial_rate_excl_reversals_dupes_keep_pr",
                                     "first_pass_line_denial_rate",
-                                    "header_denial_rate",
-                                    "clean_claim_rate",
-                                    "carc_197_as_pct_of_denials"
+                                    "auth_defect_denial_rate",
+                                    "denied_allowed_dollars_at_risk"
                                 ],
                                 "description": "Name of the metric to query"
                             },
@@ -232,14 +235,22 @@ Be precise and cite your sources."""
                     func_name = tool_call.function.name
                     args = json.loads(tool_call.function.arguments)
 
-                    if func_name == "query_metric":
-                        result = self.query_metric(**args)
-                    elif func_name == "traverse_graph":
-                        result = self.traverse_graph(**args)
-                    elif func_name == "search_policy":
-                        result = self.search_policy(**args)
-                    else:
-                        result = {"error": f"Unknown tool: {func_name}"}
+                    try:
+                        if func_name == "query_metric":
+                            result = self.query_metric(**args)
+                        elif func_name == "traverse_graph":
+                            result = self.traverse_graph(**args)
+                        elif func_name == "search_policy":
+                            result = self.search_policy(**args)
+                        else:
+                            result = {"error": f"Unknown tool: {func_name}"}
+                    except Exception as tool_err:
+                        # Never let a tool exception kill the run: hand a structured
+                        # error back to the model so it can retry with valid inputs.
+                        result = {
+                            "error": str(tool_err),
+                            "valid_metrics": list(self.metrics.compiler.metrics.keys()),
+                        }
 
                     messages.append({
                         "role": "tool",
