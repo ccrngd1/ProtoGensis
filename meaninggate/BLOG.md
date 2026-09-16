@@ -14,7 +14,7 @@ Not because the data is wrong. Because "denial rate" isn't one thing.
 
 Are you counting at the header level (one claim = one unit) or the line level (each service line counted separately)? Are front-end rejections (the 277CA "we didn't even look at this" response) being unioned in as "didn't get paid"? Are reversals and duplicates inflating the denominator? Is patient responsibility (deductible, copay) counting as a "denial"? Which CARCs qualify as real first-pass denials versus contractual adjustments?
 
-Each of those decisions is defensible in isolation. Chain them together and you get denial rates that diverge by 3x or more on *identical data*.
+Each of those decisions is defensible in isolation. Chain them together and you get denial rates that diverge by more than 2x (a 2.6x spread, as you'll see below) on *identical data*.
 
 I wanted to prove that claim. Not assert it. Prove it with code you can clone and run.
 
