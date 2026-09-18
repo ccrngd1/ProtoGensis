@@ -1,0 +1,105 @@
+# Registered planted defects. Each defect is detectable by reading ONLY the
+# named fixture file. Ground truth lives here, never in the fixture source.
+defects:
+  - id: sqli-report-query
+    file: report_query.py
+    lines: [10, 14]
+    bug_class: SQL injection
+    cwe: CWE-89
+    single_file_detectable: true
+    description: >
+      fetch_report_rows interpolates user-controlled team_name (and month)
+      directly into the SQL string instead of using parameterized queries.
+
+  - id: offbyone-pagination
+    file: pagination.py
+    lines: [13, 14]
+    bug_class: off-by-one
+    cwe: CWE-193
+    single_file_detectable: true
+    description: >
+      last_page_number returns total_items // page_size + 1, which reports
+      one page too many whenever total_items is an exact multiple of
+      page_size (20 items at 10/page -> 3 pages).
+
+  - id: authbypass-session
+    file: session_auth.py
+    lines: [15, 17]
+    bug_class: authentication bypass
+    cwe: CWE-287
+    single_file_detectable: true
+    description: >
+      verify_session returns True for any request with debug_bypass == "1",
+      skipping both the HMAC signature check and the TTL expiry check.
+
+  - id: secret-mail-client
+    file: mail_client.py
+    lines: [8, 9]
+    bug_class: hardcoded credential
+    cwe: CWE-798
+    single_file_detectable: true
+    description: >
+      SMTP_PASSWORD is a production relay credential committed to source.
+
+  - id: typeerror-duration-stats
+    file: duration_stats.py
+    lines: [11, 12]
+    bug_class: type error
+    cwe: CWE-704
+    single_file_detectable: true
+    description: >
+      format_percentile_row concatenates the float value_ms into a string
+      with '+', raising TypeError on every call with real input.
+
+  - id: traversal-asset-server
+    file: asset_server.py
+    lines: [9, 12]
+    bug_class: path traversal
+    cwe: CWE-22
+    single_file_detectable: true
+    description: >
+      read_asset joins the request-supplied relative_name onto ASSET_ROOT
+      without normalization or containment check, so "../../etc/passwd"
+      escapes the asset root.
+
+  - id: novalidation-quota
+    file: quota_update.py
+    lines: [6, 12]
+    bug_class: missing input validation
+    cwe: CWE-20
+    single_file_detectable: true
+    description: >
+      apply_quota_change applies a form-supplied delta with no range check:
+      seats can go negative or exceed MAX_SEATS, which is defined but never
+      enforced.
+
+  - id: race-counter-service
+    file: counter_service.py
+    lines: [9, 13]
+    bug_class: race condition
+    cwe: CWE-362
+    single_file_detectable: true
+    description: >
+      record_download performs an unlocked read-modify-write on the shared
+      _counts dict even though a lock exists and is used elsewhere;
+      concurrent handlers lose increments.
+
+  - id: leak-log-shipper
+    file: log_shipper.py
+    lines: [7, 15]
+    bug_class: resource leak
+    cwe: CWE-772
+    single_file_detectable: true
+    description: >
+      ship_batch opens a gzip handle that is never closed — not on the
+      oversized-line early return, not on exceptions, not on normal exit.
+
+  - id: pickle-job-intake
+    file: job_intake.py
+    lines: [7, 9]
+    bug_class: insecure deserialization
+    cwe: CWE-502
+    single_file_detectable: true
+    description: >
+      decode_job calls pickle.loads on bytes received from an external
+      message queue, allowing arbitrary code execution by any producer.
