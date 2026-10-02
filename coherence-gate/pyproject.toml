@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coherence-gate"
+version = "0.1.0"
+description = "Commit-time coherence harness for multi-agent systems: an executable spec of the harness in arXiv 2610.02036 (store, context read sets, invariant owners, commit gate, effect monitor, audits)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "ProtoGensis contributors" }]
+keywords = ["multi-agent", "concurrency-control", "coherence", "llm-agents", "commit-gate"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+# Zero runtime dependencies: the core is stdlib-only.
+dependencies = []
+
+[project.optional-dependencies]
+bedrock = ["boto3==1.43.36"]
+# langgraph is unpinned and optional: the adapter is importorskip'd and never a test dependency.
+langgraph = ["langgraph"]
+dev = ["pytest"]
+
+[project.scripts]
+coherence-gate = "coherencegate.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["coherencegate*"]
+
+[tool.setuptools.package-data]
+"coherencegate.demos" = ["config/*.json"]

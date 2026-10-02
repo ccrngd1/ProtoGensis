@@ -1,0 +1,18 @@
+{
+  "seeds": [0, 1, 2, 3, 4],
+  "arms": ["ordinary", "visible_state", "ledger", "escrow", "wrong_unit_ledger"],
+  "limit": 20,
+  "resource": "run_calls",
+  "graded_unit": {"kind": "tool_call", "name": "run"},
+  "policy": {
+    "demand_ranges": {"planner": [3, 6], "executor": [10, 16], "verifier": [5, 9]},
+    "batch_range": [1, 3],
+    "superstep": "each round, every role that still has demand (and has not stopped) reads the same round-start run_calls snapshot x, then proposes exactly ONE batch of 1-3 calls (seeded, capped at its remaining demand); all of a round's decisions are made against that snapshot before any of the round's commits land, so no decision sees another role's same-round spending (Cor 2.2: a decision is bounded by the acting role's view); rounds repeat until all demands are met or the roles have stopped",
+    "visible_state_rule": "a role proposes its one batch only if x + own_batch <= 20, where x is the run_calls count shown in its rendered context at the start of the round (display-only, via ContextAssembler); conservative reading: a role whose rule fails this round stops for good (a role that sees no room does not come back)",
+    "refusal_rule": "in gated arms, a refusal ends the role's turn for the round; if the refusal reports headroom 0 the role abandons its remaining demand"
+  },
+  "escrow_quotas": {"planner": 2, "executor": 12, "verifier": 6},
+  "wrong_unit": {"kind": "tool_call", "name": "write_file"},
+  "progress_metric": "per-role partial = min(committed_calls, demand) / demand; arm progress = mean of the three role partials; reported as the mean over the 5 seeds",
+  "notes": "Pre-registered before the first results run (AC #8). The policy is not tuned to any violation count; whatever the pre-registered policy produces is reported. wrong_unit_ledger makes the same agent decisions as ordinary (the guard counts write_file, the grader counts run), so its violations equal ordinary's by mechanism."
+}

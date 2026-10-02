@@ -1,0 +1,21 @@
+{
+  "role": "assistant",
+  "content": [
+    {
+      "text": "I will place the order at the quoted price."
+    },
+    {
+      "toolUse": {
+        "toolUseId": "tooluse_order_001",
+        "name": "place_order",
+        "input": {
+          "key": "order",
+          "value": {
+            "qty": 1,
+            "unit_price": 100
+          }
+        }
+      }
+    }
+  ]
+}

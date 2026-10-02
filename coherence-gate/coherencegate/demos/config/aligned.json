@@ -1,0 +1,9 @@
+{
+  "guard": {
+    "unit": {"kind": "tool_call", "name": "run"},
+    "limit": 20
+  },
+  "task": {
+    "graded_unit": {"kind": "tool_call", "name": "run"}
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "role": "user",
+  "content": [
+    {
+      "toolResult": {
+        "toolUseId": "tooluse_spend_002",
+        "content": [
+          {
+            "json": {
+              "result": "reject",
+              "reason": "invariant",
+              "detail": "ledger run_calls: 19+3>20",
+              "headroom": 1
+            }
+          }
+        ],
+        "status": "error"
+      }
+    }
+  ]
+}

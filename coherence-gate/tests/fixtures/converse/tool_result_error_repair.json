@@ -1,0 +1,25 @@
+{
+  "role": "user",
+  "content": [
+    {
+      "toolResult": {
+        "toolUseId": "tooluse_order_001",
+        "content": [
+          {
+            "json": {
+              "result": "repair",
+              "stale_keys": ["price"],
+              "fresh": {
+                "price": {
+                  "value": 140,
+                  "version": 2
+                }
+              }
+            }
+          }
+        ],
+        "status": "error"
+      }
+    }
+  ]
+}
