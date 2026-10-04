@@ -319,3 +319,6 @@ pyrightconfig.json
 .mastercontrol/
 cabal-evals/
 configlint/
+
+# internal publishing helpers (not part of projects)
+**/.push_*.py
