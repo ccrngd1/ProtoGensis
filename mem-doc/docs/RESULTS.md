@@ -158,12 +158,27 @@ research spike, 2026-10-09 (Titan v2, live): 'Decision: use PostgreSQL...' score
 
 ## Decay host run (filled by MasterControl)
 
-_Placeholder: MasterControl runs
+Run by MasterControl as root on the build host, 2026-10-09 (aggregates only; the tool never prints line text,
+and a check against the source file found 0 leaked lines). Command:
 `memdoc decay --repo /root/.openclaw --file workspace/MEMORY.md --until 2026-10-08`
-as root after the build and pastes the output here. Expected (research §4.4):
-156 commits; survival medians 0.90 / 0.83 / 0.81 / 0.62; 1,973 vs 182 → 10.8×.
-If the tool's output differs, the tool's output is used and the difference is
-noted here._
+
+```
+decay analysis of workspace/MEMORY.md (until 2026-10-08)
+commits: 156  (2026-02-12 -> 2026-10-08)
+size bytes: first 1,939 -> last 35,828 (min 1,939, max 35,828)
+horizon   7d: median exact-line survival 0.9 (n=151, min 0.08)
+horizon  30d: median exact-line survival 0.83 (n=131, min 0.08)
+horizon  60d: median exact-line survival 0.81 (n=101, min 0.08)
+horizon  90d: median exact-line survival 0.62 (n=74, min 0.08)
+current content lines: 182, median age 116.0 days, 0.62 older than 90d
+distinct lines ever 1,973 vs current 182 -> churn 10.84x
+note: exact-line survival counts an edit as a removal: this measures churn, not wrong facts
+```
+
+**Matches research §4.4 exactly:** 156 commits; survival medians 0.90 / 0.83 / 0.81 / 0.62; 1,973 vs 182 lines (10.8x churn);
+median age 116 days; 62% of current lines are older than 90 days. `memdoc claims verify` (run as root) also verified all 4 host-only
+decay claims. Note: the tool reports only first, last, min and max size, not the full curve. The "sawtooth" description in BLOG §5 comes from
+research §4.4's size trajectory (a consolidation to 11 KB on Apr 6), not from this output.
 
 ## Mechanism observations (reported as-is, not tuned; R1)
 
