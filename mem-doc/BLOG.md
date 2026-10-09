@@ -108,9 +108,10 @@ category-4 storylines turn this one example into a measured stale-answer rate pe
 Liao's critics said doc stores rot. They're right — and now there's a number. `memdoc
 decay` replays the git history of a memory file and computes exact-line survival. On my
 production system's MEMORY.md (156 commits <!-- claim:decay-commits --> over eight
-months): median 90-day line survival 0.62 <!-- claim:decay-90d -->, 1,973 distinct lines
+months, Feb–Oct 2026): median 90-day line survival 0.62 <!-- claim:decay-90d -->, 1,973 distinct lines
 ever against 182 current <!-- claim:decay-lines --> — a 10.8× <!-- claim:decay-churn -->
-churn ratio, with a sawtooth size curve (steady growth, one manual consolidation). Plainly:
+churn ratio, with a sawtooth size curve (steady growth, one manual consolidation
+<!-- cite:research-4.4-decay-size-trajectory -->). Plainly:
 **about 4 in 10 lines of curated memory are rewritten or removed within 90 days.** Be
 careful with the reading, though — exact-line survival measures *churn*, not wrong facts.
 A rewritten status line counts as a removal. The honest interpretations run both ways:
