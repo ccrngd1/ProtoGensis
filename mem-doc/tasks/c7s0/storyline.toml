@@ -1,0 +1,90 @@
+id = "c7s0"
+category = 7
+category_name = "abstention_premise_resistance"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Filed a credential hint for the staging dashboard."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "Scheduled the staging dashboard refresh job."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Quiet session; routine checks."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "near_miss"
+kind = "introduce"
+text = "The staging dashboard credential hint is filed under code XK-3845."
+canary = "XK-3845"
+canary_type = "code"
+session = 1
+near_miss = true
+supersedes = ""
+
+[[facts]]
+key = "refresh"
+kind = "introduce"
+text = "The staging dashboard refresh job runs under code XK-3054."
+canary = "XK-3054"
+canary_type = "code"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Give the production staging dashboard access code issued last month."
+gold = "ABSTAIN"
+fact_keys = ["near_miss"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = "XK-3845"
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "What code is filed for the staging dashboard credential hint?"
+gold = "XK-3845"
+fact_keys = ["near_miss"]
+depth = 4
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Which code runs the staging dashboard refresh job?"
+gold = "XK-3054"
+fact_keys = ["refresh"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""

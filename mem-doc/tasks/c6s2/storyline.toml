@@ -1,0 +1,90 @@
+id = "c6s2"
+category = 6
+category_name = "procedural_lesson"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Normal ingest pipeline session."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "A failed experiment on the ingest pipeline; wrote up what happened."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Saved a safe dry-run setup for the ingest pipeline."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "lesson"
+kind = "introduce"
+text = "Lesson: bulk renaming measurement folders corrupted the ingest ledger; recovery took a full evening; incident XK-7035."
+canary = "XK-7035"
+canary_type = "code"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "profile"
+kind = "introduce"
+text = "The ingest pipeline dry-run profile is saved under code XK-9757."
+canary = "XK-9757"
+canary_type = "code"
+session = 3
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "What incident did the bulk folder renaming cause?"
+gold = "XK-7035"
+fact_keys = ["lesson"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "Planning a sweeping cleanup of the data directory names tomorrow. Any advice?"
+gold = "XK-7035"
+fact_keys = ["lesson"]
+depth = 3
+unknown_unknown = true
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Which code saves the ingest pipeline dry-run profile?"
+gold = "XK-9757"
+fact_keys = ["profile"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""

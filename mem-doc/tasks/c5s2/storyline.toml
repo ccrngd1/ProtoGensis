@@ -1,0 +1,100 @@
+id = "c5s2"
+category = 5
+category_name = "multi_session_aggregation"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Added the first publish mirror set entry."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "Added the second publish mirror set entry."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Added the third publish mirror set entry."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "item1"
+kind = "enumerate"
+text = "Publish mirror set entry: the docs build routes through host cobalt-kestrel."
+canary = "cobalt-kestrel"
+canary_type = "codename"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "item2"
+kind = "enumerate"
+text = "Publish mirror set entry: the package feed routes through host indigo-dunlin."
+canary = "indigo-dunlin"
+canary_type = "codename"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "item3"
+kind = "enumerate"
+text = "Publish mirror set entry: the image push routes through host velvet-godwit."
+canary = "velvet-godwit"
+canary_type = "codename"
+session = 3
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Which host carries the docs build on the publish mirror set?"
+gold = "cobalt-kestrel"
+fact_keys = ["item1"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 4
+prompt = "Which host carries the package feed on the publish mirror set?"
+gold = "indigo-dunlin"
+fact_keys = ["item2"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Which host carries the image push on the publish mirror set?"
+gold = "velvet-godwit"
+fact_keys = ["item3"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""

@@ -1,0 +1,100 @@
+id = "c4s2"
+category = 4
+category_name = "implicit_conflict"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Set up the original seed data load path."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "Tagged the schema drift check."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Hardware shuffle day; big changes in the rack."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "place"
+kind = "introduce"
+text = "Seed data loads from the staging snapshot box, unit amber-wagtail."
+canary = "amber-wagtail"
+canary_type = "codename"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "place_new"
+kind = "invalidate_implicit"
+text = "Server slate-petrel was promoted this week and now serves every seed data load."
+canary = "slate-petrel"
+canary_type = "codename"
+session = 3
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "side"
+kind = "introduce"
+text = "The schema drift check is tagged XK-9064."
+canary = "XK-9064"
+canary_type = "code"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Which unit receives the seed data load now?"
+gold = "slate-petrel"
+fact_keys = ["place", "place_new"]
+depth = 1
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = "amber-wagtail"
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "Confirm tonight's destination for the seed data load."
+gold = "slate-petrel"
+fact_keys = ["place", "place_new"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = "amber-wagtail"
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "What tag does the schema drift check use?"
+gold = "XK-9064"
+fact_keys = ["side"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""

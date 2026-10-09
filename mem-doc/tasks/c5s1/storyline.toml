@@ -1,0 +1,100 @@
+id = "c5s1"
+category = 5
+category_name = "multi_session_aggregation"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Added the first ssh jump list entry."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "Added the second ssh jump list entry."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Added the third ssh jump list entry."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "item1"
+kind = "enumerate"
+text = "Ssh jump list entry: the admin shell routes through host teal-egret."
+canary = "teal-egret"
+canary_type = "codename"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "item2"
+kind = "enumerate"
+text = "Ssh jump list entry: the deploy session routes through host russet-kestrel."
+canary = "russet-kestrel"
+canary_type = "codename"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "item3"
+kind = "enumerate"
+text = "Ssh jump list entry: the audit login routes through host crimson-osprey."
+canary = "crimson-osprey"
+canary_type = "codename"
+session = 3
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Which host carries the admin shell on the ssh jump list?"
+gold = "teal-egret"
+fact_keys = ["item1"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 4
+prompt = "Which host carries the deploy session on the ssh jump list?"
+gold = "russet-kestrel"
+fact_keys = ["item2"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Which host carries the audit login on the ssh jump list?"
+gold = "crimson-osprey"
+fact_keys = ["item3"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""

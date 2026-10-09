@@ -1,0 +1,31 @@
+# Pre-registered setup for `memdoc demo crossover` (AC #11).
+# Committed before the first demo run. MockAgent rules are fixed here and the
+# file's sha256 is recorded in .mastercontrol/preregistration.md.
+
+seeds = [0, 1, 2]
+sizes = [5000, 25000, 100000]
+arms = ["a0", "astar", "a1", "a2", "a4", "a5", "a6"]
+profile = "medium"           # 30 calls / 5 turns per session
+p_forget = 0.0               # seeded write-skip sweep; exploratory wherever shown
+
+[mock_agent]
+# ScriptedWriter rules (same information for every arm):
+#   introduce            -> add
+#   correct_explicit     -> doc arms rewrite the line in place; A4 issues UPDATE
+#                           on the matching entry; A6 just logs the transcript
+#   invalidate_implicit  -> add the new statement, remove nothing
+#   enumerate            -> one entry/line per item
+writer = "scripted_v1"
+# Tool policy (probe phase): A2 opens every doc whose read_if shares >=1 content
+# keyword with the probe prompt; A6 greps each probe content keyword; A4/A5 call
+# memory_search with the probe prompt.
+tool_policy = "keyword_v1"
+# ContextReader picks a canary-shaped token of the probe's answer type by, in
+# order: (1) keyword overlap of the containing line with the probe; (2) explicit
+# supersession marker on the line; (3) later visible date; (4) earlier position.
+# Ties break by canary string order. No canary found -> ABSTAIN.
+reader = "ranked_v1"
+
+[pricing]
+# research §5.2 parameters, labeled as such ($/M, Sonnet-class list price)
+label = "research parameters ($3/$15 per M; write 1.25x, read 0.10x)"

@@ -1,0 +1,100 @@
+id = "c8s0"
+category = 8
+category_name = "cold_start"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "agent alpha: set up the paging escalation."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "agent alpha: scheduled the quiet hours window."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "agent alpha: organised the triage board."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "route"
+kind = "introduce"
+text = "Agent alpha configured the paging escalation to route via code XK-3295."
+canary = "XK-3295"
+canary_type = "code"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "window"
+kind = "introduce"
+text = "Agent alpha set the quiet hours window to start on 10-Sep."
+canary = "10-Sep"
+canary_type = "date"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "board"
+kind = "introduce"
+text = "Agent alpha pinned the triage board under codename sable-plover."
+canary = "sable-plover"
+canary_type = "codename"
+session = 3
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Which code routes the paging escalation?"
+gold = "XK-3295"
+fact_keys = ["route"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "What date starts the quiet hours window?"
+gold = "10-Sep"
+fact_keys = ["window"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "date"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Which codename pins the triage board?"
+gold = "sable-plover"
+fact_keys = ["board"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""

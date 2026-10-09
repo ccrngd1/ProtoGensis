@@ -1,0 +1,100 @@
+id = "c8s1"
+category = 8
+category_name = "cold_start"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "agent alpha: set up the alert routing."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "agent alpha: scheduled the freeze window."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "agent alpha: organised the review queue."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "route"
+kind = "introduce"
+text = "Agent alpha configured the alert routing to route via code XK-5282."
+canary = "XK-5282"
+canary_type = "code"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "window"
+kind = "introduce"
+text = "Agent alpha set the freeze window to start on 23-Mar."
+canary = "23-Mar"
+canary_type = "date"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "board"
+kind = "introduce"
+text = "Agent alpha pinned the review queue under codename umber-sandpiper."
+canary = "umber-sandpiper"
+canary_type = "codename"
+session = 3
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Which code routes the alert routing?"
+gold = "XK-5282"
+fact_keys = ["route"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "What date starts the freeze window?"
+gold = "23-Mar"
+fact_keys = ["window"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "date"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Which codename pins the review queue?"
+gold = "umber-sandpiper"
+fact_keys = ["board"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""

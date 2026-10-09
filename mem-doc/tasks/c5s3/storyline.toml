@@ -1,0 +1,100 @@
+id = "c5s3"
+category = 5
+category_name = "multi_session_aggregation"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Added the first api relay roster entry."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "Added the second api relay roster entry."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Added the third api relay roster entry."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "item1"
+kind = "enumerate"
+text = "Api relay roster entry: the billing calls routes through host teal-curlew."
+canary = "teal-curlew"
+canary_type = "codename"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "item2"
+kind = "enumerate"
+text = "Api relay roster entry: the webhook fanout routes through host coral-osprey."
+canary = "coral-osprey"
+canary_type = "codename"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "item3"
+kind = "enumerate"
+text = "Api relay roster entry: the status polls routes through host cobalt-bittern."
+canary = "cobalt-bittern"
+canary_type = "codename"
+session = 3
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Which host carries the billing calls on the api relay roster?"
+gold = "teal-curlew"
+fact_keys = ["item1"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 4
+prompt = "Which host carries the webhook fanout on the api relay roster?"
+gold = "coral-osprey"
+fact_keys = ["item2"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Which host carries the status polls on the api relay roster?"
+gold = "cobalt-bittern"
+fact_keys = ["item3"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""

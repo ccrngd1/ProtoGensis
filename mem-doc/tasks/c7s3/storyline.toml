@@ -1,0 +1,90 @@
+id = "c7s3"
+category = 7
+category_name = "abstention_premise_resistance"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Filed a credential hint for the lab vpn."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "Scheduled the lab vpn refresh job."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Quiet session; routine checks."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "near_miss"
+kind = "introduce"
+text = "The lab vpn credential hint is filed under code XK-7549."
+canary = "XK-7549"
+canary_type = "code"
+session = 1
+near_miss = true
+supersedes = ""
+
+[[facts]]
+key = "refresh"
+kind = "introduce"
+text = "The lab vpn refresh job runs under code XK-6078."
+canary = "XK-6078"
+canary_type = "code"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Give the production lab vpn access code issued last month."
+gold = "ABSTAIN"
+fact_keys = ["near_miss"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = "XK-7549"
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "What code is filed for the lab vpn credential hint?"
+gold = "XK-7549"
+fact_keys = ["near_miss"]
+depth = 4
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Which code runs the lab vpn refresh job?"
+gold = "XK-6078"
+fact_keys = ["refresh"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""

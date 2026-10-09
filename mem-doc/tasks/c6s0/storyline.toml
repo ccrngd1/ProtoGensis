@@ -1,0 +1,90 @@
+id = "c6s0"
+category = 6
+category_name = "procedural_lesson"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Normal ledger maintenance session."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "A failed experiment on the ledger maintenance; wrote up what happened."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Saved a safe dry-run setup for the ledger maintenance."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "lesson"
+kind = "introduce"
+text = "Lesson: enabling parallel compaction on the ledger caused checksum corruption; never retry it; incident XK-8413."
+canary = "XK-8413"
+canary_type = "code"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "profile"
+kind = "introduce"
+text = "The ledger maintenance dry-run profile is saved under code XK-2686."
+canary = "XK-2686"
+canary_type = "code"
+session = 3
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "What incident number did the parallel compaction failure get?"
+gold = "XK-8413"
+fact_keys = ["lesson"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "Tonight's maintenance window looks short. Suggest ways to speed things up safely."
+gold = "XK-8413"
+fact_keys = ["lesson"]
+depth = 3
+unknown_unknown = true
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Which code saves the ledger maintenance dry-run profile?"
+gold = "XK-2686"
+fact_keys = ["profile"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""

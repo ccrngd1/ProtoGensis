@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "memdoc"
+version = "0.1.0"
+description = "MemDoc: a controlled benchmark of agent-written memory (doc-driven vs RAG vs hybrid)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Protogenesis" }]
+# Core has zero runtime dependencies (stdlib only).
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest"]
+bedrock = ["boto3"]
+vec = ["sqlite-vec"]
+
+[project.scripts]
+memdoc = "memdoc.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["memdoc*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: long-running end-to-end demos"]

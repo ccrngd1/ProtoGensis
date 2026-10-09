@@ -1,0 +1,90 @@
+id = "c1s1"
+category = 1
+category_name = "preference_retention"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Agreed conventions for deploy announcements."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "Formatting discussion for retro writeups."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Routine triage; nothing new recorded."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "pref_main"
+kind = "introduce"
+text = "Preference: deploy announcements must carry the window code XK-0458."
+canary = "XK-0458"
+canary_type = "code"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "pref_style"
+kind = "introduce"
+text = "Preference: retro writeups are written as prose paragraphs, never bullet lists; style tag XK-1788."
+canary = "XK-1788"
+canary_type = "code"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Which window code goes on the deploy announcements?"
+gold = "XK-0458"
+fact_keys = ["pref_main"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "A fresh batch of deploy announcements goes out today. Prepare the window code."
+gold = "XK-0458"
+fact_keys = ["pref_main"]
+depth = 4
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Write a short entry for the retro writeups covering this week."
+gold = "XK-1788"
+fact_keys = ["pref_style"]
+depth = 3
+unknown_unknown = false
+kind = "compliance"
+canary_type = "code"
+stale = ""
+compliance_rule = "prose_no_bullets"

@@ -1,0 +1,9 @@
+{
+  "synthetic_shape": true,
+  "output": {"message": {"role": "assistant", "content": [
+    {"text": "Searching memory."},
+    {"toolUse": {"toolUseId": "tu-001", "name": "memory_search", "input": {"query": "relay port", "k": "5"}}}
+  ]}},
+  "stopReason": "tool_use",
+  "usage": {"inputTokens": 120, "cacheReadInputTokens": 0, "cacheWriteInputTokens": 10017, "outputTokens": 31}
+}

@@ -1,0 +1,100 @@
+id = "c3s1"
+category = 3
+category_name = "explicit_correction"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Initial metrics gateway bring-up."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "Rebind of the metrics gateway after a conflict."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Verification pass; no changes."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "port"
+kind = "introduce"
+text = "The metrics gateway binds port 28153."
+canary = "28153"
+canary_type = "port"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "port"
+kind = "correct_explicit"
+text = "Correction: the metrics gateway now binds port 35532; 28153 is retired."
+canary = "35532"
+canary_type = "port"
+session = 2
+near_miss = false
+supersedes = "28153"
+
+[[facts]]
+key = "health"
+kind = "introduce"
+text = "The metrics gateway health check is filed under code XK-7677."
+canary = "XK-7677"
+canary_type = "code"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Which port does the metrics gateway bind?"
+gold = "35532"
+fact_keys = ["port"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "port"
+stale = "28153"
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "Update the firewall notes with the metrics gateway port."
+gold = "35532"
+fact_keys = ["port"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "port"
+stale = "28153"
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "What code is filed for the metrics gateway health check?"
+gold = "XK-7677"
+fact_keys = ["health"]
+depth = 4
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""

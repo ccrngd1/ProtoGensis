@@ -1,0 +1,90 @@
+id = "c1s0"
+category = 1
+category_name = "preference_retention"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Agreed conventions for weekly digest emails."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "Formatting discussion for status summaries."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Routine triage; nothing new recorded."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "pref_main"
+kind = "introduce"
+text = "Preference: weekly digest emails must carry the tracking code XK-0326."
+canary = "XK-0326"
+canary_type = "code"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "pref_style"
+kind = "introduce"
+text = "Preference: status summaries are written as prose paragraphs, never bullet lists; style tag XK-0794."
+canary = "XK-0794"
+canary_type = "code"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Which tracking code goes on the weekly digest emails?"
+gold = "XK-0326"
+fact_keys = ["pref_main"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "A fresh batch of weekly digest emails goes out today. Prepare the tracking code."
+gold = "XK-0326"
+fact_keys = ["pref_main"]
+depth = 4
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Write a short entry for the status summaries covering this week."
+gold = "XK-0794"
+fact_keys = ["pref_style"]
+depth = 3
+unknown_unknown = false
+kind = "compliance"
+canary_type = "code"
+stale = ""
+compliance_rule = "prose_no_bullets"

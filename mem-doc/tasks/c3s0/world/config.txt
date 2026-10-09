@@ -1,0 +1,4 @@
+# relay listener deployment
+
+Service unit installed; listener address configured at runtime.
+Port assignments are tracked in team memory, not in this file.

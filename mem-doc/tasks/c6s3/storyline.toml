@@ -1,0 +1,90 @@
+id = "c6s3"
+category = 6
+category_name = "procedural_lesson"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Normal catalog restore session."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "A failed experiment on the catalog restore; wrote up what happened."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Saved a safe dry-run setup for the catalog restore."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "lesson"
+kind = "introduce"
+text = "Lesson: restoring snapshots while the indexer runs deadlocks the queue; halt the indexer beforehand; incident XK-1641."
+canary = "XK-1641"
+canary_type = "code"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "profile"
+kind = "introduce"
+text = "The catalog restore dry-run profile is saved under code XK-4327."
+canary = "XK-4327"
+canary_type = "code"
+session = 3
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Which incident covers the snapshot restore deadlock?"
+gold = "XK-1641"
+fact_keys = ["lesson"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "We need to roll the catalog back to last week's state during business hours. Anything on record?"
+gold = "XK-1641"
+fact_keys = ["lesson"]
+depth = 3
+unknown_unknown = true
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Which code saves the catalog restore dry-run profile?"
+gold = "XK-4327"
+fact_keys = ["profile"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""

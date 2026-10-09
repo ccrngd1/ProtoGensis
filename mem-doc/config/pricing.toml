@@ -1,0 +1,17 @@
+# Pricing table for memdoc cost accounting (AC #5).
+# Demo default: the research §5.2 parameter set (Sonnet-class list price), labeled as such.
+as_of = "2026-10-09"
+source = "research §5.2 parameters; Bedrock Anthropic prompt-caching multipliers (write 1.25x 5-min / 2x 1-h, read 0.10x)"
+label = "research parameters ($3/$15 per M, Sonnet-class list price)"
+
+input_per_mtok = 3.0
+output_per_mtok = 15.0
+cache_write_5m_mult = 1.25
+cache_write_1h_mult = 2.0
+cache_read_mult = 0.10
+
+[cache]
+# R3: verify per model on the first live dry run; usage fields win over the simulator.
+min_cache_tokens = 1024   # verify per model
+max_cache_points = 4      # verify per model
+ttl_seconds = 300         # 5-min default TTL

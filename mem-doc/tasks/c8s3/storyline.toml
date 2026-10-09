@@ -1,0 +1,100 @@
+id = "c8s3"
+category = 8
+category_name = "cold_start"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "agent alpha: set up the capacity report."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "agent alpha: scheduled the audit window."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "agent alpha: organised the intake tracker."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "route"
+kind = "introduce"
+text = "Agent alpha configured the capacity report to route via code XK-1686."
+canary = "XK-1686"
+canary_type = "code"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "window"
+kind = "introduce"
+text = "Agent alpha set the audit window to start on 21-Sep."
+canary = "21-Sep"
+canary_type = "date"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "board"
+kind = "introduce"
+text = "Agent alpha pinned the intake tracker under codename ochre-osprey."
+canary = "ochre-osprey"
+canary_type = "codename"
+session = 3
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Which code routes the capacity report?"
+gold = "XK-1686"
+fact_keys = ["route"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "What date starts the audit window?"
+gold = "21-Sep"
+fact_keys = ["window"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "date"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Which codename pins the intake tracker?"
+gold = "ochre-osprey"
+fact_keys = ["board"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""

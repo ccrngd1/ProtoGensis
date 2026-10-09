@@ -1,0 +1,100 @@
+id = "c5s4"
+category = 5
+category_name = "multi_session_aggregation"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Added the first dns forwarder list entry."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "Added the second dns forwarder list entry."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Added the third dns forwarder list entry."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "item1"
+kind = "enumerate"
+text = "Dns forwarder list entry: the lab zone routes through host ochre-kestrel."
+canary = "ochre-kestrel"
+canary_type = "codename"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "item2"
+kind = "enumerate"
+text = "Dns forwarder list entry: the guest zone routes through host crimson-petrel."
+canary = "crimson-petrel"
+canary_type = "codename"
+session = 2
+near_miss = false
+supersedes = ""
+
+[[facts]]
+key = "item3"
+kind = "enumerate"
+text = "Dns forwarder list entry: the mgmt zone routes through host ivory-wagtail."
+canary = "ivory-wagtail"
+canary_type = "codename"
+session = 3
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "Which host carries the lab zone on the dns forwarder list?"
+gold = "ochre-kestrel"
+fact_keys = ["item1"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 4
+prompt = "Which host carries the guest zone on the dns forwarder list?"
+gold = "crimson-petrel"
+fact_keys = ["item2"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "Which host carries the mgmt zone on the dns forwarder list?"
+gold = "ivory-wagtail"
+fact_keys = ["item3"]
+depth = 2
+unknown_unknown = false
+kind = "recall"
+canary_type = "codename"
+stale = ""
+compliance_rule = ""

@@ -1,0 +1,6 @@
+{
+  "synthetic_shape": true,
+  "output": {"message": {"role": "assistant", "content": [{"text": "The port is 19222."}]}},
+  "stopReason": "end_turn",
+  "usage": {"inputTokens": 42, "cacheReadInputTokens": 10017, "cacheWriteInputTokens": 0, "outputTokens": 9}
+}

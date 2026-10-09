@@ -1,0 +1,80 @@
+id = "c2s0"
+category = 2
+category_name = "decision_continuity"
+seed = 41
+session_profile = "medium"
+world_dir = "world"
+
+[[sessions]]
+index = 1
+kind = "write"
+summary = "Settled the metrics exporter retention question after a long thread."
+
+[[sessions]]
+index = 2
+kind = "write"
+summary = "Follow-up chores; no new decisions."
+
+[[sessions]]
+index = 3
+kind = "write"
+summary = "Routine upkeep session."
+
+[[sessions]]
+index = 4
+kind = "probe"
+summary = "Fresh-context probe session."
+
+[[sessions]]
+index = 5
+kind = "probe"
+summary = "Fresh-context probe session (second)."
+
+[[facts]]
+key = "decision"
+kind = "introduce"
+text = "Decision: the metrics exporter keeps raw samples in the bucket store because fine-grained retention was mandatory; ticket XK-9950."
+canary = "XK-9950"
+canary_type = "code"
+session = 1
+near_miss = false
+supersedes = ""
+
+[[probes]]
+id = "p1"
+session = 4
+prompt = "What ticket covers the metrics exporter's retention decision?"
+gold = "XK-9950"
+fact_keys = ["decision"]
+depth = 3
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p2"
+session = 5
+prompt = "A colleague wants to trim old telemetry rows tomorrow. Flag anything relevant before they begin."
+gold = "XK-9950"
+fact_keys = ["decision"]
+depth = 4
+unknown_unknown = true
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
+
+[[probes]]
+id = "p3"
+session = 5
+prompt = "A new teammate asks about the metrics exporter retention choice. Which ticket should they read?"
+gold = "XK-9950"
+fact_keys = ["decision"]
+depth = 4
+unknown_unknown = false
+kind = "recall"
+canary_type = "code"
+stale = ""
+compliance_rule = ""
