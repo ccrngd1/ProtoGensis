@@ -1,0 +1,7 @@
+# scan-artifacts exceptions (AC #21). Each: file, pattern, justification.
+# Secret-class patterns (akia, xox, token_assign, secret_scanner) can NEVER be
+# allowlisted. Policy clauses quoted in research §3.3/§5.3 may be allowlisted
+# against the --against-archive transcript-shingle check with that
+# justification.
+
+# (none required yet; the fixtures use synthetic-form UUIDs and C_REDACTED)

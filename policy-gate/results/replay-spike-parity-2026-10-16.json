@@ -1,0 +1,378 @@
+{
+  "ambiguity_items": {
+    "deferred_authorization": 1139,
+    "plan_reading": 15,
+    "temporal_scope": 25
+  },
+  "by_agent": {
+    "enhancer": 4,
+    "main": 55
+  },
+  "by_principal": {
+    "cc_direct": 48,
+    "cron": 8,
+    "system": 3
+  },
+  "by_vtool": {
+    "config.set": 1,
+    "cron.disable": 4,
+    "cron.edit": 24,
+    "cron.enable": 1,
+    "cron.rm": 2,
+    "file.edit": 4181,
+    "gateway.restart": 21,
+    "service.restart": 6
+  },
+  "firing_rates": [
+    {
+      "fired": 0,
+      "flag": false,
+      "n": 1,
+      "rate": 0.0,
+      "rule": "INF-FBD-03",
+      "vtool": "config.set"
+    },
+    {
+      "fired": 2,
+      "flag": false,
+      "n": 4,
+      "rate": 0.5,
+      "rule": "INF-FBD-03",
+      "vtool": "cron.disable"
+    },
+    {
+      "fired": 13,
+      "flag": false,
+      "n": 24,
+      "rate": 0.5417,
+      "rule": "INF-FBD-03",
+      "vtool": "cron.edit"
+    },
+    {
+      "fired": 1,
+      "flag": false,
+      "n": 1,
+      "rate": 1.0,
+      "rule": "INF-FBD-03",
+      "vtool": "cron.enable"
+    },
+    {
+      "fired": 0,
+      "flag": false,
+      "n": 2,
+      "rate": 0.0,
+      "rule": "INF-FBD-03",
+      "vtool": "cron.rm"
+    },
+    {
+      "fired": 4,
+      "flag": false,
+      "n": 21,
+      "rate": 0.1905,
+      "rule": "INF-FBD-03",
+      "vtool": "gateway.restart"
+    },
+    {
+      "fired": 1,
+      "flag": false,
+      "n": 6,
+      "rate": 0.1667,
+      "rule": "INF-FBD-03",
+      "vtool": "service.restart"
+    },
+    {
+      "fired": 2,
+      "flag": false,
+      "n": 4,
+      "rate": 0.5,
+      "rule": "INF-PRE-01",
+      "vtool": "cron.disable"
+    },
+    {
+      "fired": 17,
+      "flag": false,
+      "n": 24,
+      "rate": 0.7083,
+      "rule": "INF-PRE-01",
+      "vtool": "cron.edit"
+    },
+    {
+      "fired": 1,
+      "flag": false,
+      "n": 1,
+      "rate": 1.0,
+      "rule": "INF-PRE-01",
+      "vtool": "cron.enable"
+    },
+    {
+      "fired": 2,
+      "flag": false,
+      "n": 2,
+      "rate": 1.0,
+      "rule": "INF-PRE-01",
+      "vtool": "cron.rm"
+    },
+    {
+      "fired": 1,
+      "flag": false,
+      "n": 1,
+      "rate": 1.0,
+      "rule": "INF-PRE-02",
+      "vtool": "config.set"
+    },
+    {
+      "fired": 18,
+      "flag": false,
+      "n": 21,
+      "rate": 0.8571,
+      "rule": "INF-PRE-02",
+      "vtool": "gateway.restart"
+    },
+    {
+      "fired": 6,
+      "flag": true,
+      "n": 6,
+      "rate": 1.0,
+      "rule": "INF-PRE-02",
+      "vtool": "service.restart"
+    },
+    {
+      "fired": 0,
+      "flag": false,
+      "n": 21,
+      "rate": 0.0,
+      "rule": "PLAT-FBD-04",
+      "vtool": "gateway.restart"
+    }
+  ],
+  "input_manifest": {
+    "file_count": 2328,
+    "sha256": "821c478feabd90c184f4c638b72f92da74afb5e209d16ae8dd5e8a0031ed564b"
+  },
+  "non_infra_by_vtool": {
+    "file.edit": 4181
+  },
+  "normalizer": {
+    "ablation": {
+      "no_help_no_heredoc": 97
+    },
+    "infra_actions": 59,
+    "nested_unanalyzed": 120,
+    "non_infra_actions": 4181,
+    "segments": 165125,
+    "unparsed": 8093,
+    "unparsed_rate": 0.049
+  },
+  "parity_check": {
+    "deltas": [],
+    "matches": [
+      {
+        "actual": 97,
+        "id": "ablation_no_help_no_heredoc",
+        "research": 97
+      },
+      {
+        "actual": 4,
+        "id": "agent_enhancer",
+        "research": 4
+      },
+      {
+        "actual": 55,
+        "id": "agent_main",
+        "research": 55
+      },
+      {
+        "actual": 0.657,
+        "id": "exec_share",
+        "research": 0.657
+      },
+      {
+        "actual": 59,
+        "id": "infra_actions",
+        "research": 59
+      },
+      {
+        "actual": 11,
+        "id": "lenient_blocked",
+        "research": 11
+      },
+      {
+        "actual": 32,
+        "id": "plan_blocked",
+        "research": 32
+      },
+      {
+        "actual": 3,
+        "id": "plat_fbd_04_cc_requested",
+        "research": 3
+      },
+      {
+        "actual": 21,
+        "id": "plat_fbd_04_flagged",
+        "research": 21
+      },
+      {
+        "actual": 8,
+        "id": "principal_cron",
+        "research": 8
+      },
+      {
+        "actual": 48,
+        "id": "principal_human",
+        "research": 48
+      },
+      {
+        "actual": 3,
+        "id": "principal_system",
+        "research": 3
+      },
+      {
+        "actual": 17,
+        "id": "quiet_blocked_plan",
+        "research": 17
+      },
+      {
+        "actual": 31,
+        "id": "quiet_in_window",
+        "research": 31
+      },
+      {
+        "actual": 165125,
+        "id": "segments",
+        "research": 165125
+      },
+      {
+        "actual": 47,
+        "id": "strict_blocked",
+        "research": 47
+      },
+      {
+        "actual": 0,
+        "id": "structured_cron_calls",
+        "research": 0
+      },
+      {
+        "actual": 41068,
+        "id": "tool_calls",
+        "research": 41068
+      },
+      {
+        "actual": 2328,
+        "id": "transcripts",
+        "research": 2328
+      },
+      {
+        "actual": 8093,
+        "id": "unparsed",
+        "research": 8093
+      },
+      {
+        "actual": 1,
+        "id": "vtool_config_set",
+        "research": 1
+      },
+      {
+        "actual": 4,
+        "id": "vtool_cron_disable",
+        "research": 4
+      },
+      {
+        "actual": 24,
+        "id": "vtool_cron_edit",
+        "research": 24
+      },
+      {
+        "actual": 1,
+        "id": "vtool_cron_enable",
+        "research": 1
+      },
+      {
+        "actual": 2,
+        "id": "vtool_cron_rm",
+        "research": 2
+      },
+      {
+        "actual": 21,
+        "id": "vtool_gateway_restart",
+        "research": 21
+      },
+      {
+        "actual": 6,
+        "id": "vtool_service_restart",
+        "research": 6
+      }
+    ]
+  },
+  "plat_fbd_04": {
+    "cc_requested_strict": 3,
+    "flagged": 21
+  },
+  "profile": "spike-parity",
+  "provenance_source": "heuristic",
+  "quiet_hours": {
+    "blocked_plan": 17,
+    "in_window": 31
+  },
+  "readings": {
+    "lenient": {
+      "blocked": 11,
+      "total": 59
+    },
+    "plan": {
+      "blocked": 32,
+      "total": 59
+    },
+    "strict": {
+      "blocked": 47,
+      "total": 59
+    }
+  },
+  "readings_sha256": "df7529726af83ac7bc60968a2db4f0b03d064ff2abc39985034761d40af45155",
+  "retroactive_rules": {},
+  "rules": {
+    "INF-FBD-03": {
+      "lenient": 10,
+      "plan": 17,
+      "strict": 21
+    },
+    "INF-PRE-01": {
+      "lenient": 8,
+      "plan": 14,
+      "strict": 22
+    },
+    "INF-PRE-02": {
+      "lenient": 3,
+      "plan": 18,
+      "strict": 25
+    }
+  },
+  "schema": "policygate-aggregates-v1",
+  "source": {
+    "exec_share": 0.657,
+    "kind": "legacy-archive",
+    "structured_cron_calls": 0,
+    "tool_calls": 41068,
+    "transcripts": 2328
+  },
+  "ts_missing": 0,
+  "verdict_classes": {
+    "lenient": {
+      "ALLOW": 48,
+      "BLOCK": 11,
+      "NO_RULE_IN_FORCE": 4181,
+      "VERSION_UNKNOWN": 0
+    },
+    "plan": {
+      "ALLOW": 27,
+      "BLOCK": 32,
+      "NO_RULE_IN_FORCE": 4181,
+      "VERSION_UNKNOWN": 0
+    },
+    "strict": {
+      "ALLOW": 12,
+      "BLOCK": 47,
+      "NO_RULE_IN_FORCE": 4181,
+      "VERSION_UNKNOWN": 0
+    }
+  }
+}

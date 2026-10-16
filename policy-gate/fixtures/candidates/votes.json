@@ -1,0 +1,24 @@
+{
+  "synthetic": true,
+  "note": "SYNTHETIC 5-run LLM vote fixture (AC #6). origin: llm:test-model.",
+  "runs": [
+    [
+      {"id": "VA", "polarity": "block_until_true", "predicate": "cc_authorized", "tools": ["cron.disable"], "origin": "llm:test-model"},
+      {"id": "VB", "polarity": "block_when_true", "predicate": "target_protected", "tools": ["cron.disable"], "origin": "llm:test-model"},
+      {"id": "VC", "polarity": "block_when_true", "predicate": "cc_authorized", "tools": ["cron.disable"], "origin": "llm:test-model"}
+    ],
+    [
+      {"id": "VA", "polarity": "block_until_true", "predicate": "cc_authorized", "tools": ["cron.disable"], "origin": "llm:test-model"},
+      {"id": "VB", "polarity": "block_when_true", "predicate": "target_protected", "tools": ["cron.disable"], "origin": "llm:test-model"}
+    ],
+    [
+      {"id": "VA", "polarity": "block_until_true", "predicate": "cc_authorized", "tools": ["cron.disable"], "origin": "llm:test-model"}
+    ],
+    [
+      {"id": "VC", "polarity": "block_when_true", "predicate": "cc_authorized", "tools": ["cron.disable"], "origin": "llm:test-model"}
+    ],
+    [
+      {"id": "VC", "polarity": "block_when_true", "predicate": "cc_authorized", "tools": ["cron.disable"], "origin": "llm:test-model"}
+    ]
+  ]
+}

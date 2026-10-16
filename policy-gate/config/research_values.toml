@@ -1,0 +1,32 @@
+# The 27 spike-parity reference values, from spike_replay.out and research
+# §7.1. The tool's own numbers are authoritative (AC #18); a difference is a
+# delta reported in docs/RESULTS.md, never tuned toward these. exec_share
+# compares at 3 decimals.
+
+transcripts = 2328
+tool_calls = 41068
+exec_share = 0.657
+structured_cron_calls = 0
+segments = 165125
+unparsed = 8093
+infra_actions = 59
+ablation_no_help_no_heredoc = 97
+strict_blocked = 47
+plan_blocked = 32
+lenient_blocked = 11
+quiet_in_window = 31
+quiet_blocked_plan = 17
+plat_fbd_04_flagged = 21
+plat_fbd_04_cc_requested = 3
+principal_human = 48
+principal_cron = 8
+principal_system = 3
+agent_main = 55
+agent_enhancer = 4
+vtool_cron_edit = 24
+vtool_gateway_restart = 21
+vtool_service_restart = 6
+vtool_cron_disable = 4
+vtool_cron_rm = 2
+vtool_cron_enable = 1
+vtool_config_set = 1

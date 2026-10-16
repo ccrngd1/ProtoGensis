@@ -1,0 +1,79 @@
+{
+  "synthetic": true,
+  "note": "RESOLVE fixtures: one firing + one passing candidate per class a-h (AC #7).",
+  "classes": {
+    "write-scope": {
+      "firing": {"id": "A-FIRE", "polarity": "block_until_true", "predicate": "cc_authorized",
+                 "params": {"action_class": "cron.mutate"}, "tools": ["cron.list", "cron.disable"],
+                 "subjects": ["agent:x"], "src": {"file": "a.md"}},
+      "passing": {"id": "A-PASS", "polarity": "block_until_true", "predicate": "cc_authorized",
+                  "params": {"action_class": "cron.mutate"}, "tools": ["cron.disable"],
+                  "subjects": ["agent:x"], "src": {"file": "a.md"}}
+    },
+    "argument-signature": {
+      "firing": {"id": "B-FIRE", "polarity": "block_when_true", "predicate": "target_protected",
+                 "params": {}, "tools": ["cron.disable", "cron.add"], "subjects": ["agent:x"],
+                 "data": {"protected": ["j1"]}, "src": {"file": "b.md"}},
+      "passing": {"id": "B-PASS", "polarity": "block_when_true", "predicate": "target_protected",
+                  "params": {}, "tools": ["cron.disable"], "subjects": ["agent:x"],
+                  "data": {"protected": ["j1"]}, "src": {"file": "b.md"}}
+    },
+    "self-blocking": {
+      "firing": {"id": "C-FIRE", "polarity": "block_until_true", "predicate": "checkpoint_seen",
+                 "params": {}, "tools": ["backup.create", "docker.restart"], "subjects": ["agent:x"],
+                 "src": {"file": "c.md"}},
+      "passing": {"id": "C-PASS", "polarity": "block_until_true", "predicate": "checkpoint_seen",
+                  "params": {}, "tools": ["docker.restart"], "subjects": ["agent:x"],
+                  "src": {"file": "c.md"}}
+    },
+    "unscoped-wildcard": {
+      "firing": {"id": "D-FIRE", "polarity": "block_until_true", "predicate": "cc_authorized",
+                 "params": {"action_class": "all"}, "tools": ["*"], "subjects": ["agent:x"],
+                 "src": {"file": "d.md"}},
+      "passing": {"id": "D-PASS", "polarity": "block_until_true", "predicate": "cc_authorized",
+                  "params": {"action_class": "all"}, "tools": ["cron.disable"], "subjects": ["agent:x"],
+                  "src": {"file": "d.md"}}
+    },
+    "domain-satisfiability": {
+      "firing": {"id": "E-FIRE", "polarity": "block_when_true", "predicate": "quiet_hours_utc",
+                 "params": {"start": 25, "end": 8}, "tools": ["cron.edit"], "subjects": ["agent:x"],
+                 "src": {"file": "e.md"}},
+      "passing": {"id": "E-PASS", "polarity": "block_when_true", "predicate": "quiet_hours_utc",
+                  "params": {"start": 0, "end": 8}, "tools": ["cron.edit"], "subjects": ["agent:x"],
+                  "src": {"file": "e.md"}}
+    },
+    "contradiction": {
+      "firing": [
+        {"id": "F-FORBID", "polarity": "block_when_true", "predicate": "weakens_policy",
+         "params": {}, "tools": ["file.edit"], "subjects": ["agent:x"],
+         "whole_file_protection": true, "src": {"file": "memory.md"}},
+        {"id": "F-REQUIRE", "polarity": "block_until_true", "predicate": "cc_authorized",
+         "params": {"action_class": "memory.update"}, "tools": ["file.edit"], "subjects": ["agent:x"],
+         "requires_write": true, "src": {"file": "agents.md"}}
+      ],
+      "passing": {"id": "F-PASS", "polarity": "block_when_true", "predicate": "weakens_policy",
+                  "params": {}, "tools": ["file.edit"], "subjects": ["agent:x"], "src": {"file": "memory.md"}}
+    },
+    "subject-scope": {
+      "firing": {"id": "G-FIRE", "polarity": "block_until_true", "predicate": "cc_authorized",
+                 "params": {"action_class": "automation"}, "tools": ["cron.edit"],
+                 "subjects": "UNDECIDED", "subjects_undecided": true, "src": {"file": "g.md"}},
+      "passing": {"id": "G-PASS", "polarity": "block_until_true", "predicate": "cc_authorized",
+                  "params": {"action_class": "automation"}, "tools": ["cron.edit"],
+                  "subjects": ["agent:x"], "src": {"file": "g.md"}}
+    },
+    "shadowing": {
+      "firing": [
+        {"id": "H-BROAD", "polarity": "block_until_true", "predicate": "cc_authorized",
+         "params": {"action_class": "cron.mutate"}, "tools": ["cron.disable", "cron.rm", "cron.edit"],
+         "subjects": ["agent:x"], "src": {"file": "h.md"}},
+        {"id": "H-SPECIFIC", "polarity": "block_when_true", "predicate": "target_protected",
+         "params": {}, "tools": ["cron.disable"], "subjects": ["agent:x"],
+         "data": {"protected": ["j1"]}, "src": {"file": "h2.md"}}
+      ],
+      "passing": {"id": "H-PASS", "polarity": "block_when_true", "predicate": "target_protected",
+                  "params": {}, "tools": ["cron.disable"], "subjects": ["agent:x"],
+                  "data": {"protected": ["j1"]}, "src": {"file": "h2.md"}}
+    }
+  }
+}

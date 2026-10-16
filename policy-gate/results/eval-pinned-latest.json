@@ -1,0 +1,177 @@
+{
+  "ambiguity_coverage": 0.25,
+  "baselines": {
+    "keyword": {
+      "fn": 3,
+      "fp": 43,
+      "label": "agenthook-style keyword baseline (our reimplementation, not agenthook)",
+      "precision": 0.1887,
+      "recall": 0.7692,
+      "tn": 3,
+      "tp": 10
+    }
+  },
+  "borderline_counts": {
+    "authorized-plan": 23,
+    "policy-silent": 2,
+    "unauthorized": 6
+  },
+  "label_counts": {
+    "authorized-explicit": 15,
+    "authorized-plan": 27,
+    "policy-silent": 4,
+    "unauthorized": 13
+  },
+  "label_status": "provisional",
+  "normalizer_precision_real": 1.0,
+  "readings": {
+    "lenient": {
+      "blocked_by_label": {
+        "authorized-explicit": 12,
+        "authorized-plan": 19,
+        "unauthorized": 11
+      },
+      "fired_by_label": {
+        "CAB-FBD-08": {
+          "authorized-explicit": 11,
+          "authorized-plan": 9,
+          "unauthorized": 10
+        },
+        "CAB-PRE-01": {
+          "authorized-explicit": 8,
+          "authorized-plan": 6,
+          "unauthorized": 8
+        },
+        "CAB-PRE-04": {
+          "authorized-explicit": 2
+        },
+        "CAB-PRE-06": {
+          "authorized-explicit": 8,
+          "authorized-plan": 6,
+          "unauthorized": 8
+        },
+        "CAB-PRE-07": {
+          "authorized-plan": 10,
+          "unauthorized": 2
+        },
+        "CAB-PRE-09": {
+          "authorized-plan": 10,
+          "unauthorized": 2
+        },
+        "CAB-PRE-19": {
+          "authorized-explicit": 8,
+          "authorized-plan": 6,
+          "unauthorized": 8
+        }
+      },
+      "fn": 2,
+      "fp": 31,
+      "precision": 0.2619,
+      "recall": 0.8462,
+      "tn": 15,
+      "tp": 11
+    },
+    "plan": {
+      "blocked_by_label": {
+        "authorized-explicit": 13,
+        "authorized-plan": 20,
+        "unauthorized": 13
+      },
+      "fired_by_label": {
+        "CAB-FBD-08": {
+          "authorized-explicit": 11,
+          "authorized-plan": 9,
+          "unauthorized": 10
+        },
+        "CAB-PRE-01": {
+          "authorized-explicit": 10,
+          "authorized-plan": 4,
+          "unauthorized": 8
+        },
+        "CAB-PRE-04": {
+          "authorized-explicit": 4
+        },
+        "CAB-PRE-06": {
+          "authorized-explicit": 10,
+          "authorized-plan": 4,
+          "unauthorized": 8
+        },
+        "CAB-PRE-07": {
+          "authorized-plan": 12,
+          "unauthorized": 5
+        },
+        "CAB-PRE-09": {
+          "authorized-plan": 12,
+          "unauthorized": 5
+        },
+        "CAB-PRE-19": {
+          "authorized-explicit": 10,
+          "authorized-plan": 4,
+          "unauthorized": 8
+        }
+      },
+      "fn": 0,
+      "fp": 33,
+      "precision": 0.2826,
+      "recall": 1.0,
+      "tn": 13,
+      "tp": 13
+    },
+    "strict": {
+      "blocked_by_label": {
+        "authorized-explicit": 13,
+        "authorized-plan": 27,
+        "unauthorized": 13
+      },
+      "fired_by_label": {
+        "CAB-FBD-08": {
+          "authorized-explicit": 11,
+          "authorized-plan": 9,
+          "unauthorized": 10
+        },
+        "CAB-PRE-01": {
+          "authorized-explicit": 10,
+          "authorized-plan": 10,
+          "unauthorized": 8
+        },
+        "CAB-PRE-02": {
+          "authorized-plan": 1
+        },
+        "CAB-PRE-03": {
+          "authorized-plan": 1
+        },
+        "CAB-PRE-04": {
+          "authorized-explicit": 4,
+          "authorized-plan": 2
+        },
+        "CAB-PRE-06": {
+          "authorized-explicit": 10,
+          "authorized-plan": 11,
+          "unauthorized": 8
+        },
+        "CAB-PRE-07": {
+          "authorized-plan": 15,
+          "unauthorized": 5
+        },
+        "CAB-PRE-09": {
+          "authorized-plan": 16,
+          "unauthorized": 5
+        },
+        "CAB-PRE-15b": {
+          "authorized-plan": 1
+        },
+        "CAB-PRE-19": {
+          "authorized-explicit": 10,
+          "authorized-plan": 11,
+          "unauthorized": 8
+        }
+      },
+      "fn": 0,
+      "fp": 40,
+      "precision": 0.2453,
+      "recall": 1.0,
+      "tn": 6,
+      "tp": 13
+    }
+  }
+}

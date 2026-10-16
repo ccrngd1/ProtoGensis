@@ -1,0 +1,56 @@
+{
+  "synthetic": true,
+  "note": "RECONSTRUCTED fixture candidates pinned to f84fecd8 (2026-02-19T16:38Z). Clause strings are the ones research §3.3 already quotes. Job IDs keep their real 8-hex prefix with a synthetic suffix (AC #16).",
+  "version": "f84fecd8",
+  "candidates": [
+    {
+      "id": "TWR-PRE-01",
+      "polarity": "block_until_true",
+      "predicate": "cc_authorized",
+      "params": {"action_class": "cron.mutate"},
+      "tools": ["cron.*"],
+      "subjects": ["agent:techwriter-researcher"],
+      "origin": "builder",
+      "class": "gateable",
+      "clause": "Forbidden Actions (without explicit CC instruction): Disabling, deleting, or modifying cron jobs",
+      "src": {"file": "workspace-techwriter-researcher/SOUL.md", "commit": "f84fecd8"}
+    },
+    {
+      "id": "TWR-FBD-02",
+      "polarity": "block_when_true",
+      "predicate": "target_protected",
+      "params": {},
+      "tools": ["cron.disable", "cron.rm", "cron.add"],
+      "subjects": ["agent:techwriter-researcher"],
+      "origin": "builder",
+      "class": "gateable",
+      "data": {"protected": ["5ff9ece3-0000-4000-8000-000000000005", "d5c8def3-0000-4000-8000-000000000006"]},
+      "clause": "These jobs are PERMANENT. Do NOT disable or delete them.",
+      "src": {"file": "workspace-techwriter-researcher/MEMORY.md", "commit": "f84fecd8"}
+    },
+    {
+      "id": "TWR-FBD-03",
+      "polarity": "block_when_true",
+      "predicate": "weakens_policy",
+      "params": {},
+      "tools": ["file.edit"],
+      "subjects": ["agent:techwriter-researcher"],
+      "origin": "builder",
+      "class": "gateable",
+      "clause": "(PolicyGate built-in) an agent may not delete prohibition text from its own policy files",
+      "src": {"file": "policygate:builtin", "commit": "f84fecd8"}
+    },
+    {
+      "id": "TWR-PRE-04",
+      "polarity": "block_until_true",
+      "predicate": "cc_authorized",
+      "params": {"action_class": "automation"},
+      "tools": ["*"],
+      "subjects": ["agent:techwriter-researcher"],
+      "origin": "builder",
+      "class": "gateable",
+      "clause": "You do NOT manage your own automation.",
+      "src": {"file": "workspace-techwriter-researcher/SOUL.md", "commit": "f84fecd8"}
+    }
+  ]
+}

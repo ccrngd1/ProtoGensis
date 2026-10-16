@@ -1,0 +1,33 @@
+# SYNTHETIC bundle for the test policy repo built by
+# tests/fixtures/make_policy_repo.py. "synthetic": true
+platform_rules_file = "../config/platform_rules.toml"
+
+[[source]]
+path = "global/BASE-AGENTS.md"
+kind = "base"
+subjects = ["*"]
+precedence = 1
+
+[[source]]
+path = "workspace/AGENTS.md"
+kind = "agent_agents"
+subjects = ["agent:synthetic-agent"]
+precedence = 10
+
+[[source]]
+path = "workspace/SOUL.md"
+kind = "agent_soul"
+subjects = ["agent:synthetic-agent"]
+precedence = 10
+
+[[source]]
+path = "workspace/MEMORY.md"
+kind = "agent_memory"
+subjects = ["agent:synthetic-agent"]
+precedence = 10
+
+[[source]]
+path = "cron/jobs.json"
+kind = "cron_payloads"
+subjects = ["*"]
+precedence = 20

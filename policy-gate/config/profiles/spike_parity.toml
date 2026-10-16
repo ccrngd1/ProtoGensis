@@ -1,0 +1,50 @@
+# spike-parity profile: spike 1's hand-compiled rules, spike principal
+# heuristic, three readings, NO pinning, NO consumption. Must reproduce
+# spike_replay.out. "SPIKE PARITY: research spike semantics (no version
+# pinning, no consumption)".
+
+pinning = false
+consumption = false
+principal = "spike-heuristic"
+
+# Hand-compiled rules from BASE-AGENTS "Infrastructure Rules" + the platform
+# rule (research §7.1 / spike 1 docstring). INF-PRE-01/02 guard cc_authorized;
+# INF-FBD-03 is quiet hours; PLAT-FBD-04 flags gateway restarts via exec.
+
+[[rule]]
+id = "INF-PRE-01"
+polarity = "block_until_true"
+predicate = "cc_authorized"
+params = {action_class = "cron.mutate"}
+tools = ["cron.disable", "cron.rm", "cron.edit", "cron.update", "cron.enable"]
+subjects = ["*"]
+
+# config.set and crontab.write are included because the spike applies its
+# authorized() predicate to EVERY action in its INFRA set (spike_replay.py
+# main loop), not only to the vtools named in the docstring; the blocked
+# counts 47/32/11 include them. Binding them here keeps per-action `fired`
+# consistent with those aggregate counts (phase 2a Bug 1 invariant: BLOCK
+# always names the rule that fired).
+[[rule]]
+id = "INF-PRE-02"
+polarity = "block_until_true"
+predicate = "cc_authorized"
+params = {action_class = "service.mutate"}
+tools = ["service.restart", "service.stop", "service.disable", "docker.restart", "docker.stop", "docker.rm", "docker.compose", "gateway.restart", "gateway.stop", "config.set", "crontab.write"]
+subjects = ["*"]
+
+[[rule]]
+id = "INF-FBD-03"
+polarity = "block_when_true"
+predicate = "quiet_hours_utc"
+params = {start = 0, end = 8}
+tools = ["cron.disable", "cron.rm", "cron.edit", "cron.update", "cron.enable", "service.restart", "service.stop", "service.disable", "docker.restart", "docker.stop", "docker.rm", "docker.compose", "gateway.restart", "gateway.stop", "config.set", "crontab.write"]
+subjects = ["*"]
+
+[[rule]]
+id = "PLAT-FBD-04"
+polarity = "block_when_true"
+predicate = "principal_is"
+params = {principal = "__never__"}
+tools = ["gateway.restart", "gateway.stop"]
+subjects = ["*"]

@@ -1,0 +1,1 @@
+{"items": [{"id": "AMB-PLAN-6f9ad2b1", "kind": "plan_reading", "clause_ref": "global/BASE-AGENTS.md@00000000:7", "action_class": "cron.*", "question": "does yes authorize each step?", "options": ["yes", "no"], "affected": {"strict": 1, "plan": 1, "lenient": 0}, "proposed_amendment": "x", "action_keys": ["k4"]}]}

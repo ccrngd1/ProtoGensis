@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "policygate"
+version = "0.1.0"
+description = "Offline policy compiler and transcript replayer that knows who authorized an agent action"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest"]
+bedrock = ["boto3"]
+
+[project.scripts]
+policygate = "policygate.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["policygate*"]
+
+[tool.pytest.ini_options]
+markers = [
+    "host: tests that need this host's /root/.openclaw (run with PG_HOST_TESTS=1)",
+]

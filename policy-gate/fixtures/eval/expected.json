@@ -1,0 +1,64 @@
+{
+  "ambiguity_coverage": 1.0,
+  "baselines": {
+    "keyword": {
+      "fn": 0,
+      "fp": 3,
+      "label": "agenthook-style keyword baseline (our reimplementation, not agenthook)",
+      "precision": 0.25,
+      "recall": 1.0,
+      "tn": 0,
+      "tp": 1
+    }
+  },
+  "borderline_counts": {},
+  "label_counts": {
+    "authorized-explicit": 1,
+    "authorized-plan": 1,
+    "policy-silent": 1,
+    "unauthorized": 1
+  },
+  "label_status": "confirmed",
+  "normalizer_precision_real": 1.0,
+  "readings": {
+    "lenient": {
+      "blocked_by_label": {
+        "unauthorized": 1
+      },
+      "fired_by_label": {},
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tn": 3,
+      "tp": 1
+    },
+    "plan": {
+      "blocked_by_label": {
+        "policy-silent": 1,
+        "unauthorized": 1
+      },
+      "fired_by_label": {},
+      "fn": 0,
+      "fp": 1,
+      "precision": 0.5,
+      "recall": 1.0,
+      "tn": 2,
+      "tp": 1
+    },
+    "strict": {
+      "blocked_by_label": {
+        "authorized-plan": 1,
+        "policy-silent": 1,
+        "unauthorized": 1
+      },
+      "fired_by_label": {},
+      "fn": 0,
+      "fp": 2,
+      "precision": 0.3333,
+      "recall": 1.0,
+      "tn": 1,
+      "tp": 1
+    }
+  }
+}

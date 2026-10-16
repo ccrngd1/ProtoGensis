@@ -1,0 +1,7 @@
+{"synthetic": true, "note": "SYNTHETIC readings demo cases (AC #13)."}
+{"id": "R1-strict-names-it", "vtool": "cron.disable", "cc_text": "disable the nightly cron job", "prev_assistant": ""}
+{"id": "R2-plan-affirm", "vtool": "gateway.restart", "cc_text": "yes", "prev_assistant": "Shall I restart the gateway?"}
+{"id": "R3-lenient-only", "vtool": "service.restart", "cc_text": "thanks for the update", "prev_assistant": "unrelated"}
+{"id": "R4-no-cc-turn", "vtool": "cron.edit", "cc_text": null, "prev_assistant": ""}
+{"id": "R5-strict-config", "vtool": "config.set", "cc_text": "set the config key please", "prev_assistant": ""}
+{"id": "R6-plan-affirm-docker", "vtool": "docker.restart", "cc_text": "go ahead", "prev_assistant": "I'll restart the docker container."}

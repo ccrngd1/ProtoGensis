@@ -1,0 +1,13 @@
+# Authorization readings (R13). These are the spike's loose regexes, kept
+# verbatim for comparability across both profiles. Any later change is a NEW
+# readings version; the file's sha256 is printed in every results header.
+
+affirm = "^\\W*(yes|yep|yeah|ok(ay)?|do it|go( ahead)?|sure|proceed|continue|approved?|lgtm|run (steps?|it|them)|execute|sounds good)\\b"
+
+[verb_for]
+cron = "\\b(cron|job|jobs|schedul)\\w*"
+gateway = "\\b(gateway|restart)\\w*"
+service = "\\b(restart|service|systemd|container|docker|stop)\\w*"
+docker = "\\b(docker|container|compose|restart)\\w*"
+config = "\\b(config|setting|set)\\w*"
+crontab = "\\b(cron|crontab)\\w*"

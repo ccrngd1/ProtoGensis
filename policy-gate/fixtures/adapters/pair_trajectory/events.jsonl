@@ -1,0 +1,6 @@
+{"schema": "openclaw-trajectory", "schemaVersion": 1, "agent": "synthetic-agent", "synthetic_shape": true}
+{"event": "transcript.user", "ts": "2026-05-01T10:00:00Z", "text": "restart the gateway now", "inputProvenance": {"kind": "external_user"}, "requester": {"senderIsOwner": true}}
+{"event": "transcript.assistant", "ts": "2026-05-01T10:00:03Z", "text": "On it."}
+{"event": "tool.call", "ts": "2026-05-01T10:00:05Z", "tool": "exec", "args": {"command": "openclaw gateway restart"}}
+{"event": "transcript.user", "ts": "2026-05-01T10:01:00Z", "text": "and disable the nightly job", "inputProvenance": {"kind": "external_user"}, "requester": {"senderIsOwner": true}}
+{"event": "tool.call", "ts": "2026-05-01T10:01:05Z", "tool": "exec", "args": {"command": "openclaw cron disable aaaa1111-0000-4000-8000-000000000001"}}

@@ -1,0 +1,136 @@
+# Virtual-tool schema (AC #9). infra_mutating is exactly spike 1's INFRA set:
+#   cron.{disable,rm,edit,update,enable}, service.*, docker.*, gateway.*,
+#   crontab.*, config.set
+# cron.add is a write but NOT infra_mutating in v1 (Open Question Q7).
+
+[[vtool]]
+name = "cron.list"
+params = []
+is_write = false
+infra_mutating = false
+
+[[vtool]]
+name = "cron.add"
+params = ["name", "schedule"]
+is_write = true
+infra_mutating = false
+
+[[vtool]]
+name = "cron.disable"
+params = ["jobId"]
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "cron.enable"
+params = ["jobId"]
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "cron.rm"
+params = ["jobId"]
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "cron.edit"
+params = ["jobId"]
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "cron.update"
+params = ["jobId"]
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "gateway.restart"
+params = []
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "gateway.stop"
+params = []
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "service.restart"
+params = ["unit"]
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "service.stop"
+params = ["unit"]
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "service.disable"
+params = ["unit"]
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "docker.restart"
+params = ["target"]
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "docker.stop"
+params = ["target"]
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "docker.rm"
+params = ["target"]
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "docker.compose"
+params = []
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "config.set"
+params = ["key"]
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "crontab.write"
+params = []
+is_write = true
+infra_mutating = true
+
+[[vtool]]
+name = "file.read"
+params = ["path"]
+is_write = false
+infra_mutating = false
+
+[[vtool]]
+name = "file.edit"
+params = ["path", "removed_text"]
+is_write = true
+infra_mutating = false
+
+[[vtool]]
+name = "message.send"
+params = ["to"]
+is_write = true
+infra_mutating = false
+
+[[vtool]]
+name = "backup.create"
+params = ["target"]
+is_write = true
+infra_mutating = false

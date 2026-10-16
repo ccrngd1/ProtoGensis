@@ -1,0 +1,41 @@
+# Policy bundle for the real CABAL policy repo (/root/.openclaw, read-only).
+# Paths are relative to the policy repo root. `precedence` is used ONLY for
+# labeling: contradictions across sources are reported, never auto-resolved.
+
+platform_rules_file = "platform_rules.toml"
+
+# per-agent {AGENTS,SOUL,MEMORY}.md sources are generated from this list;
+# "main" maps to workspace/, others to workspace-<agent>/.
+# main, techwriter-researcher, enhancer, plus the agents present in the archive.
+agents = [
+  "main",
+  "techwriter-researcher",
+  "enhancer",
+  "hal9000",
+  "netops",
+  "deanna",
+  "book-orchestrator",
+  "precog",
+  "mastercontrol",
+  "delphi",
+  "thematrix",
+]
+agent_precedence = 10
+
+[[source]]
+path = "global/BASE-AGENTS.md"
+kind = "base"
+subjects = ["*"]
+precedence = 1
+
+[[source]]
+path = "global/BASE-SOUL.md"
+kind = "base"
+subjects = ["*"]
+precedence = 1
+
+[[source]]
+path = "cron/jobs.json"
+kind = "cron_payloads"
+subjects = ["*"]
+precedence = 20

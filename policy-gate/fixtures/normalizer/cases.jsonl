@@ -1,0 +1,177 @@
+{"synthetic": true, "note": "SYNTHETIC normalizer corpus (AC #9)"}
+{"cmd": "openclaw cron disable aaaa0001-0000-4000-8000-000000000001", "expect": ["cron.disable"], "family": "cron_disable", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0002-0000-4000-8000-000000000002", "expect": ["cron.disable"], "family": "cron_disable", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0003-0000-4000-8000-000000000003", "expect": ["cron.disable"], "family": "cron_disable", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0004-0000-4000-8000-000000000004", "expect": ["cron.disable"], "family": "cron_disable", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0005-0000-4000-8000-000000000005", "expect": ["cron.disable"], "family": "cron_disable", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0006-0000-4000-8000-000000000006", "expect": ["cron.disable"], "family": "cron_disable", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0007-0000-4000-8000-000000000007", "expect": ["cron.disable"], "family": "cron_disable", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0008-0000-4000-8000-000000000008", "expect": ["cron.disable"], "family": "cron_disable", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0009-0000-4000-8000-000000000009", "expect": ["cron.disable"], "family": "cron_disable", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0010-0000-4000-8000-000000000010", "expect": ["cron.disable"], "family": "cron_disable", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0011-0000-4000-8000-000000000011", "expect": ["cron.disable"], "family": "cron_disable", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0012-0000-4000-8000-000000000012", "expect": ["cron.disable"], "family": "cron_disable", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0001-0000-4000-8000-000000000001 --message hi", "expect": ["cron.edit"], "family": "cron_edit", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0002-0000-4000-8000-000000000002 --message hi", "expect": ["cron.edit"], "family": "cron_edit", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0003-0000-4000-8000-000000000003 --message hi", "expect": ["cron.edit"], "family": "cron_edit", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0004-0000-4000-8000-000000000004 --message hi", "expect": ["cron.edit"], "family": "cron_edit", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0005-0000-4000-8000-000000000005 --message hi", "expect": ["cron.edit"], "family": "cron_edit", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0006-0000-4000-8000-000000000006 --message hi", "expect": ["cron.edit"], "family": "cron_edit", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0007-0000-4000-8000-000000000007 --message hi", "expect": ["cron.edit"], "family": "cron_edit", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0008-0000-4000-8000-000000000008 --message hi", "expect": ["cron.edit"], "family": "cron_edit", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0009-0000-4000-8000-000000000009 --message hi", "expect": ["cron.edit"], "family": "cron_edit", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0010-0000-4000-8000-000000000010 --message hi", "expect": ["cron.edit"], "family": "cron_edit", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0011-0000-4000-8000-000000000011 --message hi", "expect": ["cron.edit"], "family": "cron_edit", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0012-0000-4000-8000-000000000012 --message hi", "expect": ["cron.edit"], "family": "cron_edit", "synthetic": true}
+{"cmd": "openclaw cron rm aaaa0001-0000-4000-8000-000000000001", "expect": ["cron.rm"], "family": "cron_rm", "synthetic": true}
+{"cmd": "openclaw cron rm aaaa0002-0000-4000-8000-000000000002", "expect": ["cron.rm"], "family": "cron_rm", "synthetic": true}
+{"cmd": "openclaw cron rm aaaa0003-0000-4000-8000-000000000003", "expect": ["cron.rm"], "family": "cron_rm", "synthetic": true}
+{"cmd": "openclaw cron rm aaaa0004-0000-4000-8000-000000000004", "expect": ["cron.rm"], "family": "cron_rm", "synthetic": true}
+{"cmd": "openclaw cron rm aaaa0005-0000-4000-8000-000000000005", "expect": ["cron.rm"], "family": "cron_rm", "synthetic": true}
+{"cmd": "openclaw cron rm aaaa0006-0000-4000-8000-000000000006", "expect": ["cron.rm"], "family": "cron_rm", "synthetic": true}
+{"cmd": "openclaw cron enable aaaa0001-0000-4000-8000-000000000001", "expect": ["cron.enable"], "family": "cron_enable", "synthetic": true}
+{"cmd": "openclaw cron enable aaaa0002-0000-4000-8000-000000000002", "expect": ["cron.enable"], "family": "cron_enable", "synthetic": true}
+{"cmd": "openclaw cron enable aaaa0003-0000-4000-8000-000000000003", "expect": ["cron.enable"], "family": "cron_enable", "synthetic": true}
+{"cmd": "openclaw cron enable aaaa0004-0000-4000-8000-000000000004", "expect": ["cron.enable"], "family": "cron_enable", "synthetic": true}
+{"cmd": "openclaw cron enable aaaa0005-0000-4000-8000-000000000005", "expect": ["cron.enable"], "family": "cron_enable", "synthetic": true}
+{"cmd": "openclaw cron enable aaaa0006-0000-4000-8000-000000000006", "expect": ["cron.enable"], "family": "cron_enable", "synthetic": true}
+{"cmd": "openclaw gateway restart", "expect": ["gateway.restart"], "family": "gateway_restart", "synthetic": true}
+{"cmd": "openclaw gateway restart", "expect": ["gateway.restart"], "family": "gateway_restart", "synthetic": true}
+{"cmd": "openclaw gateway restart", "expect": ["gateway.restart"], "family": "gateway_restart", "synthetic": true}
+{"cmd": "openclaw gateway restart", "expect": ["gateway.restart"], "family": "gateway_restart", "synthetic": true}
+{"cmd": "openclaw gateway restart", "expect": ["gateway.restart"], "family": "gateway_restart", "synthetic": true}
+{"cmd": "openclaw gateway restart", "expect": ["gateway.restart"], "family": "gateway_restart", "synthetic": true}
+{"cmd": "openclaw gateway restart", "expect": ["gateway.restart"], "family": "gateway_restart", "synthetic": true}
+{"cmd": "openclaw gateway restart", "expect": ["gateway.restart"], "family": "gateway_restart", "synthetic": true}
+{"cmd": "openclaw gateway restart", "expect": ["gateway.restart"], "family": "gateway_restart", "synthetic": true}
+{"cmd": "openclaw gateway restart", "expect": ["gateway.restart"], "family": "gateway_restart", "synthetic": true}
+{"cmd": "openclaw gateway restart", "expect": ["gateway.restart"], "family": "gateway_restart", "synthetic": true}
+{"cmd": "openclaw gateway restart", "expect": ["gateway.restart"], "family": "gateway_restart", "synthetic": true}
+{"cmd": "openclaw gateway stop", "expect": ["gateway.stop"], "family": "gateway_stop", "synthetic": true}
+{"cmd": "openclaw gateway stop", "expect": ["gateway.stop"], "family": "gateway_stop", "synthetic": true}
+{"cmd": "openclaw gateway stop", "expect": ["gateway.stop"], "family": "gateway_stop", "synthetic": true}
+{"cmd": "openclaw gateway stop", "expect": ["gateway.stop"], "family": "gateway_stop", "synthetic": true}
+{"cmd": "systemctl restart nginx", "expect": ["service.restart"], "family": "service_restart", "synthetic": true}
+{"cmd": "systemctl restart redis", "expect": ["service.restart"], "family": "service_restart", "synthetic": true}
+{"cmd": "systemctl restart postgres", "expect": ["service.restart"], "family": "service_restart", "synthetic": true}
+{"cmd": "systemctl restart docker", "expect": ["service.restart"], "family": "service_restart", "synthetic": true}
+{"cmd": "systemctl restart cron", "expect": ["service.restart"], "family": "service_restart", "synthetic": true}
+{"cmd": "systemctl restart sshd", "expect": ["service.restart"], "family": "service_restart", "synthetic": true}
+{"cmd": "systemctl stop nginx", "expect": ["service.stop"], "family": "service_stop", "synthetic": true}
+{"cmd": "systemctl stop redis", "expect": ["service.stop"], "family": "service_stop", "synthetic": true}
+{"cmd": "systemctl stop postgres", "expect": ["service.stop"], "family": "service_stop", "synthetic": true}
+{"cmd": "docker restart web", "expect": ["docker.restart"], "family": "docker_restart", "synthetic": true}
+{"cmd": "docker restart db", "expect": ["docker.restart"], "family": "docker_restart", "synthetic": true}
+{"cmd": "docker restart cache", "expect": ["docker.restart"], "family": "docker_restart", "synthetic": true}
+{"cmd": "docker stop web", "expect": ["docker.stop"], "family": "docker_stop", "synthetic": true}
+{"cmd": "docker stop db", "expect": ["docker.stop"], "family": "docker_stop", "synthetic": true}
+{"cmd": "docker compose up -d", "expect": ["docker.compose"], "family": "docker_compose", "synthetic": true}
+{"cmd": "openclaw config set foo=bar", "expect": ["config.set"], "family": "config_set", "synthetic": true}
+{"cmd": "crontab -e", "expect": ["crontab.write"], "family": "crontab", "synthetic": true}
+{"cmd": "sudo timeout 5 systemctl restart nginx", "expect": ["service.restart"], "family": "prefix_strip", "synthetic": true}
+{"cmd": "sudo openclaw gateway restart", "expect": ["gateway.restart"], "family": "prefix_strip", "synthetic": true}
+{"cmd": "FOO=1 openclaw cron disable aaaa0099-0000-4000-8000-000000000099", "expect": ["cron.disable"], "family": "prefix_strip", "synthetic": true}
+{"cmd": "nohup openclaw gateway restart &", "expect": ["gateway.restart"], "family": "prefix_strip", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0001-0000-4000-8000-000000000001 && openclaw cron rm aaaa0001-0000-4000-8000-000000000001", "expect": ["cron.disable", "cron.rm"], "family": "chained", "synthetic": true}
+{"cmd": "echo start && openclaw gateway restart", "expect": ["gateway.restart"], "family": "chained_echo_then_action", "synthetic": true}
+{"cmd": "cd ~/.openclaw && openclaw cron edit aaaa0002-0000-4000-8000-000000000002 --message x", "expect": ["cron.edit"], "family": "chained", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0001-0000-4000-8000-000000000001 --help", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw gateway restart -h", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0002-0000-4000-8000-000000000002 --help", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw gateway restart -h", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0003-0000-4000-8000-000000000003 --help", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw gateway restart -h", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0004-0000-4000-8000-000000000004 --help", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw gateway restart -h", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0005-0000-4000-8000-000000000005 --help", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw gateway restart -h", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0006-0000-4000-8000-000000000006 --help", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw gateway restart -h", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0007-0000-4000-8000-000000000007 --help", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw gateway restart -h", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0008-0000-4000-8000-000000000008 --help", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw gateway restart -h", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw cron disable aaaa0009-0000-4000-8000-000000000009 --help", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw gateway restart -h", "expect": [], "family": "help", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0001-0000-4000-8000-000000000001 --dry-run", "expect": [], "family": "dry_run", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0002-0000-4000-8000-000000000002 --dry-run", "expect": [], "family": "dry_run", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0003-0000-4000-8000-000000000003 --dry-run", "expect": [], "family": "dry_run", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0004-0000-4000-8000-000000000004 --dry-run", "expect": [], "family": "dry_run", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0005-0000-4000-8000-000000000005 --dry-run", "expect": [], "family": "dry_run", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0006-0000-4000-8000-000000000006 --dry-run", "expect": [], "family": "dry_run", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0007-0000-4000-8000-000000000007 --dry-run", "expect": [], "family": "dry_run", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0008-0000-4000-8000-000000000008 --dry-run", "expect": [], "family": "dry_run", "synthetic": true}
+{"cmd": "openclaw cron edit aaaa0009-0000-4000-8000-000000000009 --dry-run", "expect": [], "family": "dry_run", "synthetic": true}
+{"cmd": "echo \"openclaw gateway restart\"", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "printf 'openclaw cron disable aaaa0001-0000-4000-8000-000000000001'", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "echo \"openclaw gateway restart\"", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "printf 'openclaw cron disable aaaa0002-0000-4000-8000-000000000002'", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "echo \"openclaw gateway restart\"", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "printf 'openclaw cron disable aaaa0003-0000-4000-8000-000000000003'", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "echo \"openclaw gateway restart\"", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "printf 'openclaw cron disable aaaa0004-0000-4000-8000-000000000004'", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "echo \"openclaw gateway restart\"", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "printf 'openclaw cron disable aaaa0005-0000-4000-8000-000000000005'", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "echo \"openclaw gateway restart\"", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "printf 'openclaw cron disable aaaa0006-0000-4000-8000-000000000006'", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "echo \"openclaw gateway restart\"", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "printf 'openclaw cron disable aaaa0007-0000-4000-8000-000000000007'", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "echo \"openclaw gateway restart\"", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "printf 'openclaw cron disable aaaa0008-0000-4000-8000-000000000008'", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "echo \"openclaw gateway restart\"", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "printf 'openclaw cron disable aaaa0009-0000-4000-8000-000000000009'", "expect": [], "family": "echo", "synthetic": true}
+{"cmd": "grep -r 'openclaw cron disable' /var/log", "expect": [], "family": "grep", "synthetic": true}
+{"cmd": "grep -r 'openclaw cron disable' /var/log", "expect": [], "family": "grep", "synthetic": true}
+{"cmd": "grep -r 'openclaw cron disable' /var/log", "expect": [], "family": "grep", "synthetic": true}
+{"cmd": "grep -r 'openclaw cron disable' /var/log", "expect": [], "family": "grep", "synthetic": true}
+{"cmd": "grep -r 'openclaw cron disable' /var/log", "expect": [], "family": "grep", "synthetic": true}
+{"cmd": "grep -r 'openclaw cron disable' /var/log", "expect": [], "family": "grep", "synthetic": true}
+{"cmd": "grep -r 'openclaw cron disable' /var/log", "expect": [], "family": "grep", "synthetic": true}
+{"cmd": "grep -r 'openclaw cron disable' /var/log", "expect": [], "family": "grep", "synthetic": true}
+{"cmd": "grep -r 'openclaw cron disable' /var/log", "expect": [], "family": "grep", "synthetic": true}
+{"cmd": "# openclaw gateway restart (disabled, do not run)", "expect": [], "family": "comment", "synthetic": true}
+{"cmd": "# openclaw gateway restart (disabled, do not run)", "expect": [], "family": "comment", "synthetic": true}
+{"cmd": "# openclaw gateway restart (disabled, do not run)", "expect": [], "family": "comment", "synthetic": true}
+{"cmd": "# openclaw gateway restart (disabled, do not run)", "expect": [], "family": "comment", "synthetic": true}
+{"cmd": "# openclaw gateway restart (disabled, do not run)", "expect": [], "family": "comment", "synthetic": true}
+{"cmd": "# openclaw gateway restart (disabled, do not run)", "expect": [], "family": "comment", "synthetic": true}
+{"cmd": "# openclaw gateway restart (disabled, do not run)", "expect": [], "family": "comment", "synthetic": true}
+{"cmd": "# openclaw gateway restart (disabled, do not run)", "expect": [], "family": "comment", "synthetic": true}
+{"cmd": "# openclaw gateway restart (disabled, do not run)", "expect": [], "family": "comment", "synthetic": true}
+{"cmd": "cat > /tmp/script-1.sh <<'EOF'\nopenclaw gateway restart\nopenclaw cron disable aaaa0001-0000-4000-8000-000000000001\nEOF", "expect": [], "family": "heredoc", "synthetic": true}
+{"cmd": "cat > /tmp/script-2.sh <<'EOF'\nopenclaw gateway restart\nopenclaw cron disable aaaa0002-0000-4000-8000-000000000002\nEOF", "expect": [], "family": "heredoc", "synthetic": true}
+{"cmd": "cat > /tmp/script-3.sh <<'EOF'\nopenclaw gateway restart\nopenclaw cron disable aaaa0003-0000-4000-8000-000000000003\nEOF", "expect": [], "family": "heredoc", "synthetic": true}
+{"cmd": "cat > /tmp/script-4.sh <<'EOF'\nopenclaw gateway restart\nopenclaw cron disable aaaa0004-0000-4000-8000-000000000004\nEOF", "expect": [], "family": "heredoc", "synthetic": true}
+{"cmd": "cat > /tmp/script-5.sh <<'EOF'\nopenclaw gateway restart\nopenclaw cron disable aaaa0005-0000-4000-8000-000000000005\nEOF", "expect": [], "family": "heredoc", "synthetic": true}
+{"cmd": "cat > /tmp/script-6.sh <<'EOF'\nopenclaw gateway restart\nopenclaw cron disable aaaa0006-0000-4000-8000-000000000006\nEOF", "expect": [], "family": "heredoc", "synthetic": true}
+{"cmd": "cat > /tmp/script-7.sh <<'EOF'\nopenclaw gateway restart\nopenclaw cron disable aaaa0007-0000-4000-8000-000000000007\nEOF", "expect": [], "family": "heredoc", "synthetic": true}
+{"cmd": "cat > /tmp/script-8.sh <<'EOF'\nopenclaw gateway restart\nopenclaw cron disable aaaa0008-0000-4000-8000-000000000008\nEOF", "expect": [], "family": "heredoc", "synthetic": true}
+{"cmd": "cat > /tmp/script-9.sh <<'EOF'\nopenclaw gateway restart\nopenclaw cron disable aaaa0009-0000-4000-8000-000000000009\nEOF", "expect": [], "family": "heredoc", "synthetic": true}
+{"cmd": "git commit -m \"openclaw cron disable aaaa0001-0000-4000-8000-000000000001 was removed\"", "expect": [], "family": "quoted_arg", "synthetic": true}
+{"cmd": "git commit -m \"openclaw cron disable aaaa0002-0000-4000-8000-000000000002 was removed\"", "expect": [], "family": "quoted_arg", "synthetic": true}
+{"cmd": "git commit -m \"openclaw cron disable aaaa0003-0000-4000-8000-000000000003 was removed\"", "expect": [], "family": "quoted_arg", "synthetic": true}
+{"cmd": "git commit -m \"openclaw cron disable aaaa0004-0000-4000-8000-000000000004 was removed\"", "expect": [], "family": "quoted_arg", "synthetic": true}
+{"cmd": "git commit -m \"openclaw cron disable aaaa0005-0000-4000-8000-000000000005 was removed\"", "expect": [], "family": "quoted_arg", "synthetic": true}
+{"cmd": "git commit -m \"openclaw cron disable aaaa0006-0000-4000-8000-000000000006 was removed\"", "expect": [], "family": "quoted_arg", "synthetic": true}
+{"cmd": "git commit -m \"openclaw cron disable aaaa0007-0000-4000-8000-000000000007 was removed\"", "expect": [], "family": "quoted_arg", "synthetic": true}
+{"cmd": "git commit -m \"openclaw cron disable aaaa0008-0000-4000-8000-000000000008 was removed\"", "expect": [], "family": "quoted_arg", "synthetic": true}
+{"cmd": "git commit -m \"openclaw cron disable aaaa0009-0000-4000-8000-000000000009 was removed\"", "expect": [], "family": "quoted_arg", "synthetic": true}
+{"cmd": "cat > /tmp/notes-1.txt <<EOF\nremember to never run openclaw gateway restart\nEOF", "expect": [], "family": "cat_heredoc_script", "synthetic": true}
+{"cmd": "cat > /tmp/notes-2.txt <<EOF\nremember to never run openclaw gateway restart\nEOF", "expect": [], "family": "cat_heredoc_script", "synthetic": true}
+{"cmd": "cat > /tmp/notes-3.txt <<EOF\nremember to never run openclaw gateway restart\nEOF", "expect": [], "family": "cat_heredoc_script", "synthetic": true}
+{"cmd": "cat > /tmp/notes-4.txt <<EOF\nremember to never run openclaw gateway restart\nEOF", "expect": [], "family": "cat_heredoc_script", "synthetic": true}
+{"cmd": "cat > /tmp/notes-5.txt <<EOF\nremember to never run openclaw gateway restart\nEOF", "expect": [], "family": "cat_heredoc_script", "synthetic": true}
+{"cmd": "cat > /tmp/notes-6.txt <<EOF\nremember to never run openclaw gateway restart\nEOF", "expect": [], "family": "cat_heredoc_script", "synthetic": true}
+{"cmd": "cat > /tmp/notes-7.txt <<EOF\nremember to never run openclaw gateway restart\nEOF", "expect": [], "family": "cat_heredoc_script", "synthetic": true}
+{"cmd": "cat > /tmp/notes-8.txt <<EOF\nremember to never run openclaw gateway restart\nEOF", "expect": [], "family": "cat_heredoc_script", "synthetic": true}
+{"cmd": "cat > /tmp/notes-9.txt <<EOF\nremember to never run openclaw gateway restart\nEOF", "expect": [], "family": "cat_heredoc_script", "synthetic": true}
+{"cmd": "ls -la", "expect": [], "family": "not_infra", "synthetic": true}
+{"cmd": "cd /tmp", "expect": [], "family": "not_infra", "synthetic": true}
+{"cmd": "python run.py", "expect": [], "family": "not_infra", "synthetic": true}
+{"cmd": "openclaw cron list", "expect": [], "family": "not_infra", "synthetic": true}
+{"cmd": "openclaw sessions list", "expect": [], "family": "not_infra", "synthetic": true}
+{"cmd": "git status", "expect": [], "family": "not_infra", "synthetic": true}
+{"cmd": "openclaw policy check", "expect": [], "family": "not_infra", "synthetic": true}
+{"cmd": "pwd", "expect": [], "family": "not_infra", "synthetic": true}
+{"cmd": "whoami", "expect": [], "family": "not_infra", "synthetic": true}
+{"cmd": "date -u", "expect": [], "family": "not_infra", "synthetic": true}

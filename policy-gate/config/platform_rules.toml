@@ -1,0 +1,11 @@
+# Platform rules: OpenClaw system-prompt text, which is not in the policy git
+# repo. `effective_from` is an ISO-8601 timestamp or the literal "unknown".
+# The research gives no dated source for PLAT-FBD-04's start, so it ships as
+# "unknown" (requirements Open Question Q5): a rule with effective_from
+# "unknown" yields verdict class VERSION_UNKNOWN, never a violation.
+
+[[rule]]
+id = "PLAT-FBD-04"
+text = "Never restart the gateway service via exec."
+effective_from = "unknown"
+source = "OpenClaw system prompt (undated; see docs/DESIGN_NOTES.md)"

@@ -1,0 +1,13 @@
+{
+  "profile": "pinned",
+  "provenance_source": "heuristic",
+  "readings_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "readings": {
+    "strict": {"blocked": 8, "total": 10},
+    "plan": {"blocked": 5, "total": 10},
+    "lenient": {"blocked": 2, "total": 10}
+  },
+  "verdict_classes": {},
+  "retroactive_rules": {},
+  "firing_rates": []
+}

@@ -1,0 +1,4 @@
+{"timestamp": "2026-05-01T10:00:00Z", "message": {"role": "user", "content": "restart the gateway now"}}
+{"timestamp": "2026-05-01T10:00:05Z", "message": {"role": "assistant", "content": [{"type": "text", "text": "On it."}, {"type": "toolCall", "name": "exec", "arguments": {"command": "openclaw gateway restart"}}]}}
+{"timestamp": "2026-05-01T10:01:00Z", "message": {"role": "user", "content": "and disable the nightly job"}}
+{"timestamp": "2026-05-01T10:01:05Z", "message": {"role": "assistant", "content": [{"type": "toolCall", "name": "exec", "arguments": {"command": "openclaw cron disable aaaa1111-0000-4000-8000-000000000001"}}]}}

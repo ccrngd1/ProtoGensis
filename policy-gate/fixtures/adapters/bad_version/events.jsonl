@@ -1,0 +1,2 @@
+{"schema": "openclaw-trajectory", "schemaVersion": 99, "agent": "synthetic-agent", "synthetic_shape": true}
+{"event": "tool.call", "ts": "2026-05-01T10:00:05Z", "tool": "exec", "args": {"command": "openclaw gateway restart"}}

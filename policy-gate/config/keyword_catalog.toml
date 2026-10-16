@@ -1,0 +1,26 @@
+# agenthook-style keyword catalog (our reimplementation, not agenthook).
+# Fixed phrase -> regex over RAW exec strings. Deterministic.
+
+[[entry]]
+name = "cron-mutate"
+pattern = "\\bcron\\b.*\\b(disable|rm|remove|delete|edit|update|enable)\\b|\\b(disable|delete|remove|edit)\\b.*\\bcron\\b|\\bcron\\.(disable|rm|edit|update|enable)"
+
+[[entry]]
+name = "gateway-restart"
+pattern = "\\bgateway\\b.*\\b(restart|stop)\\b|gateway\\.(restart|stop)"
+
+[[entry]]
+name = "service-restart"
+pattern = "\\bsystemctl\\b.*\\b(restart|stop|disable)\\b|\\bservice\\.(restart|stop|disable)"
+
+[[entry]]
+name = "docker-mutate"
+pattern = "\\bdocker\\b.*\\b(restart|stop|rm|compose)\\b"
+
+[[entry]]
+name = "config-set"
+pattern = "\\bconfig\\b.*\\bset\\b|config\\.set"
+
+[[entry]]
+name = "memory-edit"
+pattern = "\\b(edit|write|rewrite)\\b.*\\b(MEMORY|SOUL|AGENTS)\\.md\\b"

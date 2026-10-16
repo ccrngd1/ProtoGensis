@@ -1,0 +1,15 @@
+{
+  "synthetic": true,
+  "note": "A hand-edited rule file with an unscoped wildcard; `rules check` must exit 1.",
+  "candidates": [
+    {
+      "id": "HE-PRE-01",
+      "polarity": "block_until_true",
+      "predicate": "cc_authorized",
+      "params": {"action_class": "automation"},
+      "tools": ["*"],
+      "subjects": ["agent:synthetic-agent"],
+      "origin": "builder"
+    }
+  ]
+}
