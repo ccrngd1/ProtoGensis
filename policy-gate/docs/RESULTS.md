@@ -5,9 +5,6 @@ reconstructed fixtures). Host results on the real archive are **aggregates
 only**, produced by `scripts/host_run.sh` (run by MasterControl as root) and
 committed as `results/*.json`; every number below is reproduced from those
 files by `policygate claims verify` through the ledger in `docs/CLAIMS.md`.
-Lines marked `PENDING_RERUN` depend on a stage-b re-run (currently the
-`verdict_classes_infra` aggregate added in phase 5) and are filled by
-`scripts/fill_rerun_claims.py`.
 
 ## Offline — synthetic compile (mechanism demo, origin builder)
 
@@ -122,8 +119,19 @@ The NO_RULE_IN_FORCE column counts all evaluated actions including
 it is <!-- claim:no-rule-in-force-infra --> 4 under strict
 (`verdict_classes_infra`, added in phase 5).
 
-Quiet hours: 31 actions in the 00–08Z window, 30 blocked under the plan
-reading (research spike: 17). PLAT-FBD-04 flags 21 gateway restarts, 3
+Quiet hours: <!-- claim:pinned-quiet-window --> 31 actions in the 00–08Z
+window, <!-- claim:pinned-quiet-blocked --> 30 blocked under the plan reading
+(research spike: 17). The quiet-hours rule CAB-FBD-08 fires on
+<!-- claim:pinned-fbd08-involved --> 30 / 30 / 30 actions (strict / plan /
+lenient), i.e. it is involved in 30 of the 53 / 46 / 42 pinned blocks, and
+<!-- claim:pinned-fbd08-authorized --> 20 of those 30 are provisionally
+labelled authorized. That is a **compiler limit**, not only rulebook wording:
+the clause says no *autonomous* infra work in the window, but a v1 rule is a
+single predicate over the closed vocabulary, so it compiles to a
+`quiet_hours_utc` FORBIDDEN rule with no `cc_authorized` exemption (the
+conjunction "in window AND not CC-authorized" is not expressible). It cannot
+say "unless CC authorized it" and over-blocks CC-authorized in-window work
+under every reading. PLAT-FBD-04 flags 21 gateway restarts, 3
 CC-requested under strict. `ts_missing` 0; `VERSION_UNKNOWN` 0 (every action
 timestamp resolved to a bundle version).
 
@@ -150,7 +158,9 @@ candidate-quality signal, not a misbehaviour count.
 A rule that fires on ~everything it sees is NOMOS's over-broad-rule smell:
 these are naive readings of "no autonomous infra work" / "ask CC first"
 clauses, which under strict almost always fire. That is a statement about the
-rulebook's wording, not about the agents.
+rules, not about the agents, and it is split: partly the rulebook's wording,
+partly the compiled rules being blunter than the prose (CAB-FBD-08 above cannot
+express "unless CC authorized it").
 
 ### COUNTERFACTUAL (retroactive policy; not violations)
 
@@ -197,11 +207,18 @@ recall on so few positives is small-n and should not be over-read).
 | pinned, lenient | 0.2619 | 0.8462 | 11 | 31 | 2 | 15 |
 | keyword baseline | 0.1887 | 0.7692 | 10 | 43 | 3 | 3 |
 
-Precision is **low** against the provisional labels — the false positives are
-actions the labels judge as not unauthorized (mostly authorized-explicit or
-authorized-plan, the rest policy-silent) that the naive candidates, and
-consumption of one-shot authorizations, block anyway; the over-broad
-candidates show up in the firing-rate flags. We report it as-is;
+Precision is **low** against the provisional labels. All
+<!-- claim:eval-strict-fp --> 40 strict false positives are actions the labels
+judge authorized (<!-- claim:eval-strict-fp-authorized --> explicit=13
+plan=27 silent=0; no policy-silent action is blocked) that the naive
+candidates, and consumption of one-shot authorizations, block anyway;
+<!-- claim:pinned-fbd08-authorized --> 20 of them involve the quiet-hours
+rule's compiler limit. Borderline rows (CC-D4):
+<!-- claim:label-borderline-total --> 31, by label
+<!-- claim:label-borderline-by-label --> plan=23 unauthorized=6 silent=2
+explicit=0, so 6 of the 13 `unauthorized` positives are themselves
+borderline. The over-broad candidates show up in the firing-rate flags. We
+report it as-is;
 the gate beats the keyword baseline on both precision and recall, and that is
 the extent of the claim. Normalizer precision on the real labelled set: 1.0
 (no row was labelled not-an-action).
@@ -225,7 +242,7 @@ differing from the naive replay, for stated reasons.
 
 | id | research | actual | note |
 |---|---|---|---|
-| pinned-strict | 47 | 53 | pinning moved pre-rule actions to NO_RULE_IN_FORCE (Premise 4), but the 26 naive builder candidates (vs spike 1's 4 hand rules) bind more vtools and consumption re-blocks repeats after one authorization; net +6 |
-| pinned-plan | 32 | 46 | same causes; the naive candidates include plan-insensitive FORBIDDEN shapes (e.g. target/path rules) that block regardless of reading |
-| pinned-lenient | 11 | 42 | same causes, largest swing: spike lenient only required any CC turn, while the naive candidates' FORBIDDEN rules and consumption fire under every reading |
-| pinned-quiet-blocked | 17 | 30 | the quiet-hours candidate reads the clause as binding every infra vtool in 00–08Z (spike 1 bound a narrower set), and consumption removes exemptions the spike granted |
+| pinned-strict | 47 | 53 | pinning moved pre-rule actions to NO_RULE_IN_FORCE (Premise 4), but the 26 naive builder candidates (vs spike 1's 4 hand rules) bind more vtools and consumption re-blocks repeats after one authorization; net +6. Compiler limit: CAB-FBD-08 (quiet hours, "no *autonomous* infra work") cannot express "unless CC authorized it", so it over-blocks CC-authorized in-window work; it is involved in 30 of the 53 blocks (claim pinned-fbd08-involved) |
+| pinned-plan | 32 | 46 | same causes; the naive candidates include plan-insensitive FORBIDDEN shapes (e.g. target/path rules) that block regardless of reading. Same compiler limit: CAB-FBD-08 is involved in 30 of the 46 blocks (pinned-fbd08-involved) |
+| pinned-lenient | 11 | 42 | same causes, largest swing: spike lenient only required any CC turn, while the naive candidates' FORBIDDEN rules and consumption fire under every reading. CAB-FBD-08 has no `cc_authorized` exemption under any reading and is involved in 30 of the 42 blocks (pinned-fbd08-involved) |
+| pinned-quiet-blocked | 17 | 30 | the quiet-hours candidate reads the clause as binding every infra vtool in 00–08Z (spike 1 bound a narrower set), and consumption removes exemptions the spike granted. Compiler limit: a single-predicate rule compiles "no *autonomous* infra work" to a window rule that cannot express "unless CC authorized it", so CC-authorized in-window work is blocked too (20 of the 30 are labelled authorized; pinned-fbd08-authorized) |

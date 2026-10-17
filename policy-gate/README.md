@@ -92,7 +92,7 @@ transcript does not exist; it was rebuilt from the mistake log, a memory
 backup, and two git commits. In-episode timestamps are approximate.
 
 - Episode 1, replayed under the policy pinned at the time (no rule existed):
-  <!-- claim:feb19-ep1-pinned --> 0 of 11 calls blocked. This is **not** a
+  <!-- claim:feb19-ep1-pinned --> 0 of <!-- claim:feb19-ep1-calls --> 11 calls blocked. This is **not** a
   violation; no written rule was in force.
 - Episode 1, counterfactual under the later rules (labeled retroactive):
   <!-- claim:feb19-ep1-counterfactual --> 10 blocked.
@@ -110,7 +110,8 @@ reads it): <!-- claim:archive-transcripts --> 2,328 transcripts,
 actions after normalization (first pass without `--help`/heredoc handling:
 <!-- claim:infra-actions-first-pass --> 97). The spike-parity profile
 reproduced every research-spike value, with
-<!-- claim:parity-deltas-zero --> 0 deltas on the twenty-seven tracked numbers,
+<!-- claim:parity-deltas-zero --> 0 deltas on the
+<!-- claim:parity-matches --> twenty-seven tracked numbers,
 blocking <!-- claim:parity-strict --> 47 / <!-- claim:parity-plan --> 32 /
 <!-- claim:parity-lenient --> 11 of <!-- claim:infra-actions --> 59 under
 strict/plan/lenient.
@@ -122,22 +123,33 @@ than the naive replay, not less: pinning moved pre-rule actions into
 evaluated actions including `file.edit`; of the
 <!-- claim:infra-actions --> 59 infra actions,
 <!-- claim:no-rule-in-force-infra --> 4), but the
-twenty-six naive builder-authored candidates bind more vtools than the spike's
-four hand rules, and consumption re-blocks repeats. The deltas and their
+<!-- claim:candidates-count --> twenty-six naive builder-authored candidates
+bind more vtools than the spike's <!-- claim:spike-hand-rules --> four hand
+rules, and consumption re-blocks repeats. The quiet-hours rule is also a
+compiler limit: a single-predicate rule cannot express "unless CC authorized
+it", so the quiet-hours rule over-blocks CC-authorized in-window work; it
+(CAB-FBD-08) is involved in <!-- claim:pinned-fbd08-involved --> 30 of the
+pinned blocks under each reading. The deltas and their
 reasons are in `docs/RESULTS.md`, not smoothed. Against
 <!-- claim:infra-actions --> 59 provisional hand labels (`label_status`
 <!-- claim:label-status --> provisional, confirmation pending CC),
 strict-reading precision is <!-- claim:eval-strict-precision --> 0.2453 at
-recall <!-- claim:eval-strict-recall --> 1.0 on thirteen positives (small n); the
+recall <!-- claim:eval-strict-recall --> 1.0 on
+<!-- claim:label-unauthorized --> thirteen positives (small n); the
 keyword baseline scores <!-- claim:keyword-baseline-precision --> 0.1887
 precision at <!-- claim:keyword-baseline-recall --> 0.7692 recall. Low
-precision against these labels is the finding: most false positives are
-actions the provisional labels judge authorized (explicitly or via an accepted
-plan) that the naive candidates — and consumption of one-shot authorizations —
-block anyway. The ambiguity queue holds
+precision against these labels is the finding: all
+<!-- claim:eval-strict-fp --> 40 strict false positives are actions the
+provisional labels judge authorized (<!-- claim:eval-strict-blocked-plan --> 27
+via an accepted plan, <!-- claim:eval-strict-blocked-explicit --> 13
+explicitly) that the naive candidates — and consumption of one-shot
+authorizations — block anyway. <!-- claim:label-borderline-total --> 31 labels
+are borderline, including <!-- claim:label-borderline-unauthorized --> 6 of the
+<!-- claim:label-unauthorized --> 13 positives. The ambiguity queue holds
 <!-- claim:ambiguity-items-total --> 12 (clause, action-class)
 items; the breakdown by kind is in `docs/RESULTS.md`. The "more holes than
-agents" margin is <!-- claim:holes-vs-agents --> 16 vs 13: narrow, on
+agents" margin is <!-- claim:holes-vs-agents --> 16 vs
+<!-- claim:label-unauthorized --> 13: narrow, on
 provisional labels, and the "holes" side mixes
 <!-- claim:label-policy-silent --> 4 policy-silent actions with the
 <!-- claim:ambiguity-items-total --> 12 ambiguity items.
@@ -190,7 +202,8 @@ defect rate; the extraction-run numbers are pending CC approval).
   snapshots; "in force at t" means "committed by t".
 - **Heuristic principals offline (R5).** Legacy JSONL has no typed provenance; a
   "human" turn is not proven to be CC.
-- **Small, main-dominated data (R7).** <!-- claim:main-share --> 55 of the 59
+- **Small, main-dominated data (R7).** <!-- claim:main-share --> 55 of the
+  <!-- claim:infra-actions --> 59
   real infra actions are the main agent's; the adversarial set covers attack
   shapes the archive lacks.
 - **Builder-authored candidates (R8).** v1 compiles hand-written candidates;
