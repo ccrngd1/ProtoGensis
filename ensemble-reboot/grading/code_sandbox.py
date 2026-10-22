@@ -49,18 +49,14 @@ def _nobody_ids():
     return p.pw_uid, p.pw_gid
 
 
-def _make_preexec(as_root: bool):
+def _make_preexec():
+    """Apply rlimits and setsid; does NOT drop privileges (handled by unshare --setuid/--setgid)."""
     def preexec():
         resource.setrlimit(resource.RLIMIT_CPU, (CPU_LIMIT_S, CPU_LIMIT_S))
         resource.setrlimit(resource.RLIMIT_AS, (AS_LIMIT_BYTES, AS_LIMIT_BYTES))
         resource.setrlimit(resource.RLIMIT_NPROC, (NPROC_LIMIT, NPROC_LIMIT))
         resource.setrlimit(resource.RLIMIT_FSIZE, (FSIZE_LIMIT_BYTES, FSIZE_LIMIT_BYTES))
         os.setsid()
-        if as_root:
-            uid, gid = _nobody_ids()
-            os.setgroups([])
-            os.setgid(gid)
-            os.setuid(uid)
     return preexec
 
 
@@ -82,7 +78,15 @@ def run_untrusted(
             uid, gid = _nobody_ids()
             os.chown(workdir, uid, gid)
             os.chown(script, uid, gid)
-            cmd = ["unshare", "--net", sys.executable, "-I", script]
+            # --setuid/--setgid drop privileges AFTER unshare creates the net namespace.
+            # DO NOT use preexec_fn to setuid: that runs before exec(unshare) and
+            # would deny the privilege needed to create a new network namespace.
+            cmd = [
+                "unshare", "--net",
+                "--setuid", str(uid),
+                "--setgid", str(gid),
+                sys.executable, "-I", script,
+            ]
         else:
             if not _warned_no_netns:
                 log.warning(
@@ -102,7 +106,7 @@ def run_untrusted(
                 timeout=wall_timeout_s,
                 cwd=workdir,
                 env={},  # empty environment: no tokens, no proxies, nothing
-                preexec_fn=_make_preexec(as_root),
+                preexec_fn=_make_preexec(),
             )
             return SandboxResult(proc.stdout, proc.stderr, proc.returncode, False)
         except subprocess.TimeoutExpired as e:
