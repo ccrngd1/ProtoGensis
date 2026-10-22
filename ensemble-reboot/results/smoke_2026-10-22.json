@@ -1,0 +1,347 @@
+[
+  {
+    "model": "global.anthropic.claude-fable-5-1",
+    "level": "low",
+    "status": 200,
+    "latency_s": 2.1,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 25,
+      "outputTokens": 3,
+      "serverToolUsage": {},
+      "totalTokens": 28
+    }
+  },
+  {
+    "model": "global.anthropic.claude-fable-5-1",
+    "level": "max",
+    "status": 200,
+    "latency_s": 2.3,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 25,
+      "outputTokens": 3,
+      "serverToolUsage": {},
+      "totalTokens": 28
+    }
+  },
+  {
+    "model": "global.anthropic.claude-opus-5-5",
+    "level": "low",
+    "status": 200,
+    "latency_s": 1.6,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 25,
+      "outputTokens": 3,
+      "serverToolUsage": {},
+      "totalTokens": 28
+    }
+  },
+  {
+    "model": "global.anthropic.claude-opus-5-5",
+    "level": "max",
+    "status": 200,
+    "latency_s": 1.9,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 25,
+      "outputTokens": 44,
+      "serverToolUsage": {},
+      "totalTokens": 69
+    }
+  },
+  {
+    "model": "global.anthropic.claude-sonnet-5-5",
+    "level": "low",
+    "status": 200,
+    "latency_s": 1.6,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 25,
+      "outputTokens": 3,
+      "serverToolUsage": {},
+      "totalTokens": 28
+    }
+  },
+  {
+    "model": "global.anthropic.claude-sonnet-5-5",
+    "level": "max",
+    "status": 200,
+    "latency_s": 1.4,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 25,
+      "outputTokens": 43,
+      "serverToolUsage": {},
+      "totalTokens": 68
+    }
+  },
+  {
+    "model": "global.anthropic.claude-haiku-5-5",
+    "level": "low",
+    "status": 200,
+    "latency_s": 1.2,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 25,
+      "outputTokens": 3,
+      "serverToolUsage": {},
+      "totalTokens": 28
+    }
+  },
+  {
+    "model": "global.anthropic.claude-haiku-5-5",
+    "level": "max",
+    "status": 200,
+    "latency_s": 1.2,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 25,
+      "outputTokens": 35,
+      "serverToolUsage": {},
+      "totalTokens": 60
+    }
+  },
+  {
+    "model": "global.openai.gpt-6-astra",
+    "level": "low",
+    "status": 200,
+    "latency_s": 1.1,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 20,
+      "outputTokens": 5,
+      "serverToolUsage": {},
+      "totalTokens": 25
+    }
+  },
+  {
+    "model": "global.openai.gpt-6-astra",
+    "level": "max",
+    "status": 200,
+    "latency_s": 1.0,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 20,
+      "outputTokens": 27,
+      "serverToolUsage": {},
+      "totalTokens": 47
+    }
+  },
+  {
+    "model": "global.openai.gpt-6.1-sol",
+    "level": "low",
+    "status": 200,
+    "latency_s": 1.1,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 20,
+      "outputTokens": 5,
+      "serverToolUsage": {},
+      "totalTokens": 25
+    }
+  },
+  {
+    "model": "global.openai.gpt-6.1-sol",
+    "level": "max",
+    "status": 200,
+    "latency_s": 1.5,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 20,
+      "outputTokens": 38,
+      "serverToolUsage": {},
+      "totalTokens": 58
+    }
+  },
+  {
+    "model": "global.openai.gpt-6-luna",
+    "level": "none",
+    "status": 200,
+    "latency_s": 1.0,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 20,
+      "outputTokens": 5,
+      "serverToolUsage": {},
+      "totalTokens": 25
+    }
+  },
+  {
+    "model": "global.openai.gpt-6-luna",
+    "level": "max",
+    "status": 200,
+    "latency_s": 1.1,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 20,
+      "outputTokens": 28,
+      "serverToolUsage": {},
+      "totalTokens": 48
+    }
+  },
+  {
+    "model": "global.xai.grok-4.7",
+    "level": "low",
+    "status": 200,
+    "latency_s": 3.8,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 32,
+      "outputTokens": 103,
+      "serverToolUsage": {},
+      "totalTokens": 135
+    }
+  },
+  {
+    "model": "global.xai.grok-4.7",
+    "level": "xhigh",
+    "status": 200,
+    "latency_s": 18.6,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 33,
+      "outputTokens": 884,
+      "serverToolUsage": {},
+      "totalTokens": 917
+    }
+  },
+  {
+    "model": "global.moonshotai.kimi-k3",
+    "level": "none",
+    "status": 200,
+    "latency_s": 1.9,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 32,
+      "outputTokens": 10,
+      "serverToolUsage": {},
+      "totalTokens": 42
+    }
+  },
+  {
+    "model": "global.moonshotai.kimi-k3",
+    "level": "max",
+    "status": 200,
+    "latency_s": 1.1,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "cacheReadInputTokenCount": 0,
+      "cacheReadInputTokens": 0,
+      "cacheWriteInputTokenCount": 0,
+      "cacheWriteInputTokens": 0,
+      "inputTokens": 99,
+      "outputTokens": 42,
+      "serverToolUsage": {},
+      "totalTokens": 141
+    }
+  },
+  {
+    "model": "global.amazon.nova-2-lite-v1:0",
+    "level": "low",
+    "status": 200,
+    "latency_s": 4.4,
+    "answer": "391",
+    "correct": true,
+    "usage": {
+      "inputTokens": 110,
+      "outputTokens": 257,
+      "serverToolUsage": {},
+      "totalTokens": 367
+    }
+  },
+  {
+    "model": "global.amazon.nova-2-lite-v1:0",
+    "level": "high",
+    "status": 400,
+    "latency_s": 0.8,
+    "error": "{\"message\":\"The model returned the following errors: `maxTokens` must be unset when reasoningConfig type is 'enabled' and maxReasoningEffort is 'high'. Please consult our documentation at https://docs.aws.amazon.com/nova/latest/userguide\"}"
+  }
+]
