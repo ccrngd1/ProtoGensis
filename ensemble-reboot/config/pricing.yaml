@@ -1,0 +1,108 @@
+# Pricing for the ensemble-reboot roster, USD per 1M tokens, GLOBAL cross-region
+# inference (matches the `global.` profile ids we call).
+#
+# Primary source: AWS Price List API (no credentials), retrieved 2026-10-22:
+#   - https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/index.json
+#     (Grok 4.7, Kimi K3, Nova 2.0 Lite; usagetypes like
+#      USE1-xai.grok-4.7-mantle-input-tokens-global-standard, unit 1K tokens)
+#   - https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/index.json
+#     (Anthropic Fable 5.1 / Opus 5.5 / Sonnet 5.5 / Haiku 5.5, OpenAI GPT-6 Astra;
+#      usagetypes like USE1-MP:USE1_input_tokens_global_standard-Units, unit 1M tokens)
+# Fallback source (models not yet in the Price List API as of 2026-10-22):
+#   - GPT-6.1 Sol: https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-openai-gpt-6-1-sol.html
+#   - GPT-6 Luna:  https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-openai-gpt-6-luna.html
+#     (both pages list "Global CRIS (bedrock-runtime)" rows; short-context rates,
+#      which apply to all our requests: inputs are far below 272K tokens)
+#
+# Global-vs-regional premium: in-Region / US-CRIS rates are 10% ABOVE Global CRIS
+# for every roster model that lists both (e.g. Fable 5.1: $11 vs $10 input;
+# Grok 4.7: $2.20 vs $2.00). We pay the global rate.
+#
+# status: OK = price verified from the listed source on retrieved_date.
+#         UNKNOWN = not found; cost code must propagate UNKNOWN, never treat as $0.
+
+retrieved_date: "2026-10-22"
+currency: USD
+unit: per_1M_tokens
+inference_tier: global_cris_standard
+
+profiles:
+  global.anthropic.claude-fable-5-1:
+    input: 10.00
+    output: 50.00
+    cache_read: 0.25
+    status: OK
+    source: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/index.json
+    source_detail: "Claude Fable 5.1, USE1 *_global_standard-Units"
+
+  global.anthropic.claude-opus-5-5:
+    input: 4.00
+    output: 20.00
+    cache_read: 0.20
+    status: OK
+    source: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/index.json
+    source_detail: "Claude Opus 5.5, USE1 *_global_standard-Units"
+
+  global.anthropic.claude-sonnet-5-5:
+    input: 2.00
+    output: 10.00
+    cache_read: 0.10
+    status: OK
+    source: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/index.json
+    source_detail: "Claude Sonnet 5.5, USE1 *_global_standard-Units"
+
+  global.anthropic.claude-haiku-5-5:
+    input: 0.10
+    output: 0.50
+    cache_read: 0.01
+    status: OK
+    source: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/index.json
+    source_detail: "Claude Haiku 5.5, USE1 *_global_standard-Units (short context; long-ctx >200K is 5x, not used)"
+
+  global.openai.gpt-6-astra:
+    input: 10.00
+    output: 50.00
+    cache_read: 1.00
+    status: OK
+    source: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/index.json
+    source_detail: "OpenAI GPT-6 Astra, USE1 *_global_standard-Units (short context)"
+
+  global.openai.gpt-6.1-sol:
+    input: 2.00
+    output: 10.00
+    cache_read: 0.10
+    status: OK
+    source: https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-openai-gpt-6-1-sol.html
+    source_detail: "Global CRIS (bedrock-runtime), Standard, short context. Not yet in the Price List API on 2026-10-22 (released 2026-10-15)."
+
+  global.openai.gpt-6-luna:
+    input: 0.10
+    output: 0.50
+    cache_read: 0.01
+    status: OK
+    source: https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-openai-gpt-6-luna.html
+    source_detail: "Global CRIS, Standard, short context. Not in the Price List API on 2026-10-22."
+
+  global.xai.grok-4.7:
+    input: 2.00
+    output: 6.00
+    cache_read: 0.50
+    status: OK
+    source: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/index.json
+    source_detail: "Grok 4.7, USE1-xai.grok-4.7-mantle-*-tokens-global-standard ($/1K x1000)"
+
+  global.moonshotai.kimi-k3:
+    input: 3.00
+    output: 15.00
+    cache_read: 0.30
+    status: OK
+    source: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/index.json
+    source_detail: "Kimi K3, USE1-moonshotai.kimi-k3-mantle-*-tokens-global-standard ($/1K x1000)"
+
+  global.amazon.nova-2-lite-v1:0:
+    input: 0.30
+    output: 2.50
+    cache_read: 0.0825
+    status: OK
+    source: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/index.json
+    source_detail: "Nova 2.0 Lite, USE1-Nova2.0Lite-*-tokens-cross-region-global ($/1K x1000). cache_read is the in-Region rate (USE1-Nova2.0Lite-cache-read-input-token-count); no global cache-read SKU was listed."

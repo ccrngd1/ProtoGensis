@@ -1,0 +1,103 @@
+# ensemble-reboot roster (REQUIREMENTS.md, verified live 2026-10-22, 10/10 smoke OK).
+# Only global. inference profiles. No mantle, no grok-4.3, no gpt-5.5, no April-era models.
+#
+# effort_style:
+#   claude -> additionalModelRequestFields: {output_config: {effort: <level>}}
+#   openai_xai_kimi -> additionalModelRequestFields: {reasoning_config: "<level>"}
+#   nova -> additionalModelRequestFields: {reasoningConfig: {type: enabled, maxReasoningEffort: <level>}}
+#           (at high: inferenceConfig.maxTokens must be OMITTED or Bedrock returns 400)
+#
+# candidate_levels are what the probe (scripts/probe_levels.py) tries; the runner
+# uses only levels the probe confirmed with a 200.
+
+region: us-east-1
+default_max_tokens: 32000
+default_concurrency: 4
+
+models:
+  - profile_id: global.anthropic.claude-fable-5-1
+    family: anthropic
+    tier: frontier
+    effort_style: claude
+    candidate_levels: [low, medium, high, xhigh, max]
+    default_level: high
+    released: "2026-08-31"
+
+  - profile_id: global.anthropic.claude-opus-5-5
+    family: anthropic
+    tier: frontier
+    effort_style: claude
+    candidate_levels: [low, medium, high, xhigh, max]
+    default_level: medium
+    released: "2026-09-22"
+
+  - profile_id: global.openai.gpt-6-astra
+    family: openai
+    tier: frontier
+    effort_style: openai_xai_kimi
+    candidate_levels: [low, medium, high, xhigh, max]
+    default_level: medium
+    released: "2026-09-08"
+
+  - profile_id: global.openai.gpt-6.1-sol
+    family: openai
+    tier: frontier
+    effort_style: openai_xai_kimi
+    candidate_levels: [low, medium, high, xhigh, max]
+    default_level: medium
+    released: "2026-10-15"
+
+  - profile_id: global.xai.grok-4.7
+    family: xai
+    tier: frontier
+    effort_style: openai_xai_kimi
+    candidate_levels: [low, medium, high, xhigh]   # grok has no max
+    default_level: high
+    released: "2026-09-28"
+
+  - profile_id: global.moonshotai.kimi-k3
+    family: moonshot
+    tier: frontier
+    effort_style: openai_xai_kimi
+    candidate_levels: [none, low, medium, high, xhigh, max]
+    default_level: max
+    released: "2026-08-27"
+
+  - profile_id: global.anthropic.claude-sonnet-5-5
+    family: anthropic
+    tier: mid
+    effort_style: claude
+    candidate_levels: [low, medium, high, xhigh, max]
+    default_level: medium
+    released: "2026-09-28"
+
+  - profile_id: global.anthropic.claude-haiku-5-5
+    family: anthropic
+    tier: cheap
+    effort_style: claude
+    candidate_levels: [low, medium, high, xhigh, max]
+    default_level: medium
+    released: "2026-10-07"
+
+  - profile_id: global.openai.gpt-6-luna
+    family: openai
+    tier: cheap
+    effort_style: openai_xai_kimi
+    candidate_levels: [none, low, medium, high, xhigh, max]
+    default_level: medium
+    released: "2026-09-22"
+
+  - profile_id: global.amazon.nova-2-lite-v1:0
+    family: amazon
+    tier: cheap
+    effort_style: nova
+    candidate_levels: [low, medium, high]
+    default_level: medium
+    released: "2025-12-02"
+
+arms:
+  a2_n: 5
+  a3_personas_dir: ../ensemble-persona-orchestrator/personas
+  a4_panel: [global.openai.gpt-6.1-sol, global.xai.grok-4.7, global.moonshotai.kimi-k3]
+  a4a_aggregator: global.anthropic.claude-fable-5-1
+  a4b_aggregator: global.anthropic.claude-haiku-5-5   # weak-by-design, exempt from rule-4(b)

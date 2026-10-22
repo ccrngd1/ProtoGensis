@@ -1,0 +1,13 @@
+# Datasets: never commit dataset text (GPQA asks that examples not be posted online)
+# (anchored: ensemble_reboot/data/ holds loader code + the id/sha256 manifest)
+/data/
+# Full model response text
+results/raw_text/
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+.venv/

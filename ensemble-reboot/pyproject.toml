@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=65"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ensemble-reboot"
+version = "0.1.0"
+description = "Does model-family diversity actually help? Cost-matched ensemble arms on Bedrock."
+requires-python = ">=3.11"
+dependencies = [
+    "requests",
+    "numpy",
+    "huggingface_hub",
+    "PyYAML",
+    "pyarrow",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools]
+packages = [
+    "ensemble_reboot",
+    "ensemble_reboot.data",
+    "grading",
+    "analysis",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
