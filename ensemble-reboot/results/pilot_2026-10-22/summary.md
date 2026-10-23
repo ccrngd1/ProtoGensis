@@ -2,7 +2,19 @@
 
 1139 records. All numbers trace to record_ids (inline or in record_groups.json).
 
+## Spend
+
+- **Billed spend: $75.4628** over 1049 API calls (query: `sum(cost_usd) where billed` — vote events excluded).
+- Attributed vote-event cost: $12.4328 over 90 programmatic-vote records (sum of each vote's parent proposal calls; NOT billed — the parents are already in the billed total).
+
+Latency exclusions (config/latency_exclusions.yaml; excluded from p50/p95 latency only, kept in accuracy/cost):
+- `5047626ad9554cd4`: Harness process was SIGSTOPped for ~4-6 minutes at 2026-10-23T01:32Z while this call was in flight; wall-clock latency includes the stop and does not reflect API latency.
+- `de26961352b24f30`: Harness process was SIGSTOPped for ~4-6 minutes at 2026-10-23T01:32Z while this call was in flight; wall-clock latency includes the stop and does not reflect API latency.
+- `2aaa7145744e462c`: Harness process was SIGSTOPped for ~4-6 minutes at 2026-10-23T01:32Z while this call was in flight; wall-clock latency includes the stop and does not reflect API latency.
+
 ## Accuracy / cost / latency
+
+Cost marked `attr.` is attributed (sum of the row's parent proposal calls, labeled on programmatic-vote rows); it is already contained in the billed total and must not be added on top of it.
 
 | arm | model | effort | set | acc (95% CI) | n | trunc | cost$ | $/correct | p50/p95 lat (s) | records |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -39,18 +51,18 @@
 | a2 | anthropic.claude-opus-5-5 | medium | gpqa | 0.88 [0.74,0.95] | 40 | 0 | 0.760 | 0.0217 | 8.763/16.697 | see record_groups.json#a2_global.anthropic.claude-opus-5-5_medium_gpqa (n=40) |
 | a2 | openai.gpt-6-luna | medium | math | 0.90 [0.77,0.96] | 40 | 0 | 0.123 | 0.0034 | 26.688/210.417 | see record_groups.json#a2_global.openai.gpt-6-luna_medium_math (n=40) |
 | a2 | openai.gpt-6.1-sol | medium | code | 0.90 [0.77,0.96] | 40 | 0 | 0.382 | 0.0106 | 14.974/43.947 | see record_groups.json#a2_global.openai.gpt-6.1-sol_medium_code (n=40) |
-| a2 | programmatic-vote | medium | code | 0.90 [0.60,0.98] | 10 | 0 | 0.472 | 0.0525 | - | 421656c298154c98,5462d71808ec42f2,1695685c6f874e8f,fe4d8e17d1a04e5b,1262cea581aa4537,fecd24d8bc0141dc,7f4dccd6cd414da3,b8b80dc2823449f8,da3af676c1214b5f,be701791f0444db9 |
-| a2 | programmatic-vote | medium | gpqa | 0.90 [0.60,0.98] | 10 | 0 | 0.939 | 0.1044 | - | 614ee6ab06124092,a7ec5d53a517449c,c4bc2a3e42c245ce,facd9384654a44a5,d1c856a4f7a04bf0,a5955c95d2b4401c,e9a85a5be81c48aa,1b2d346122584a53,6a7922168aa64a94,43edb17561a84920 |
-| a2 | programmatic-vote | medium | math | 1.00 [0.72,1.00] | 10 | 0 | 0.149 | 0.0149 | - | ff6396836b3849b6,4587d174c7614db8,8a003c4443044364,3b50c2fc53ca4f12,d433b1f2dbfc43d3,eaaae53cb09a40a8,2bcf66f99df14bce,d06802daa1444aaa,61bfb272ba6d42fa,4e7458eb6f414f5d |
+| a2 | programmatic-vote | medium | code | 0.90 [0.60,0.98] | 10 | 0 | 0.472 attr. | 0.0525 | - | 421656c298154c98,5462d71808ec42f2,1695685c6f874e8f,fe4d8e17d1a04e5b,1262cea581aa4537,fecd24d8bc0141dc,7f4dccd6cd414da3,b8b80dc2823449f8,da3af676c1214b5f,be701791f0444db9 |
+| a2 | programmatic-vote | medium | gpqa | 0.90 [0.60,0.98] | 10 | 0 | 0.939 attr. | 0.1044 | - | 614ee6ab06124092,a7ec5d53a517449c,c4bc2a3e42c245ce,facd9384654a44a5,d1c856a4f7a04bf0,a5955c95d2b4401c,e9a85a5be81c48aa,1b2d346122584a53,6a7922168aa64a94,43edb17561a84920 |
+| a2 | programmatic-vote | medium | math | 1.00 [0.72,1.00] | 10 | 0 | 0.149 attr. | 0.0149 | - | ff6396836b3849b6,4587d174c7614db8,8a003c4443044364,3b50c2fc53ca4f12,d433b1f2dbfc43d3,eaaae53cb09a40a8,2bcf66f99df14bce,d06802daa1444aaa,61bfb272ba6d42fa,4e7458eb6f414f5d |
 | a3 | anthropic.claude-opus-5-5 | medium | gpqa | 0.86 [0.76,0.92] | 70 | 0 | 1.689 | 0.0282 | 10.497/20.167 | see record_groups.json#a3_global.anthropic.claude-opus-5-5_medium_gpqa (n=70) |
 | a3 | openai.gpt-6-luna | medium | math | 0.94 [0.86,0.98] | 70 | 0 | 0.190 | 0.0029 | 22.588/152.399 | see record_groups.json#a3_global.openai.gpt-6-luna_medium_math (n=70) |
 | a3 | openai.gpt-6.1-sol | medium | code | 0.90 [0.81,0.95] | 70 | 0 | 0.742 | 0.0118 | 14.927/55.368 | see record_groups.json#a3_global.openai.gpt-6.1-sol_medium_code (n=70) |
-| a3 | programmatic-vote | medium | code | 0.90 [0.60,0.98] | 10 | 0 | 0.742 | 0.0825 | - | 7534b549ebdf4629,3b77417d9ad4468a,4663c034df314e6e,403a606b75514477,133332ea75e44c7e,f18a0d3521614e0a,ae5b524497d54421,246515e747b5454b,eb9b161067de4e3f,dd46e9bb3e7c4fb0 |
-| a3 | programmatic-vote | medium | gpqa | 0.90 [0.60,0.98] | 10 | 0 | 1.689 | 0.1877 | - | 83eb6cfe7c454dcd,2c1727ed10894481,62bf5722c7e34fc3,c39f49cd1ebe4d9d,4343a2e18e2e4a8c,7ea67012f2f94e28,34a0a5498dc5446e,78a6a27673ec4bbb,fa8709dfa4e44549,7ead7860633646a1 |
-| a3 | programmatic-vote | medium | math | 1.00 [0.72,1.00] | 10 | 0 | 0.190 | 0.019 | - | e90df938483b4d67,56fb65a0e4034ab1,bcdbd082ad004331,a28e28af9bfa4fa5,499de412b1b447db,08e14d3eed4f4d40,3c7aec29aa134c71,f049ae479a754b93,b2e973961c004281,39f526ab54e64f81 |
-| a4-vote | programmatic-vote | default | code | 0.90 [0.60,0.98] | 10 | 0 | 3.316 | 0.3684 | - | b255f36acb9b468a,b8f783687483480c,a2c25dce14e1484f,688407da21cd4e31,f6392c3582e0409a,46e19512a7474e4e,655ebd0759714416,a08e6535271041f9,05f7e18cb9cb47ae,ffd972d275f945c4 |
-| a4-vote | programmatic-vote | default | gpqa | 0.80 [0.49,0.94] | 10 | 0 | 1.667 | 0.2084 | - | 4bc096e0dd53430d,1febcce97c41496f,fc6d9427c3804ed5,49f85c04f09647ef,80311a6858f544f2,d6156aad2f09460d,4eb75f9442234e1b,e1287403e3fc4455,acaeaea1414f45a3,fc55011b992e4352 |
-| a4-vote | programmatic-vote | default | math | 1.00 [0.72,1.00] | 10 | 0 | 3.269 | 0.3269 | - | 62708453f8904d0f,d69695c720a341a2,5d446ef1991145da,c92083b7ae4a4385,bc7eae8956d541af,9de875a608fa4fcc,0aaa88bc40094572,0a7d5547503e4f0e,e2f8219fbc814bc0,38fe54ed4a85489b |
+| a3 | programmatic-vote | medium | code | 0.90 [0.60,0.98] | 10 | 0 | 0.742 attr. | 0.0825 | - | 7534b549ebdf4629,3b77417d9ad4468a,4663c034df314e6e,403a606b75514477,133332ea75e44c7e,f18a0d3521614e0a,ae5b524497d54421,246515e747b5454b,eb9b161067de4e3f,dd46e9bb3e7c4fb0 |
+| a3 | programmatic-vote | medium | gpqa | 0.90 [0.60,0.98] | 10 | 0 | 1.689 attr. | 0.1877 | - | 83eb6cfe7c454dcd,2c1727ed10894481,62bf5722c7e34fc3,c39f49cd1ebe4d9d,4343a2e18e2e4a8c,7ea67012f2f94e28,34a0a5498dc5446e,78a6a27673ec4bbb,fa8709dfa4e44549,7ead7860633646a1 |
+| a3 | programmatic-vote | medium | math | 1.00 [0.72,1.00] | 10 | 0 | 0.190 attr. | 0.019 | - | e90df938483b4d67,56fb65a0e4034ab1,bcdbd082ad004331,a28e28af9bfa4fa5,499de412b1b447db,08e14d3eed4f4d40,3c7aec29aa134c71,f049ae479a754b93,b2e973961c004281,39f526ab54e64f81 |
+| a4-vote | programmatic-vote | default | code | 0.90 [0.60,0.98] | 10 | 0 | 3.316 attr. | 0.3684 | - | b255f36acb9b468a,b8f783687483480c,a2c25dce14e1484f,688407da21cd4e31,f6392c3582e0409a,46e19512a7474e4e,655ebd0759714416,a08e6535271041f9,05f7e18cb9cb47ae,ffd972d275f945c4 |
+| a4-vote | programmatic-vote | default | gpqa | 0.80 [0.49,0.94] | 10 | 0 | 1.667 attr. | 0.2084 | - | 4bc096e0dd53430d,1febcce97c41496f,fc6d9427c3804ed5,49f85c04f09647ef,80311a6858f544f2,d6156aad2f09460d,4eb75f9442234e1b,e1287403e3fc4455,acaeaea1414f45a3,fc55011b992e4352 |
+| a4-vote | programmatic-vote | default | math | 1.00 [0.72,1.00] | 10 | 0 | 3.269 attr. | 0.3269 | - | 62708453f8904d0f,d69695c720a341a2,5d446ef1991145da,c92083b7ae4a4385,bc7eae8956d541af,9de875a608fa4fcc,0aaa88bc40094572,0a7d5547503e4f0e,e2f8219fbc814bc0,38fe54ed4a85489b |
 | a4a | anthropic.claude-fable-5-1 | high | code | 0.90 [0.60,0.98] | 10 | 0 | 1.530 | 0.17 | 26.078/82.777 | e83dfbf2e8584bc9,95e2510d42684898,b8a080cf5ffe40b4,cc1a1d0807fd4148,6dbc6f61f6ac4505,41e9ce0e6163434e,94b180ffb7ea44aa,cf6eed8bef0a43e7,d15bf8b7b989485f,82322641025e4c5d |
 | a4a | anthropic.claude-fable-5-1 | high | gpqa | 0.90 [0.60,0.98] | 10 | 0 | 0.612 | 0.068 | 8.392/65.31 | b4cfbbce9ba14a39,3b850000beba4e17,f8be5a5100f14114,1e8b1f051d084f06,25c9c7556d88438e,73e672003db44f08,784dfcd1966d441a,1e9abdd0f6694a02,ac46546318da42ff,5bc45824bd8349a4 |
 | a4a | anthropic.claude-fable-5-1 | high | math | 1.00 [0.72,1.00] | 10 | 0 | 0.797 | 0.0797 | 15.169/21.481 | aca60a5ca89645dd,653c79409d92451e,b8de15087e274402,8a98841dcae946dd,09166450371a4f50,aedd10f5a4d7438f,0a58eeb6d8b540ec,509cabdb7a3348c5,4c9b7a1e6ad74b0b,e6910f3661de4688 |
@@ -87,9 +99,9 @@
 | sweep | openai.gpt-6-astra | low | code | 0.90 [0.60,0.98] | 10 | 0 | 0.311 | 0.0346 | 7.708/22.413 | cf9d6cb8f3aa4523,acbadab156f04ee0,c64d8b65377840b4,a9eca378f25c47af,0c8c3a9528984f75,c493038565ba4b82,8af0b2a1350d4d18,5033e674f54d44d3,a21d1a813fd94fac,2009b279cfb249dd |
 | sweep | openai.gpt-6-astra | low | gpqa | 0.90 [0.60,0.98] | 10 | 0 | 0.165 | 0.0183 | 4.083/19.119 | c1c61f7d3c734ee1,8253ec60248d4ebd,bd606016899d47f7,6c87589abe5547fe,a480eb6921924eef,65de69b5344b4234,32b577f22e044a56,c5c1f8750b944811,05636ef590e7484b,84ceb3bf2e754442 |
 | sweep | openai.gpt-6-astra | low | math | 1.00 [0.72,1.00] | 10 | 0 | 0.486 | 0.0486 | 10.996/30.054 | b8f89a1d21e64c9f,7027967a3b184431,7933dc5425d94c4c,e6a4a2b36a834777,481c297eb64b4417,8b387200de8048a3,ae1626646aea4a3a,41bef66202734908,cc717a8fe65040fd,d4f52192d3034b63 |
-| sweep | openai.gpt-6-astra | max | code | 0.89 [0.56,0.98] | 9 | 0 | 2.035 | 0.2544 | 66.351/470.577 | b56c3ad97a994c60,ab5300a6618b46c9,f5d8c20d9c664f3b,f3eeaab24efd42f8,32b89885cfa04cf3,0dadf5d6d1fe425b,4e3c2a713ab74c35,de26961352b24f30,2aaa7145744e462c |
+| sweep | openai.gpt-6-astra | max | code | 0.89 [0.56,0.98] | 9 | 0 | 2.035 | 0.2544 | 48.919/116.361 (2 excl.) | b56c3ad97a994c60,ab5300a6618b46c9,f5d8c20d9c664f3b,f3eeaab24efd42f8,32b89885cfa04cf3,0dadf5d6d1fe425b,4e3c2a713ab74c35,de26961352b24f30,2aaa7145744e462c |
 | sweep | openai.gpt-6-astra | max | gpqa | 0.90 [0.60,0.98] | 10 | 0 | 1.058 | 0.1176 | 14.402/165.371 | cdf709408afb4e7f,326a6405b5a846dc,86249e148a874351,6a93ed3e5bdc43a6,89dc06102b0246b8,0d40e891f95d48de,4a280a2bca884e6c,f926166709ea49bb,711e0cb80a8a4baa,f5128818f2e34230 |
-| sweep | openai.gpt-6-astra | max | math | 1.00 [0.72,1.00] | 10 | 0 | 2.458 | 0.2458 | 47.597/590.704 | b74c7b82ea744ce7,c6044e16a3554d0e,44f3ec1f232749ed,cee2b47ad4044cc6,f6fcfcf14b2d46a4,9a9de3fe6714426a,a45091027d714b7b,39aaafa1256044c1,22d592808b944f84,5047626ad9554cd4 |
+| sweep | openai.gpt-6-astra | max | math | 1.00 [0.72,1.00] | 10 | 0 | 2.458 | 0.2458 | 47.597/122.807 (1 excl.) | b74c7b82ea744ce7,c6044e16a3554d0e,44f3ec1f232749ed,cee2b47ad4044cc6,f6fcfcf14b2d46a4,9a9de3fe6714426a,a45091027d714b7b,39aaafa1256044c1,22d592808b944f84,5047626ad9554cd4 |
 | sweep | openai.gpt-6-astra | xhigh | code | 0.90 [0.60,0.98] | 10 | 0 | 1.310 | 0.1455 | 33.711/143.931 | 4f505c97632b4e15,ab8c04086fdb47cb,916a31a3b9cc4c4e,6da46642c15044bd,a311f0c635c240d2,175f25af5f4d4c67,cc47546acaa8466b,6dff29cc1d594ad5,ccfca18bf2f44431,b0c3c302dcf5421c |
 | sweep | openai.gpt-6-astra | xhigh | gpqa | 1.00 [0.72,1.00] | 10 | 0 | 0.624 | 0.0624 | 12.994/75.627 | 9322d25a7632447d,cb05723d52d248e9,02ceb9705fe04aa9,8fa9e0d577b944b4,07143d5e8c704831,7b517c568f9242ea,f2fdf94eca3c486d,7c27c81e61ab43df,074e3128ce4f40ec,66cbfe3f8c444dc9 |
 | sweep | openai.gpt-6-astra | xhigh | math | 1.00 [0.72,1.00] | 10 | 0 | 1.535 | 0.1535 | 30.235/144.525 | 347c6e1e08c4459c,bb32baad4acf4fed,8ab53513faf742b6,363fbd0cb5d345ce,93d7b90a36e64488,907b29cd1f414ac1,92bff5e18c23437b,349c4c491836479b,f23d85b91f9f4a61,984edd3ed87e4632 |

@@ -7,6 +7,39 @@ machine-readable table with per-row record provenance is
 **This estimates COST ONLY, from measured pilot tokens. It makes no accuracy
 projection: pilot accuracy (n=10) must not be extrapolated to the full run.**
 
+> **Revised 2026-10-23 (accounting fix).** The token model now keys per-call
+> stats by call ROLE as well as (model, effort, set): A3 rows use the measured
+> persona-call tokens (system prompt ≈ 2× the plain input), A4 aggregator
+> rows use the measured aggregator-call tokens (~2,072 input), and plain-call
+> stats no longer pool persona/aggregator records. Numbers below are from the
+> re-run; the grand total moved **$3,993 → $3,751**.
+
+## Budget guard in the full run
+
+`BudgetGuard` now reserves each call's own WORST CASE instead of a fixed
+$0.25: `pricing.cost(model, est_input_tokens, max_tokens).conservative_usd`,
+where `est_input_tokens` = prompt+system chars / 2 (or measured input × 1.25).
+A call is admitted only if spent + in-flight reservations + this reservation
+≤ cap, so the cap bounds worst-case spend even with 8 workers all billing
+their maximum (the pilot's $0.46 overshoot came from the old fixed
+reservation; worst case was ~$13).
+
+Per-call worst case at 32,000 max_tokens for the most expensive (model,
+effort) combinations ($/call, ~650 input tokens; input is negligible):
+
+| model @ effort | price (in/out per 1M) | worst case/call | observed max billed |
+|---|---|---|---|
+| claude-fable-5-1 @ max | $10 / $50 | **$1.61** | $1.6107 (the pilot max) |
+| gpt-6-astra @ max | $10 / $50 | **$1.61** | $0.57 |
+| claude-opus-5-5 @ max | $4 / $20 | $0.64 | $0.43 |
+| kimi-k3 @ max | $3 / $15 | $0.48 | $0.20 |
+
+Practical effect: near the cap, up to 8 × $1.61 ≈ $13 of headroom is held as
+reservations, so the guard stops dispatching frontier@max calls ~$13 early
+rather than overshooting. Ambiguous retry attempts (timeout/connection drop
+after send) are now charged at the call's worst case and surfaced as
+`ambiguous_attempts` / `ambiguous_charge_usd` in the guard status.
+
 ## Method
 
 - Full-set sizes from the committed data manifest
@@ -30,65 +63,74 @@ projection: pilot accuracy (n=10) must not be extrapolated to the full run.**
   the pilot measured) + one aggregator call at its default level (A4a =
   fable-5-1@high, A4b = haiku-5-5@medium). Aggregator tokens come from the
   measured stage1 aggregator records (mean input 2,072 tokens — problem +
-  3 panel responses).
+  3 panel responses); a `role-fallback` flag would mark any aggregator row
+  that had to fall back to plain-call tokens (none do in this run).
+- A3 rows use the measured stage1 persona-call tokens (mean input ≈ 2× the
+  plain calls because of the persona system prompt). Persona calls exist only
+  at B's default effort, so all non-default A3 rows are effort-fallback.
 
 ## Estimate by arm × effort level (totals = all items × 3 seeds)
 
 Condensed from `full_run_estimate.json#rows` (that file also has $/item and
 components per row). `FB` = effort-fallback (see Method).
 
-### GPQA (198 items × 3 seeds; B = claude-opus-5-5, all 5 efforts measured)
+### GPQA (198 items × 3 seeds; B = claude-opus-5-5, all 5 efforts measured for A1/A2)
 
 | arm | low | medium | high | xhigh | max |
 |---|---|---|---|---|---|
-| A1 | $10.22 | $13.00 | $11.56 | $12.84 | $55.90 |
-| A2 (5×) | $51.11 | $65.02 | $57.82 | $64.18 | $279.50 |
-| A3 (7×) | $71.55 | $91.03 | $80.95 | $89.85 | $391.30 |
-| A4a | $127.97 FB | $127.97 FB | $127.97 FB | $127.97 FB | — (grok has no max); default-combo row: **$127.97 (no FB)** |
+| A1 | $10.22 | $11.15 | $11.56 | $12.84 | $55.90 |
+| A2 (5×) | $51.11 | $55.74 | $57.82 | $64.18 | $279.50 |
+| A3 (7×) | $100.29 FB | $100.29 | $100.29 FB | $100.29 FB | $100.29 FB |
+| A4a | $135.32 FB | $135.32 FB | $135.32 FB | $135.32 FB | — (grok has no max); default-combo row: **$135.32 (no FB)** |
 | A4b | $99.58 FB | $99.58 FB | $99.58 FB | $99.58 FB | default-combo row: **$99.58 (no FB)** |
 
-GPQA subtotal: **$2,483.58** (range $519–$4,404).
+GPQA subtotal: **$2,285.97** (range $606–$3,931). (A3 no longer has a fake
+effort axis: persona calls were measured only at opus@medium, so the other
+A3 rows are explicit fallbacks at the same cost.)
 
 ### Math (51 items × 3 seeds; B = gpt-6-luna, only `medium` measured → all other efforts FB)
 
 | arm | none FB | low FB | medium | high FB | xhigh FB | max FB |
 |---|---|---|---|---|---|---|
-| A1 | $0.43 | $0.43 | $0.43 | $0.43 | $0.43 | $0.43 |
-| A2 (5×) | $2.16 | $2.16 | $2.16 | $2.16 | $2.16 | $2.16 |
-| A3 (7×) | $3.02 | $3.02 | $3.02 | $3.02 | $3.02 | $3.02 |
-| A4a | — | $75.28 FB | $75.28 FB | $75.28 FB | $75.28 FB | default-combo: **$75.28 (no FB)** |
-| A4b | — | $50.42 FB | $50.42 FB | $50.42 FB | $50.42 FB | default-combo: **$50.42 (no FB)** |
+| A1 | $0.45 | $0.45 | $0.45 | $0.45 | $0.45 | $0.45 |
+| A2 (5×) | $2.27 | $2.27 | $2.27 | $2.27 | $2.27 | $2.27 |
+| A3 (7×) | $2.90 | $2.90 | $2.90 | $2.90 | $2.90 | $2.90 |
+| A4a | — | $62.19 FB | $62.19 FB | $62.19 FB | $62.19 FB | default-combo: **$62.19 (no FB)** |
+| A4b | — | $50.25 FB | $50.25 FB | $50.25 FB | $50.25 FB | default-combo: **$50.25 (no FB)** |
 
-Math subtotal: **$662.07** (range $98–$1,252). Luna is 100× cheaper than the
+Math subtotal: **$596.00** (range $102–$1,065). Luna is 100× cheaper than the
 frontier models, so the A1/A2/A3 math arms are nearly free and the A4 panel
 (kimi-k3@max is the expensive member: $0.17/item on math in stage0) dominates.
+(A4a dropped $75.28 → $62.19: the fable aggregator's math cost previously
+pooled its expensive stage0/stage2 a1 records; aggregator-call tokens are
+cheaper on output.)
 
 ### Code (61 items × 3 seeds; B = gpt-6.1-sol, only `medium` measured → others FB)
 
 | arm | low FB | medium | high FB | xhigh FB | max FB |
 |---|---|---|---|---|---|
-| A1 | $1.85 | $1.85 | $1.85 | $1.85 | $1.85 |
-| A2 (5×) | $9.26 | $9.26 | $9.26 | $9.26 | $9.26 |
-| A3 (7×) | $12.96 | $12.96 | $12.96 | $12.96 | $12.96 |
-| A4a | $84.13 FB | $84.13 FB | $84.13 FB | $84.13 FB | default-combo: **$84.13 (no FB)** |
-| A4b | $61.33 FB | $61.33 FB | $61.33 FB | $61.33 FB | default-combo: **$61.33 (no FB)** |
+| A1 | $1.73 | $1.73 | $1.73 | $1.73 | $1.73 |
+| A2 (5×) | $8.64 | $8.64 | $8.64 | $8.64 | $8.64 |
+| A3 (7×) | $13.57 | $13.57 | $13.57 | $13.57 | $13.57 |
+| A4a | $88.74 FB | $88.74 FB | $88.74 FB | $88.74 FB | default-combo: **$88.74 (no FB)** |
+| A4b | $61.21 FB | $61.21 FB | $61.21 FB | $61.21 FB | default-combo: **$61.21 (no FB)** |
 
-Code subtotal: **$847.69** (range $311–$1,494).
+Code subtotal: **$869.48** (range $346–$1,458).
 
 ## Grand total
 
 | | mean | low (p10 tokens) | high (p90 tokens) |
 |---|---|---|---|
-| gpqa | $2,483.58 | $519.29 | $4,404.10 |
-| math | $662.07 | $97.56 | $1,251.54 |
-| code | $847.69 | $311.26 | $1,494.23 |
-| **GRAND TOTAL** | **$3,993.35** | **$928.10** | **$7,149.87** |
+| gpqa | $2,285.97 | $605.67 | $3,931.22 |
+| math | $596.00 | $101.56 | $1,064.84 |
+| code | $869.48 | $345.52 | $1,458.25 |
+| **GRAND TOTAL** | **$3,751.45** | **$1,052.74** | **$6,454.31** |
 
 Caveats on the grand total:
 1. It sums EVERY arm × effort combination, including fallback rows whose
-   effort axis is fake (math/code B and the A4 panel have no swept-effort
-   token data). The believable core is the default-effort subset:
-   **$697.44** (see reduced-scope option 1).
+   effort axis is fake (math/code B, the A3 persona calls, and the A4 panel
+   have no swept-effort token data). The believable core is the
+   default-effort subset: **$694.03** (see reduced-scope option 1).
 2. Math/code A1–A3 fallback rows are probably **underestimates** at
    high/xhigh/max and overestimates at low (token scaling, see Method).
 3. No row uses an UNKNOWN price (`contains_unknown_prices: false`); 0 of
@@ -97,15 +139,20 @@ Caveats on the grand total:
 ## Cost-matching solution (target: arms within ±15% per item)
 
 From `full_run_estimate.json#cost_matching` (grid search over A1 effort,
-A2 N∈[3,9] and effort, panel effort; A3 = 7 × B at default anchors the
-target). **Result: cost-matching FAILS on all three sets** — residual
-mismatch per arm vs the geometric center:
+A2 N∈[3,9] and effort, panel effort; A3 = 7 × B-persona-calls at default
+anchors the target). **Result: cost-matching FAILS on all three sets** —
+residual mismatch per arm vs the geometric center:
 
 | set | best config found | per-item costs (a1/a2/a3/a4a/a4b) | residual per arm | within ±15%? |
 |---|---|---|---|---|
-| gpqa | A1@max, A2 = 5×@medium, panel@high | $0.094 / $0.110 / $0.153 / $0.215 / $0.168 | −33.9% / −23.1% / +7.6% / +51.3% / +17.7% | **NO** (max dev 51%) |
-| math | A1@none, A2 = 3×@none, panel@high | $0.003 / $0.009 / $0.020 / $0.492 / $0.330 | −92.4% / −77.3% / −47.0% / +1221.5% / +785.1% | **NO** (max dev 12.2×) |
-| code | A1@max, A2 = 9×@max, panel@xhigh | $0.010 / $0.091 / $0.071 / $0.460 / $0.335 | −85.2% / +33.5% / +3.9% / +574.0% / +391.4% | **NO** (max dev 5.7×) |
+| gpqa | A1@max, A2 = 9×@xhigh, panel@xhigh | $0.094 / $0.195 / $0.169 / $0.228 / $0.168 | −35.7% / +32.8% / +15.3% / +55.6% / +14.5% | **NO** (max dev 56%) |
+| math | A1@max, A2 = 9×@max, panel@xhigh | $0.003 / $0.027 / $0.019 / $0.407 / $0.329 | −91.5% / −23.1% / −45.5% / +1069.7% / +845.1% | **NO** (max dev 10.7×) |
+| code | A1@max, A2 = 9×@max, panel@xhigh | $0.009 / $0.085 / $0.074 / $0.485 / $0.335 | −86.0% / +25.6% / +9.6% / +616.5% / +394.3% | **NO** (max dev 6.2×) |
+
+(The math/code `@max` effort labels are fallback artifacts — all efforts cost
+the same for those models under fallback; the residuals are what matters.
+A3's anchor is now the measured persona-call cost, which raised it ~40% on
+gpqa vs the pre-fix estimate.)
 
 Why, and what to do:
 
@@ -123,18 +170,18 @@ Why, and what to do:
   the comparison metric; (b) require B = cheapest model whose cost is within
   some factor of the panel; (c) shrink the panel's effort (needs the missing
   stage2 data) or swap grok-4.7 (the extreme token emitter) out.
-- Math `a1_effort: none` / `a2_effort: none` in the search output is an
-  artifact of fallback rows — all luna efforts cost the same under fallback,
-  and `none` sorts first. Ignore the specific effort labels for math/code;
-  the residuals are what matters.
+- The math/code effort labels in the search output are artifacts of fallback
+  rows — all efforts of a fallback model cost the same, so the label carries
+  no information. Ignore the specific effort labels for math/code; the
+  residuals are what matters.
 
 ## Reduced-scope options (from `full_run_estimate.json#reduced_scope_options`)
 
 | option | estimated cost | notes |
 |---|---|---|
-| 1. Default-effort only (no effort sweep) | **$697.44** | gpqa $396.60, math $131.31, code $169.53. All rows measured, no fallback. Answers the arm-comparison question only. |
-| 2. Full matrix, 2 seeds instead of 3 | **$2,662.26** | Linear scaling (2/3 of grand total). Keeps the effort axis; weakens the seed-variance estimate. |
-| 3. GPQA + math only (drop code) | **$3,145.74** | Still dominated by the gpqa max-effort rows; drops the set where B is 90% already. |
+| 1. Default-effort only (no effort sweep) | **$694.03** | gpqa $402.08, math $118.06, code $173.89. All rows measured, no fallback. Answers the arm-comparison question only. |
+| 2. Full matrix, 2 seeds instead of 3 | **$2,500.89** | Linear scaling (2/3 of grand total). Keeps the effort axis; weakens the seed-variance estimate. |
+| 3. GPQA + math only (drop code) | **$2,881.89** | Still dominated by the gpqa max-effort rows; drops the set where B is 90% already. |
 
 A sharper option than 2 or 3 given the headroom failures (PILOT_SUMMARY §3):
 move to harder slices (smaller n) and spend the budget there; the token model

@@ -19,6 +19,31 @@ class MockRecordError(ValueError):
     """Raised when reporting code encounters an is_mock record."""
 
 
+# Synthetic records written for programmatic aggregation events (majority
+# vote etc.). Their cost_usd is ATTRIBUTED arm cost (the sum of their parent
+# proposal calls), not billed API spend.
+VOTE_MODEL_ID = "programmatic-vote"
+
+
+def is_billed(r) -> bool:
+    """True iff the record came from a real API call (its cost is billed
+    spend). Prefers the explicit `billed` field; records written before the
+    field existed fall back to model_id != VOTE_MODEL_ID."""
+    get = r.get if isinstance(r, dict) else lambda k, d=None: getattr(r, k, d)
+    billed = get("billed")
+    if billed is not None:
+        return bool(billed)
+    return get("model_id") != VOTE_MODEL_ID
+
+
+def billed_spend(records) -> float:
+    """Total billed spend over records: sum of cost_usd for billed records
+    only. Vote events attribute their parents' cost; adding them on top of
+    their parents double-counts, so they are excluded here."""
+    get = lambda r, k: (r.get(k) if isinstance(r, dict) else getattr(r, k, None))
+    return sum(get(r, "cost_usd") or 0.0 for r in records if is_billed(r))
+
+
 def sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
@@ -66,6 +91,10 @@ class Record:
     timestamp: str = ""
     git_commit: str = ""
     is_mock: bool = False
+    # billed=False marks synthetic records (vote events) whose cost_usd is
+    # attributed arm cost, not API spend; attributed_cost_usd mirrors it there.
+    billed: bool = True
+    attributed_cost_usd: float | None = None
 
     @staticmethod
     def new_id() -> str:

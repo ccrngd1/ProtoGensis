@@ -23,12 +23,40 @@ filter query. No mock records exist in this run (`is_mock=false` on all rows;
 | stage1 (arms A2/A3/A4a/A4b + vote baselines, default effort) | COMPLETE | 480 (390 API + 90 vote) | $6.8764 |
 | stage2 (effort sweep) | PARTIAL — budget cap hit | 359 | $52.5022 |
 
-**$75 cap: HIT.** Actual spend from the records: **$75.4628**
-(query: `sum(r["cost_usd"] for r in records if r["model_id"] != "programmatic-vote")`
-over records.jsonl; matches the BudgetGuard final status in
-`results/pilot_run.log` and `manifest.json#budget.spent_known_usd = 75.4628`).
-The overshoot past $75.00 is in-flight calls that were already reserved when
-the cap tripped. `unknown_price_calls = 0` — every call had an OK price.
+**$75 cap: HIT.**
+
+- **Billed spend: $75.4628 over 1,049 API calls** — equals the BudgetGuard
+  final status (`results/pilot_run.log`,
+  `manifest.json#budget.spent_known_usd = 75.4628`).
+- **Attributed vote-event cost: $12.4328 over 90 programmatic-vote records —
+  NOT billed.** Each vote record stores the sum of its parent proposal calls'
+  costs (the a4-vote records even re-attribute stage0 panel records); those
+  parents are already in the billed total, so adding vote rows on top
+  double-counts. A naive `sum(cost_usd)` over all 1,139 records gives
+  $87.8956 and is wrong as a spend figure.
+- **Unrecorded spend:** up to 8 calls were in flight when the gateway
+  restarted at ~22:03Z (stage0 gpt-6.1-sol math/code at default effort;
+  observed max $0.02675/call, so ≤ about $0.22), plus any silent retries in
+  the old client (not logged, unknown; none was likely, because max latency 849s < 1800s timeout (record 7f11cb33621441ff), but this is unverified). Not cross-checked against
+  AWS billing.
+- The overshoot past $75.00 is in-flight calls that were already reserved
+  when the cap tripped. `unknown_price_calls = 0` — every call had an OK
+  price.
+
+### Spend reconciliation
+
+Over `records.jsonl` (1,139 records; `ensemble_reboot.records.is_billed` =
+`r.get("billed", r["model_id"] != "programmatic-vote")`):
+
+| number | value | reproducible query |
+|---|---|---|
+| billed spend | $75.4628 | `sum(r["cost_usd"] for r in records if is_billed(r))` (= `billed_spend(records)`); 1,049 records |
+| attributed vote cost | $12.4328 | `sum(r["cost_usd"] for r in records if not is_billed(r))`; 90 records |
+| naive (double-counting) sum | $87.8956 | `sum(r["cost_usd"] for r in records)` — do not use as spend |
+| guard final | $75.4628 | `manifest.json#budget.spent_known_usd`; also last `running total` line in `results/pilot_run.log` |
+| per-stage billed | $16.0842 / $6.8764 / $52.5022 | `sum(r["cost_usd"] for r in records if is_billed(r) and r["stage"] == S)` for stage0/1/2 |
+| unrecorded (gateway restart) | ≤ ~$0.22 | 8 workers × max observed stage0 gpt-6.1-sol math/code call ($0.02675; query: `max(cost_usd)` over those records) |
+| silent-retry exposure (old client) | unknown, likely $0 | not logged pre-fix; max latency 849s < 1800s timeout ⇒ no timeout retries likely. Fixed going forward (`attempts` in records, `ambiguous_charge_usd` in guard status) |
 
 Stage2 coverage at the cap:
 - `claude-fable-5-1`: low/medium/xhigh/max complete (default high came from stage0)

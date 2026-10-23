@@ -44,7 +44,22 @@ class BedrockError(Exception):
 
 
 class BedrockRetriesExhausted(Exception):
-    pass
+    """All retries failed. `attempts` holds the per-attempt failure history
+    (same shape as ConverseResult.attempts) so callers can settle charges for
+    attempts that may still have been billed."""
+
+    def __init__(self, msg, attempts=None):
+        super().__init__(msg)
+        self.attempts = attempts or []
+
+
+def _failed_attempt(index: int, kind: str, reason: str, ambiguous: bool) -> dict:
+    """One failed attempt. ambiguous=True means the request may have reached
+    Bedrock and been billed even though no response was received (read
+    timeouts / connection drops after send). 429/5xx/connect-timeouts are
+    unambiguous: Bedrock returned an error or the request never went out."""
+    return {"attempt": index, "kind": kind, "reason": reason,
+            "ambiguous": ambiguous}
 
 
 def build_effort_fields(effort_style: str, level: str) -> dict:
@@ -85,6 +100,9 @@ class ConverseResult:
     latency_s: float
     error_text: str | None = None
     request_params: dict = field(default_factory=dict)  # body sans token
+    # Failed attempts before this success: [{attempt, kind, reason, ambiguous}].
+    # ambiguous=True attempts may still have been billed by Bedrock.
+    attempts: list = field(default_factory=list)
 
     @property
     def truncated(self) -> bool:
@@ -114,6 +132,7 @@ class BedrockClient:
         per_model_concurrency: int = 4,
         session: requests.Session | None = None,
         sleep=time.sleep,
+        log=print,
     ):
         token = os.environ.get(TOKEN_ENV)
         if not token:
@@ -125,6 +144,7 @@ class BedrockClient:
         self.per_model_concurrency = per_model_concurrency
         self._session = session or requests.Session()
         self._sleep = sleep
+        self._log = log
         self._sems: dict[str, threading.Semaphore] = {}
         self._sems_lock = threading.Lock()
 
@@ -158,7 +178,7 @@ class BedrockClient:
         }
         limit = getattr(spec, "concurrency", None) or self.per_model_concurrency
         sem = self._sem(spec.profile_id, limit)
-        last_err = None
+        attempts = []  # failed-attempt history: [{attempt, kind, reason, ambiguous}]
         with sem:
             for attempt in range(self.max_retries):
                 if attempt:
@@ -170,8 +190,24 @@ class BedrockClient:
                     resp = self._session.post(
                         url, json=body, headers=headers, timeout=self.timeout_s
                     )
+                except requests.exceptions.ConnectTimeout as e:
+                    # Never connected: the request was not sent, not billable.
+                    attempts.append(_failed_attempt(
+                        attempt, "connect-timeout", f"{type(e).__name__}: {e}",
+                        ambiguous=False))
+                    self._log(f"RETRY {spec.profile_id} level={level} "
+                              f"attempt {attempt + 1}/{self.max_retries}: "
+                              f"connect timeout (not billed)")
+                    continue
                 except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
-                    last_err = f"{type(e).__name__}: {e}"
+                    # Sent (or possibly sent) but no response: Bedrock may
+                    # still have processed and billed the request.
+                    attempts.append(_failed_attempt(
+                        attempt, type(e).__name__, f"{type(e).__name__}: {e}",
+                        ambiguous=True))
+                    self._log(f"RETRY {spec.profile_id} level={level} "
+                              f"attempt {attempt + 1}/{self.max_retries}: "
+                              f"{type(e).__name__} after send (AMBIGUOUS: may be billed)")
                     continue
                 latency = time.time() - t0
                 if resp.status_code == 200:
@@ -185,13 +221,23 @@ class BedrockClient:
                         usage=data.get("usage", {}),
                         latency_s=latency,
                         request_params=body,
+                        attempts=attempts,
                     )
                 if resp.status_code in RETRYABLE_STATUS:
-                    last_err = f"HTTP {resp.status_code}: {resp.text[:200]}"
+                    # The server answered with an error: not billed.
+                    attempts.append(_failed_attempt(
+                        attempt, f"http-{resp.status_code}",
+                        f"HTTP {resp.status_code}: {resp.text[:200]}",
+                        ambiguous=False))
+                    self._log(f"RETRY {spec.profile_id} level={level} "
+                              f"attempt {attempt + 1}/{self.max_retries}: "
+                              f"HTTP {resp.status_code} (not billed)")
                     continue
                 raise BedrockError(resp.status_code, resp.text)
+        last_err = attempts[-1]["reason"] if attempts else "unknown"
         raise BedrockRetriesExhausted(
-            f"{spec.profile_id} level={level}: retries exhausted; last error: {last_err}"
+            f"{spec.profile_id} level={level}: retries exhausted; last error: {last_err}",
+            attempts=attempts,
         )
 
     def probe(self, spec: ModelSpec, level: str, max_tokens: int = 16000) -> ConverseResult:

@@ -181,3 +181,41 @@ cited); no live calls were made while writing this.
   blocks new reservations only. Expected behavior, but size the last-stage
   reserve accordingly for the full run (8 workers × frontier@max ≈ $4 of
   potential overshoot).
+
+## Accounting fix (2026-10-23)
+
+Post-pilot audit found `sum(cost_usd)` over records.jsonl ($87.8956)
+disagreeing with the guard final ($75.4628). Cause: the 90 programmatic-vote
+records carry ATTRIBUTED parent-call cost, not billed spend. Fixes, all
+tested (`tests/test_billed_spend.py`, `test_budget_worstcase.py`,
+`test_retry_accounting.py`, `test_summarize_spend.py`, new cases in
+`test_estimate_full_run.py`):
+
+- **Billed vs attributed**: `Record.billed` (vote events False) +
+  `Record.attributed_cost_usd`; `records.is_billed()` / `billed_spend()`
+  fall back to `model_id != "programmatic-vote"` for pre-fix records.
+  Used by run_pilot resume pre-seed, summarize spend totals (vote cells
+  labeled "attr."), and the estimator. Real-data check: billed $75.4628 /
+  1,049 calls == guard; attributed $12.4328 / 90 vote records.
+- **Worst-case cap reservation**: BudgetGuard now reserves
+  `pricing.cost(model, est_input, max_tokens).conservative_usd` per call
+  (est_input = chars/2 or measured×1.25) and admits iff
+  spent + inflight reservations + reservation ≤ cap. The old fixed $0.25
+  reservation could overshoot by ~$13 with 8 frontier@max workers
+  (adversarial test proves both directions).
+- **Retry accounting**: client records every failed attempt (kind/reason/
+  ambiguous) on ConverseResult and BedrockRetriesExhausted, and logs each
+  retry. Timeout/ConnectionError AFTER send = ambiguous (may be billed):
+  runner settles the call's worst case per ambiguous attempt;
+  `guard.status()` exposes `ambiguous_attempts` / `ambiguous_charge_usd`.
+  429/400/connect-timeout are logged only. Retry history lands in
+  `request_params.retry_attempts`.
+- **Latency exclusions**: `config/latency_exclusions.yaml` lists the 3
+  SIGSTOP-inflated records (5047626ad9554cd4, de26961352b24f30,
+  2aaa7145744e462c); summarize drops them from p50/p95 latency only
+  (accuracy/cost keep them). records.jsonl untouched.
+- **Estimator role keying**: TokenModel keys (model, effort, set, ROLE) so
+  A4 aggregator calls (~2,072 mean input) and A3 persona calls (~2× plain
+  input) no longer pool with plain a1 calls; aggregator rows falling back
+  to plain stats are flagged `role_fallback` (none in this run). Re-run
+  moved the grand total $3,993 → $3,751.45 (default-effort core $694.03).

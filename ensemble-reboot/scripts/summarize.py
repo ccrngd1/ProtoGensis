@@ -24,11 +24,24 @@ from analysis.stats import (
     percentiles,
     wilson_ci,
 )
-from ensemble_reboot.records import RecordStore
+from ensemble_reboot.records import RecordStore, billed_spend, is_billed
 from ensemble_reboot.roster import short_id
 
 ROOT = Path(__file__).resolve().parent.parent
 INLINE_IDS_MAX = 12
+LATENCY_EXCLUSIONS = ROOT / "config" / "latency_exclusions.yaml"
+
+
+def load_latency_exclusions(path=None) -> dict:
+    """record_id -> reason. Documented exclusions applied to LATENCY stats
+    only (the records keep counting toward accuracy and cost)."""
+    p = Path(path or LATENCY_EXCLUSIONS)
+    if not p.exists():
+        return {}
+    import yaml
+    raw = yaml.safe_load(p.read_text()) or {}
+    return {e["record_id"]: e.get("reason", "")
+            for e in raw.get("exclusions", [])}
 
 
 def _ids_ref(rec_ids, groups, key):
@@ -46,10 +59,46 @@ def summarize(run_id, results_dir):
         sys.exit(1)
 
     groups = {}
-    summary = {"run_id": run_id, "n_records": len(records)}
+    latency_excl = load_latency_exclusions()
+    excluded_present = [r["record_id"] for r in records
+                        if r["record_id"] in latency_excl]
+
+    # Spend: billed = real API calls only. Vote events carry ATTRIBUTED arm
+    # cost (sum of their parent proposal calls) and must never be added on top.
+    billed = [r for r in records if is_billed(r)]
+    votes = [r for r in records if not is_billed(r)]
+    total_billed = billed_spend(records)
+    attributed_votes = sum(r.get("cost_usd") or 0.0 for r in votes)
+
+    summary = {
+        "run_id": run_id, "n_records": len(records),
+        "spend": {
+            "billed_usd": round(total_billed, 4),
+            "billed_calls": len(billed),
+            "attributed_vote_usd": round(attributed_votes, 4),
+            "vote_records": len(votes),
+            "note": ("billed = sum(cost_usd) over API-call records only. "
+                     "Vote-event cost is attributed (sum of parent proposal "
+                     "calls, already in the billed total); adding it on top "
+                     "double-counts."),
+        },
+        "latency_exclusions": {rid: latency_excl[rid] for rid in excluded_present},
+    }
     lines = [f"# Summary: {run_id}", "",
              f"{len(records)} records. All numbers trace to record_ids "
-             "(inline or in record_groups.json).", ""]
+             "(inline or in record_groups.json).", "",
+             "## Spend", "",
+             f"- **Billed spend: ${total_billed:.4f}** over {len(billed)} API calls "
+             "(query: `sum(cost_usd) where billed` — vote events excluded).",
+             f"- Attributed vote-event cost: ${attributed_votes:.4f} over "
+             f"{len(votes)} programmatic-vote records (sum of each vote's "
+             "parent proposal calls; NOT billed — the parents are already in "
+             "the billed total).", ""]
+    if excluded_present:
+        lines += ["Latency exclusions (config/latency_exclusions.yaml; "
+                  "excluded from p50/p95 latency only, kept in accuracy/cost):"]
+        lines += [f"- `{rid}`: {latency_excl[rid]}" for rid in excluded_present]
+        lines.append("")
 
     # ---------------- accuracy / cost / latency per (arm?, model, effort, set)
     cells = defaultdict(list)
@@ -66,8 +115,11 @@ def summarize(run_id, results_dir):
         costs = [r["cost_usd"] for r in rs]
         unknown = sum(1 for c in costs if c is None)
         known_cost = sum(c for c in costs if c is not None)
+        cell_attributed = not any(is_billed(r) for r in rs)
         trunc = sum(1 for r in rs if r.get("truncated"))
-        lat = percentiles([r["latency_s"] for r in rs if r["latency_s"]])
+        lat = percentiles([r["latency_s"] for r in rs
+                           if r["latency_s"] and r["record_id"] not in latency_excl])
+        n_lat_excl = sum(1 for r in rs if r["record_id"] in latency_excl)
         cpc = (known_cost / succ) if succ and not unknown else None
         rec_ids = [r["record_id"] for r in rs]
         key = f"{arm}_{model}_{effort}_{ts}".replace("/", "_").replace(":", "_")
@@ -77,15 +129,22 @@ def summarize(run_id, results_dir):
             "ci95": [round(lo, 4), round(hi, 4)],
             "truncated": trunc,
             "cost_usd_known": round(known_cost, 4),
+            # vote rows: cost is attributed (sum of proposal calls), not billed
+            "cost_is_attributed": cell_attributed,
             "unknown_price_calls": unknown,
             "cost_per_correct": round(cpc, 4) if cpc is not None else None,
             "latency": lat,
+            "latency_excluded_records": n_lat_excl,
             "record_ids": _ids_ref(rec_ids, groups, key),
         }
         table.append(row)
     summary["cells"] = table
 
     lines.append("## Accuracy / cost / latency\n")
+    lines.append("Cost marked `attr.` is attributed (sum of the row's parent "
+                 "proposal calls, labeled on programmatic-vote rows); it is "
+                 "already contained in the billed total and must not be "
+                 "added on top of it.\n")
     lines.append("| arm | model | effort | set | acc (95% CI) | n | trunc | "
                  "cost$ | $/correct | p50/p95 lat (s) | records |")
     lines.append("|---|---|---|---|---|---|---|---|---|---|---|")
@@ -93,12 +152,15 @@ def summarize(run_id, results_dir):
         ci = row["ci95"]
         lat = row["latency"]
         lat_s = f"{lat.get('p50', '-')}/{lat.get('p95', '-')}" if lat else "-"
+        if row["latency_excluded_records"]:
+            lat_s += f" ({row['latency_excluded_records']} excl.)"
         unk = " +UNKNOWN!" if row["unknown_price_calls"] else ""
+        attr = " attr." if row["cost_is_attributed"] else ""
         cpc = row["cost_per_correct"]
         lines.append(
             f"| {row['arm']} | {short_id(row['model'])} | {row['effort']} "
             f"| {row['task_set']} | {row['accuracy']:.2f} [{ci[0]:.2f},{ci[1]:.2f}] "
-            f"| {row['n']} | {row['truncated']} | {row['cost_usd_known']:.3f}{unk} "
+            f"| {row['n']} | {row['truncated']} | {row['cost_usd_known']:.3f}{attr}{unk} "
             f"| {cpc if cpc is not None else 'UNKNOWN'} | {lat_s} | {row['record_ids']} |"
         )
     lines.append("")

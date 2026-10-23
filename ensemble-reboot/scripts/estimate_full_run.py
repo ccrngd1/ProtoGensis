@@ -23,7 +23,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from ensemble_reboot.pricing import PricingTable
-from ensemble_reboot.records import RecordStore
+from ensemble_reboot.records import RecordStore, is_billed
 from ensemble_reboot.roster import load_roster, short_id
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -32,6 +32,13 @@ MATCH_TOL = 0.15
 
 # Full-set sizes come from the committed manifests (dataset text stays local).
 MANIFEST = ROOT / "ensemble_reboot" / "data" / "manifest.json"
+
+# Call role per recorded arm. Roles have very different input sizes for the
+# SAME (model, effort, task set): aggregator calls read the problem plus all
+# panel responses (~2,000 input tokens vs ~300 for a plain call in the pilot)
+# and persona calls carry a system prompt (~2x the plain input). Pooling them
+# would skew per-call cost, so TokenModel keys stats by role.
+ROLE_BY_ARM = {"a4a": "aggregator", "a4b": "aggregator", "a3": "persona"}
 
 
 def full_set_sizes() -> dict:
@@ -42,26 +49,34 @@ def full_set_sizes() -> dict:
 
 
 class TokenModel:
-    """Measured per-call token stats per (model, effort, task_set)."""
+    """Measured per-call token stats per (model, effort, task_set, role)."""
 
     def __init__(self, records):
         self.cells = defaultdict(list)
         for r in records:
-            if r.get("usage") and r["model_id"] != "programmatic-vote":
-                self.cells[(r["model_id"], r["effort"], r["task_set"])].append(r)
+            if r.get("usage") and is_billed(r):
+                role = ROLE_BY_ARM.get(r.get("arm"), "proposal")
+                self.cells[(r["model_id"], r["effort"], r["task_set"], role)].append(r)
 
-    def stats(self, model, effort, ts):
+    def stats(self, model, effort, ts, role="proposal"):
         """(mean_in, mean_out, lo_out, hi_out, n, record_ids) or None.
-        Falls back to the same model at any effort, scaled by nothing - just
-        flagged lower confidence - when the exact effort is missing."""
-        rs = self.cells.get((model, effort, ts))
+        Falls back to the same model/role at any effort (flagged
+        fallback_effort), then - for non-proposal roles with no measured calls
+        at all - to the proposal-call stats (flagged fallback_role)."""
+        rs = self.cells.get((model, effort, ts, role))
         fallback = False
         if not rs:
             rs = list(itertools.chain.from_iterable(
-                v for (m, e, t), v in self.cells.items() if m == model and t == ts
+                v for (m, e, t, ro), v in self.cells.items()
+                if m == model and t == ts and ro == role
             ))
             fallback = True
         if not rs:
+            if role != "proposal":
+                st = self.stats(model, effort, ts, "proposal")
+                if st:
+                    st["fallback_role"] = True
+                return st
             return None
         ins = sorted(r["input_tokens"] for r in rs)
         outs = sorted(r["output_tokens"] for r in rs)
@@ -74,6 +89,7 @@ class TokenModel:
             "lo_out": lo, "hi_out": hi, "n": n,
             "record_ids": [r["record_id"] for r in rs],
             "fallback_effort": fallback,
+            "fallback_role": False,
         }
 
 
@@ -87,19 +103,22 @@ def per_item_cost(pricing, model, st) -> dict | None:
     unknown = c_mean.cost_usd is None
     pick = (lambda c: c.conservative_usd) if unknown else (lambda c: c.cost_usd)
     return {"mean": pick(c_mean), "lo": pick(c_lo), "hi": pick(c_hi),
-            "unknown": unknown, "fallback": st["fallback_effort"]}
+            "unknown": unknown, "fallback": st["fallback_effort"],
+            "fallback_role": st.get("fallback_role", False)}
 
 
 def arm_cost_per_item(arm, model, effort, ts, tm, pricing, roster, a2_n):
     """Estimated cost per item for an arm at a given effort. Returns
     {mean, lo, hi, unknown, components} or None if unmeasurable."""
-    def cc(m, e):
-        return per_item_cost(pricing, m, tm.stats(m, e, ts))
+    def cc(m, e, role="proposal"):
+        return per_item_cost(pricing, m, tm.stats(m, e, ts, role))
 
     def scaled(c, factor, components):
         return {"mean": c["mean"] * factor, "lo": c["lo"] * factor,
                 "hi": c["hi"] * factor, "unknown": c["unknown"],
-                "fallback": c["fallback"], "components": components}
+                "fallback": c["fallback"],
+                "fallback_role": c.get("fallback_role", False),
+                "components": components}
 
     if arm == "a1":
         c = cc(model, effort)
@@ -109,14 +128,16 @@ def arm_cost_per_item(arm, model, effort, ts, tm, pricing, roster, a2_n):
         return c and scaled(c, a2_n,
                             f"{a2_n}x {model}@{effort} (programmatic vote)")
     if arm == "a3":
-        c = cc(model, effort)
+        # Persona calls carry a system prompt (~2x the plain input tokens);
+        # use the measured persona-call records, not the a1 stats.
+        c = cc(model, effort, role="persona")
         return c and scaled(c, 7,
                             f"7 personas x {model}@{effort} (programmatic vote)")
     if arm in ("a4a", "a4b"):
         panel = roster.arms["a4_panel"]
         agg = roster.arms["a4a_aggregator" if arm == "a4a" else "a4b_aggregator"]
         total = {"mean": 0.0, "lo": 0.0, "hi": 0.0,
-                 "unknown": False, "fallback": False}
+                 "unknown": False, "fallback": False, "fallback_role": False}
         parts = []
         for pid in panel:
             # effort "default" = each panel member at its own default level
@@ -131,16 +152,20 @@ def arm_cost_per_item(arm, model, effort, ts, tm, pricing, roster, a2_n):
             total["fallback"] |= c["fallback"]
             parts.append(f"{short_id(pid)}@{lvl}")
         # Aggregator reads the problem + all panel responses: use its measured
-        # aggregator-call tokens if present (stage1 a4 records), else its a1 stats.
+        # aggregator-call tokens (stage1 a4a/a4b records); only when none exist
+        # does it fall back to the model's plain-call stats (flagged).
         agg_spec = roster.by_id(agg)
-        ca = cc(agg, agg_spec.default_level)
+        ca = cc(agg, agg_spec.default_level, role="aggregator")
         if not ca:
             return None
         for k in ("mean", "lo", "hi"):
             total[k] += ca[k]
         total["unknown"] |= ca["unknown"]
         total["fallback"] |= ca["fallback"]
-        parts.append(f"agg {short_id(agg)}@{agg_spec.default_level}")
+        total["fallback_role"] |= ca.get("fallback_role", False)
+        parts.append(f"agg {short_id(agg)}@{agg_spec.default_level}"
+                     + (" (ROLE FALLBACK: no aggregator-call tokens)"
+                        if ca.get("fallback_role") else ""))
         return {**total, "components": " + ".join(parts)}
     raise ValueError(arm)
 
@@ -203,6 +228,7 @@ def main():
                                         round(c["hi"] * scale, 2)],
                     "unknown_price": c["unknown"],
                     "effort_fallback": c.get("fallback", False),
+                    "role_fallback": c.get("fallback_role", False),
                     "components": c["components"],
                 }
                 rows.append(row)
@@ -252,6 +278,8 @@ def main():
             flags.append("UNKNOWN-PRICE")
         if r["effort_fallback"]:
             flags.append("effort-fallback")
+        if r.get("role_fallback"):
+            flags.append("role-fallback")
         print(f"{r['task_set']:5} {r['arm']:4} {r['effort']:7} "
               f"{r['per_item_usd']:8.3f} {r['total_mean_usd']:9.2f} "
               f"[{r['total_range_usd'][0]:7.2f},{r['total_range_usd'][1]:7.2f}]  "
@@ -280,12 +308,12 @@ def cost_match(sizes, best_by_set, accepted, tm, pricing, roster):
         b_spec = roster.by_id(b)
         fallback_used = set()
 
-        def cpc(m, e):  # cost per call
-            c = per_item_cost(pricing, m, tm.stats(m, e, ts))
+        def cpc(m, e, role="proposal"):  # cost per call
+            c = per_item_cost(pricing, m, tm.stats(m, e, ts, role))
             if c and c["fallback"]:
                 fallback_used.add(f"{short_id(m)}@{e}")
             return c["mean"] if c else None
-        a3_cost = cpc(b, b_spec.default_level)
+        a3_cost = cpc(b, b_spec.default_level, role="persona")
         if a3_cost is None:
             results[ts] = {"status": "NO PILOT DATA for anchor"}
             continue
@@ -317,8 +345,10 @@ def cost_match(sizes, best_by_set, accepted, tm, pricing, roster):
                             panel_cost += c
                         if not ok:
                             continue
-                        ca = cpc(agg_a, roster.by_id(agg_a).default_level)
-                        cb = cpc(agg_b, roster.by_id(agg_b).default_level)
+                        ca = cpc(agg_a, roster.by_id(agg_a).default_level,
+                                 role="aggregator")
+                        cb = cpc(agg_b, roster.by_id(agg_b).default_level,
+                                 role="aggregator")
                         if ca is None or cb is None:
                             continue
                         a4a, a4b = panel_cost + ca, panel_cost + cb

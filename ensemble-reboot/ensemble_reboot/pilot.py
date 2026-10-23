@@ -31,18 +31,17 @@ from .arms import (
     majority_vote,
     select_code_response,
 )
-from .budget import BudgetExceeded, BudgetGuard
+from .budget import BudgetExceeded, BudgetGuard, estimate_input_tokens
 from .client import BedrockClient, BedrockError, BedrockRetriesExhausted
 from .grading_api import grade_code_response, grade_gpqa, grade_math
 from .pricing import PricingTable
-from .records import Record, RecordStore
+from .records import VOTE_MODEL_ID, Record, RecordStore
 from .roster import Roster
 from .rules import check_rule4
 
 TASK_SETS = ("gpqa", "math", "code")
 SAMPLE_SALT = "pilot-sample-v1"
 PILOT_ITEMS_PER_SET = 10
-VOTE_MODEL_ID = "programmatic-vote"
 
 
 def sample_pilot_items(items_by_set: dict, n: int = PILOT_ITEMS_PER_SET) -> dict:
@@ -228,12 +227,24 @@ class PilotRunner:
             return self._records_cache[key]
         spec = self.roster.by_id(call.model_id)
         item = self._item(call.task_set, call.item_id)
-        with self.guard.reserve():
-            result = self.client.converse(
-                spec, prompt, call.effort,
-                max_tokens=self.roster.default_max_tokens,
-                system_prompt=system,
-            )
+        max_tokens = self.roster.default_max_tokens
+        # Reserve the call's worst case: conservative price of an upper-bound
+        # input estimate plus a full max_tokens of output. Even if every
+        # in-flight call bills its maximum, total spend stays under the cap.
+        est_in = estimate_input_tokens(prompt, system)
+        worst_case = self.pricing.cost(
+            call.model_id, est_in, max_tokens).conservative_usd
+        with self.guard.reserve(worst_case):
+            try:
+                result = self.client.converse(
+                    spec, prompt, call.effort,
+                    max_tokens=max_tokens,
+                    system_prompt=system,
+                )
+            except BedrockRetriesExhausted as e:
+                self._settle_ambiguous(e.attempts, worst_case)
+                raise
+            self._settle_ambiguous(result.attempts, worst_case)
             cost = self.pricing.cost(
                 call.model_id, result.input_tokens, result.output_tokens,
                 result.cache_read_tokens,
@@ -242,6 +253,8 @@ class PilotRunner:
         grade = self._grade(call, result.text, result.truncated)
         params = dict(result.request_params)
         params.pop("messages", None)  # prompt text lives in raw_text, not records
+        if result.attempts:
+            params["retry_attempts"] = result.attempts
         if call.persona_id is not None:
             params["persona_id"] = call.persona_id
         rec = Record(
@@ -267,6 +280,15 @@ class PilotRunner:
         self._existing.add(key)
         self._records_cache[key] = d
         return d
+
+    def _settle_ambiguous(self, attempts: list, worst_case_usd: float) -> None:
+        """Book a conservative charge for each failed attempt that may still
+        have been billed by Bedrock (timeout / connection drop after the
+        request was sent). Unambiguous failures (429/5xx, connect timeouts)
+        were already logged by the client and cost nothing."""
+        for a in attempts or []:
+            if a.get("ambiguous"):
+                self.guard.settle_ambiguous(worst_case_usd)
 
     def append_vote_event(self, call: PlannedCall, winner, details: dict,
                           correct: bool, parent_records: list) -> dict:
@@ -294,6 +316,8 @@ class PilotRunner:
             correct=correct, grader_details=details,
             parent_record_ids=[r["record_id"] for r in parent_records],
             is_mock=False,
+            billed=False,              # attributed arm cost, not API spend
+            attributed_cost_usd=cost,
         )
         self.store.append(rec)
         d = json.loads(json.dumps(rec.__dict__))

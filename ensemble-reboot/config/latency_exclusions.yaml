@@ -1,0 +1,22 @@
+# Records excluded from p50/p95 LATENCY statistics only (they stay in
+# accuracy and cost). records.jsonl is never edited; this list is applied by
+# scripts/summarize.py at report time and the exclusion is noted in the output.
+exclusions:
+  - record_id: 5047626ad9554cd4   # gpt-6-astra max math, 590.7s
+    run_id: pilot_2026-10-22
+    reason: >-
+      Harness process was SIGSTOPped for ~4-6 minutes at 2026-10-23T01:32Z
+      while this call was in flight; wall-clock latency includes the stop and
+      does not reflect API latency.
+  - record_id: de26961352b24f30   # gpt-6-astra max code, 470.6s
+    run_id: pilot_2026-10-22
+    reason: >-
+      Harness process was SIGSTOPped for ~4-6 minutes at 2026-10-23T01:32Z
+      while this call was in flight; wall-clock latency includes the stop and
+      does not reflect API latency.
+  - record_id: 2aaa7145744e462c   # gpt-6-astra max code, 393.3s
+    run_id: pilot_2026-10-22
+    reason: >-
+      Harness process was SIGSTOPped for ~4-6 minutes at 2026-10-23T01:32Z
+      while this call was in flight; wall-clock latency includes the stop and
+      does not reflect API latency.
