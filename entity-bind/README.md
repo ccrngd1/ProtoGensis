@@ -1,5 +1,7 @@
 # EntityBind
 
+> **📦 This project has moved to its own repository: [ccrngd1/entity-bind](https://github.com/ccrngd1/entity-bind).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/entity-bind.git`.
+
 **Middleware to catch entity binding failures in tool-augmented agents**
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)

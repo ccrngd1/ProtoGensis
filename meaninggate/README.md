@@ -1,5 +1,7 @@
 # MeaningGate
 
+> **📦 This project has moved to its own repository: [ccrngd1/meaninggate](https://github.com/ccrngd1/meaninggate).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/meaninggate.git`.
+
 **Semantic governance for healthcare claims denial analysis.**
 
 MeaningGate demonstrates how typed semantic tools (metrics, knowledge graphs, policy search) prevent LLM agents from making ambiguous or incorrect interpretations compared to raw SQL access over the same data.

@@ -1,5 +1,7 @@
 # MemDoc
 
+> **📦 This project has moved to its own repository: [ccrngd1/mem-doc](https://github.com/ccrngd1/mem-doc).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/mem-doc.git`.
+
 ## TL;DR
 
 > **MemDoc** is a reproducible benchmark harness for agent memory in which **the agent writes

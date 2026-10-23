@@ -1,5 +1,7 @@
 # AlignBias
 
+> **📦 This project has moved to its own repository: [ccrngd1/align-bias](https://github.com/ccrngd1/align-bias).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/align-bias.git`.
+
 **Audit your LLM stack for directional probability bias — optimism or pessimism tilt — with no ground truth required.**
 
 ## What it is

@@ -1,5 +1,7 @@
 # NeedleRoute
 
+> **📦 This project has moved to its own repository: [ccrngd1/needleroute](https://github.com/ccrngd1/needleroute).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/needleroute.git`.
+
 **MCP routing proxy with 26M-parameter Needle model for efficient tool selection**
 
 NeedleRoute is a Model Context Protocol (MCP) proxy that uses a tiny 26-million-parameter model to handle tool selection, replacing expensive frontier model calls for this mechanistically simple task. It achieves 80%+ accuracy while reducing latency and cost dramatically.

@@ -1,5 +1,7 @@
 # ToolGate
 
+> **📦 This project has moved to its own repository: [ccrngd1/toolgate](https://github.com/ccrngd1/toolgate).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/toolgate.git`.
+
 **MCP proxy for dynamic tool gating with semantic search**
 
 ToolGate is a Model Context Protocol (MCP) proxy that intelligently filters tools based on semantic relevance, reducing token bloat and improving AI agent performance. Instead of sending all available tools to your AI agent, ToolGate uses semantic search to return only the most relevant tools for each query.

@@ -1,5 +1,7 @@
 # Memory Agent Bedrock
 
+> **📦 This project has moved to its own repository: [ccrngd1/memory-agent-bedrock](https://github.com/ccrngd1/memory-agent-bedrock).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/memory-agent-bedrock.git`.
+
 > **TL;DR:** A persistent memory system for AI agents that works with just SQLite and an API key — no vector databases, no embedding pipelines, no infrastructure to manage.
 
 ## Why This Exists

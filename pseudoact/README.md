@@ -1,5 +1,7 @@
 # PseudoAct - Pseudocode Planning for LLM Agents
 
+> **📦 This project has moved to its own repository: [ccrngd1/pseudoact](https://github.com/ccrngd1/pseudoact).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/pseudoact.git`.
+
 > **TL;DR:** PseudoAct cuts AI agent costs by having an expensive model write a plan once and a cheap model carry it out — instead of running the expensive model at every single step.
 
 ## Why This Exists

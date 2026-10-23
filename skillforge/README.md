@@ -1,5 +1,7 @@
 # SkillForge
 
+> **📦 This project has moved to its own repository: [ccrngd1/skillforge](https://github.com/ccrngd1/skillforge).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/skillforge.git`.
+
 **A closed-loop skill self-improvement pipeline for CABAL multi-agent systems.**
 
 SkillForge automatically detects skill gaps from agent task failures, drafts new AgentSkill packages, validates them through a two-tier system, and publishes them for human review and deployment.

@@ -1,5 +1,7 @@
 # HonestyGate
 
+> **📦 This project has moved to its own repository: [ccrngd1/honesty-gate](https://github.com/ccrngd1/honesty-gate).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/honesty-gate.git`.
+
 **A CI-native coverage-honesty gate for code-review agents: it proves what a
 review agent actually opened versus what its final response claims it opened.**
 

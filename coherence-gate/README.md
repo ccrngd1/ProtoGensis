@@ -1,5 +1,7 @@
 # CoherenceGate
 
+> **📦 This project has moved to its own repository: [ccrngd1/coherence-gate](https://github.com/ccrngd1/coherence-gate).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/coherence-gate.git`.
+
 > **CoherenceGate** is an executable, commit-time version of the harness in Heng's *Global
 > Coherence* paper (arXiv 2610.02036): models propose, an authoritative store holds the
 > distinctions that matter, and a governed commit decides which proposals change the world. On top

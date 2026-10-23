@@ -1,5 +1,7 @@
 # ConstraintBreak
 
+> **📦 This project has moved to its own repository: [ccrngd1/constraintbreak](https://github.com/ccrngd1/constraintbreak).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/constraintbreak.git`.
+
 **Test whether output constraints silently degrade LLM quality.**
 
 Based on the research paper *"One Token Away from Collapse"* (arXiv 2604.13006), which discovered that common output constraints can cause up to 6.6× quality degradation that standard LLM-as-judge evaluation completely misses.

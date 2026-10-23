@@ -1,5 +1,7 @@
 # HarnessGuard
 
+> **📦 This project has moved to its own repository: [ccrngd1/harness-guard](https://github.com/ccrngd1/harness-guard).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/harness-guard.git`.
+
 **⚠️ AUTHORIZED USE ONLY.** HarnessGuard is a security testing tool for agent
 harnesses you own or are explicitly authorized to test. It attempts to trigger
 tools without a model turn. Do not point it at third-party systems without

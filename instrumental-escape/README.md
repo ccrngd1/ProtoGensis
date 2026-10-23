@@ -1,5 +1,7 @@
 # InstrumentalEscape
 
+> **📦 This project has moved to its own repository: [ccrngd1/instrumental-escape](https://github.com/ccrngd1/instrumental-escape).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/instrumental-escape.git`.
+
 **InstrumentalEscape is NOT a prompt-injection detector, and it assumes NO adversary.**
 
 There is no attacker in the loop, no jailbreak, no poisoned input. The agent is

@@ -1,5 +1,7 @@
 # DocProbe
 
+> **📦 This project has moved to its own repository: [ccrngd1/doc-probe](https://github.com/ccrngd1/doc-probe).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/doc-probe.git`.
+
 **Will an agent actually comply with this?**
 
 That's the layer DocProbe audits. markdownlint asks *"is this valid

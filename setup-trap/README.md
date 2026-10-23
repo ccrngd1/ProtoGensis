@@ -1,5 +1,7 @@
 # SetupTrap
 
+> **📦 This project has moved to its own repository: [ccrngd1/setup-trap](https://github.com/ccrngd1/setup-trap).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/setup-trap.git`.
+
 **Static scanner + attack-surface mapper for AI coding-agent setup/config files.**
 
 An attacker who can modify any file an AI coding agent reads at initialization

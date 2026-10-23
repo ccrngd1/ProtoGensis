@@ -1,5 +1,7 @@
 # CoherenceProbe 🔍
 
+> **📦 This project has moved to its own repository: [ccrngd1/coherenceprobe](https://github.com/ccrngd1/coherenceprobe).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/coherenceprobe.git`.
+
 [![CI](https://github.com/ccrngd1/ProtoGensis/actions/workflows/CI/badge.svg)](https://github.com/ccrngd1/ProtoGensis/actions)
 [![PyPI](https://img.shields.io/pypi/v/coherenceprobe.svg)](https://pypi.org/project/coherenceprobe/)
 [![Python](https://img.shields.io/pypi/pyversions/coherenceprobe.svg)](https://pypi.org/project/coherenceprobe/)

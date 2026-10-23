@@ -1,5 +1,7 @@
 # MemoryGuard
 
+> **📦 This project has moved to its own repository: [ccrngd1/memory-guard](https://github.com/ccrngd1/memory-guard).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/memory-guard.git`.
+
 **Injection attack detection for AI agent memory systems**
 
 ## TL;DR

@@ -1,5 +1,7 @@
 # SWE-Gate
 
+> **📦 This project has moved to its own repository: [ccrngd1/swe-gate](https://github.com/ccrngd1/swe-gate).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/swe-gate.git`.
+
 **A post-test-pass deterministic verification gate for AI-specific coding defects.**
 
 Your test suite passed. That is exactly when AI-generated patches are most

@@ -1,5 +1,7 @@
 # PolicyGate
 
+> **📦 This project has moved to its own repository: [ccrngd1/policy-gate](https://github.com/ccrngd1/policy-gate).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/policy-gate.git`.
+
 > **PolicyGate** compiles an operator's written agent policy (AGENTS.md,
 > SOUL.md, MEMORY.md, cron prompts) into **deterministic, statically verified
 > (structural)** tool-call rules, then replays real agent transcripts against

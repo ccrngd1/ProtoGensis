@@ -1,5 +1,7 @@
 # AEGIS - MCP Pre-Execution Firewall
 
+> **📦 This project has moved to its own repository: [ccrngd1/aegis](https://github.com/ccrngd1/aegis) (folder `v1-proxy/`).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/aegis.git`.
+
 > **TL;DR:** AEGIS is a security firewall for AI agent tool calls — it sits between the model and any MCP server and blocks dangerous commands before they execute, with zero changes to your existing setup.
 
 ## Why This Exists

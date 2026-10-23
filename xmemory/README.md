@@ -1,5 +1,7 @@
 # xMemory — Beyond RAG for Agent Memory
 
+> **📦 This project has moved to its own repository: [ccrngd1/xmemory](https://github.com/ccrngd1/xmemory).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/xmemory.git`.
+
 > **TL;DR:** xMemory fixes the "five versions of the same message" problem in AI agent memory retrieval by organizing conversation history into a semantic hierarchy and querying it top-down instead of with flat similarity search.
 
 ## Why This Exists

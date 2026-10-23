@@ -1,5 +1,7 @@
 # VerifyLoop
 
+> **📦 This project has moved to its own repository: [ccrngd1/verifyloop](https://github.com/ccrngd1/verifyloop).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/verifyloop.git`.
+
 **Generate typed guard surfaces from YAML specs and wire them into a deterministic verification loop for AI coding agents.**
 
 VerifyLoop transforms security invariants from "the AI should remember to check auth" into "the AI literally cannot generate code that skips auth — it does not compile."

@@ -1,5 +1,7 @@
 # The Practitioner's Guide to MoA on AWS Bedrock
 
+> **📦 This project has moved to its own repository: [ccrngd1/ensemble-experiments](https://github.com/ccrngd1/ensemble-experiments) (folder `ensemble-moa-bedrock-guide/`).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/ensemble-experiments.git`.
+
 > **Does a $0.0005/call ensemble of cheap models beat a $0.015/call strong model on AWS Bedrock?**
 >
 > **TL;DR: It depends on your architecture.** After 11 completed experiments (3,500+ API calls, $165.36 validation investment), we found that **ensembles work when proposers are significantly weaker than the aggregator** — but fail for equal-capability architectures.

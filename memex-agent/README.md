@@ -1,5 +1,7 @@
 # Memex — Indexed Experience Memory for Agents
 
+> **📦 This project has moved to its own repository: [ccrngd1/memex-agent](https://github.com/ccrngd1/memex-agent).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/memex-agent.git`.
+
 > **TL;DR:** Memex gives AI agents a lossless external memory — agents archive bulky findings to a database and keep only tiny summaries in their working context, then fetch the full details back on demand.
 
 ## Why This Exists

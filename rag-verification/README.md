@@ -1,5 +1,7 @@
 # RAG Verification Comparison
 
+> **📦 This project has moved to its own repository: [ccrngd1/rag-verification](https://github.com/ccrngd1/rag-verification).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/rag-verification.git`.
+
 A working demo comparing three approaches to RAG output verification:
 1. **LLM-as-Judge** (Claude on Bedrock)
 2. **NLI Claims** (DeBERTa-v3-large on SageMaker)

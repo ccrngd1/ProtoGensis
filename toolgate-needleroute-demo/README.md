@@ -1,5 +1,7 @@
 # ToolGate × NeedleRoute — Combined Pipeline Demo
 
+> **📦 This project has moved to its own repository: [ccrngd1/toolgate-needleroute-demo](https://github.com/ccrngd1/toolgate-needleroute-demo).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/toolgate-needleroute-demo.git`.
+
 A self-contained demonstration of **ToolGate** and **NeedleRoute** working together as a unified MCP tool selection pipeline.
 
 ## What This Shows

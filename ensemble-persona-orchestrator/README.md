@@ -1,5 +1,7 @@
 # Ensemble Persona Orchestrator
 
+> **📦 This project has moved to its own repository: [ccrngd1/ensemble-experiments](https://github.com/ccrngd1/ensemble-experiments) (folder `ensemble-persona-orchestrator/`).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/ensemble-experiments.git`.
+
 **Experiment: Same Model, Different Minds**
 
 An exploration of persona-based LLM ensembling—running the same question through multiple analytical personas with different reasoning frameworks, then orchestrating the results.

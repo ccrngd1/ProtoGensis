@@ -1,5 +1,7 @@
 # karpathy-wiki
 
+> **📦 This project has moved to its own repository: [ccrngd1/karpathy-wiki](https://github.com/ccrngd1/karpathy-wiki).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/karpathy-wiki.git`.
+
 **LLM Knowledge Base CLI implementing Andrej Karpathy's compilation pattern**
 
 A Python CLI tool that turns raw sources (PDFs, markdown, URLs, papers) into a structured, interlinked wiki maintained entirely by an LLM. No manual editing, no vector databases — just compilation, navigation, and continuous refinement.

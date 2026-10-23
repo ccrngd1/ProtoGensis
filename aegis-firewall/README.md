@@ -1,5 +1,7 @@
 # AEGIS Firewall
 
+> **📦 This project has moved to its own repository: [ccrngd1/aegis](https://github.com/ccrngd1/aegis) (folder `firewall/`).** This copy in ProtoGensis is an archive and is no longer updated. Clone with `git clone https://github.com/ccrngd1/aegis.git`.
+
 > **A security firewall for AI agent tool execution with Model Context Protocol (MCP) support**
 
 AEGIS is a transparent security layer that sits between AI agents and tool execution, blocking dangerous operations before they can cause harm. It provides comprehensive threat detection, policy-based access control, cryptographic audit trails, and human-in-the-loop approval workflows.
