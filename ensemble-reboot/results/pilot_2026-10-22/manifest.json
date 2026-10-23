@@ -1,0 +1,136 @@
+{
+  "run_id": "pilot_2026-10-22",
+  "started": "2026-10-22T22:12:31.247305+00:00",
+  "cap_usd": 75.0,
+  "items_per_set": {
+    "gpqa": [
+      "gpqa-ec22f627211f",
+      "gpqa-16464cac7090",
+      "gpqa-9d42c24c2f67",
+      "gpqa-952132525f3a",
+      "gpqa-82e6266418c6",
+      "gpqa-7cccb7714b35",
+      "gpqa-123161632faf",
+      "gpqa-bdc1ab103002",
+      "gpqa-4bab53f38320",
+      "gpqa-654fc443f2ef"
+    ],
+    "math": [
+      "aime_2026-11",
+      "hmmt_feb_2026-19",
+      "hmmt_feb_2026-33",
+      "aime_2026-21",
+      "aime_2026-10",
+      "aime_2026-7",
+      "hmmt_feb_2026-15",
+      "aime_2026-12",
+      "hmmt_feb_2026-18",
+      "hmmt_feb_2026-21"
+    ],
+    "code": [
+      "lcb-3762",
+      "lcb-abc391_f",
+      "lcb-abc392_f",
+      "lcb-3770",
+      "lcb-3696",
+      "lcb-abc399_f",
+      "lcb-abc398_f",
+      "lcb-3781",
+      "lcb-abc391_g",
+      "lcb-arc194_d"
+    ]
+  },
+  "accepted_levels": {
+    "global.anthropic.claude-fable-5-1": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "global.anthropic.claude-opus-5-5": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "global.openai.gpt-6-astra": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "global.openai.gpt-6.1-sol": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "global.xai.grok-4.7": [
+      "low",
+      "medium",
+      "high",
+      "xhigh"
+    ],
+    "global.moonshotai.kimi-k3": [
+      "none",
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "global.anthropic.claude-sonnet-5-5": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "global.anthropic.claude-haiku-5-5": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "global.openai.gpt-6-luna": [
+      "none",
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
+    "global.amazon.nova-2-lite-v1:0": [
+      "low",
+      "medium",
+      "high"
+    ]
+  },
+  "stages": {
+    "stage0": {
+      "records": 300
+    },
+    "stage1": {
+      "records": 480
+    }
+  },
+  "budget": {
+    "cap_usd": 75.0,
+    "spent_conservative_usd": 75.4628,
+    "spent_known_usd": 75.4628,
+    "inflight": 0,
+    "unknown_price_calls": 0
+  },
+  "best_by_set": {
+    "gpqa": "global.anthropic.claude-opus-5-5",
+    "math": "global.openai.gpt-6-luna",
+    "code": "global.openai.gpt-6.1-sol"
+  },
+  "aborted": "budget cap: {'cap_usd': 75.0, 'spent_conservative_usd': 75.4628, 'spent_known_usd': 75.4628, 'inflight': 0, 'unknown_price_calls': 0}",
+  "finished": "2026-10-23T01:38:00.038997+00:00"
+}

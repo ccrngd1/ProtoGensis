@@ -104,6 +104,30 @@ def test_resume_skips_existing_records(tmp_path):
     assert todo == [("q1", 1), ("q3", 0)]
 
 
+def test_resume_preseeds_guard(tmp_path):
+    import json
+
+    store = RecordStore(tmp_path, "run1")
+    make_record(store, item="q1", cost_usd=1.0, price_status="OK")
+    make_record(store, item="q2", cost_usd=1.0, price_status="OK")
+    make_record(store, item="q3", cost_usd=None, price_status="UNKNOWN")
+
+    # same pre-seeding path as scripts/run_pilot.py live_run()
+    g = BudgetGuard(cap_usd=2.5, reserve_per_call_usd=0.6)
+    with open(store.records_path) as f:
+        for line in f:
+            r = json.loads(line)
+            if r.get("price_status") == "OK":
+                g.settle(r["cost_usd"], r["cost_usd"])
+
+    assert g.spent_conservative == 2.0
+    assert g.unknown_price_calls == 0
+    # 2.0 spent + 0.6 reserve > 2.5 cap
+    with pytest.raises(BudgetExceeded):
+        with g.reserve():
+            pass
+
+
 def test_record_refuses_token_leak(tmp_path):
     store = RecordStore(tmp_path, "run1")
     r = Record(

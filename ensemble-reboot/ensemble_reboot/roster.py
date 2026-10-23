@@ -50,6 +50,13 @@ class RosterError(ValueError):
     """Raised when a roster config references banned or malformed models."""
 
 
+def short_id(profile_id: str) -> str:
+    """Display name for a profile id: strip the 'global.' prefix only.
+    Model names contain dots (gpt-6.1-sol, grok-4.7, nova-2-lite-v1:0), so
+    split('.')[-1] mangles them ('1-sol', '7')."""
+    return profile_id.removeprefix("global.")
+
+
 @dataclass
 class ModelSpec:
     profile_id: str

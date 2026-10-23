@@ -25,6 +25,7 @@ from analysis.stats import (
     wilson_ci,
 )
 from ensemble_reboot.records import RecordStore
+from ensemble_reboot.roster import short_id
 
 ROOT = Path(__file__).resolve().parent.parent
 INLINE_IDS_MAX = 12
@@ -95,7 +96,7 @@ def summarize(run_id, results_dir):
         unk = " +UNKNOWN!" if row["unknown_price_calls"] else ""
         cpc = row["cost_per_correct"]
         lines.append(
-            f"| {row['arm']} | {row['model'].split('.')[-1]} | {row['effort']} "
+            f"| {row['arm']} | {short_id(row['model'])} | {row['effort']} "
             f"| {row['task_set']} | {row['accuracy']:.2f} [{ci[0]:.2f},{ci[1]:.2f}] "
             f"| {row['n']} | {row['truncated']} | {row['cost_usd_known']:.3f}{unk} "
             f"| {cpc if cpc is not None else 'UNKNOWN'} | {lat_s} | {row['record_ids']} |"
@@ -113,13 +114,13 @@ def summarize(run_id, results_dir):
             pairs = co_failure_matrix(per_model, fams)
             for pr in pairs:
                 d = asdict(pr)
-                key = f"cofail_{ts}_{pr.model_a.split('.')[-1]}_{pr.model_b.split('.')[-1]}"
+                key = f"cofail_{ts}_{short_id(pr.model_a)}_{short_id(pr.model_b)}"
                 d["task_set"] = ts
                 d["item_ids"] = _ids_ref(pr.item_ids, groups, key)
                 co_data.append(d)
                 ratio = f"{pr.ratio:.2f}" if pr.ratio is not None else "n/a"
                 co_lines.append(
-                    f"| {ts} | {pr.model_a.split('.')[-1]} | {pr.model_b.split('.')[-1]} "
+                    f"| {ts} | {short_id(pr.model_a)} | {short_id(pr.model_b)} "
                     f"| {pr.grouping} | {pr.p_both_wrong:.2f} | "
                     f"{pr.expected_independent:.2f} | {ratio} | {pr.n} |"
                 )
@@ -182,7 +183,7 @@ def plot_curves(curve_rows, run_dir) -> str:
         for model, pts in sorted(models.items()):
             pts = sorted(pts, key=lambda p: p["cost_usd"])
             ax.plot([p["cost_usd"] for p in pts], [p["accuracy"] for p in pts],
-                    marker="o", label=model.split(".")[-1])
+                    marker="o", label=short_id(model))
         ax.set_title(ts)
         ax.set_xlabel("cost (USD, known prices)")
         ax.set_ylabel("accuracy")

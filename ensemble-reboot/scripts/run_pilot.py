@@ -124,6 +124,22 @@ def live_run(args, roster, pricing):
     run_id = args.run_id or f"pilot_{date.today().isoformat()}"
     store = RecordStore(args.results_dir, run_id)
     guard = BudgetGuard(cap_usd=args.cap)
+    # Resume: existing records are skipped by the dedup keys, but their cost
+    # must still count toward the cap.
+    if store.records_path.exists():
+        total, n = 0.0, 0
+        with open(store.records_path) as f:
+            for line in f:
+                r = json.loads(line)
+                if r.get("price_status") == "OK":
+                    guard.settle(r["cost_usd"], r["cost_usd"])
+                    total += r["cost_usd"]
+                    n += 1
+                elif r.get("price_status") == "UNKNOWN":
+                    print(f"WARNING: resume: record {r.get('record_id')} has "
+                          "UNKNOWN price; conservative cost not stored, not "
+                          "counted toward cap")
+        print(f"resume: pre-seeded guard with ${total:.4f} from {n} existing records")
     from ensemble_reboot.client import BedrockClient
 
     client = BedrockClient(region=roster.region)

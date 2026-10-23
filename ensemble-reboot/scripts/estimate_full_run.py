@@ -15,6 +15,7 @@ Usage: python3 scripts/estimate_full_run.py <pilot_run_id>
 import argparse
 import itertools
 import json
+import math
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -23,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from ensemble_reboot.pricing import PricingTable
 from ensemble_reboot.records import RecordStore
-from ensemble_reboot.roster import load_roster
+from ensemble_reboot.roster import load_roster, short_id
 
 ROOT = Path(__file__).resolve().parent.parent
 SEEDS = 3
@@ -65,8 +66,9 @@ class TokenModel:
         ins = sorted(r["input_tokens"] for r in rs)
         outs = sorted(r["output_tokens"] for r in rs)
         n = len(outs)
-        lo = outs[max(0, int(0.1 * n) - 1)] if n > 1 else outs[0]
-        hi = outs[min(n - 1, int(0.9 * n))]
+        # nearest-rank 10th/90th percentiles (same convention as analysis.stats)
+        lo = outs[max(0, math.ceil(0.1 * n) - 1)]
+        hi = outs[max(0, math.ceil(0.9 * n) - 1)]
         return {
             "mean_in": sum(ins) / n, "mean_out": sum(outs) / n,
             "lo_out": lo, "hi_out": hi, "n": n,
@@ -94,36 +96,40 @@ def arm_cost_per_item(arm, model, effort, ts, tm, pricing, roster, a2_n):
     def cc(m, e):
         return per_item_cost(pricing, m, tm.stats(m, e, ts))
 
+    def scaled(c, factor, components):
+        return {"mean": c["mean"] * factor, "lo": c["lo"] * factor,
+                "hi": c["hi"] * factor, "unknown": c["unknown"],
+                "fallback": c["fallback"], "components": components}
+
     if arm == "a1":
         c = cc(model, effort)
-        return c and {**c, "components": f"1x {model}@{effort}"}
+        return c and scaled(c, 1, f"1x {model}@{effort}")
     if arm == "a2":
         c = cc(model, effort)
-        if not c:
-            return None
-        return {k: (v * a2_n if isinstance(v, (int, float)) else v)
-                for k, v in c.items() if k != "components"} | {
-            "components": f"{a2_n}x {model}@{effort} (programmatic vote)"}
+        return c and scaled(c, a2_n,
+                            f"{a2_n}x {model}@{effort} (programmatic vote)")
     if arm == "a3":
         c = cc(model, effort)
-        if not c:
-            return None
-        return {k: (v * 7 if isinstance(v, (int, float)) else v)
-                for k, v in c.items() if k != "components"} | {
-            "components": f"7 personas x {model}@{effort} (programmatic vote)"}
+        return c and scaled(c, 7,
+                            f"7 personas x {model}@{effort} (programmatic vote)")
     if arm in ("a4a", "a4b"):
         panel = roster.arms["a4_panel"]
         agg = roster.arms["a4a_aggregator" if arm == "a4a" else "a4b_aggregator"]
-        total = {"mean": 0.0, "lo": 0.0, "hi": 0.0, "unknown": False}
+        total = {"mean": 0.0, "lo": 0.0, "hi": 0.0,
+                 "unknown": False, "fallback": False}
         parts = []
         for pid in panel:
-            c = cc(pid, effort)
+            # effort "default" = each panel member at its own default level
+            # (the combination stage 0/1 actually measured).
+            lvl = roster.by_id(pid).default_level if effort == "default" else effort
+            c = cc(pid, lvl)
             if not c:
                 return None
             for k in ("mean", "lo", "hi"):
                 total[k] += c[k]
             total["unknown"] |= c["unknown"]
-            parts.append(f"{pid.split('.')[-1]}@{effort}")
+            total["fallback"] |= c["fallback"]
+            parts.append(f"{short_id(pid)}@{lvl}")
         # Aggregator reads the problem + all panel responses: use its measured
         # aggregator-call tokens if present (stage1 a4 records), else its a1 stats.
         agg_spec = roster.by_id(agg)
@@ -133,7 +139,8 @@ def arm_cost_per_item(arm, model, effort, ts, tm, pricing, roster, a2_n):
         for k in ("mean", "lo", "hi"):
             total[k] += ca[k]
         total["unknown"] |= ca["unknown"]
-        parts.append(f"agg {agg.split('.')[-1]}@{agg_spec.default_level}")
+        total["fallback"] |= ca["fallback"]
+        parts.append(f"agg {short_id(agg)}@{agg_spec.default_level}")
         return {**total, "components": " + ".join(parts)}
     raise ValueError(arm)
 
@@ -170,8 +177,10 @@ def main():
         b = best_by_set.get(ts) or "global.anthropic.claude-fable-5-1"
         b_levels = accepted.get(b, [])
         for arm in arms:
-            # effort axis: panel/B efforts actually accepted for the models involved
-            levels = b_levels if arm in ("a1", "a2", "a3") else sorted(
+            # effort axis: panel/B efforts actually accepted for the models involved.
+            # For a4, "default" = each panel member at its own default level
+            # (the only combination the pilot actually measured).
+            levels = b_levels if arm in ("a1", "a2", "a3") else ["default"] + sorted(
                 set.intersection(*(set(accepted.get(pid, []))
                                    for pid in roster.arms["a4_panel"])) or {"medium"}
             )
@@ -182,8 +191,11 @@ def main():
                                  "status": "NO PILOT DATA"})
                     continue
                 scale = n_items * args.seeds
+                is_default = (effort == "default" if arm in ("a4a", "a4b")
+                              else effort == roster.by_id(b).default_level)
                 row = {
                     "task_set": ts, "arm": arm, "effort": effort,
+                    "is_default_effort": is_default,
                     "n_items": n_items, "seeds": args.seeds,
                     "per_item_usd": round(c["mean"], 4),
                     "total_mean_usd": round(c["mean"] * scale, 2),
@@ -266,8 +278,12 @@ def cost_match(sizes, best_by_set, accepted, tm, pricing, roster):
     for ts in sizes:
         b = best_by_set.get(ts) or "global.anthropic.claude-fable-5-1"
         b_spec = roster.by_id(b)
+        fallback_used = set()
+
         def cpc(m, e):  # cost per call
             c = per_item_cost(pricing, m, tm.stats(m, e, ts))
+            if c and c["fallback"]:
+                fallback_used.add(f"{short_id(m)}@{e}")
             return c["mean"] if c else None
         a3_cost = cpc(b, b_spec.default_level)
         if a3_cost is None:
@@ -315,9 +331,18 @@ def cost_match(sizes, best_by_set, accepted, tm, pricing, roster):
                                 "a1_effort": a1_e, "a2_n": n, "a2_effort": a2_e,
                                 "panel_effort": p_e,
                                 "per_item_costs": {k: round(v, 4) for k, v in arms.items()},
+                                "residual_pct_by_arm": {
+                                    k: round(100 * (v - center) / center, 1)
+                                    for k, v in arms.items()},
                                 "max_deviation": round(dev, 3),
                                 "within_15pct": dev <= MATCH_TOL,
                             }
+        if best and fallback_used:
+            best["effort_fallbacks"] = sorted(fallback_used)
+            best["note"] = ("some (model, effort) cells lack stage-2 pilot "
+                            "data; their costs fall back to default-effort "
+                            "tokens, so effort choices among them are not "
+                            "meaningful")
         results[ts] = best or {"status": "NO PILOT DATA"}
     return results
 
@@ -330,7 +355,7 @@ def reduced_options(rows):
     full = total(lambda r: True)
     return [
         {"option": "default-effort only (no sweep)",
-         "est_usd": total(lambda r: r["effort"] in ("medium", "high", "max"))},
+         "est_usd": total(lambda r: r["is_default_effort"])},
         {"option": "2 seeds instead of 3",
          "est_usd": round(full * 2 / 3, 2)},
         {"option": "GPQA + math only (drop code)",

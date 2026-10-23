@@ -123,3 +123,61 @@ from a registry. matplotlib is optional (summaries fall back to CSV).
 - Untrusted LLM code runs with fresh tempdir, empty env, rlimits, wall
   timeout; as root additionally `unshare --net` + setuid/setgid `nobody`.
 - `data/` and `results/raw_text/` are gitignored; no dataset text is staged.
+
+## Roster / API surprises (pilot_2026-10-22 records + probe_levels_2026-10-22)
+
+Everything below is observed in the recorded JSONL (record_ids / probe rows
+cited); no live calls were made while writing this.
+
+- **Effort-level 400s** (probe, 21 of 70 rows): `minimal` is rejected by all
+  10 models. `none` is accepted ONLY by gpt-6-luna and kimi-k3. grok-4.7 has
+  **no `max`** ("Supported values are: low, medium, high, and xhigh").
+  nova-2-lite accepts only low/medium/high (`xhigh`/`max` → "not a valid enum
+  value" against `#/reasoningConfig/maxReasoningEffort`).
+- **Inconsistent OpenAI-on-Bedrock error messages**: astra's rejection of
+  `none` says supported values are "low…max" (no `none`), but its rejection
+  of `minimal` lists `'none'` as supported. Same pattern for gpt-6.1-sol and
+  grok-4.7. The "supported values" list in these 400s is not trustworthy;
+  only the probe's actual 200/400 outcome is.
+- **Claude-family 400s leak an internal enum variant**: "unknown variant
+  `none`, expected one of `low`, `medium`, `high`, `xhigh`, `max`,
+  `Unhandled`" — an `Unhandled` variant is listed as if it were a level.
+- **Nova maxTokens behavior**: the smoke test (results/smoke_2026-10-22.json)
+  confirmed Nova 2 Lite returns 400 if `inferenceConfig.maxTokens` is present
+  at `high` reasoning effort; the client omits it there. The pilot ran Nova
+  only at its default `medium`, where maxTokens=32000 was sent and accepted
+  (see any nova record's `request_params`).
+- **Latency**: grok-4.7 is extremely slow — p50 205–416 s, max 849 s
+  (record 7f11cb33621441ff), and it blocked all 8 workers during stage0.
+  kimi-k3 p95 ~670 s at max effort. gpt-6-luna math p95 ~160 s (stage1 A2/A3
+  were slower, 150–210 s/call avg). The 8 slowest calls in the run are all
+  grok-4.7@high or kimi-k3@max.
+- **Truncations (stop_reason=max_tokens at 32,000)**: 23 total. grok-4.7@high
+  10/30 stage0 items (5 of 10 on math — its 50% math score is partly a token
+  budget artifact); nova 3; fable-5-1 6 (all at xhigh/max in stage2);
+  opus-5-5 4 (all at max on code). Query:
+  `[r for r in records if r["truncated"]]`.
+- **Effort levels that barely change token use**: opus-5-5 on gpqa is flat
+  from low through xhigh (797 / 994 / 909 / 1016 mean output tokens;
+  only `max` jumps to 4,642). fable-5-1 and astra scale monotonically
+  (astra gpqa: 283/377/618/1202/2070 low→max). So "effort" is not a uniform
+  knob across vendors; per-model curves are required (acc_vs_cost.csv).
+- **`max` effort is disproportionately expensive on frontier models**:
+  fable-5-1@max = $0.47/item avg on math/code (stage2, $14.04 per 30 items);
+  opus-5-5@max on code emitted 18,916 mean output tokens (vs 1,540 at
+  default) with 4/10 truncations and a 0.60 point-accuracy — truncation, not
+  reasoning, limits max-effort code runs at 32k maxTokens.
+- **No throttling observed**: zero 429-retry log lines, zero failed calls in
+  results/pilot_run.log; the only ERROR-class events were the intended
+  BudgetExceeded aborts. `unknown_price_calls = 0`.
+- **Temperature**: never sent (reasoning models reject / ignore it; client
+  omits by design), so no temperature rejections occurred. A2 "seeds" are
+  independent samples, not temperature-seeded.
+- **stop_reason values seen**: only `end_turn` (1,026), `max_tokens` (23),
+  and `null` (90 programmatic-vote records). No `content_filtered` or other
+  surprises.
+- **Budget overshoot mechanics**: final spend $75.4628 vs $75 cap — in-flight
+  calls that were reserved before the cap tripped still settle; the guard
+  blocks new reservations only. Expected behavior, but size the last-stage
+  reserve accordingly for the full run (8 workers × frontier@max ≈ $4 of
+  potential overshoot).

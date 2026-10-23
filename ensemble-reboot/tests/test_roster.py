@@ -72,3 +72,14 @@ def test_unknown_level_rejected():
                candidate_levels=["low", "turbo"], default_level="low")
     with pytest.raises(RosterError, match="turbo"):
         validate_roster_dict({"models": [e]})
+
+
+def test_short_id_keeps_dotted_model_names():
+    from ensemble_reboot.roster import short_id
+
+    # split('.')[-1] would mangle these to '1-sol' / '7' / 'nova-2-lite-v1:0'
+    assert short_id("global.openai.gpt-6.1-sol") == "openai.gpt-6.1-sol"
+    assert short_id("global.xai.grok-4.7") == "xai.grok-4.7"
+    assert short_id("global.anthropic.claude-fable-5-1") == \
+        "anthropic.claude-fable-5-1"
+    assert short_id("programmatic-vote") == "programmatic-vote"

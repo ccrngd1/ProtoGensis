@@ -1,0 +1,1482 @@
+{
+  "pilot_run_id": "pilot_2026-10-22",
+  "note": "Estimates from n=10 pilot measurements; ranges span the 10th-90th percentile of measured output tokens. Rows with unknown_price=true use the max known rate (marked). 'NO PILOT DATA' rows need stage-2 coverage before estimating.",
+  "rows": [
+    {
+      "task_set": "gpqa",
+      "arm": "a1",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.0172,
+      "total_mean_usd": 10.22,
+      "total_range_usd": [
+        5.51,
+        15.57
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "1x global.anthropic.claude-opus-5-5@low"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a1",
+      "effort": "medium",
+      "is_default_effort": true,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.0219,
+      "total_mean_usd": 13.0,
+      "total_range_usd": [
+        6.68,
+        19.79
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "1x global.anthropic.claude-opus-5-5@medium"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a1",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.0195,
+      "total_mean_usd": 11.56,
+      "total_range_usd": [
+        5.03,
+        16.42
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "1x global.anthropic.claude-opus-5-5@high"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a1",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.0216,
+      "total_mean_usd": 12.84,
+      "total_range_usd": [
+        5.83,
+        20.0
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "1x global.anthropic.claude-opus-5-5@xhigh"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a1",
+      "effort": "max",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.0941,
+      "total_mean_usd": 55.9,
+      "total_range_usd": [
+        6.66,
+        108.8
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "1x global.anthropic.claude-opus-5-5@max"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a2",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.086,
+      "total_mean_usd": 51.11,
+      "total_range_usd": [
+        27.53,
+        77.84
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "5x global.anthropic.claude-opus-5-5@low (programmatic vote)"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a2",
+      "effort": "medium",
+      "is_default_effort": true,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.1095,
+      "total_mean_usd": 65.02,
+      "total_range_usd": [
+        33.42,
+        98.94
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "5x global.anthropic.claude-opus-5-5@medium (programmatic vote)"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a2",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.0973,
+      "total_mean_usd": 57.82,
+      "total_range_usd": [
+        25.15,
+        82.11
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "5x global.anthropic.claude-opus-5-5@high (programmatic vote)"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a2",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.108,
+      "total_mean_usd": 64.18,
+      "total_range_usd": [
+        29.13,
+        99.99
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "5x global.anthropic.claude-opus-5-5@xhigh (programmatic vote)"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a2",
+      "effort": "max",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.4705,
+      "total_mean_usd": 279.5,
+      "total_range_usd": [
+        33.29,
+        544.01
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "5x global.anthropic.claude-opus-5-5@max (programmatic vote)"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a3",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.1205,
+      "total_mean_usd": 71.55,
+      "total_range_usd": [
+        38.54,
+        108.97
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "7 personas x global.anthropic.claude-opus-5-5@low (programmatic vote)"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a3",
+      "effort": "medium",
+      "is_default_effort": true,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.1532,
+      "total_mean_usd": 91.03,
+      "total_range_usd": [
+        46.79,
+        138.51
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "7 personas x global.anthropic.claude-opus-5-5@medium (programmatic vote)"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a3",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.1363,
+      "total_mean_usd": 80.95,
+      "total_range_usd": [
+        35.21,
+        114.96
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "7 personas x global.anthropic.claude-opus-5-5@high (programmatic vote)"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a3",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.1513,
+      "total_mean_usd": 89.85,
+      "total_range_usd": [
+        40.78,
+        139.99
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "7 personas x global.anthropic.claude-opus-5-5@xhigh (programmatic vote)"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a3",
+      "effort": "max",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.6588,
+      "total_mean_usd": 391.3,
+      "total_range_usd": [
+        46.6,
+        761.61
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "7 personas x global.anthropic.claude-opus-5-5@max (programmatic vote)"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a4a",
+      "effort": "default",
+      "is_default_effort": true,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.2154,
+      "total_mean_usd": 127.97,
+      "total_range_usd": [
+        18.67,
+        225.04
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "openai.gpt-6.1-sol@medium + xai.grok-4.7@high + moonshotai.kimi-k3@max + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a4a",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.2154,
+      "total_mean_usd": 127.97,
+      "total_range_usd": [
+        18.67,
+        225.04
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@high + xai.grok-4.7@high + moonshotai.kimi-k3@high + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a4a",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.2154,
+      "total_mean_usd": 127.97,
+      "total_range_usd": [
+        18.67,
+        225.04
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@low + xai.grok-4.7@low + moonshotai.kimi-k3@low + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a4a",
+      "effort": "medium",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.2154,
+      "total_mean_usd": 127.97,
+      "total_range_usd": [
+        18.67,
+        225.04
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@medium + xai.grok-4.7@medium + moonshotai.kimi-k3@medium + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a4a",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.2154,
+      "total_mean_usd": 127.97,
+      "total_range_usd": [
+        18.67,
+        225.04
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@xhigh + xai.grok-4.7@xhigh + moonshotai.kimi-k3@xhigh + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a4b",
+      "effort": "default",
+      "is_default_effort": true,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.1676,
+      "total_mean_usd": 99.58,
+      "total_range_usd": [
+        7.96,
+        186.28
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "openai.gpt-6.1-sol@medium + xai.grok-4.7@high + moonshotai.kimi-k3@max + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a4b",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.1676,
+      "total_mean_usd": 99.58,
+      "total_range_usd": [
+        7.96,
+        186.28
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@high + xai.grok-4.7@high + moonshotai.kimi-k3@high + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a4b",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.1676,
+      "total_mean_usd": 99.58,
+      "total_range_usd": [
+        7.96,
+        186.28
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@low + xai.grok-4.7@low + moonshotai.kimi-k3@low + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a4b",
+      "effort": "medium",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.1676,
+      "total_mean_usd": 99.58,
+      "total_range_usd": [
+        7.96,
+        186.28
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@medium + xai.grok-4.7@medium + moonshotai.kimi-k3@medium + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "gpqa",
+      "arm": "a4b",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 198,
+      "seeds": 3,
+      "per_item_usd": 0.1676,
+      "total_mean_usd": 99.58,
+      "total_range_usd": [
+        7.96,
+        186.28
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@xhigh + xai.grok-4.7@xhigh + moonshotai.kimi-k3@xhigh + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "math",
+      "arm": "a1",
+      "effort": "none",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0028,
+      "total_mean_usd": 0.43,
+      "total_range_usd": [
+        0.05,
+        1.14
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "1x global.openai.gpt-6-luna@none"
+    },
+    {
+      "task_set": "math",
+      "arm": "a1",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0028,
+      "total_mean_usd": 0.43,
+      "total_range_usd": [
+        0.05,
+        1.14
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "1x global.openai.gpt-6-luna@low"
+    },
+    {
+      "task_set": "math",
+      "arm": "a1",
+      "effort": "medium",
+      "is_default_effort": true,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0028,
+      "total_mean_usd": 0.43,
+      "total_range_usd": [
+        0.05,
+        1.14
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "1x global.openai.gpt-6-luna@medium"
+    },
+    {
+      "task_set": "math",
+      "arm": "a1",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0028,
+      "total_mean_usd": 0.43,
+      "total_range_usd": [
+        0.05,
+        1.14
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "1x global.openai.gpt-6-luna@high"
+    },
+    {
+      "task_set": "math",
+      "arm": "a1",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0028,
+      "total_mean_usd": 0.43,
+      "total_range_usd": [
+        0.05,
+        1.14
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "1x global.openai.gpt-6-luna@xhigh"
+    },
+    {
+      "task_set": "math",
+      "arm": "a1",
+      "effort": "max",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0028,
+      "total_mean_usd": 0.43,
+      "total_range_usd": [
+        0.05,
+        1.14
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "1x global.openai.gpt-6-luna@max"
+    },
+    {
+      "task_set": "math",
+      "arm": "a2",
+      "effort": "none",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0141,
+      "total_mean_usd": 2.16,
+      "total_range_usd": [
+        0.27,
+        5.69
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "5x global.openai.gpt-6-luna@none (programmatic vote)"
+    },
+    {
+      "task_set": "math",
+      "arm": "a2",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0141,
+      "total_mean_usd": 2.16,
+      "total_range_usd": [
+        0.27,
+        5.69
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "5x global.openai.gpt-6-luna@low (programmatic vote)"
+    },
+    {
+      "task_set": "math",
+      "arm": "a2",
+      "effort": "medium",
+      "is_default_effort": true,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0141,
+      "total_mean_usd": 2.16,
+      "total_range_usd": [
+        0.27,
+        5.69
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "5x global.openai.gpt-6-luna@medium (programmatic vote)"
+    },
+    {
+      "task_set": "math",
+      "arm": "a2",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0141,
+      "total_mean_usd": 2.16,
+      "total_range_usd": [
+        0.27,
+        5.69
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "5x global.openai.gpt-6-luna@high (programmatic vote)"
+    },
+    {
+      "task_set": "math",
+      "arm": "a2",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0141,
+      "total_mean_usd": 2.16,
+      "total_range_usd": [
+        0.27,
+        5.69
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "5x global.openai.gpt-6-luna@xhigh (programmatic vote)"
+    },
+    {
+      "task_set": "math",
+      "arm": "a2",
+      "effort": "max",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0141,
+      "total_mean_usd": 2.16,
+      "total_range_usd": [
+        0.27,
+        5.69
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "5x global.openai.gpt-6-luna@max (programmatic vote)"
+    },
+    {
+      "task_set": "math",
+      "arm": "a3",
+      "effort": "none",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0197,
+      "total_mean_usd": 3.02,
+      "total_range_usd": [
+        0.38,
+        7.97
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "7 personas x global.openai.gpt-6-luna@none (programmatic vote)"
+    },
+    {
+      "task_set": "math",
+      "arm": "a3",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0197,
+      "total_mean_usd": 3.02,
+      "total_range_usd": [
+        0.38,
+        7.97
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "7 personas x global.openai.gpt-6-luna@low (programmatic vote)"
+    },
+    {
+      "task_set": "math",
+      "arm": "a3",
+      "effort": "medium",
+      "is_default_effort": true,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0197,
+      "total_mean_usd": 3.02,
+      "total_range_usd": [
+        0.38,
+        7.97
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "7 personas x global.openai.gpt-6-luna@medium (programmatic vote)"
+    },
+    {
+      "task_set": "math",
+      "arm": "a3",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0197,
+      "total_mean_usd": 3.02,
+      "total_range_usd": [
+        0.38,
+        7.97
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "7 personas x global.openai.gpt-6-luna@high (programmatic vote)"
+    },
+    {
+      "task_set": "math",
+      "arm": "a3",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0197,
+      "total_mean_usd": 3.02,
+      "total_range_usd": [
+        0.38,
+        7.97
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "7 personas x global.openai.gpt-6-luna@xhigh (programmatic vote)"
+    },
+    {
+      "task_set": "math",
+      "arm": "a3",
+      "effort": "max",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.0197,
+      "total_mean_usd": 3.02,
+      "total_range_usd": [
+        0.38,
+        7.97
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "7 personas x global.openai.gpt-6-luna@max (programmatic vote)"
+    },
+    {
+      "task_set": "math",
+      "arm": "a4a",
+      "effort": "default",
+      "is_default_effort": true,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.492,
+      "total_mean_usd": 75.28,
+      "total_range_usd": [
+        11.87,
+        141.76
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "openai.gpt-6.1-sol@medium + xai.grok-4.7@high + moonshotai.kimi-k3@max + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "math",
+      "arm": "a4a",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.492,
+      "total_mean_usd": 75.28,
+      "total_range_usd": [
+        11.87,
+        141.76
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@high + xai.grok-4.7@high + moonshotai.kimi-k3@high + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "math",
+      "arm": "a4a",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.492,
+      "total_mean_usd": 75.28,
+      "total_range_usd": [
+        11.87,
+        141.76
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@low + xai.grok-4.7@low + moonshotai.kimi-k3@low + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "math",
+      "arm": "a4a",
+      "effort": "medium",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.492,
+      "total_mean_usd": 75.28,
+      "total_range_usd": [
+        11.87,
+        141.76
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@medium + xai.grok-4.7@medium + moonshotai.kimi-k3@medium + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "math",
+      "arm": "a4a",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.492,
+      "total_mean_usd": 75.28,
+      "total_range_usd": [
+        11.87,
+        141.76
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@xhigh + xai.grok-4.7@xhigh + moonshotai.kimi-k3@xhigh + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "math",
+      "arm": "a4b",
+      "effort": "default",
+      "is_default_effort": true,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.3295,
+      "total_mean_usd": 50.42,
+      "total_range_usd": [
+        6.8,
+        90.78
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "openai.gpt-6.1-sol@medium + xai.grok-4.7@high + moonshotai.kimi-k3@max + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "math",
+      "arm": "a4b",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.3295,
+      "total_mean_usd": 50.42,
+      "total_range_usd": [
+        6.8,
+        90.78
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@high + xai.grok-4.7@high + moonshotai.kimi-k3@high + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "math",
+      "arm": "a4b",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.3295,
+      "total_mean_usd": 50.42,
+      "total_range_usd": [
+        6.8,
+        90.78
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@low + xai.grok-4.7@low + moonshotai.kimi-k3@low + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "math",
+      "arm": "a4b",
+      "effort": "medium",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.3295,
+      "total_mean_usd": 50.42,
+      "total_range_usd": [
+        6.8,
+        90.78
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@medium + xai.grok-4.7@medium + moonshotai.kimi-k3@medium + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "math",
+      "arm": "a4b",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 51,
+      "seeds": 3,
+      "per_item_usd": 0.3295,
+      "total_mean_usd": 50.42,
+      "total_range_usd": [
+        6.8,
+        90.78
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@xhigh + xai.grok-4.7@xhigh + moonshotai.kimi-k3@xhigh + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "code",
+      "arm": "a1",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0101,
+      "total_mean_usd": 1.85,
+      "total_range_usd": [
+        0.87,
+        3.03
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "1x global.openai.gpt-6.1-sol@low"
+    },
+    {
+      "task_set": "code",
+      "arm": "a1",
+      "effort": "medium",
+      "is_default_effort": true,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0101,
+      "total_mean_usd": 1.85,
+      "total_range_usd": [
+        0.87,
+        3.03
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "1x global.openai.gpt-6.1-sol@medium"
+    },
+    {
+      "task_set": "code",
+      "arm": "a1",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0101,
+      "total_mean_usd": 1.85,
+      "total_range_usd": [
+        0.87,
+        3.03
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "1x global.openai.gpt-6.1-sol@high"
+    },
+    {
+      "task_set": "code",
+      "arm": "a1",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0101,
+      "total_mean_usd": 1.85,
+      "total_range_usd": [
+        0.87,
+        3.03
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "1x global.openai.gpt-6.1-sol@xhigh"
+    },
+    {
+      "task_set": "code",
+      "arm": "a1",
+      "effort": "max",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0101,
+      "total_mean_usd": 1.85,
+      "total_range_usd": [
+        0.87,
+        3.03
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "1x global.openai.gpt-6.1-sol@max"
+    },
+    {
+      "task_set": "code",
+      "arm": "a2",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0506,
+      "total_mean_usd": 9.26,
+      "total_range_usd": [
+        4.36,
+        15.17
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "5x global.openai.gpt-6.1-sol@low (programmatic vote)"
+    },
+    {
+      "task_set": "code",
+      "arm": "a2",
+      "effort": "medium",
+      "is_default_effort": true,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0506,
+      "total_mean_usd": 9.26,
+      "total_range_usd": [
+        4.36,
+        15.17
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "5x global.openai.gpt-6.1-sol@medium (programmatic vote)"
+    },
+    {
+      "task_set": "code",
+      "arm": "a2",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0506,
+      "total_mean_usd": 9.26,
+      "total_range_usd": [
+        4.36,
+        15.17
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "5x global.openai.gpt-6.1-sol@high (programmatic vote)"
+    },
+    {
+      "task_set": "code",
+      "arm": "a2",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0506,
+      "total_mean_usd": 9.26,
+      "total_range_usd": [
+        4.36,
+        15.17
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "5x global.openai.gpt-6.1-sol@xhigh (programmatic vote)"
+    },
+    {
+      "task_set": "code",
+      "arm": "a2",
+      "effort": "max",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0506,
+      "total_mean_usd": 9.26,
+      "total_range_usd": [
+        4.36,
+        15.17
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "5x global.openai.gpt-6.1-sol@max (programmatic vote)"
+    },
+    {
+      "task_set": "code",
+      "arm": "a3",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0708,
+      "total_mean_usd": 12.96,
+      "total_range_usd": [
+        6.1,
+        21.24
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "7 personas x global.openai.gpt-6.1-sol@low (programmatic vote)"
+    },
+    {
+      "task_set": "code",
+      "arm": "a3",
+      "effort": "medium",
+      "is_default_effort": true,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0708,
+      "total_mean_usd": 12.96,
+      "total_range_usd": [
+        6.1,
+        21.24
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "7 personas x global.openai.gpt-6.1-sol@medium (programmatic vote)"
+    },
+    {
+      "task_set": "code",
+      "arm": "a3",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0708,
+      "total_mean_usd": 12.96,
+      "total_range_usd": [
+        6.1,
+        21.24
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "7 personas x global.openai.gpt-6.1-sol@high (programmatic vote)"
+    },
+    {
+      "task_set": "code",
+      "arm": "a3",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0708,
+      "total_mean_usd": 12.96,
+      "total_range_usd": [
+        6.1,
+        21.24
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "7 personas x global.openai.gpt-6.1-sol@xhigh (programmatic vote)"
+    },
+    {
+      "task_set": "code",
+      "arm": "a3",
+      "effort": "max",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.0708,
+      "total_mean_usd": 12.96,
+      "total_range_usd": [
+        6.1,
+        21.24
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "7 personas x global.openai.gpt-6.1-sol@max (programmatic vote)"
+    },
+    {
+      "task_set": "code",
+      "arm": "a4a",
+      "effort": "default",
+      "is_default_effort": true,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.4597,
+      "total_mean_usd": 84.13,
+      "total_range_usd": [
+        29.79,
+        152.76
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "openai.gpt-6.1-sol@medium + xai.grok-4.7@high + moonshotai.kimi-k3@max + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "code",
+      "arm": "a4a",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.4597,
+      "total_mean_usd": 84.13,
+      "total_range_usd": [
+        29.79,
+        152.76
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@high + xai.grok-4.7@high + moonshotai.kimi-k3@high + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "code",
+      "arm": "a4a",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.4597,
+      "total_mean_usd": 84.13,
+      "total_range_usd": [
+        29.79,
+        152.76
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@low + xai.grok-4.7@low + moonshotai.kimi-k3@low + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "code",
+      "arm": "a4a",
+      "effort": "medium",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.4597,
+      "total_mean_usd": 84.13,
+      "total_range_usd": [
+        29.79,
+        152.76
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@medium + xai.grok-4.7@medium + moonshotai.kimi-k3@medium + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "code",
+      "arm": "a4a",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.4597,
+      "total_mean_usd": 84.13,
+      "total_range_usd": [
+        29.79,
+        152.76
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@xhigh + xai.grok-4.7@xhigh + moonshotai.kimi-k3@xhigh + agg anthropic.claude-fable-5-1@high"
+    },
+    {
+      "task_set": "code",
+      "arm": "a4b",
+      "effort": "default",
+      "is_default_effort": true,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.3352,
+      "total_mean_usd": 61.33,
+      "total_range_usd": [
+        21.14,
+        106.64
+      ],
+      "unknown_price": false,
+      "effort_fallback": false,
+      "components": "openai.gpt-6.1-sol@medium + xai.grok-4.7@high + moonshotai.kimi-k3@max + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "code",
+      "arm": "a4b",
+      "effort": "high",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.3352,
+      "total_mean_usd": 61.33,
+      "total_range_usd": [
+        21.14,
+        106.64
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@high + xai.grok-4.7@high + moonshotai.kimi-k3@high + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "code",
+      "arm": "a4b",
+      "effort": "low",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.3352,
+      "total_mean_usd": 61.33,
+      "total_range_usd": [
+        21.14,
+        106.64
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@low + xai.grok-4.7@low + moonshotai.kimi-k3@low + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "code",
+      "arm": "a4b",
+      "effort": "medium",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.3352,
+      "total_mean_usd": 61.33,
+      "total_range_usd": [
+        21.14,
+        106.64
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@medium + xai.grok-4.7@medium + moonshotai.kimi-k3@medium + agg anthropic.claude-haiku-5-5@medium"
+    },
+    {
+      "task_set": "code",
+      "arm": "a4b",
+      "effort": "xhigh",
+      "is_default_effort": false,
+      "n_items": 61,
+      "seeds": 3,
+      "per_item_usd": 0.3352,
+      "total_mean_usd": 61.33,
+      "total_range_usd": [
+        21.14,
+        106.64
+      ],
+      "unknown_price": false,
+      "effort_fallback": true,
+      "components": "openai.gpt-6.1-sol@xhigh + xai.grok-4.7@xhigh + moonshotai.kimi-k3@xhigh + agg anthropic.claude-haiku-5-5@medium"
+    }
+  ],
+  "subtotals_by_task_set": {
+    "gpqa": {
+      "mean": 2483.58,
+      "lo": 519.29,
+      "hi": 4404.1
+    },
+    "math": {
+      "mean": 662.07,
+      "lo": 97.56,
+      "hi": 1251.54
+    },
+    "code": {
+      "mean": 847.69,
+      "lo": 311.26,
+      "hi": 1494.23
+    }
+  },
+  "grand_total_usd": {
+    "mean": 3993.35,
+    "lo": 928.1,
+    "hi": 7149.87
+  },
+  "contains_unknown_prices": false,
+  "cost_matching": {
+    "gpqa": {
+      "a1_effort": "max",
+      "a2_n": 5,
+      "a2_effort": "medium",
+      "panel_effort": "high",
+      "per_item_costs": {
+        "a1": 0.0941,
+        "a2": 0.1095,
+        "a3": 0.1532,
+        "a4a": 0.2154,
+        "a4b": 0.1676
+      },
+      "residual_pct_by_arm": {
+        "a1": -33.9,
+        "a2": -23.1,
+        "a3": 7.6,
+        "a4a": 51.3,
+        "a4b": 17.7
+      },
+      "max_deviation": 0.513,
+      "within_15pct": false,
+      "effort_fallbacks": [
+        "moonshotai.kimi-k3@high",
+        "moonshotai.kimi-k3@low",
+        "moonshotai.kimi-k3@medium",
+        "moonshotai.kimi-k3@xhigh",
+        "openai.gpt-6.1-sol@high",
+        "openai.gpt-6.1-sol@low",
+        "openai.gpt-6.1-sol@xhigh",
+        "xai.grok-4.7@low",
+        "xai.grok-4.7@medium",
+        "xai.grok-4.7@xhigh"
+      ],
+      "note": "some (model, effort) cells lack stage-2 pilot data; their costs fall back to default-effort tokens, so effort choices among them are not meaningful"
+    },
+    "math": {
+      "a1_effort": "none",
+      "a2_n": 3,
+      "a2_effort": "none",
+      "panel_effort": "high",
+      "per_item_costs": {
+        "a1": 0.0028,
+        "a2": 0.0085,
+        "a3": 0.0197,
+        "a4a": 0.492,
+        "a4b": 0.3295
+      },
+      "residual_pct_by_arm": {
+        "a1": -92.4,
+        "a2": -77.3,
+        "a3": -47.0,
+        "a4a": 1221.5,
+        "a4b": 785.1
+      },
+      "max_deviation": 12.215,
+      "within_15pct": false,
+      "effort_fallbacks": [
+        "moonshotai.kimi-k3@high",
+        "moonshotai.kimi-k3@low",
+        "moonshotai.kimi-k3@medium",
+        "moonshotai.kimi-k3@xhigh",
+        "openai.gpt-6-luna@high",
+        "openai.gpt-6-luna@low",
+        "openai.gpt-6-luna@max",
+        "openai.gpt-6-luna@none",
+        "openai.gpt-6-luna@xhigh",
+        "openai.gpt-6.1-sol@high",
+        "openai.gpt-6.1-sol@low",
+        "openai.gpt-6.1-sol@xhigh",
+        "xai.grok-4.7@low",
+        "xai.grok-4.7@medium",
+        "xai.grok-4.7@xhigh"
+      ],
+      "note": "some (model, effort) cells lack stage-2 pilot data; their costs fall back to default-effort tokens, so effort choices among them are not meaningful"
+    },
+    "code": {
+      "a1_effort": "max",
+      "a2_n": 9,
+      "a2_effort": "max",
+      "panel_effort": "xhigh",
+      "per_item_costs": {
+        "a1": 0.0101,
+        "a2": 0.0911,
+        "a3": 0.0708,
+        "a4a": 0.4597,
+        "a4b": 0.3352
+      },
+      "residual_pct_by_arm": {
+        "a1": -85.2,
+        "a2": 33.5,
+        "a3": 3.9,
+        "a4a": 574.0,
+        "a4b": 391.4
+      },
+      "max_deviation": 5.74,
+      "within_15pct": false,
+      "effort_fallbacks": [
+        "moonshotai.kimi-k3@high",
+        "moonshotai.kimi-k3@low",
+        "moonshotai.kimi-k3@medium",
+        "moonshotai.kimi-k3@xhigh",
+        "openai.gpt-6.1-sol@high",
+        "openai.gpt-6.1-sol@low",
+        "openai.gpt-6.1-sol@max",
+        "openai.gpt-6.1-sol@xhigh",
+        "xai.grok-4.7@low",
+        "xai.grok-4.7@medium",
+        "xai.grok-4.7@xhigh"
+      ],
+      "note": "some (model, effort) cells lack stage-2 pilot data; their costs fall back to default-effort tokens, so effort choices among them are not meaningful"
+    }
+  },
+  "reduced_scope_options": [
+    {
+      "option": "default-effort only (no sweep)",
+      "est_usd": 697.44
+    },
+    {
+      "option": "2 seeds instead of 3",
+      "est_usd": 2662.26
+    },
+    {
+      "option": "GPQA + math only (drop code)",
+      "est_usd": 3145.74
+    }
+  ]
+}
